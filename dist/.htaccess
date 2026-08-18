@@ -1,0 +1,107 @@
+# ============================================================
+#  Каркас Комфорт — конфигурация Apache
+#  Файл кладётся в корень сайта (public_html) вместе с index.html
+# ============================================================
+
+AddDefaultCharset utf-8
+Options -Indexes
+DirectoryIndex index.html index.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- 1. Всегда https ---
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # --- 2. Один канонический адрес: без www ---
+  #     Если основным нужен www — закомментируйте этот блок и раскомментируйте следующий.
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # RewriteCond %{HTTP_HOST} !^www\. [NC]
+  # RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+  # --- 3. Редиректы со старых адресов сайта (301, чтобы не потерять позиции) ---
+  #     Проверьте список по Яндекс.Вебмастеру и дополните своими адресами.
+  RewriteRule ^karkasnye-doma/?$            /karkasnye-doma.html [R=301,L]
+  RewriteRule ^proekty/?$                   /proekty.html [R=301,L]
+  RewriteRule ^proekty/nedorogie-doma/?$    /proekty.html [R=301,L]
+  RewriteRule ^proekty/(.*)$                /proekty.html [R=301,L]
+  RewriteRule ^uslugi/?$                    /uslugi.html [R=301,L]
+  RewriteRule ^kontakty/?$                  /kontakty.html [R=301,L]
+  RewriteRule ^o-kompanii/?$                /o-kompanii.html [R=301,L]
+  RewriteRule ^about/?$                     /o-kompanii.html [R=301,L]
+  RewriteRule ^contacts/?$                  /kontakty.html [R=301,L]
+  RewriteRule ^objects/?$                   /obekty.html [R=301,L]
+
+  # --- 4. Красивые адреса: /proekty открывает proekty.html без редиректа ---
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([^.]+?)/?$ /$1.html [L]
+
+  # --- 5. index.html в адресе не нужен ---
+  RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+  RewriteRule ^ / [R=301,L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# --- Сжатие ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript image/svg+xml
+</IfModule>
+
+# --- Кеширование ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 1 year"
+  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType image/svg+xml             "access plus 6 months"
+  ExpiresByType image/webp                "access plus 6 months"
+  ExpiresByType image/jpeg                "access plus 6 months"
+  ExpiresByType image/png                 "access plus 6 months"
+  ExpiresByType font/woff2                "access plus 1 year"
+  ExpiresByType application/xml           "access plus 1 hour"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Статика с версией в адресе (?v=…) кешируется навсегда
+  <FilesMatch "\.(css|js|woff2|svg|png|jpe?g|webp|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Безопасность
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  # Раскомментируйте после проверки, что сайт полностью работает по https:
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# --- Правильные типы файлов ---
+<IfModule mod_mime.c>
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+# --- Служебное закрыто (синтаксис Apache 2.4) ---
+<IfModule mod_authz_core.c>
+  <FilesMatch "^(\.htaccess|\.git.*|package.*\.json|README\.md|DEPLOY\.md)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>

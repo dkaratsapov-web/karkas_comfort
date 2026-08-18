@@ -18,13 +18,16 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/onest-cyrillic-wght-normal.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/golos-text-cyrillic-wght-normal.woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=bae7a27a">
 </head>
 
-<body>
+<body data-lead-endpoint="/api/lead.php">
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <div class="topbar">
     <div class="container topbar__row">
@@ -140,12 +143,14 @@
               <label for="k-message">Что планируете построить</label>
               <textarea id="k-message" name="message" placeholder="Например: дом 8×10 для постоянного проживания в Конаковском районе, участок ровный"></textarea>
             </div>
+            <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
             <label class="consent">
               <input type="checkbox" name="consent" required>
               <span>Согласен на обработку персональных данных в соответствии с <a href="politika.html">политикой конфиденциальности</a></span>
             </label>
             <button class="btn btn--block" type="submit">Отправить заявку</button>
           </div>
+          <p class="form__error" role="alert"></p>
           <p class="form__ok">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
         </form>
       </div>
@@ -219,6 +224,6 @@
   </footer>
 
   <a class="call-fab" href="tel:+79201716969" aria-label="Позвонить">☎ Позвонить</a>
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/main.js?v=94313c2c" defer></script>
 </body>
 </html>

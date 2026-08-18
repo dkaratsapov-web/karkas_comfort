@@ -1,0 +1,42 @@
+# Выгрузка сайта на хостинг по FTP.
+# Запускается вручную: вкладка Actions → Deploy site → Run workflow.
+# Перед первым запуском добавьте секреты в Settings → Secrets and variables → Actions:
+#   FTP_HOST, FTP_USER, FTP_PASSWORD, FTP_REMOTE_DIR (например /public_html)
+
+name: Deploy site
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Только показать список файлов, ничего не загружать"
+        type: boolean
+        default: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Установка зависимостей
+        run: npm ci
+
+      - name: Сборка dist
+        run: npm run build
+
+      - name: Проверка, что сборка не пустая
+        run: test -s dist/index.html && test -s dist/assets/css/style.css
+
+      - name: Выгрузка на хостинг
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
+        run: node tools/deploy-ftp.mjs ${{ inputs.dry_run && '--dry' || '' }}

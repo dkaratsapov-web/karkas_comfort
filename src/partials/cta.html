@@ -20,12 +20,15 @@
                   <span class="field__error">Введите номер полностью</span>
                 </div>
                 <input type="hidden" name="project" id="p-project-input" value="">
-                <label class="consent">
+                <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <label class="consent">
                   <input type="checkbox" name="consent" required>
                   <span>Согласен на обработку персональных данных в соответствии с <a href="politika.html">политикой конфиденциальности</a></span>
                 </label>
                 <button class="btn btn--accent btn--block" type="submit">Получить расчёт</button>
               </div>
+              <p class="form__error" role="alert"></p>
               <p class="form__ok">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
             </form>
           </div>

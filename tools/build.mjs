@@ -1,10 +1,16 @@
-/* Простой сборщик статики: src/pages/*.html + src/partials/*.html -> *.html в корне.
-   Запуск: npm run build (или node tools/build.mjs) */
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+/* Сборка сайта: src/pages + src/partials -> dist/
+   В dist/ лежит всё, что нужно залить на хостинг, и ничего лишнего.
+   Запуск: npm run build */
+import { readFileSync, writeFileSync, readdirSync, mkdirSync, cpSync, rmSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 
 const SITE = 'https://karkascomfort.ru';
+const OUT = 'dist';
+const LEAD_ENDPOINT = '/api/lead.php';       // обработчик заявок на хостинге
+
 const read = (p) => readFileSync(p, 'utf8');
 const partial = (name) => read(`src/partials/${name}.html`);
+const hash = (p) => createHash('md5').update(readFileSync(p)).digest('hex').slice(0, 8);
 
 const head = partial('head');
 const header = partial('header');
@@ -16,9 +22,32 @@ const cases = JSON.parse(read('src/data/cases.json'));
 writeFileSync('assets/js/projects-data.js',
   `/* Данные каталога. Источник: src/data/projects.json — правьте там и запускайте сборку. */\nwindow.KK_PROJECTS = ${JSON.stringify(projects, null, 2)};\n`);
 
+/* ---------- чистая папка выгрузки ---------- */
+rmSync(OUT, { recursive: true, force: true });
+mkdirSync(OUT, { recursive: true });
+cpSync('assets', `${OUT}/assets`, { recursive: true });
+for (const f of ['robots.txt']) if (existsSync(f)) cpSync(f, `${OUT}/${f}`);
+if (existsSync('server/.htaccess')) cpSync('server/.htaccess', `${OUT}/.htaccess`);
+if (existsSync('server/api')) cpSync('server/api', `${OUT}/api`, { recursive: true });
+if (existsSync('server/site.webmanifest')) cpSync('server/site.webmanifest', `${OUT}/site.webmanifest`);
+for (const f of ['favicon.ico', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'])
+  if (existsSync(`assets/img/${f}`)) cpSync(`assets/img/${f}`, `${OUT}/${f}`);
 
-const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' \u20BD';
+/* ---------- версии статики, чтобы браузер не показывал старый кеш ---------- */
+const V = {
+  css: hash('assets/css/style.css'),
+  main: hash('assets/js/main.js'),
+  data: hash('assets/js/projects-data.js')
+};
+const version = (html) => html
+  .replace(/assets\/css\/style\.css(?!\?)/g, `assets/css/style.css?v=${V.css}`)
+  .replace(/assets\/js\/main\.js(?!\?)/g, `assets/js/main.js?v=${V.main}`)
+  .replace(/assets\/js\/projects-data\.js(?!\?)/g, `assets/js/projects-data.js?v=${V.data}`);
+
+/* ---------- шаблоны блоков ---------- */
+const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
 const floorsLabel = (f) => (f === 1 ? '1 этаж' : f === 1.5 ? '1,5 этажа' : '2 этажа');
+
 const projectCard = (p) => `      <article class="project">
         <div class="project__media">
           <img src="assets/img/projects/${p.slug}.svg" alt="Каркасный дом ${p.code}, ${p.size} м, ${p.area} м²" loading="lazy" width="800" height="460">
@@ -42,6 +71,7 @@ const caseTile = (c) => `        <a class="tile ${c.class}" href="proekt.html?id
           </div>
         </a>`;
 
+/* ---------- страницы ---------- */
 const pages = readdirSync('src/pages').filter((f) => f.endsWith('.html'));
 const built = [];
 
@@ -63,7 +93,7 @@ ${head
     .replace(/\{\{description\}\}/g, meta.description)
     .replace(/\{\{canonical\}\}/g, `${SITE}/${file === 'index.html' ? '' : file}`)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))}
-<body>
+<body data-lead-endpoint="${LEAD_ENDPOINT}">
   <a class="skip-link" href="#main">Перейти к содержимому</a>
 ${header}
   <main id="main">
@@ -75,12 +105,13 @@ ${footer}
 </body>
 </html>
 `;
-  writeFileSync(file, html);
+  writeFileSync(`${OUT}/${file}`, version(html));
   built.push({ file, priority: meta.priority ?? 0.6 });
 }
 
-const today = process.env.BUILD_DATE || '2026-08-18';
-writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
+/* ---------- sitemap ---------- */
+const today = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
+writeFileSync(`${OUT}/sitemap.xml`, `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${built.filter((b) => b.file !== '404.html').map((b) => `  <url>
     <loc>${SITE}/${b.file === 'index.html' ? '' : b.file}</loc>
@@ -90,4 +121,4 @@ ${built.filter((b) => b.file !== '404.html').map((b) => `  <url>
 </urlset>
 `);
 
-console.log(`собрано страниц: ${built.length} (${built.map((b) => b.file).join(', ')})`);
+console.log(`dist/: страниц ${built.length}, версии статики css=${V.css} js=${V.main}`);

@@ -1,0 +1,16 @@
+# Внутри /api исполняется только lead.php, остальное закрыто
+<IfModule mod_authz_core.c>
+  <FilesMatch "\.(csv|log|json|md)$">
+    Require all denied
+  </FilesMatch>
+  <Files "config.php">
+    Require all denied
+  </Files>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  <FilesMatch "\.(csv|log|json|md)$">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>
+Options -Indexes

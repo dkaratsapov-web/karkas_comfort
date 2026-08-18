@@ -1,0 +1,66 @@
+# Каркас Комфорт — пример конфигурации nginx.
+# Подставьте свои пути к сертификатам и корню сайта.
+
+server {
+    listen 80;
+    server_name karkascomfort.ru www.karkascomfort.ru;
+    return 301 https://karkascomfort.ru$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name www.karkascomfort.ru;
+    ssl_certificate     /etc/letsencrypt/live/karkascomfort.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/karkascomfort.ru/privkey.pem;
+    return 301 https://karkascomfort.ru$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name karkascomfort.ru;
+    root /var/www/karkascomfort/dist;
+    index index.html;
+    charset utf-8;
+
+    ssl_certificate     /etc/letsencrypt/live/karkascomfort.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/karkascomfort.ru/privkey.pem;
+
+    gzip on;
+    gzip_comp_level 6;
+    gzip_min_length 512;
+    gzip_types text/plain text/css application/javascript application/json image/svg+xml application/xml;
+
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    # add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # Редиректы со старых адресов
+    location = /karkasnye-doma/         { return 301 /karkasnye-doma.html; }
+    location = /proekty/                { return 301 /proekty.html; }
+    location ^~ /proekty/               { return 301 /proekty.html; }
+    location = /uslugi/                 { return 301 /uslugi.html; }
+    location = /kontakty/               { return 301 /kontakty.html; }
+    location = /o-kompanii/             { return 301 /o-kompanii.html; }
+
+    # Приём заявок (нужен php-fpm)
+    location /api/ {
+        try_files $uri =404;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    location ~* \.(css|js|woff2|svg|png|jpe?g|webp|ico)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    location / {
+        try_files $uri $uri.html $uri/ =404;
+        add_header Cache-Control "no-cache, must-revalidate";
+    }
+
+    error_page 404 /404.html;
+}

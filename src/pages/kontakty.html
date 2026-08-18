@@ -64,12 +64,14 @@
               <label for="k-message">Что планируете построить</label>
               <textarea id="k-message" name="message" placeholder="Например: дом 8×10 для постоянного проживания в Конаковском районе, участок ровный"></textarea>
             </div>
+            <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
             <label class="consent">
               <input type="checkbox" name="consent" required>
               <span>Согласен на обработку персональных данных в соответствии с <a href="politika.html">политикой конфиденциальности</a></span>
             </label>
             <button class="btn btn--block" type="submit">Отправить заявку</button>
           </div>
+          <p class="form__error" role="alert"></p>
           <p class="form__ok">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
         </form>
       </div>
