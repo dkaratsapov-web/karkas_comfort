@@ -9,7 +9,7 @@
         <nav class="crumbs" aria-label="Хлебные крошки">
           <ol><li><a href="index.html">Главная</a></li><li>Проекты и цены</li></ol>
         </nav>
-        <p class="eyebrow" style="margin-top:18px">Каталог</p>
+        <p class="eyebrow" data-num="01" style="margin-top:18px">Каталог</p>
         <h1>Проекты каркасных домов и цены</h1>
         <p class="lead">15 готовых проектов от 44 до 200 м² с планировками и ориентировочной стоимостью под ключ. Любой проект дорабатываем под ваш участок — или строим по вашему.</p>
       </div>
@@ -30,7 +30,7 @@
           <button class="chip" type="button" data-group="size" data-value="l" aria-pressed="false">от 150 м²</button>
           <label class="filters__count" style="display:flex;gap:10px;align-items:center">
             <span class="sr-only">Сортировка</span>
-            <select id="catalog-sort" style="font:inherit;font-size:15px;padding:9px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)">
+            <select id="catalog-sort" class="control">
               <option value="area-asc">Сначала компактные</option>
               <option value="area-desc">Сначала просторные</option>
             </select>
@@ -42,17 +42,17 @@
       </div>
     </section>
 
-    <section class="section section--tint">
+    <section class="section section--paper">
       <div class="container split">
         <div>
-          <p class="eyebrow">Не нашли подходящий</p>
+          <p class="eyebrow" data-num="02">Не нашли подходящий</p>
           <h2>Построим по индивидуальному проекту</h2>
           <p class="lead">Принесите эскиз, скриншот из интернета или просто список пожеланий — сделаем планировку, посчитаем смету и покажем, как дом встанет на участок.</p>
           <p style="margin-top:24px"><a class="btn" href="#zayavka">Обсудить свой проект</a></p>
         </div>
         <div class="card">
           <h3>Что входит в проект</h3>
-          <ul class="tier" style="gap:10px;margin-top:14px">
+          <ul class="checks" style="margin-top:16px">
             <li>Планировки этажей с расстановкой мебели</li>
             <li>Фасады и визуализация дома</li>
             <li>Схема фундамента и раскладка каркаса</li>

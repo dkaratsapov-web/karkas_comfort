@@ -12,6 +12,7 @@ const footer = partial('footer');
 const cta = partial('cta');
 
 const projects = JSON.parse(read('src/data/projects.json'));
+const cases = JSON.parse(read('src/data/cases.json'));
 writeFileSync('assets/js/projects-data.js',
   `/* Данные каталога. Источник: src/data/projects.json — правьте там и запускайте сборку. */\nwindow.KK_PROJECTS = ${JSON.stringify(projects, null, 2)};\n`);
 
@@ -33,6 +34,14 @@ const projectCard = (p) => `      <article class="project">
         </div>
       </article>`;
 
+const caseTile = (c) => `        <a class="tile ${c.class}" href="proekt.html?id=${c.slug}">
+          <img src="assets/img/projects/${c.slug}.svg" alt="${c.title}, ${c.area} м²" loading="lazy" width="960" height="600">
+          <div class="tile__body">
+            <h3>${c.title}</h3>
+            <p class="tile__meta"><span>${c.size} м · ${c.area} м²</span><span>${c.term}</span><span>${c.tier}</span></p>
+          </div>
+        </a>`;
+
 const pages = readdirSync('src/pages').filter((f) => f.endsWith('.html'));
 const built = [];
 
@@ -43,6 +52,7 @@ for (const file of pages) {
   const meta = JSON.parse(m[1]);
   let content = raw.slice(m[0].length);
   content = content.replace(/\{\{cta\}\}/g, () => cta);
+  content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
   content = content.replace(/\{\{projects:(\d+)\}\}/g, (_, n) =>
     projects.slice(0, Number(n)).map(projectCard).join('\n'));
 

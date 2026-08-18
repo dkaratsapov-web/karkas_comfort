@@ -6,7 +6,8 @@
   <title>Каркасные дома под ключ в Твери и области — технология и цены | Каркас Комфорт</title>
   <meta name="description" content="Строительство каркасных домов под ключ в Твери: технология, состав стены, комплектации, сроки и цены от 32 000 ₽/м². Фиксированная смета, гарантия 5 лет.">
   <link rel="canonical" href="https://karkascomfort.ru/karkasnye-doma.html">
-  <meta name="theme-color" content="#1F5C3A">
+  <meta name="theme-color" content="#FBF8F2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E130F" media="(prefers-color-scheme: dark)">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Каркас Комфорт">
   <meta property="og:title" content="Каркасные дома под ключ в Твери и области — технология и цены | Каркас Комфорт">
@@ -18,6 +19,8 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/onest-cyrillic-wght-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/golos-text-cyrillic-wght-normal.woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
@@ -25,7 +28,7 @@
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <div class="topbar">
     <div class="container topbar__row">
-      <span class="topbar__geo">📍 Тверь и Тверская область</span>
+      <span class="topbar__geo">Тверь и Тверская область</span>
       <span>Работаем с 8:00 до 20:00 без выходных</span>
       <span><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></span>
     </div>
@@ -47,14 +50,14 @@
         <ul>
           <li><a href="karkasnye-doma.html">Каркасные дома</a></li>
           <li><a href="proekty.html">Проекты</a></li>
+          <li><a href="obekty.html">Объекты</a></li>
           <li><a href="uslugi.html">Услуги</a></li>
-          <li><a href="o-kompanii.html">О компании</a></li>
           <li><a href="kontakty.html">Контакты</a></li>
         </ul>
       </nav>
       <div class="header__cta">
         <a class="header__phone" href="tel:+79201716969">8 (920) 171-69-69<span>Звонок бесплатный</span></a>
-        <a class="btn btn--sm" href="#zayavka">Рассчитать</a>
+        <a class="btn btn--sm" href="#zayavka">Рассчитать <span class="btn__arrow" aria-hidden="true">→</span></a>
       </div>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Меню">
         <span></span><span></span><span></span>
@@ -65,6 +68,7 @@
         <li><a href="index.html">Главная</a></li>
         <li><a href="karkasnye-doma.html">Каркасные дома</a></li>
         <li><a href="proekty.html">Проекты и цены</a></li>
+        <li><a href="obekty.html">Построенные объекты</a></li>
         <li><a href="uslugi.html">Услуги и этапы</a></li>
         <li><a href="o-kompanii.html">О компании</a></li>
         <li><a href="kontakty.html">Контакты</a></li>
@@ -80,7 +84,7 @@
         <nav class="crumbs" aria-label="Хлебные крошки">
           <ol><li><a href="index.html">Главная</a></li><li>Каркасные дома</li></ol>
         </nav>
-        <p class="eyebrow" style="margin-top:18px">Технология</p>
+        <p class="eyebrow" data-num="01" style="margin-top:18px">Технология</p>
         <h1>Каркасные дома под ключ</h1>
         <p class="lead">Каркасный дом — это не «времянка», а расчётная конструкция. Всё решает качество пиломатериала, точность сборки и правильный порядок слоёв в стене. Ниже — как мы строим и что получаете вы.</p>
       </div>
@@ -106,29 +110,29 @@
             </table>
           </div>
         </div>
-        <div>
-          <img src="assets/img/projects/kd-36.svg" alt="Каркасный дом в разрезе" width="800" height="460" style="border-radius:var(--radius-l);box-shadow:var(--shadow-2)" loading="lazy">
+        <div class="media-frame">
+          <img src="assets/img/projects/kd-36.svg" alt="Каркасный дом с террасой" width="960" height="600" loading="lazy">
         </div>
       </div>
     </section>
 
-    <section class="section section--tint">
+    <section class="section section--paper">
       <div class="container">
-        <div class="section__head"><p class="eyebrow">Материалы</p><h2>Из чего собираем дом</h2></div>
+        <div class="section__head"><p class="eyebrow" data-num="02">Материалы</p><h2>Из чего собираем дом</h2></div>
         <div class="grid grid--3">
-          <article class="card"><div class="card__icon">🌲</div><h3>Пиломатериал</h3><p>Доска камерной сушки влажностью до 18 %, строганая, обработанная антисептиком. Не ведёт при усадке — дом не «дышит» щелями через год.</p></article>
-          <article class="card"><div class="card__icon">🧱</div><h3>Утеплитель</h3><p>Базальтовая вата плотностью 35–45 кг/м³ в стенах и перекрытиях. Не горит, не даёт усадки, держит форму в вертикальных конструкциях.</p></article>
-          <article class="card"><div class="card__icon">🏠</div><h3>Кровля</h3><p>Металлочерепица или гибкая черепица с полным пирогом: подкровельная мембрана, контробрешётка, вентиляция конька.</p></article>
-          <article class="card"><div class="card__icon">🪟</div><h3>Окна</h3><p>Металлопластиковые профили с двухкамерным стеклопакетом, поворотно-откидные створки, монтаж по ГОСТ с паро- и гидроизоляцией шва.</p></article>
-          <article class="card"><div class="card__icon">⚡</div><h3>Инженерия</h3><p>Скрытая электропроводка в гофре с автоматами и УЗО, водяное отопление с котлом, разводка воды и канализации.</p></article>
-          <article class="card"><div class="card__icon">🔩</div><h3>Крепёж</h3><p>Оцинкованные пластины, уголки, анкеры и ершёные гвозди — узлы каркаса собираются по расчёту, а не «на глаз».</p></article>
+          <article class="card"><h3>Пиломатериал</h3><p>Доска камерной сушки влажностью до 18 %, строганая, обработанная антисептиком. Не ведёт при усадке — дом не «дышит» щелями через год.</p></article>
+          <article class="card"><h3>Утеплитель</h3><p>Базальтовая вата плотностью 35–45 кг/м³ в стенах и перекрытиях. Не горит, не даёт усадки, держит форму в вертикальных конструкциях.</p></article>
+          <article class="card"><h3>Кровля</h3><p>Металлочерепица или гибкая черепица с полным пирогом: подкровельная мембрана, контробрешётка, вентиляция конька.</p></article>
+          <article class="card"><h3>Окна</h3><p>Металлопластиковые профили с двухкамерным стеклопакетом, поворотно-откидные створки, монтаж по ГОСТ с паро- и гидроизоляцией шва.</p></article>
+          <article class="card"><h3>Инженерия</h3><p>Скрытая электропроводка в гофре с автоматами и УЗО, водяное отопление с котлом, разводка воды и канализации.</p></article>
+          <article class="card"><h3>Крепёж</h3><p>Оцинкованные пластины, уголки, анкеры и ершёные гвозди — узлы каркаса собираются по расчёту, а не «на глаз».</p></article>
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="container">
-        <div class="section__head"><p class="eyebrow">Фундаменты</p><h2>Подбираем под грунт вашего участка</h2>
+        <div class="section__head"><p class="eyebrow" data-num="03">Фундаменты</p><h2>Подбираем под грунт вашего участка</h2>
           <p class="lead">В Тверской области часто торф, глина и высокая вода. Тип фундамента определяем после выезда, а не по телефону.</p>
         </div>
         <div class="grid grid--3">
@@ -139,9 +143,9 @@
       </div>
     </section>
 
-    <section class="section section--surface">
+    <section class="section section--white">
       <div class="container">
-        <div class="section__head"><p class="eyebrow">Честно</p><h2>Кому каркасный дом не подойдёт</h2></div>
+        <div class="section__head"><p class="eyebrow" data-num="04">Честно</p><h2>Кому каркасный дом не подойдёт</h2></div>
         <div class="grid grid--2">
           <article class="card"><h3>Если нужен «дом на века» из камня</h3><p>Каркас — это 50+ лет службы при нормальной эксплуатации, но это не кирпич. Если для вас важна массивность стен, честнее рассмотреть газобетон.</p></article>
           <article class="card"><h3>Если планируете тяжёлую отделку</h3><p>Крупноформатная плитка на всю стену, каменные порталы и подвесные конструкции требуют закладных ещё на этапе каркаса. Сообщите об этом до проектирования.</p></article>
@@ -206,6 +210,7 @@
           <ul>
             <li><a href="karkasnye-doma.html">Каркасные дома под ключ</a></li>
             <li><a href="proekty.html">Проекты и цены</a></li>
+            <li><a href="obekty.html">Построенные объекты</a></li>
             <li><a href="uslugi.html">Услуги и этапы работ</a></li>
             <li><a href="o-kompanii.html">О компании</a></li>
             <li><a href="kontakty.html">Контакты</a></li>

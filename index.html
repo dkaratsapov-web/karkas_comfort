@@ -3,14 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Строительство каркасных домов в Твери и Тверской области | Каркас Комфорт</title>
-  <meta name="description" content="Строим каркасные дома под ключ в Твери и области с 2009 года. Более 300 построенных домов, цена от 32 000 ₽/м², фиксированная смета в договоре, ипотека от 5 %. Бесплатный расчёт за 1 день.">
+  <title>Каркасные дома под ключ в Твери и Тверской области | Каркас Комфорт</title>
+  <meta name="description" content="Строим каркасные дома под ключ в Твери и области с 2009 года. Более 300 построенных домов, цена от 32 000 ₽/м², фиксированная смета в договоре, ипотека от 5 %, гарантия 5 лет.">
   <link rel="canonical" href="https://karkascomfort.ru/">
-  <meta name="theme-color" content="#1F5C3A">
+  <meta name="theme-color" content="#FBF8F2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0E130F" media="(prefers-color-scheme: dark)">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Каркас Комфорт">
-  <meta property="og:title" content="Строительство каркасных домов в Твери и Тверской области | Каркас Комфорт">
-  <meta property="og:description" content="Строим каркасные дома под ключ в Твери и области с 2009 года. Более 300 построенных домов, цена от 32 000 ₽/м², фиксированная смета в договоре, ипотека от 5 %. Бесплатный расчёт за 1 день.">
+  <meta property="og:title" content="Каркасные дома под ключ в Твери и Тверской области | Каркас Комфорт">
+  <meta property="og:description" content="Строим каркасные дома под ключ в Твери и области с 2009 года. Более 300 построенных домов, цена от 32 000 ₽/м², фиксированная смета в договоре, ипотека от 5 %, гарантия 5 лет.">
   <meta property="og:url" content="https://karkascomfort.ru/">
   <meta property="og:image" content="https://karkascomfort.ru/assets/img/og.png">
   <meta property="og:locale" content="ru_RU">
@@ -18,6 +19,8 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/onest-cyrillic-wght-normal.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/golos-text-cyrillic-wght-normal.woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/projects-data.js" defer></script>
 </head>
@@ -26,7 +29,7 @@
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <div class="topbar">
     <div class="container topbar__row">
-      <span class="topbar__geo">📍 Тверь и Тверская область</span>
+      <span class="topbar__geo">Тверь и Тверская область</span>
       <span>Работаем с 8:00 до 20:00 без выходных</span>
       <span><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></span>
     </div>
@@ -48,14 +51,14 @@
         <ul>
           <li><a href="karkasnye-doma.html">Каркасные дома</a></li>
           <li><a href="proekty.html">Проекты</a></li>
+          <li><a href="obekty.html">Объекты</a></li>
           <li><a href="uslugi.html">Услуги</a></li>
-          <li><a href="o-kompanii.html">О компании</a></li>
           <li><a href="kontakty.html">Контакты</a></li>
         </ul>
       </nav>
       <div class="header__cta">
         <a class="header__phone" href="tel:+79201716969">8 (920) 171-69-69<span>Звонок бесплатный</span></a>
-        <a class="btn btn--sm" href="#zayavka">Рассчитать</a>
+        <a class="btn btn--sm" href="#zayavka">Рассчитать <span class="btn__arrow" aria-hidden="true">→</span></a>
       </div>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Меню">
         <span></span><span></span><span></span>
@@ -66,6 +69,7 @@
         <li><a href="index.html">Главная</a></li>
         <li><a href="karkasnye-doma.html">Каркасные дома</a></li>
         <li><a href="proekty.html">Проекты и цены</a></li>
+        <li><a href="obekty.html">Построенные объекты</a></li>
         <li><a href="uslugi.html">Услуги и этапы</a></li>
         <li><a href="o-kompanii.html">О компании</a></li>
         <li><a href="kontakty.html">Контакты</a></li>
@@ -77,87 +81,113 @@
 
   <main id="main">
 <section class="hero">
-      <div class="container hero__inner">
-        <div class="split">
-          <div>
-            <p class="hero__badge"><b>с 2009 года</b> более 300 построенных домов</p>
-            <h1>Каркасные дома <span>под ключ</span> в Твери и области</h1>
-            <p class="lead">Проектируем, строим и подключаем коммуникации сами — от свай до розеток. Смета фиксируется в договоре и не меняется в процессе стройки.</p>
-            <div class="hero__actions">
-              <a class="btn" href="#zayavka">Рассчитать стоимость дома</a>
-              <a class="btn btn--ghost" href="proekty.html">Смотреть проекты</a>
-            </div>
-            <p class="hero__note">Бесплатный расчёт по вашему проекту — в течение одного дня.</p>
-          </div>
-          <div class="hero__media">
-            <img src="assets/img/projects/kd-42.svg" alt="Каркасный дом под ключ, построенный компанией Каркас Комфорт" width="800" height="460" fetchpriority="high">
-            <div class="hero__price">
-              <b>от 32 000 ₽</b>
-              <small>за м² под ключ · ипотека от 5 %</small>
-            </div>
+      <div class="hero__bg">
+        <img src="assets/img/hero.svg" alt="Каркасный дом на лесном участке в вечернем свете" width="1600" height="900" fetchpriority="high">
+      </div>
+      <div class="hero__scrim"></div>
+      <div class="container container--wide hero__inner">
+        <div class="hero__content">
+          <p class="hero__tag">Тверь и область · с 2009 года</p>
+          <h1>Каркасный дом, <em>в котором тепло</em> тверской зимой</h1>
+          <p class="hero__lead">Проектируем, строим и подключаем коммуникации сами — от свай до розеток. Смета фиксируется в договоре и не растёт в процессе стройки.</p>
+          <div class="hero__actions">
+            <a class="btn" href="#zayavka">Рассчитать стоимость <span class="btn__arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href="proekty.html">Смотреть 15 проектов</a>
           </div>
         </div>
-
-        <div class="stats">
-          <div><b>17 лет</b><span>на рынке Тверской области</span></div>
+        <div class="hero__bar">
+          <div><b>17 лет</b><span>работаем в Тверской области</span></div>
           <div><b>300+</b><span>домов, бань и гаражей</span></div>
-          <div><b>от 1,5 мес.</b><span>срок строительства</span></div>
+          <div><b>от 32 000 ₽</b><span>за м² под ключ</span></div>
           <div><b>5 лет</b><span>гарантия по договору</span></div>
         </div>
       </div>
     </section>
 
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__row">
+        <span>Фиксированная смета</span><span>Свои бригады</span><span>Ипотека от 5 %</span><span>Материнский капитал</span><span>Гарантия 5 лет</span><span>Строим зимой</span>
+        <span>Фиксированная смета</span><span>Свои бригады</span><span>Ипотека от 5 %</span><span>Материнский капитал</span><span>Гарантия 5 лет</span><span>Строим зимой</span>
+      </div>
+    </div>
+
     <section class="section reveal">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow">Почему нас выбирают</p>
+          <p class="eyebrow" data-num="01">Почему нас выбирают</p>
           <h2>Один договор — весь дом, без подрядчиков со стороны</h2>
           <p class="lead">Мы не делим стройку между бригадами. Фундамент, каркас, кровля, отопление, вода и электрика — работы одной компании и одна ответственность за результат.</p>
         </div>
         <div class="grid grid--3">
-          <article class="card card--hover">
-            <div class="card__icon">₽</div>
-            <h3>Фиксированная смета</h3>
-            <p>Стоимость согласовывается до начала работ и прописывается в договоре. Если вы не меняете проект — цена не меняется.</p>
-          </article>
-          <article class="card card--hover">
-            <div class="card__icon">🏗</div>
-            <h3>Свои бригады</h3>
-            <p>Постоянные мастера в штате, а не сезонные наёмные рабочие. Прораб на объекте и отчёт по каждому этапу.</p>
-          </article>
-          <article class="card card--hover">
-            <div class="card__icon">🛠</div>
-            <h3>Все коммуникации</h3>
-            <p>Скрытая электропроводка, водяное отопление, водоснабжение и канализация — включаем в проект, а не «потом отдельно».</p>
-          </article>
-          <article class="card card--hover">
-            <div class="card__icon">🌲</div>
-            <h3>Сухой пиломатериал</h3>
-            <p>Камерная сушка и антисептирование каркаса, утеплитель базальтовой ватой, паро- и ветрозащита по технологии.</p>
-          </article>
-          <article class="card card--hover">
-            <div class="card__icon">📐</div>
-            <h3>Типовой и свой проект</h3>
-            <p>15 готовых проектов в каталоге. Любой можно перепланировать, добавить террасу, гараж или второй санузел.</p>
-          </article>
-          <article class="card card--hover">
-            <div class="card__icon">🤝</div>
-            <h3>Ипотека и маткапитал</h3>
-            <p>Помогаем оформить ипотеку на строительство от 5 % годовых, принимаем материнский капитал и работаем поэтапно.</p>
-          </article>
+          <article class="card card--hover"><span class="card__num">01</span><h3>Смета не растёт</h3><p>Стоимость согласовывается до начала работ и становится приложением к договору. Меняется она только по вашей инициативе.</p></article>
+          <article class="card card--hover"><span class="card__num">02</span><h3>Постоянные бригады</h3><p>Мастера в штате, прораб на объекте и фотоотчёт по каждому этапу — а не сезонные наёмные рабочие.</p></article>
+          <article class="card card--hover"><span class="card__num">03</span><h3>Все коммуникации сразу</h3><p>Скрытая электрика, водяное отопление, вода и канализация входят в проект, а не всплывают «отдельной сметой» потом.</p></article>
+          <article class="card card--hover"><span class="card__num">04</span><h3>Сухой пиломатериал</h3><p>Доска камерной сушки влажностью до 18 %, антисептирование, базальтовый утеплитель, мембраны и вентзазор.</p></article>
+          <article class="card card--hover"><span class="card__num">05</span><h3>Оплата по этапам</h3><p>Без предоплаты за весь дом: платите за фундамент, каркас, контур, инженерию и отделку по факту приёмки.</p></article>
+          <article class="card card--hover"><span class="card__num">06</span><h3>Ипотека и маткапитал</h3><p>Помогаем собрать документы для банка, работаем с ипотекой на строительство от 5 % и материнским капиталом.</p></article>
         </div>
       </div>
     </section>
 
-    <section class="section section--tint reveal" id="proekty">
-      <div class="container">
+    <section class="section section--paper reveal" id="obekty">
+      <div class="container container--wide">
         <div class="section__head section__head--row">
           <div>
-            <p class="eyebrow">Каталог</p>
-            <h2>Проекты каркасных домов</h2>
-            <p class="lead">С планировками и ориентировочной стоимостью под ключ. Любой проект адаптируем под ваш участок и бюджет.</p>
+            <p class="eyebrow" data-num="02">Построенные объекты</p>
+            <h2>Дома, которые уже стоят в Тверской области</h2>
+            <p class="lead">Каждый объект — с площадью, сроком и комплектацией. Посмотрите, что получается в вашем бюджете.</p>
           </div>
-          <a class="btn btn--ghost" href="proekty.html">Все 15 проектов</a>
+          <a class="btn btn--ghost" href="obekty.html">Все объекты <span class="btn__arrow" aria-hidden="true">→</span></a>
+        </div>
+        <div class="bento">
+        <a class="tile tile--xl" href="proekt.html?id=kd-17">
+          <img src="assets/img/projects/kd-17.svg" alt="Дом для семьи в Конаковском районе, 118 м²" loading="lazy" width="960" height="600">
+          <div class="tile__body">
+            <h3>Дом для семьи в Конаковском районе</h3>
+            <p class="tile__meta"><span>8×10 м · 118 м²</span><span>2,5 месяца</span><span>Комфорт</span></p>
+          </div>
+        </a>
+        <a class="tile tile--m" href="proekt.html?id=kd-29">
+          <img src="assets/img/projects/kd-29.svg" alt="Просторный дом под Торжком, 178 м²" loading="lazy" width="960" height="600">
+          <div class="tile__body">
+            <h3>Просторный дом под Торжком</h3>
+            <p class="tile__meta"><span>9×12 м · 178 м²</span><span>3,5 месяца</span><span>Под ключ с отделкой</span></p>
+          </div>
+        </a>
+        <a class="tile tile--m" href="proekt.html?id=kd-08">
+          <img src="assets/img/projects/kd-08.svg" alt="Компактный дом в Лихославле, 44 м²" loading="lazy" width="960" height="600">
+          <div class="tile__body">
+            <h3>Компактный дом в Лихославле</h3>
+            <p class="tile__meta"><span>6×8 м · 44 м²</span><span>6 недель</span><span>Тёплый контур</span></p>
+          </div>
+        </a>
+        <a class="tile tile--w" href="proekt.html?id=kd-36">
+          <img src="assets/img/projects/kd-36.svg" alt="Дом со вторым светом, 96 м²" loading="lazy" width="960" height="600">
+          <div class="tile__body">
+            <h3>Дом со вторым светом</h3>
+            <p class="tile__meta"><span>8×8 м · 96 м²</span><span>2 месяца</span><span>Комфорт</span></p>
+          </div>
+        </a>
+        <a class="tile tile--w" href="proekt.html?id=kd-38">
+          <img src="assets/img/projects/kd-38.svg" alt="Дом с сауной и кабинетом, 200 м²" loading="lazy" width="960" height="600">
+          <div class="tile__body">
+            <h3>Дом с сауной и кабинетом</h3>
+            <p class="tile__meta"><span>10×12 м · 200 м²</span><span>4 месяца</span><span>Под ключ с отделкой</span></p>
+          </div>
+        </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="proekty">
+      <div class="container container--wide">
+        <div class="section__head section__head--row">
+          <div>
+            <p class="eyebrow" data-num="03">Каталог проектов</p>
+            <h2>15 готовых проектов от 44 до 200 м²</h2>
+            <p class="lead">Любой проект адаптируем под ваш участок: перепланировка, терраса, гараж, второй санузел.</p>
+          </div>
+          <a class="btn btn--ghost" href="proekty.html">Весь каталог <span class="btn__arrow" aria-hidden="true">→</span></a>
         </div>
         <div class="grid grid--3">
       <article class="project">
@@ -248,171 +278,236 @@
       </div>
     </section>
 
-    <section class="section reveal">
-      <div class="container split">
-        <div>
-          <p class="eyebrow">Технология</p>
-          <h2>Что скрыто за стеной вашего дома</h2>
-          <p class="lead">Каркасный дом тёплый не сам по себе, а за счёт правильного «пирога» стены. Мы собираем его так, чтобы дом держал тепло тверской зимой и не набирал влагу.</p>
-          <ul class="tier" style="gap:12px;margin-top:24px">
-            <li><b>Каркас 150×50 мм</b> из сухой строганой доски камерной сушки, обработанной антисептиком.</li>
-            <li><b>Утеплитель 150 мм</b> базальтовой ваты в стенах, 200 мм в перекрытии холодного чердака.</li>
-            <li><b>Пароизоляция изнутри</b> и ветро-влагозащитная мембрана снаружи с вентзазором 40 мм.</li>
-            <li><b>Фасад</b> — имитация бруса, планкен или сайдинг на выбор, с покраской в два слоя.</li>
-          </ul>
-          <p style="margin-top:26px"><a class="btn" href="karkasnye-doma.html">Подробно о технологии</a></p>
-        </div>
-        <div>
-          <img src="assets/img/projects/kd-17.svg" alt="Разрез каркасного дома" style="border-radius:var(--radius-l);box-shadow:var(--shadow-2)" width="800" height="460" loading="lazy">
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--surface reveal" id="komplektacii">
+    <section class="section section--paper reveal" id="ceny">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow">Комплектации</p>
-          <h2>Три уровня отделки — от закрытого контура до готового дома</h2>
+          <p class="eyebrow" data-num="04">Прозрачная цена</p>
+          <h2>Три комплектации — видно, что входит, а что нет</h2>
+          <p class="lead">Цена за квадратный метр включает работы и материалы. Никаких «плюс фундамент, плюс доставка, плюс подъём на этаж» в конце.</p>
         </div>
-        <div class="grid grid--3">
+        <div class="tiers">
           <article class="card tier">
-            <span class="tier__label" style="background:var(--muted)">Каркас</span>
+            <span class="tier__label">Базовая</span>
             <h3>Тёплый контур</h3>
             <p class="tier__price">от 32 000 ₽<small>за м² под ключ</small></p>
-            <ul>
+            <ul class="checks">
               <li>Фундамент и обвязка</li>
               <li>Каркас, перекрытия, кровля</li>
               <li>Утепление 150 мм, мембраны</li>
               <li>Окна и входная дверь</li>
               <li>Наружная отделка фасада</li>
+              <li class="no">Инженерные сети</li>
+              <li class="no">Внутренняя отделка</li>
             </ul>
-            <a class="btn btn--ghost btn--block" href="#zayavka">Рассчитать</a>
+            <a class="btn btn--ghost btn--block" href="#calc">Рассчитать</a>
           </article>
           <article class="card tier tier--featured">
-            <span class="tier__label">Популярный выбор</span>
+            <span class="tier__label">Выбирают чаще всего</span>
             <h3>Комфорт</h3>
             <p class="tier__price">от 41 000 ₽<small>за м² под ключ</small></p>
-            <ul>
+            <ul class="checks">
               <li>Всё из «Тёплого контура»</li>
               <li>Электрика со щитом и розетками</li>
-              <li>Водяное отопление, радиаторы</li>
+              <li>Водяное отопление и радиаторы</li>
               <li>Вода и канализация по дому</li>
               <li>Черновая отделка стен и полов</li>
+              <li class="no">Чистовая отделка</li>
+              <li class="no">Сантехника и двери</li>
             </ul>
-            <a class="btn btn--block" href="#zayavka">Рассчитать</a>
+            <a class="btn btn--block" href="#calc">Рассчитать</a>
           </article>
           <article class="card tier">
-            <span class="tier__label" style="background:var(--accent);color:#1B1206">Максимум</span>
+            <span class="tier__label">Максимальная</span>
             <h3>Под ключ с отделкой</h3>
             <p class="tier__price">от 52 000 ₽<small>за м² под ключ</small></p>
-            <ul>
+            <ul class="checks">
               <li>Всё из комплектации «Комфорт»</li>
               <li>Чистовая отделка стен и потолков</li>
               <li>Напольные покрытия и плитка</li>
               <li>Санузел с сантехникой</li>
               <li>Межкомнатные двери</li>
+              <li>Уборка и вывоз мусора</li>
+              <li>Заезжаете с мебелью</li>
             </ul>
-            <a class="btn btn--ghost btn--block" href="#zayavka">Рассчитать</a>
+            <a class="btn btn--ghost btn--block" href="#calc">Рассчитать</a>
           </article>
         </div>
-        <p class="muted" style="margin-top:20px;font-size:15px">Цены ориентировочные и зависят от проекта, типа фундамента и удалённости участка. Точную смету считаем бесплатно за один день.</p>
+        <p class="muted" style="margin-top:24px;font-size:15px;max-width:70ch">Цены ориентировочные и зависят от проекта, типа фундамента и удалённости участка. Точную смету считаем бесплатно за один день.</p>
       </div>
     </section>
 
     <section class="section reveal" id="calc">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow">Калькулятор</p>
+          <p class="eyebrow" data-num="05">Калькулятор</p>
           <h2>Прикиньте бюджет за минуту</h2>
         </div>
-        <div class="card" id="calc">
-          <div class="split">
-            <div class="calc">
-              <div class="field">
-                <label for="calc-area">Площадь дома: <output id="calc-area-value">120 м²</output></label>
-                <input class="range" type="range" id="calc-area" min="40" max="220" step="5" value="120">
-                <div class="range-row"><span>40 м²</span><span>220 м²</span></div>
+        <div class="split" id="calc-block">
+          <div class="calc">
+            <div class="field">
+              <label for="calc-area">Площадь дома — <output id="calc-area-value">120 м²</output></label>
+              <input class="range" type="range" id="calc-area" min="40" max="220" step="5" value="120">
+              <div class="range-row"><span>40 м²</span><span>220 м²</span></div>
+            </div>
+            <fieldset style="border:none;padding:0;margin:0">
+              <legend style="font-size:14px;color:var(--ink-2);margin-bottom:12px">Комплектация</legend>
+              <div class="radios">
+                <label><input type="radio" name="tier" value="standart" checked> Тёплый контур</label>
+                <label><input type="radio" name="tier" value="komfort"> Комфорт</label>
+                <label><input type="radio" name="tier" value="pod_kluch"> С отделкой</label>
               </div>
-              <fieldset style="border:none;padding:0;margin:0">
-                <legend class="field" style="font-size:14.5px;font-weight:600;color:var(--ink-2);margin-bottom:10px">Комплектация</legend>
-                <div class="filters" style="margin:0">
-                  <label class="chip" style="display:inline-flex;gap:8px;align-items:center"><input type="radio" name="tier" value="standart" checked> Тёплый контур</label>
-                  <label class="chip" style="display:inline-flex;gap:8px;align-items:center"><input type="radio" name="tier" value="komfort"> Комфорт</label>
-                  <label class="chip" style="display:inline-flex;gap:8px;align-items:center"><input type="radio" name="tier" value="pod_kluch"> С отделкой</label>
-                </div>
-              </fieldset>
-              <label class="consent" style="font-size:16px;color:var(--ink-2)">
-                <input type="checkbox" id="calc-foundation" checked>
-                Свайно-винтовой фундамент под ключ (+190 000 ₽)
-              </label>
-            </div>
-            <div class="calc__out">
-              <span class="muted">Ориентировочная стоимость</span>
-              <strong class="calc__sum" id="calc-sum">—</strong>
-              <p style="margin:8px 0 0">Срок строительства: <b id="calc-term">2–3 месяца</b><br>
-                 В ипотеку под 5 % — <b id="calc-monthly">—</b> в месяц<br>
-                 <small class="muted">при первоначальном взносе 20 % на 20 лет</small></p>
-              <a class="btn btn--accent" href="#zayavka" style="margin-top:14px">Получить точную смету</a>
-            </div>
+            </fieldset>
+            <label class="switch"><input type="checkbox" id="calc-foundation" checked> Свайно-винтовой фундамент под ключ (+190 000 ₽)</label>
+          </div>
+          <div class="calc__out">
+            <span class="muted">Ориентировочная стоимость</span>
+            <strong class="calc__sum" id="calc-sum">—</strong>
+            <p class="calc__meta">Срок строительства — <b id="calc-term">2–3 месяца</b><br>
+              В ипотеку под 5 % — <b id="calc-monthly">—</b> в месяц<br>
+              <span class="muted" style="font-size:13.5px">при первоначальном взносе 20 % на 20 лет</span></p>
+            <a class="btn btn--accent" href="#zayavka" style="margin-top:16px">Получить точную смету</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section section--tint reveal" id="etapy">
+    <section class="section section--dark reveal" id="tehnologiya">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow">Как мы работаем</p>
-          <h2>Шесть шагов от звонка до ключей</h2>
+          <p class="eyebrow" data-num="06">Технология</p>
+          <h2>Что скрыто за стеной вашего дома</h2>
+          <p class="lead">Каркасный дом тёплый не сам по себе, а за счёт правильного порядка слоёв. Нажмите на слой, чтобы прочитать, зачем он нужен.</p>
         </div>
-        <div class="steps">
-          <article class="step"><h3>Заявка и расчёт</h3><p>Обсуждаем проект, участок и бюджет. Предварительный расчёт готовим за один день — бесплатно.</p></article>
-          <article class="step"><h3>Выезд на участок</h3><p>Смотрим геометрию, подъезд и грунт, подбираем тип фундамента и уточняем смету.</p></article>
-          <article class="step"><h3>Проект и договор</h3><p>Фиксируем планировку, комплектацию, сроки и стоимость. Смета — приложение к договору.</p></article>
-          <article class="step"><h3>Фундамент и каркас</h3><p>Сваи или лента, обвязка, каркас, перекрытия и стропильная система с кровлей.</p></article>
-          <article class="step"><h3>Контур и коммуникации</h3><p>Утепление, фасад, окна, двери. Затем электрика, отопление, вода и канализация.</p></article>
-          <article class="step"><h3>Сдача и гарантия</h3><p>Принимаете дом по акту, получаете паспорта на оборудование и гарантию 5 лет.</p></article>
+        <div class="wall" id="wall">
+          <div class="wall__stack">
+            <button class="layer is-active" type="button" data-note="Гипсокартон или вагонка — то, что вы видите изнутри. Крепится на каркас, скрывает разводку электрики и готова под покраску.">
+              <span class="layer__swatch" style="background:#EFE9DE"></span>
+              <span class="layer__name">Внутренняя обшивка<span>ГКЛ или вагонка</span></span>
+              <span class="layer__size">12,5 мм</span>
+            </button>
+            <button class="layer" type="button" data-note="Плёнка с проклеенными стыками не пускает влажный воздух из комнат в утеплитель. Без неё вата отсыревает за пару зим и перестаёт греть.">
+              <span class="layer__swatch" style="background:#D8E3EA"></span>
+              <span class="layer__name">Пароизоляция<span>с проклейкой стыков</span></span>
+              <span class="layer__size">—</span>
+            </button>
+            <button class="layer" type="button" data-note="Стойки 150×50 мм из доски камерной сушки с шагом 600 мм. Между ними — базальтовая вата в два слоя вразбежку, чтобы не было мостиков холода.">
+              <span class="layer__swatch" style="background:#C89A64"></span>
+              <span class="layer__name">Каркас с утеплителем<span>доска 150×50 + базальт</span></span>
+              <span class="layer__size">150 мм</span>
+            </button>
+            <button class="layer" type="button" data-note="Плита ОСП-3 придаёт стене жёсткость: именно она держит геометрию дома при ветровой нагрузке.">
+              <span class="layer__swatch" style="background:#D9C39B"></span>
+              <span class="layer__name">Плитная обшивка<span>ОСП-3</span></span>
+              <span class="layer__size">9 мм</span>
+            </button>
+            <button class="layer" type="button" data-note="Диффузионная мембрана выпускает пар из утеплителя наружу и не пускает внутрь дождь и ветер. Работает только в паре с вентзазором.">
+              <span class="layer__swatch" style="background:#E3E7E1"></span>
+              <span class="layer__name">Ветро-влагозащита<span>диффузионная мембрана</span></span>
+              <span class="layer__size">—</span>
+            </button>
+            <button class="layer" type="button" data-note="Обрешётка создаёт зазор 40 мм: воздух движется снизу вверх и уносит влагу. Сверху — имитация бруса, планкен или сайдинг с покраской в два слоя.">
+              <span class="layer__swatch" style="background:#A87B47"></span>
+              <span class="layer__name">Вентзазор и фасад<span>обрешётка + отделка</span></span>
+              <span class="layer__size">40 + 20 мм</span>
+            </button>
+          </div>
+          <div>
+            <div class="wall__cut">
+              <svg viewBox="0 0 560 300" role="img" aria-label="Разрез стены каркасного дома: слои изнутри наружу">
+                <defs>
+                  <pattern id="insul" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+                    <rect width="16" height="16" fill="#C89A64"/>
+                    <path d="M0 8h16" stroke="#A87B47" stroke-width="3" opacity=".45"/>
+                  </pattern>
+                </defs>
+                <g class="cut__layers">
+                  <rect data-cut="0" x="20"  y="40" width="26"  height="220" fill="#EFE9DE"/>
+                  <rect data-cut="1" x="46"  y="40" width="10"  height="220" fill="#D8E3EA"/>
+                  <rect data-cut="2" x="56"  y="40" width="300" height="220" fill="url(#insul)"/>
+                  <rect data-cut="3" x="356" y="40" width="20"  height="220" fill="#D9C39B"/>
+                  <rect data-cut="4" x="376" y="40" width="10"  height="220" fill="#E3E7E1"/>
+                  <rect data-cut="5" x="386" y="40" width="84"  height="220" fill="#A87B47"/>
+                </g>
+                <g class="cut__studs">
+                  <rect x="60" y="40" width="14" height="220" fill="#DDB684" opacity=".85"/>
+                  <rect x="338" y="40" width="14" height="220" fill="#DDB684" opacity=".85"/>
+                </g>
+                <g class="cut__labels" font-size="13" fill="rgba(246,242,234,.62)" font-family="inherit">
+                  <text x="20" y="286">внутри</text>
+                  <text x="470" y="286" text-anchor="end">снаружи</text>
+                  <text x="20" y="28">200 мм — полная толщина стены с отделкой</text>
+                </g>
+                <path d="M486 40 h22 M486 260 h22 M497 40 v220" stroke="rgba(246,242,234,.3)" stroke-width="1.2" fill="none"/>
+                <text x="514" y="155" font-size="13" fill="rgba(246,242,234,.6)" writing-mode="tb">толщина стены</text>
+              </svg>
+            </div>
+            <p class="wall__note" id="wall-note">Гипсокартон или вагонка — то, что вы видите изнутри. Крепится на каркас, скрывает разводку электрики и готова под покраску.</p>
+            <p style="margin-top:28px"><a class="btn btn--outline-light" href="karkasnye-doma.html">Подробно о технологии <span class="btn__arrow" aria-hidden="true">→</span></a></p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section reveal">
+    <section class="section reveal" id="etapy">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow">Отзывы</p>
-          <h2>Что говорят заказчики</h2>
+          <p class="eyebrow" data-num="07">Как мы работаем</p>
+          <h2>Шесть шагов от звонка до ключей</h2>
+        </div>
+        <div class="timeline">
+          <article class="tl"><span class="tl__num">Шаг 01</span><h3>Заявка и расчёт</h3><p>Обсуждаем проект, участок и бюджет. Предварительный расчёт готовим за один день — бесплатно и без обязательств.</p></article>
+          <article class="tl"><span class="tl__num">Шаг 02</span><h3>Выезд на участок</h3><p>Смотрим грунт, подъезд и стороны света, подбираем тип фундамента и уточняем смету. По Твери и ближайшим районам — бесплатно.</p></article>
+          <article class="tl"><span class="tl__num">Шаг 03</span><h3>Проект и договор</h3><p>Фиксируем планировку, комплектацию, сроки и стоимость. Смета становится приложением к договору.</p></article>
+          <article class="tl"><span class="tl__num">Шаг 04</span><h3>Фундамент и каркас</h3><p>Сваи или лента, обвязка, каркас, перекрытия и стропильная система с кровлей. Дом встаёт под крышу.</p></article>
+          <article class="tl"><span class="tl__num">Шаг 05</span><h3>Контур и инженерия</h3><p>Утепление, мембраны, фасад, окна и двери. Затем электрика, отопление, водоснабжение и канализация.</p></article>
+          <article class="tl"><span class="tl__num">Шаг 06</span><h3>Сдача и гарантия</h3><p>Принимаете дом по акту, получаете паспорта на оборудование и гарантию 5 лет на конструктив и работы.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper reveal">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow" data-num="08">Доверие</p>
+          <h2>Что вы получаете на бумаге, а не на словах</h2>
+        </div>
+        <div class="grid grid--4" style="margin-bottom:clamp(36px,5vw,64px)">
+          <article class="card"><h3>Договор подряда</h3><p>Состав работ, сроки, стоимость, порядок оплаты и ответственность сторон.</p></article>
+          <article class="card"><h3>Смета-приложение</h3><p>Каждая позиция с количеством и ценой — видно, за что именно вы платите.</p></article>
+          <article class="card"><h3>Гарантия 5 лет</h3><p>На конструктив и выполненные работы. На оборудование — гарантия производителя.</p></article>
+          <article class="card"><h3>Акты по этапам</h3><p>Приёмка и фотоотчёт после каждого этапа, оплата — по факту выполненного.</p></article>
         </div>
         <div class="reviews">
-          <article class="card">
+          <article class="card review">
             <p class="review__stars">★★★★★</p>
-            <p>Строили дом 8×10 в Конаково. Сроки сдвинулись на неделю из-за дождей, но смета осталась ровно той, что подписали. Отдельное спасибо прорабу — на связи был каждый день.</p>
+            <q>Строили дом 8×10 в Конаково. Сроки сдвинулись на неделю из-за дождей, но смета осталась ровно той, что подписали. Отдельное спасибо прорабу — на связи был каждый день.</q>
             <div class="review__author"><span class="review__avatar">А</span><div><b>Алексей</b><span>дом 118 м², Конаковский район</span></div></div>
           </article>
-          <article class="card">
+          <article class="card review">
             <p class="review__stars">★★★★★</p>
-            <p>Брали комплектацию «Комфорт», зимовали первый сезон. Дом держит тепло, котёл на 12 кВт не работает на максимуме даже в мороз. Электрика вся скрытая, как и обещали.</p>
+            <q>Брали комплектацию «Комфорт», зимовали первый сезон. Дом держит тепло, котёл на 12 кВт не работает на максимуме даже в мороз. Электрика вся скрытая, как и обещали.</q>
             <div class="review__author"><span class="review__avatar">М</span><div><b>Марина</b><span>дом 96 м², Калининский район</span></div></div>
           </article>
-          <article class="card">
+          <article class="card review">
             <p class="review__stars">★★★★★</p>
-            <p>Долго выбирали между брусом и каркасом. Здесь спокойно объяснили разницу по бюджету и срокам, ничего не навязывали. Построили за два с половиной месяца.</p>
+            <q>Долго выбирали между брусом и каркасом. Здесь спокойно объяснили разницу по бюджету и срокам, ничего не навязывали. Построили за два с половиной месяца.</q>
             <div class="review__author"><span class="review__avatar">С</span><div><b>Сергей</b><span>дом 140 м², Торжок</span></div></div>
           </article>
-          <article class="card">
+          <article class="card review">
             <p class="review__stars">★★★★★</p>
-            <p>Использовали материнский капитал, помогли собрать документы для банка. Дом небольшой, 6×8, но сделан аккуратно — стыки, откосы, крыльцо.</p>
+            <q>Использовали материнский капитал, помогли собрать документы для банка. Дом небольшой, 6×8, но сделан аккуратно — стыки, откосы, крыльцо.</q>
             <div class="review__author"><span class="review__avatar">Е</span><div><b>Екатерина</b><span>дом 44 м², Лихославль</span></div></div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section section--surface reveal">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">География</p>
+    <section class="section reveal">
+      <div class="container split split--wide-left">
+        <div>
+          <p class="eyebrow" data-num="09">География</p>
           <h2>Строим по всей Тверской области</h2>
-          <p class="lead">Выезд на замер по Твери и ближайшим районам — бесплатно. В другие города области считаем логистику отдельно и заранее.</p>
+          <p class="lead">Выезд на замер по Твери и ближайшим районам — бесплатно. В отдалённые города считаем логистику отдельно и заранее, чтобы она не всплыла в конце сметы.</p>
         </div>
         <ul class="geo">
           <li>Тверь</li><li>Ржев</li><li>Бежецк</li><li>Бологое</li><li>Вышний Волочёк</li><li>Калязин</li>
@@ -422,11 +517,11 @@
       </div>
     </section>
 
-    <section class="section reveal">
+    <section class="section section--white reveal">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow">Вопросы и ответы</p>
-          <h2>Что чаще всего спрашивают</h2>
+          <p class="eyebrow" data-num="10">Вопросы</p>
+          <h2>Что спрашивают чаще всего</h2>
         </div>
         <div class="faq">
           <details open>
@@ -435,7 +530,7 @@
           </details>
           <details>
             <summary>Сколько времени занимает строительство?</summary>
-            <p>Дом до 90 м² — полтора-два месяца, до 150 м² — два-три месяца, больше 150 м² — три-четыре месяца. Сроки прописываются в договоре, работы идём поэтапно с приёмкой каждого этапа.</p>
+            <p>Дом до 90 м² — полтора-два месяца, до 150 м² — два-три месяца, больше 150 м² — три-четыре месяца. Сроки прописываются в договоре, работы идут поэтапно с приёмкой каждого этапа.</p>
           </details>
           <details>
             <summary>Может ли смета вырасти в процессе?</summary>
@@ -443,7 +538,7 @@
           </details>
           <details>
             <summary>Работаете зимой?</summary>
-            <p>Да. Каркасная технология не требует «мокрых» процессов, поэтому зимой мы ставим свайно-винтовой фундамент и продолжаем сборку. Зимой обычно свободнее график и короче сроки ожидания бригады.</p>
+            <p>Да. Каркасная технология не требует «мокрых» процессов, поэтому зимой мы ставим свайно-винтовой фундамент и продолжаем сборку. Зимой обычно свободнее график и короче срок ожидания бригады.</p>
           </details>
           <details>
             <summary>Что с фундаментом на сложном грунте?</summary>
@@ -463,21 +558,22 @@
           <div class="split split--narrow">
             <div>
               <h2>Бесплатный расчёт стоимости за 1 день</h2>
-              <p class="lead" style="color:rgba(255,255,255,.86)">Оставьте номер — уточним детали по участку и проекту и пришлём смету с разбивкой по этапам. Без навязчивых звонков.</p>
+              <p class="lead" style="color:rgba(255,255,255,.86)">Оставьте номер — уточним детали по участку и проекту и пришлём смету с разбивкой по этапам.</p>
               <p style="margin-top:22px;font-size:15px;color:rgba(255,255,255,.72)">Или позвоните сразу: <a href="tel:+79201716969" style="color:#fff;font-weight:700">8 (920) 171-69-69</a></p>
             </div>
             <form class="form" novalidate>
               <div class="form__body stack">
                 <div class="field">
-                  <label for="lead-name">Как к вам обращаться</label>
-                  <input type="text" id="lead-name" name="name" required autocomplete="name" placeholder="Имя">
+                  <label for="cta-name">Как к вам обращаться</label>
+                  <input type="text" id="cta-name" name="name" required autocomplete="name" placeholder="Имя">
                   <span class="field__error">Пожалуйста, укажите имя</span>
                 </div>
                 <div class="field">
-                  <label for="lead-phone">Телефон</label>
-                  <input type="tel" id="lead-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
+                  <label for="cta-phone">Телефон</label>
+                  <input type="tel" id="cta-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
                   <span class="field__error">Введите номер полностью</span>
                 </div>
+                <input type="hidden" name="project" id="p-project-input" value="">
                 <label class="consent">
                   <input type="checkbox" name="consent" required>
                   <span>Согласен на обработку персональных данных в соответствии с <a href="politika.html">политикой конфиденциальности</a></span>
@@ -490,6 +586,7 @@
         </div>
       </div>
     </section>
+
 
     <script type="application/ld+json">
     {
@@ -528,6 +625,7 @@
           <ul>
             <li><a href="karkasnye-doma.html">Каркасные дома под ключ</a></li>
             <li><a href="proekty.html">Проекты и цены</a></li>
+            <li><a href="obekty.html">Построенные объекты</a></li>
             <li><a href="uslugi.html">Услуги и этапы работ</a></li>
             <li><a href="o-kompanii.html">О компании</a></li>
             <li><a href="kontakty.html">Контакты</a></li>

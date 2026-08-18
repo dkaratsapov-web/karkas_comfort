@@ -4,8 +4,13 @@
   "private": true,
   "description": "Сайт строительной компании «Каркас Комфорт» — статическая сборка",
   "scripts": {
-    "build": "node tools/gen-images.mjs && node tools/build.mjs",
-    "images": "node tools/gen-images.mjs",
+    "build": "node tools/gen-art.mjs && node tools/build.mjs",
+    "art": "node tools/gen-art.mjs",
+    "pages": "node tools/build.mjs",
     "serve": "npx http-server -p 8080 -c-1 ."
+  },
+  "devDependencies": {
+    "@fontsource-variable/golos-text": "^5.3.0",
+    "@fontsource-variable/onest": "^5.3.0"
   }
 }
