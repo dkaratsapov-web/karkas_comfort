@@ -1,0 +1,11 @@
+{
+  "name": "karkascomfort",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Сайт строительной компании «Каркас Комфорт» — статическая сборка",
+  "scripts": {
+    "build": "node tools/gen-images.mjs && node tools/build.mjs",
+    "images": "node tools/gen-images.mjs",
+    "serve": "npx http-server -p 8080 -c-1 ."
+  }
+}

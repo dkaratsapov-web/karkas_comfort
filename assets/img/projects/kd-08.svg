@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" role="img" aria-label="Каркасный дом КД-08, 6×8 м">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EAF4EE"/><stop offset="1" stop-color="#F7F6F2"/></linearGradient>
+    <linearGradient id="wallShade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".10"/><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".08"/></linearGradient>
+  </defs>
+  <rect width="800" height="460" fill="url(#sky)"/>
+  <circle cx="672" cy="96" r="42" fill="#E3A85C" opacity=".35"/>
+  <path d="M0 404 Q200 372 420 398 T800 388 V460 H0 Z" fill="#DCE7DE"/>
+  
+  <g transform="translate(66 372) scale(0.57)">
+    <rect x="-3" y="-16" width="6" height="20" rx="2" fill="#8E5411" opacity=".55"/>
+    <path d="M0 -78 L26 -30 H-26 Z" fill="#4FB07A" opacity=".92"/>
+    <path d="M0 -56 L30 -6 H-30 Z" fill="#4FB07A"/>
+  </g>
+  <g transform="translate(763 404) scale(0.72)">
+    <rect x="-3" y="-16" width="6" height="20" rx="2" fill="#8E5411" opacity=".55"/>
+    <path d="M0 -78 L26 -30 H-26 Z" fill="#2A7A4B" opacity=".92"/>
+    <path d="M0 -56 L30 -6 H-30 Z" fill="#2A7A4B"/>
+  </g>
+  <g transform="translate(64 372) scale(0.78)">
+    <rect x="-3" y="-16" width="6" height="20" rx="2" fill="#8E5411" opacity=".55"/>
+    <path d="M0 -78 L26 -30 H-26 Z" fill="#4FB07A" opacity=".92"/>
+    <path d="M0 -56 L30 -6 H-30 Z" fill="#4FB07A"/>
+  </g>
+  <g transform="translate(54 372) scale(0.90)">
+    <rect x="-3" y="-16" width="6" height="20" rx="2" fill="#8E5411" opacity=".55"/>
+    <path d="M0 -78 L26 -30 H-26 Z" fill="#4FB07A" opacity=".92"/>
+    <path d="M0 -56 L30 -6 H-30 Z" fill="#4FB07A"/>
+  </g>
+  <g transform="translate(768 404) scale(0.91)">
+    <rect x="-3" y="-16" width="6" height="20" rx="2" fill="#8E5411" opacity=".55"/>
+    <path d="M0 -78 L26 -30 H-26 Z" fill="#2A7A4B" opacity=".92"/>
+    <path d="M0 -56 L30 -6 H-30 Z" fill="#2A7A4B"/>
+  </g>
+  <g transform="translate(702 404) scale(1.01)">
+    <rect x="-3" y="-16" width="6" height="20" rx="2" fill="#8E5411" opacity=".55"/>
+    <path d="M0 -78 L26 -30 H-26 Z" fill="#2A7A4B" opacity=".92"/>
+    <path d="M0 -56 L30 -6 H-30 Z" fill="#2A7A4B"/>
+  </g>
+  
+    <g>
+      <rect x="89" y="390" width="140" height="14" rx="3" fill="#C8791F"/>
+      <rect x="89" y="404" width="140" height="7" rx="2" fill="#8E5411" opacity=".65"/>
+      <rect x="107" y="346" width="4" height="44" fill="#8E5411" opacity=".45"/><rect x="127" y="346" width="4" height="44" fill="#8E5411" opacity=".45"/><rect x="147" y="346" width="4" height="44" fill="#8E5411" opacity=".45"/><rect x="167" y="346" width="4" height="44" fill="#8E5411" opacity=".45"/><rect x="187" y="346" width="4" height="44" fill="#8E5411" opacity=".45"/><rect x="207" y="346" width="4" height="44" fill="#8E5411" opacity=".45"/>
+      <rect x="97" y="346" width="128" height="7" rx="3" fill="#8E5411" opacity=".85"/>
+      <rect x="97" y="366" width="128" height="4" rx="2" fill="#8E5411" opacity=".55"/>
+      <rect x="95" y="340" width="9" height="50" rx="2" fill="#8E5411"/>
+      <rect x="83" y="402" width="30" height="7" rx="3" fill="#8E5411" opacity=".5"/>
+    </g>
+    <g>
+      <ellipse cx="400" cy="408" rx="235" ry="22" fill="#C8D9CC" opacity=".55"/>
+      <rect x="225" y="304" width="350" height="96" fill="#E3A85C"/>
+      <rect x="225" y="304" width="350" height="96" fill="url(#wallShade)"/>
+      <line x1="225" y1="314" x2="575" y2="314" stroke="#8E5411" stroke-width="1" opacity=".18"/><line x1="225" y1="330" x2="575" y2="330" stroke="#8E5411" stroke-width="1" opacity=".18"/><line x1="225" y1="346" x2="575" y2="346" stroke="#8E5411" stroke-width="1" opacity=".18"/><line x1="225" y1="362" x2="575" y2="362" stroke="#8E5411" stroke-width="1" opacity=".18"/><line x1="225" y1="378" x2="575" y2="378" stroke="#8E5411" stroke-width="1" opacity=".18"/><line x1="225" y1="394" x2="575" y2="394" stroke="#8E5411" stroke-width="1" opacity=".18"/>
+      <path d="M191 310 L400 200 L609 310 Z" fill="#2C3A33"/>
+      <path d="M191 310 L400 200 L400 216 L205 324 Z" fill="#3E5148" opacity=".7"/>
+      
+      
+  <g transform="translate(270.5 338)">
+    <rect width="56" height="62" rx="3" fill="#FFD9A0"/>
+    <rect width="56" height="62" rx="3" fill="none" stroke="#F7F6F2" stroke-width="3"/>
+    <line x1="28" y1="0" x2="28" y2="62" stroke="#F7F6F2" stroke-width="3"/>
+  </g>
+  <g transform="translate(372 338)">
+    <rect width="56" height="62" rx="3" fill="#FFD9A0"/>
+    <rect width="56" height="62" rx="3" fill="none" stroke="#F7F6F2" stroke-width="3"/>
+    <line x1="28" y1="0" x2="28" y2="62" stroke="#F7F6F2" stroke-width="3"/>
+  </g>
+  <g transform="translate(473.5 338)">
+    <rect width="56" height="62" rx="3" fill="#FFD9A0"/>
+    <rect width="56" height="62" rx="3" fill="none" stroke="#F7F6F2" stroke-width="3"/>
+    <line x1="28" y1="0" x2="28" y2="62" stroke="#F7F6F2" stroke-width="3"/>
+  </g>
+      <rect x="372" y="316" width="56" height="84" rx="4" fill="#C8791F"/>
+      <circle cx="416" cy="358" r="3.5" fill="#F7F6F2"/>
+      <rect x="219" y="394" width="362" height="10" rx="4" fill="#2C3A33" opacity=".18"/>
+    </g>
+  <path d="M0 436 Q220 420 460 432 T800 424 V460 H0 Z" fill="#C8D9CC" opacity=".6"/>
+</svg>

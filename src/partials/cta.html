@@ -1,0 +1,34 @@
+    <section class="section" id="zayavka">
+      <div class="container">
+        <div class="cta">
+          <div class="split split--narrow">
+            <div>
+              <h2>Бесплатный расчёт стоимости за 1 день</h2>
+              <p class="lead" style="color:rgba(255,255,255,.86)">Оставьте номер — уточним детали по участку и проекту и пришлём смету с разбивкой по этапам.</p>
+              <p style="margin-top:22px;font-size:15px;color:rgba(255,255,255,.72)">Или позвоните сразу: <a href="tel:+79201716969" style="color:#fff;font-weight:700">8 (920) 171-69-69</a></p>
+            </div>
+            <form class="form" novalidate>
+              <div class="form__body stack">
+                <div class="field">
+                  <label for="cta-name">Как к вам обращаться</label>
+                  <input type="text" id="cta-name" name="name" required autocomplete="name" placeholder="Имя">
+                  <span class="field__error">Пожалуйста, укажите имя</span>
+                </div>
+                <div class="field">
+                  <label for="cta-phone">Телефон</label>
+                  <input type="tel" id="cta-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
+                  <span class="field__error">Введите номер полностью</span>
+                </div>
+                <input type="hidden" name="project" id="p-project-input" value="">
+                <label class="consent">
+                  <input type="checkbox" name="consent" required>
+                  <span>Согласен на обработку персональных данных в соответствии с <a href="politika.html">политикой конфиденциальности</a></span>
+                </label>
+                <button class="btn btn--accent btn--block" type="submit">Получить расчёт</button>
+              </div>
+              <p class="form__ok">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
