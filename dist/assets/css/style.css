@@ -193,6 +193,13 @@ small { font-size: 14px; }
 .btn__arrow { transition: transform .3s var(--ease); }
 .btn:hover .btn__arrow { transform: translateX(4px); }
 
+.preview-bar {
+  display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; justify-content: center;
+  padding: 10px 20px; background: var(--accent-tint); color: var(--accent-deep);
+  font-size: 14px; text-align: center; border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.preview-bar a { color: var(--accent-deep); font-weight: 600; }
+
 /* ========================== Шапка =========================== */
 .topbar { background: var(--brand-deep); color: rgba(246, 242, 234, .74); font-size: 13.5px; }
 .topbar__row { display: flex; flex-wrap: wrap; gap: 6px 28px; align-items: center; justify-content: space-between; padding-block: 10px; }

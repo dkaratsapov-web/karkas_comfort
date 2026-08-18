@@ -4,9 +4,16 @@
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, cpSync, rmSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 
-const SITE = 'https://karkascomfort.ru';
-const OUT = 'dist';
-const LEAD_ENDPOINT = '/api/lead.php';       // обработчик заявок на хостинге
+/* Режим превью (GitHub Pages): PREVIEW=1 npm run build
+   — сайт собирается в подпапку, закрывается от индексации,
+     PHP-файлы не попадают в сборку (Pages их не исполняет). */
+const PREVIEW = process.env.PREVIEW === '1';
+const BASE = PREVIEW ? (process.env.BASE_PATH || '/karkas_comfort') : '';
+const SITE = process.env.SITE_URL || (PREVIEW
+  ? `https://dkaratsapov-web.github.io${BASE}`
+  : 'https://karkascomfort.ru');
+const OUT = process.env.OUT_DIR || 'dist';
+const LEAD_ENDPOINT = PREVIEW ? '' : '/api/lead.php';   // на Pages нет PHP — формы работают в демо-режиме
 
 const read = (p) => readFileSync(p, 'utf8');
 const partial = (name) => read(`src/partials/${name}.html`);
@@ -26,9 +33,14 @@ writeFileSync('assets/js/projects-data.js',
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 cpSync('assets', `${OUT}/assets`, { recursive: true });
-for (const f of ['robots.txt']) if (existsSync(f)) cpSync(f, `${OUT}/${f}`);
-if (existsSync('server/.htaccess')) cpSync('server/.htaccess', `${OUT}/.htaccess`);
-if (existsSync('server/api')) cpSync('server/api', `${OUT}/api`, { recursive: true });
+if (PREVIEW) {
+  writeFileSync(`${OUT}/robots.txt`, 'User-agent: *\nDisallow: /\n');   // превью не должно попасть в поиск
+  writeFileSync(`${OUT}/.nojekyll`, '');                                 // Pages не должен обрабатывать сборку Jekyll
+} else {
+  if (existsSync('robots.txt')) cpSync('robots.txt', `${OUT}/robots.txt`);
+  if (existsSync('server/.htaccess')) cpSync('server/.htaccess', `${OUT}/.htaccess`);
+  if (existsSync('server/api')) cpSync('server/api', `${OUT}/api`, { recursive: true });
+}
 if (existsSync('server/site.webmanifest')) cpSync('server/site.webmanifest', `${OUT}/site.webmanifest`);
 for (const f of ['favicon.ico', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'])
   if (existsSync(`assets/img/${f}`)) cpSync(`assets/img/${f}`, `${OUT}/${f}`);
@@ -39,6 +51,16 @@ const V = {
   main: hash('assets/js/main.js'),
   data: hash('assets/js/projects-data.js')
 };
+const previewBar = PREVIEW ? `  <div class="preview-bar">
+    <span><b>Демонстрационная версия.</b> Заявки не отправляются, цены и фотографии ориентировочные.</span>
+    <a href="https://karkascomfort.ru">Действующий сайт →</a>
+  </div>\n` : '';
+
+/* в превью сайт лежит в подпапке — правим корневые ссылки и закрываем от индексации */
+const rebase = (html) => (BASE
+  ? html.replace(/(href|src)="\/(?!\/)/g, `$1="${BASE}/`)
+  : html);
+
 const version = (html) => html
   .replace(/assets\/css\/style\.css(?!\?)/g, `assets/css/style.css?v=${V.css}`)
   .replace(/assets\/js\/main\.js(?!\?)/g, `assets/js/main.js?v=${V.main}`)
@@ -92,9 +114,10 @@ ${head
     .replace(/\{\{title\}\}/g, meta.title)
     .replace(/\{\{description\}\}/g, meta.description)
     .replace(/\{\{canonical\}\}/g, `${SITE}/${file === 'index.html' ? '' : file}`)
-    .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))}
+    .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
+    .replace('</head>', PREVIEW ? '  <meta name="robots" content="noindex, nofollow">\n</head>' : '</head>')}
 <body data-lead-endpoint="${LEAD_ENDPOINT}">
-  <a class="skip-link" href="#main">Перейти к содержимому</a>
+${previewBar}  <a class="skip-link" href="#main">Перейти к содержимому</a>
 ${header}
   <main id="main">
 ${content.trimEnd()}
@@ -105,7 +128,7 @@ ${footer}
 </body>
 </html>
 `;
-  writeFileSync(`${OUT}/${file}`, version(html));
+  writeFileSync(`${OUT}/${file}`, rebase(version(html)));
   built.push({ file, priority: meta.priority ?? 0.6 });
 }
 
@@ -121,4 +144,4 @@ ${built.filter((b) => b.file !== '404.html').map((b) => `  <url>
 </urlset>
 `);
 
-console.log(`dist/: страниц ${built.length}, версии статики css=${V.css} js=${V.main}`);
+console.log(`${OUT}/: страниц ${built.length}${PREVIEW ? ` · превью для ${SITE}` : ''}, версии статики css=${V.css} js=${V.main}`);
