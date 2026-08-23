@@ -1,8 +1,20 @@
 <!--meta {
   "title": "Проекты каркасных домов — цены под ключ в Твери | Каркас Комфорт",
-  "description": "Каталог проектов каркасных домов: от 44 до 200 м², одноэтажные, полтора и два этажа. Планировки, комплектации и ориентировочная стоимость под ключ от 32 000 ₽/м².",
+  "description": "Каталог проектов каркасных домов: от 44 до 200 м², одноэтажные, полтора и два этажа. Планировка, срок строительства и цена под ключ по каждому проекту.",
   "priority": 0.9,
-  "scripts": ["assets/js/projects-data.js"]
+  "scripts": [
+    "assets/js/projects-data.js"
+  ],
+  "breadcrumb": [
+    {
+      "name": "Главная",
+      "url": "/"
+    },
+    {
+      "name": "Проекты и цены",
+      "url": "/proekty.html"
+    }
+  ]
 } -->
     <div class="page-head">
       <div class="container">
@@ -17,28 +29,43 @@
 
     <section class="section" id="catalog">
       <div class="container">
-        <div class="filters">
-          <button class="chip" type="button" data-group="floors" data-value="all" aria-pressed="true">Все этажности</button>
-          <button class="chip" type="button" data-group="floors" data-value="1" aria-pressed="false">1 этаж</button>
-          <button class="chip" type="button" data-group="floors" data-value="1.5" aria-pressed="false">1,5 этажа</button>
-          <button class="chip" type="button" data-group="floors" data-value="2" aria-pressed="false">2 этажа</button>
+        <div class="filters is-collapsed">
+          <button class="filters__toggle btn btn--ghost" type="button" aria-expanded="false">
+            <span>Фильтр и сортировка</span>
+            <span class="filters__count">Найдено: <b id="catalog-count">—</b></span>
+          </button>
+          <div class="filters__body">
+            <span class="filters__label">Этажей:</span>
+            <div class="filters__group">
+              <button class="chip" type="button" data-group="floors" data-value="all" aria-pressed="true">любая</button>
+              <button class="chip" type="button" data-group="floors" data-value="1" aria-pressed="false">1</button>
+              <button class="chip" type="button" data-group="floors" data-value="1.5" aria-pressed="false">1,5</button>
+              <button class="chip" type="button" data-group="floors" data-value="2" aria-pressed="false">2</button>
+            </div>
+            <span class="filters__sep" aria-hidden="true"></span>
+            <span class="filters__label">Площадь:</span>
+            <div class="filters__group">
+              <button class="chip" type="button" data-group="size" data-value="all" aria-pressed="true">любая</button>
+              <button class="chip" type="button" data-group="size" data-value="s" aria-pressed="false">до 90 м²</button>
+              <button class="chip" type="button" data-group="size" data-value="m" aria-pressed="false">90–150 м²</button>
+              <button class="chip" type="button" data-group="size" data-value="l" aria-pressed="false">от 150 м²</button>
+            </div>
+            <label style="display:flex;gap:10px;align-items:center;margin-left:auto">
+              <span class="sr-only">Сортировка</span>
+              <select id="catalog-sort" class="control">
+                <option value="area-asc">Сначала компактные</option>
+                <option value="area-desc">Сначала просторные</option>
+                <option value="price-asc">Сначала недорогие</option>
+                <option value="price-desc">Сначала дорогие</option>
+              </select>
+            </label>
+          </div>
         </div>
-        <div class="filters">
-          <button class="chip" type="button" data-group="size" data-value="all" aria-pressed="true">Любая площадь</button>
-          <button class="chip" type="button" data-group="size" data-value="s" aria-pressed="false">до 90 м²</button>
-          <button class="chip" type="button" data-group="size" data-value="m" aria-pressed="false">90–150 м²</button>
-          <button class="chip" type="button" data-group="size" data-value="l" aria-pressed="false">от 150 м²</button>
-          <label class="filters__count" style="display:flex;gap:10px;align-items:center">
-            <span class="sr-only">Сортировка</span>
-            <select id="catalog-sort" class="control">
-              <option value="area-asc">Сначала компактные</option>
-              <option value="area-desc">Сначала просторные</option>
-            </select>
-          </label>
+        <p class="muted" style="margin:18px 0 22px">Показано: <b id="catalog-count-desk" hidden></b><span id="catalog-count-note">выбранные параметры сохраняются в адресе страницы — подборкой можно поделиться</span></p>
+        <div class="grid grid--3" id="catalog-list">
+{{projects:all}}
         </div>
-        <p class="muted" style="margin-bottom:22px">Найдено: <b id="catalog-count">—</b></p>
-        <div class="grid grid--3" id="catalog-list"></div>
-        <p class="muted" style="margin-top:26px;font-size:15px">Цены ориентировочные, рассчитаны по ставке от 32 000 ₽/м² в комплектации «Тёплый контур». Точная стоимость зависит от фундамента, отделки и удалённости участка и фиксируется в договоре.</p>
+        <p class="muted" style="margin-top:26px;font-size:15px">Цены ориентировочные, рассчитаны по ставке комплектации «Комфорт» из прайса компании. Точная стоимость зависит от фундамента, отделки и удалённости участка и фиксируется в договоре.</p>
       </div>
     </section>
 

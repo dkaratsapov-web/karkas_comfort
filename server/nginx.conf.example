@@ -38,10 +38,20 @@ server {
     # Редиректы со старых адресов
     location = /karkasnye-doma/         { return 301 /karkasnye-doma.html; }
     location = /proekty/                { return 301 /proekty.html; }
-    location ^~ /proekty/               { return 301 /proekty.html; }
+    #  Внимание: /proekty/<проект>.html — реальные страницы проектов.
+    #  На каталог отправляем только те адреса, которым не соответствует файл.
+    location /proekty/ {
+        try_files $uri $uri.html /proekty.html;
+    }
     location = /uslugi/                 { return 301 /uslugi.html; }
     location = /kontakty/               { return 301 /kontakty.html; }
     location = /o-kompanii/             { return 301 /o-kompanii.html; }
+
+    # Служебные файлы приёма заявок наружу не отдаём:
+    # leads.csv содержит телефоны клиентов, config.php — доступы к почте, Telegram и CRM.
+    location ~ ^/api/(config\.php$|.*\.(csv|log|json|md)$) {
+        return 404;
+    }
 
     # Приём заявок (нужен php-fpm)
     location /api/ {

@@ -1,7 +1,51 @@
 <!--meta {
   "title": "Контакты — Каркас Комфорт, Тверь, ул. Серебряная, 12",
   "description": "Телефоны, почта и адрес офиса компании «Каркас Комфорт» в Твери. Работаем ежедневно с 8:00 до 20:00, выезд на замер по Твери и области.",
-  "priority": 0.8
+  "priority": 0.8,
+  "breadcrumb": [
+    {
+      "name": "Главная",
+      "url": "/"
+    },
+    {
+      "name": "Контакты",
+      "url": "/kontakty.html"
+    }
+  ],
+  "jsonld": {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Каркас Комфорт",
+    "image": "https://karkascomfort.ru/assets/img/og.png",
+    "url": "https://karkascomfort.ru/kontakty.html",
+    "telephone": "+7-920-171-69-69",
+    "email": "karkascomfort@yandex.ru",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Серебряная, 12, офис 31",
+      "addressLocality": "Тверь",
+      "postalCode": "170100",
+      "addressCountry": "RU"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "08:00",
+        "closes": "20:00"
+      }
+    ],
+    "areaServed": "Тверская область",
+    "priceRange": "от 32 000 ₽/м²"
+  }
 } -->
     <div class="page-head">
       <div class="container">
@@ -53,12 +97,12 @@
             <div class="field">
               <label for="k-name">Ваше имя</label>
               <input type="text" id="k-name" name="name" required autocomplete="name" placeholder="Имя">
-              <span class="field__error">Пожалуйста, укажите имя</span>
+              <span class="field__error" id="k-name-error">Пожалуйста, укажите имя</span>
             </div>
             <div class="field">
               <label for="k-phone">Телефон</label>
               <input type="tel" id="k-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
-              <span class="field__error">Введите номер полностью</span>
+              <span class="field__error" id="k-phone-error">Введите номер полностью</span>
             </div>
             <div class="field">
               <label for="k-message">Что планируете построить</label>
@@ -72,7 +116,7 @@
             <button class="btn btn--block" type="submit">Отправить заявку</button>
           </div>
           <p class="form__error" role="alert"></p>
-          <p class="form__ok">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
+          <p class="form__ok" role="status">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
         </form>
       </div>
     </section>

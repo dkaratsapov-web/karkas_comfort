@@ -1,51 +1,45 @@
+  <a class="skip-link" href="#main">К содержимому</a>
   <div class="topbar">
     <div class="container topbar__row">
-      <span class="topbar__geo">Тверь и Тверская область</span>
-      <span>Работаем с 8:00 до 20:00 без выходных</span>
-      <span><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></span>
+      <span class="topbar__geo">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Тверь и Тверская область
+      </span>
+      <span class="topbar__hours">Работаем с 8:00 до 20:00 без выходных</span>
+      <span class="topbar__mail"><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></span>
     </div>
   </div>
   <header class="header">
     <div class="container header__row">
       <a class="logo" href="index.html" aria-label="Каркас Комфорт — на главную">
-        <svg viewBox="0 0 228 48" width="228" height="48" aria-hidden="true">
-          <rect width="48" height="48" rx="12" fill="#1F5C3A"/>
-          <path d="M24 10 L38 21v3H10v-3z" fill="#E3A85C"/>
-          <path d="M13 26h22v12H13z" fill="none" stroke="#F7F6F2" stroke-width="2.6" stroke-linejoin="round"/>
-          <path d="M13 26l22 12M35 26L13 38" stroke="#F7F6F2" stroke-width="2.2" opacity=".75"/>
-          <path d="M24 26v12" stroke="#C8791F" stroke-width="2.6"/>
-          <text x="60" y="23" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="19" font-weight="700" fill="currentColor" letter-spacing=".2">КАРКАС</text>
-          <text x="60" y="41" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="19" fill="currentColor" letter-spacing="3.4">КОМФОРТ</text>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10 12 3l9 7"/><path d="M6 10v11h12V10"/><path d="M10 21v-6h4v6"/></svg>
+        Каркас Комфорт
       </a>
       <nav class="nav" aria-label="Основная навигация">
-        <ul>
-          <li><a href="karkasnye-doma.html">Каркасные дома</a></li>
-          <li><a href="proekty.html">Проекты</a></li>
-          <li><a href="obekty.html">Объекты</a></li>
-          <li><a href="uslugi.html">Услуги</a></li>
-          <li><a href="kontakty.html">Контакты</a></li>
-        </ul>
+        <a href="karkasnye-doma.html">Каркасные дома</a>
+        <a href="proekty.html">Проекты</a>
+        <a href="obekty.html">Объекты</a>
+        <a href="uslugi.html">Услуги</a>
+        <a href="kontakty.html">Контакты</a>
       </nav>
-      <div class="header__cta">
-        <a class="header__phone" href="tel:+79201716969">8 (920) 171-69-69<span>Звонок бесплатный</span></a>
-        <a class="btn btn--sm" href="#zayavka">Рассчитать <span class="btn__arrow" aria-hidden="true">→</span></a>
-      </div>
-      <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Меню">
-        <span></span><span></span><span></span>
+      <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69<small>Звонок бесплатный</small></a>
+      <a class="btn btn--sm header__cta" href="#zayavka">Рассчитать <span class="btn__arrow" aria-hidden="true">→</span></a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Открыть меню">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
       </button>
     </div>
-    <div class="mobile-nav" id="mobile-nav">
-      <ul>
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="karkasnye-doma.html">Каркасные дома</a></li>
-        <li><a href="proekty.html">Проекты и цены</a></li>
-        <li><a href="obekty.html">Построенные объекты</a></li>
-        <li><a href="uslugi.html">Услуги и этапы</a></li>
-        <li><a href="o-kompanii.html">О компании</a></li>
-        <li><a href="kontakty.html">Контакты</a></li>
-      </ul>
-      <a class="mobile-nav__phone" href="tel:+79201716969">8 (920) 171-69-69<small>ежедневно с 8:00 до 20:00</small></a>
+    <div class="mobile-nav" id="mobile-nav" hidden>
+      <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
+      </button>
+      <a href="index.html">Главная</a>
+      <a href="karkasnye-doma.html">Каркасные дома</a>
+      <a href="proekty.html">Проекты и цены</a>
+      <a href="obekty.html">Построенные объекты</a>
+      <a href="uslugi.html">Услуги и этапы</a>
+      <a href="o-kompanii.html">О компании</a>
+      <a href="kontakty.html">Контакты</a>
+      <a class="mobile-nav__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
       <a class="btn btn--block" href="#zayavka">Рассчитать стоимость</a>
     </div>
   </header>

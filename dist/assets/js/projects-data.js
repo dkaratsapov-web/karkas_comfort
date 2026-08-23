@@ -11,7 +11,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Недорогие"
     ],
-    "note": "Компактный дом для сезонного и круглогодичного проживания"
+    "note": "Компактный дом для сезонного и круглогодичного проживания",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 1760000,
+    "priceTop": 2860000,
+    "url": "/proekty/kd-23.html"
   },
   {
     "code": "КД-08",
@@ -24,7 +31,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Недорогие"
     ],
-    "note": "Одноэтажный дом с террасой — минимум лишнего, максимум света"
+    "note": "Одноэтажный дом с террасой — минимум лишнего, максимум света",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 1408000,
+    "priceTop": 2288000,
+    "url": "/proekty/kd-08.html"
   },
   {
     "code": "КД-60",
@@ -37,7 +51,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Недорогие"
     ],
-    "note": "Вытянутая планировка без коридоров, кухня-гостиная 22 м²"
+    "note": "Вытянутая планировка без коридоров, кухня-гостиная 22 м²",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 1856000,
+    "priceTop": 3016000,
+    "url": "/proekty/kd-60.html"
   },
   {
     "code": "КД-11",
@@ -50,7 +71,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Полтора этажа"
     ],
-    "note": "Квадратный сруб каркаса — самый экономичный периметр стен"
+    "note": "Квадратный сруб каркаса — самый экономичный периметр стен",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 2304000,
+    "priceTop": 3744000,
+    "url": "/proekty/kd-11.html"
   },
   {
     "code": "КД-15",
@@ -63,7 +91,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Полтора этажа"
     ],
-    "note": "Спальня на первом этаже и две комнаты в мансарде"
+    "note": "Спальня на первом этаже и две комнаты в мансарде",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 2688000,
+    "priceTop": 4368000,
+    "url": "/proekty/kd-15.html"
   },
   {
     "code": "КД-36",
@@ -76,7 +111,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Полтора этажа"
     ],
-    "note": "Гостиная со вторым светом и выходом на террасу"
+    "note": "Гостиная со вторым светом и выходом на террасу",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 3072000,
+    "priceTop": 4992000,
+    "url": "/proekty/kd-36.html"
   },
   {
     "code": "КД-54",
@@ -89,7 +131,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Полтора этажа"
     ],
-    "note": "Котельная, санузел на каждом этаже, скрытая разводка"
+    "note": "Котельная, санузел на каждом этаже, скрытая разводка",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 3392000,
+    "priceTop": 5512000,
+    "url": "/proekty/kd-54.html"
   },
   {
     "code": "КД-43",
@@ -102,7 +151,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Полтора этажа"
     ],
-    "note": "Узкий участок — не помеха: дом развёрнут вдоль границы"
+    "note": "Узкий участок — не помеха: дом развёрнут вдоль границы",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 3456000,
+    "priceTop": 5616000,
+    "url": "/proekty/kd-43.html"
   },
   {
     "code": "КД-17",
@@ -116,7 +172,14 @@ window.KK_PROJECTS = [
       "Полтора этажа",
       "Для ПМЖ"
     ],
-    "note": "Скрытое водяное отопление и скрытая электропроводка"
+    "note": "Скрытое водяное отопление и скрытая электропроводка",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 3776000,
+    "priceTop": 6136000,
+    "url": "/proekty/kd-17.html"
   },
   {
     "code": "КД-42",
@@ -130,7 +193,14 @@ window.KK_PROJECTS = [
       "Два этажа",
       "Для ПМЖ"
     ],
-    "note": "Полноценный второй этаж, четыре спальни и кабинет"
+    "note": "Полноценный второй этаж, четыре спальни и кабинет",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 4480000,
+    "priceTop": 7280000,
+    "url": "/proekty/kd-42.html"
   },
   {
     "code": "КД-31",
@@ -143,7 +213,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Два этажа"
     ],
-    "note": "Гараж-навес под общей кровлей с домом"
+    "note": "Гараж-навес под общей кровлей с домом",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 4640000,
+    "priceTop": 7540000,
+    "url": "/proekty/kd-31.html"
   },
   {
     "code": "КД-40",
@@ -157,7 +234,14 @@ window.KK_PROJECTS = [
       "Полтора этажа",
       "Для ПМЖ"
     ],
-    "note": "Мастер-спальня с гардеробной и отдельным санузлом"
+    "note": "Мастер-спальня с гардеробной и отдельным санузлом",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 5280000,
+    "priceTop": 8580000,
+    "url": "/proekty/kd-40.html"
   },
   {
     "code": "КД-29",
@@ -171,7 +255,14 @@ window.KK_PROJECTS = [
       "Два этажа",
       "Для ПМЖ"
     ],
-    "note": "Просторный дом для большой семьи, две зоны отдыха"
+    "note": "Просторный дом для большой семьи, две зоны отдыха",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 5696000,
+    "priceTop": 9256000,
+    "url": "/proekty/kd-29.html"
   },
   {
     "code": "КД-27",
@@ -184,7 +275,14 @@ window.KK_PROJECTS = [
     "tags": [
       "Два этажа"
     ],
-    "note": "Панорамное остекление гостиной на юг"
+    "note": "Панорамное остекление гостиной на юг",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 6080000,
+    "priceTop": 9880000,
+    "url": "/proekty/kd-27.html"
   },
   {
     "code": "КД-38",
@@ -198,6 +296,14 @@ window.KK_PROJECTS = [
       "Два этажа",
       "Для ПМЖ"
     ],
-    "note": "Максимальный метраж каталога: сауна, котельная, кабинет"
+    "note": "Максимальный метраж каталога: сауна, котельная, кабинет",
+    "price": null,
+    "photos": [],
+    "plan": null,
+    "term": null,
+    "priceFrom": 6400000,
+    "priceTop": 10400000,
+    "url": "/proekty/kd-38.html"
   }
 ];
+window.KK_PRICING = {"_комментарий":"Ставки за м² под ключ. Пока в projects.json нет поля price, цена проекта считается как площадь × ставка komfort и помечается как ориентировочная. Реальный прайс: проставьте price у каждого проекта.","estimated":true,"ratePerM2":{"standart":32000,"komfort":41000,"pod_kluch":52000},"foundation":190000,"mortgage":{"rate":0.05,"years":20,"downpayment":0.2}};

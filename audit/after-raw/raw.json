@@ -1,0 +1,5510 @@
+{
+ "pages": {
+  "404": {
+   "path": "/404.html",
+   "mob": {
+    "title": "Страница не найдена — Каркас Комфорт",
+    "titleLen": 36,
+    "desc": "Запрошенная страница не найдена. Перейдите в каталог проектов каркасных домов или свяжитесь с нами по телефону.",
+    "descLen": 111,
+    "canonical": "https://karkascomfort.ru/404.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Такой страницы нет"
+    ],
+    "headings": [
+     "H1: Такой страницы нет",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 1941,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [],
+    "forms": [],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 44,
+    "lcpEl": "P.",
+    "cls": 0,
+    "nav": {
+     "dcl": 33,
+     "load": 33,
+     "transfer": 10302
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 7
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 8
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 7
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 10
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 2
+     }
+    ],
+    "badContrast": [],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   },
+   "desk": {
+    "title": "Страница не найдена — Каркас Комфорт",
+    "titleLen": 36,
+    "desc": "Запрошенная страница не найдена. Перейдите в каталог проектов каркасных домов или свяжитесь с нами по телефону.",
+    "descLen": 111,
+    "canonical": "https://karkascomfort.ru/404.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Такой страницы нет"
+    ],
+    "headings": [
+     "H1: Такой страницы нет",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 1178,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     }
+    ],
+    "forms": [],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 60,
+    "lcpEl": "H1.",
+    "cls": 0,
+    "nav": {
+     "dcl": 31,
+     "load": 31,
+     "transfer": 10302
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 8
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 7
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 7
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 9
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 4
+     }
+    ],
+    "badContrast": [],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   }
+  },
+  "index": {
+   "path": "/",
+   "mob": {
+    "title": "Каркасные дома под ключ в Твери и Тверской области | Каркас Комфорт",
+    "titleLen": 67,
+    "desc": "Строим каркасные дома под ключ в Твери и области с 2009 года: более 300 домов, цена от 32 000 ₽/м², смета фиксируется в договоре, срок от 1,5 месяцев, гарантия 5 лет.",
+    "descLen": 166,
+    "canonical": "https://karkascomfort.ru/",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Каркасный дом под ключ за два месяца"
+    ],
+    "headings": [
+     "H1: Каркасный дом под ключ за два месяца",
+     "H2: Один договор — весь дом, без подрядчиков со стороны",
+     "H3: Смета не растёт",
+     "H3: Постоянные бригады",
+     "H3: Все коммуникации сразу",
+     "H3: Сухой пиломатериал",
+     "H3: Оплата по этапам",
+     "H3: Ипотека и маткапитал",
+     "H2: Дома, которые уже стоят в Тверской области",
+     "H3: Дом для семьи в Конаковском районе",
+     "H3: Просторный дом под Торжком",
+     "H3: Компактный дом в Лихославле",
+     "H3: Дом со вторым светом",
+     "H3: Дом с сауной и кабинетом",
+     "H2: 15 готовых проектов от 44 до 200 м²",
+     "H3: Каркасный дом 6×6",
+     "H3: Каркасный дом 6×8",
+     "H3: Каркасный дом 6×10",
+     "H3: Каркасный дом 7×7",
+     "H3: Каркасный дом 6×9",
+     "H3: Каркасный дом 8×8",
+     "H2: Три комплектации — видно, что входит, а что нет",
+     "H3: Тёплый контур",
+     "H3: Комфорт",
+     "H3: Под ключ с отделкой",
+     "H2: Три вопроса — и вы видите вилку цены",
+     "H3: Какая площадь дома нужна?",
+     "H3: Какая комплектация нужна?",
+     "H3: Участок уже есть?",
+     "H2: Что скрыто за стеной вашего дома",
+     "H2: Шесть шагов от звонка до ключей",
+     "H3: Заявка и расчёт",
+     "H3: Выезд на участок",
+     "H3: Проект и договор",
+     "H3: Фундамент и каркас",
+     "H3: Контур и инженерия",
+     "H3: Сдача и гарантия",
+     "H2: Что вы получаете на бумаге, а не на словах",
+     "H3: Договор подряда",
+     "H3: Смета-приложение",
+     "H3: Гарантия 5 лет",
+     "H3: Акты по этапам",
+     "H2: Строим по всей Тверской области",
+     "H2: Что спрашивают чаще всего",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "parsed"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 17888,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "assets/img/hero.svg",
+      "alt": "Каркасный дом на лесном участке в вечернем свете",
+      "w": "1600",
+      "h": "900",
+      "loading": null,
+      "fetchpriority": "high",
+      "natural": "267x150",
+      "rendered": "390x600"
+     },
+     {
+      "src": "/assets/img/projects/kd-17.svg",
+      "alt": "Дом для семьи в Конаковском районе, 118 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-29.svg",
+      "alt": "Просторный дом под Торжком, 178 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-08.svg",
+      "alt": "Компактный дом в Лихославле, 44 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-36.svg",
+      "alt": "Дом со вторым светом, 96 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-38.svg",
+      "alt": "Дом с сауной и кабинетом, 200 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-23.svg",
+      "alt": "Каркасный дом КД-23, 6×6 м, 55 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-08.svg",
+      "alt": "Каркасный дом КД-08, 6×8 м, 44 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-60.svg",
+      "alt": "Каркасный дом КД-60, 6×10 м, 58 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-11.svg",
+      "alt": "Каркасный дом КД-11, 7×7 м, 72 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-15.svg",
+      "alt": "Каркасный дом КД-15, 6×9 м, 84 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-36.svg",
+      "alt": "Каркасный дом КД-36, 8×8 м, 96 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×6",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×8",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 7×7",
+      "w": 190,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×8",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 169,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     },
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 96,
+    "lcpEl": "IMG.hero__bg",
+    "cls": 0,
+    "nav": {
+     "dcl": 67,
+     "load": 71,
+     "transfer": 54049
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 9
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 9
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 8
+     },
+     {
+      "n": "projects-data.js?v=0d527939",
+      "t": "script",
+      "size": 8113,
+      "dur": 11
+     },
+     {
+      "n": "hero.svg",
+      "t": "img",
+      "size": 12890,
+      "dur": 9
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 11
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 8
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "span",
+      "text": "за м² под ключ",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       244,
+       244,
+       233
+      ],
+      "size": 11.5,
+      "weight": "400",
+      "ratio": 1.7
+     },
+     {
+      "sel": "span",
+      "text": "срок строительства",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       244,
+       244,
+       233
+      ],
+      "size": 11.5,
+      "weight": "400",
+      "ratio": 1.7
+     },
+     {
+      "sel": "span",
+      "text": "гарантия по договору",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       244,
+       244,
+       233
+      ],
+      "size": 11.5,
+      "weight": "400",
+      "ratio": 1.7
+     },
+     {
+      "sel": "span",
+      "text": "домов в Тверской области",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       244,
+       244,
+       233
+      ],
+      "size": 11.5,
+      "weight": "400",
+      "ratio": 1.7
+     },
+     {
+      "sel": "button.layer",
+      "text": "Пароизоляцияс проклейкой стыков\n              —",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Пароизоляцияс проклейкой стыков",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "с проклейкой стыков",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "—",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "button.layer",
+      "text": "Каркас с утеплителемдоска 150×50 + базальт\n              150",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Каркас с утеплителемдоска 150×50 + базальт",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "доска 150×50 + базальт",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "150 мм",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "button.layer",
+      "text": "Плитная обшивкаОСП-3\n              9 мм",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Плитная обшивкаОСП-3",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "ОСП-3",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "9 мм",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "button.layer",
+      "text": "Ветро-влагозащитадиффузионная мембрана\n              —",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Ветро-влагозащитадиффузионная мембрана",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "диффузионная мембрана",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "—",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "button.layer",
+      "text": "Вентзазор и фасадобрешётка + отделка\n              40 + 20 м",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Вентзазор и фасадобрешётка + отделка",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "обрешётка + отделка",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "40 + 20 мм",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 8,
+    "totalBytes": 133815
+   },
+   "desk": {
+    "title": "Каркасные дома под ключ в Твери и Тверской области | Каркас Комфорт",
+    "titleLen": 67,
+    "desc": "Строим каркасные дома под ключ в Твери и области с 2009 года: более 300 домов, цена от 32 000 ₽/м², смета фиксируется в договоре, срок от 1,5 месяцев, гарантия 5 лет.",
+    "descLen": 166,
+    "canonical": "https://karkascomfort.ru/",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Каркасный дом под ключ за два месяца"
+    ],
+    "headings": [
+     "H1: Каркасный дом под ключ за два месяца",
+     "H2: Один договор — весь дом, без подрядчиков со стороны",
+     "H3: Смета не растёт",
+     "H3: Постоянные бригады",
+     "H3: Все коммуникации сразу",
+     "H3: Сухой пиломатериал",
+     "H3: Оплата по этапам",
+     "H3: Ипотека и маткапитал",
+     "H2: Дома, которые уже стоят в Тверской области",
+     "H3: Дом для семьи в Конаковском районе",
+     "H3: Просторный дом под Торжком",
+     "H3: Компактный дом в Лихославле",
+     "H3: Дом со вторым светом",
+     "H3: Дом с сауной и кабинетом",
+     "H2: 15 готовых проектов от 44 до 200 м²",
+     "H3: Каркасный дом 6×6",
+     "H3: Каркасный дом 6×8",
+     "H3: Каркасный дом 6×10",
+     "H3: Каркасный дом 7×7",
+     "H3: Каркасный дом 6×9",
+     "H3: Каркасный дом 8×8",
+     "H2: Три комплектации — видно, что входит, а что нет",
+     "H3: Тёплый контур",
+     "H3: Комфорт",
+     "H3: Под ключ с отделкой",
+     "H2: Три вопроса — и вы видите вилку цены",
+     "H3: Какая площадь дома нужна?",
+     "H3: Какая комплектация нужна?",
+     "H3: Участок уже есть?",
+     "H2: Что скрыто за стеной вашего дома",
+     "H2: Шесть шагов от звонка до ключей",
+     "H3: Заявка и расчёт",
+     "H3: Выезд на участок",
+     "H3: Проект и договор",
+     "H3: Фундамент и каркас",
+     "H3: Контур и инженерия",
+     "H3: Сдача и гарантия",
+     "H2: Что вы получаете на бумаге, а не на словах",
+     "H3: Договор подряда",
+     "H3: Смета-приложение",
+     "H3: Гарантия 5 лет",
+     "H3: Акты по этапам",
+     "H2: Строим по всей Тверской области",
+     "H2: Что спрашивают чаще всего",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "parsed"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 11504,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "assets/img/hero.svg",
+      "alt": "Каркасный дом на лесном участке в вечернем свете",
+      "w": "1600",
+      "h": "900",
+      "loading": null,
+      "fetchpriority": "high",
+      "natural": "267x150",
+      "rendered": "1440x636"
+     },
+     {
+      "src": "/assets/img/projects/kd-17.svg",
+      "alt": "Дом для семьи в Конаковском районе, 118 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-29.svg",
+      "alt": "Просторный дом под Торжком, 178 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-08.svg",
+      "alt": "Компактный дом в Лихославле, 44 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-36.svg",
+      "alt": "Дом со вторым светом, 96 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-38.svg",
+      "alt": "Дом с сауной и кабинетом, 200 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-23.svg",
+      "alt": "Каркасный дом КД-23, 6×6 м, 55 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-08.svg",
+      "alt": "Каркасный дом КД-08, 6×8 м, 44 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-60.svg",
+      "alt": "Каркасный дом КД-60, 6×10 м, 58 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-11.svg",
+      "alt": "Каркасный дом КД-11, 7×7 м, 72 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-15.svg",
+      "alt": "Каркасный дом КД-15, 6×9 м, 84 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-36.svg",
+      "alt": "Каркасный дом КД-36, 8×8 м, 96 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "424x282"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×6",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×8",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 7×7",
+      "w": 190,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×8",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 211,
+      "h": 18
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     },
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 128,
+    "lcpEl": "IMG.hero__bg",
+    "cls": 0,
+    "nav": {
+     "dcl": 67,
+     "load": 70,
+     "transfer": 54049
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 11
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 9
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 10
+     },
+     {
+      "n": "projects-data.js?v=0d527939",
+      "t": "script",
+      "size": 8113,
+      "dur": 16
+     },
+     {
+      "n": "hero.svg",
+      "t": "img",
+      "size": 12890,
+      "dur": 15
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 15
+     },
+     {
+      "n": "kd-17.svg",
+      "t": "img",
+      "size": 9569,
+      "dur": 10
+     },
+     {
+      "n": "kd-29.svg",
+      "t": "img",
+      "size": 10578,
+      "dur": 10
+     },
+     {
+      "n": "kd-08.svg",
+      "t": "img",
+      "size": 8375,
+      "dur": 10
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 10
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "button.layer",
+      "text": "Пароизоляцияс проклейкой стыков\n              —",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Пароизоляцияс проклейкой стыков",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "с проклейкой стыков",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "—",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "button.layer",
+      "text": "Каркас с утеплителемдоска 150×50 + базальт\n              150",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Каркас с утеплителемдоска 150×50 + базальт",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "доска 150×50 + базальт",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "150 мм",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "button.layer",
+      "text": "Плитная обшивкаОСП-3\n              9 мм",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Плитная обшивкаОСП-3",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "ОСП-3",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "9 мм",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "button.layer",
+      "text": "Ветро-влагозащитадиффузионная мембрана\n              —",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Ветро-влагозащитадиффузионная мембрана",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "диффузионная мембрана",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "—",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "button.layer",
+      "text": "Вентзазор и фасадобрешётка + отделка\n              40 + 20 м",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.3333,
+      "weight": "400",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__name",
+      "text": "Вентзазор и фасадобрешётка + отделка",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span",
+      "text": "обрешётка + отделка",
+      "color": [
+       244,
+       239,
+       231
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 15.5,
+      "weight": "600",
+      "ratio": 1.01
+     },
+     {
+      "sel": "span.layer__size",
+      "text": "40 + 20 мм",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       238,
+       238,
+       238
+      ],
+      "size": 13.5,
+      "weight": "400",
+      "ratio": 1.62
+     },
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 11,
+    "totalBytes": 162337
+   }
+  },
+  "proekty": {
+   "path": "/proekty.html",
+   "mob": {
+    "title": "Проекты каркасных домов — цены под ключ в Твери | Каркас Комфорт",
+    "titleLen": 64,
+    "desc": "Каталог проектов каркасных домов: от 44 до 200 м², одноэтажные, полтора и два этажа. Планировка, срок строительства и цена под ключ по каждому проекту.",
+    "descLen": 151,
+    "canonical": "https://karkascomfort.ru/proekty.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Проекты каркасных домов и цены"
+    ],
+    "headings": [
+     "H1: Проекты каркасных домов и цены",
+     "H3: Каркасный дом 6×8",
+     "H3: Каркасный дом 6×6",
+     "H3: Каркасный дом 6×10",
+     "H3: Каркасный дом 7×7",
+     "H3: Каркасный дом 6×9",
+     "H3: Каркасный дом 8×8",
+     "H3: Каркасный дом 8×9",
+     "H3: Каркасный дом 6×12",
+     "H3: Каркасный дом 8×10",
+     "H3: Каркасный дом 8×10",
+     "H3: Каркасный дом 9×9",
+     "H3: Каркасный дом 9×13",
+     "H3: Каркасный дом 9×12",
+     "H3: Каркасный дом 8×14",
+     "H3: Каркасный дом 10×12",
+     "H2: Построим по индивидуальному проекту",
+     "H3: Что входит в проект",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList",
+     "ItemList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 10176,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "assets/img/projects/kd-08.svg",
+      "alt": "Каркасный дом КД-08, 6×8 м, 44 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-23.svg",
+      "alt": "Каркасный дом КД-23, 6×6 м, 55 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-60.svg",
+      "alt": "Каркасный дом КД-60, 6×10 м, 58 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-11.svg",
+      "alt": "Каркасный дом КД-11, 7×7 м, 72 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-15.svg",
+      "alt": "Каркасный дом КД-15, 6×9 м, 84 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-36.svg",
+      "alt": "Каркасный дом КД-36, 8×8 м, 96 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-54.svg",
+      "alt": "Каркасный дом КД-54, 8×9 м, 106 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-43.svg",
+      "alt": "Каркасный дом КД-43, 6×12 м, 108 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-17.svg",
+      "alt": "Каркасный дом КД-17, 8×10 м, 118 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-42.svg",
+      "alt": "Каркасный дом КД-42, 8×10 м, 140 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-31.svg",
+      "alt": "Каркасный дом КД-31, 9×9 м, 145 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-40.svg",
+      "alt": "Каркасный дом КД-40, 9×13 м, 165 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-29.svg",
+      "alt": "Каркасный дом КД-29, 9×12 м, 178 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-27.svg",
+      "alt": "Каркасный дом КД-27, 8×14 м, 190 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-38.svg",
+      "alt": "Каркасный дом КД-38, 10×12 м, 200 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×8",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×6",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 7×7",
+      "w": 190,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×8",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×12",
+      "w": 202,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×13",
+      "w": 200,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×12",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×14",
+      "w": 202,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 10×12",
+      "w": 211,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 169,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 144,
+    "lcpEl": "IMG.",
+    "cls": 0,
+    "nav": {
+     "dcl": 85,
+     "load": 89,
+     "transfer": 32808
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 9
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 15
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 15
+     },
+     {
+      "n": "projects-data.js?v=0d527939",
+      "t": "script",
+      "size": 8113,
+      "dur": 15
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 16
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 8
+     },
+     {
+      "n": "kd-08.svg",
+      "t": "img",
+      "size": 8375,
+      "dur": 12
+     },
+     {
+      "n": "kd-23.svg",
+      "t": "img",
+      "size": 8243,
+      "dur": 12
+     },
+     {
+      "n": "kd-60.svg",
+      "t": "img",
+      "size": 8379,
+      "dur": 12
+     },
+     {
+      "n": "kd-11.svg",
+      "t": "img",
+      "size": 8317,
+      "dur": 12
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 11,
+    "totalBytes": 154239
+   },
+   "desk": {
+    "title": "Проекты каркасных домов — цены под ключ в Твери | Каркас Комфорт",
+    "titleLen": 64,
+    "desc": "Каталог проектов каркасных домов: от 44 до 200 м², одноэтажные, полтора и два этажа. Планировка, срок строительства и цена под ключ по каждому проекту.",
+    "descLen": 151,
+    "canonical": "https://karkascomfort.ru/proekty.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Проекты каркасных домов и цены"
+    ],
+    "headings": [
+     "H1: Проекты каркасных домов и цены",
+     "H3: Каркасный дом 6×8",
+     "H3: Каркасный дом 6×6",
+     "H3: Каркасный дом 6×10",
+     "H3: Каркасный дом 7×7",
+     "H3: Каркасный дом 6×9",
+     "H3: Каркасный дом 8×8",
+     "H3: Каркасный дом 8×9",
+     "H3: Каркасный дом 6×12",
+     "H3: Каркасный дом 8×10",
+     "H3: Каркасный дом 8×10",
+     "H3: Каркасный дом 9×9",
+     "H3: Каркасный дом 9×13",
+     "H3: Каркасный дом 9×12",
+     "H3: Каркасный дом 8×14",
+     "H3: Каркасный дом 10×12",
+     "H2: Построим по индивидуальному проекту",
+     "H3: Что входит в проект",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList",
+     "ItemList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 4878,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "assets/img/projects/kd-08.svg",
+      "alt": "Каркасный дом КД-08, 6×8 м, 44 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-23.svg",
+      "alt": "Каркасный дом КД-23, 6×6 м, 55 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-60.svg",
+      "alt": "Каркасный дом КД-60, 6×10 м, 58 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-11.svg",
+      "alt": "Каркасный дом КД-11, 7×7 м, 72 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-15.svg",
+      "alt": "Каркасный дом КД-15, 6×9 м, 84 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-36.svg",
+      "alt": "Каркасный дом КД-36, 8×8 м, 96 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-54.svg",
+      "alt": "Каркасный дом КД-54, 8×9 м, 106 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-43.svg",
+      "alt": "Каркасный дом КД-43, 6×12 м, 108 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-17.svg",
+      "alt": "Каркасный дом КД-17, 8×10 м, 118 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-42.svg",
+      "alt": "Каркасный дом КД-42, 8×10 м, 140 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-31.svg",
+      "alt": "Каркасный дом КД-31, 9×9 м, 145 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-40.svg",
+      "alt": "Каркасный дом КД-40, 9×13 м, 165 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-29.svg",
+      "alt": "Каркасный дом КД-29, 9×12 м, 178 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-27.svg",
+      "alt": "Каркасный дом КД-27, 8×14 м, 190 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "assets/img/projects/kd-38.svg",
+      "alt": "Каркасный дом КД-38, 10×12 м, 200 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "button.chip",
+      "text": "1",
+      "w": 40,
+      "h": 44
+     },
+     {
+      "el": "button.chip",
+      "text": "2",
+      "w": 42,
+      "h": 44
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×8",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×6",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 7×7",
+      "w": 190,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×8",
+      "w": 195,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×12",
+      "w": 202,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×13",
+      "w": 200,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×12",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×14",
+      "w": 202,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 10×12",
+      "w": 211,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 211,
+      "h": 18
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 100,
+    "lcpEl": "H1.",
+    "cls": 0,
+    "nav": {
+     "dcl": 59,
+     "load": 63,
+     "transfer": 32808
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 6
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 12
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 11
+     },
+     {
+      "n": "projects-data.js?v=0d527939",
+      "t": "script",
+      "size": 8113,
+      "dur": 11
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 11
+     },
+     {
+      "n": "kd-08.svg",
+      "t": "img",
+      "size": 8375,
+      "dur": 5
+     },
+     {
+      "n": "kd-23.svg",
+      "t": "img",
+      "size": 8243,
+      "dur": 10
+     },
+     {
+      "n": "kd-60.svg",
+      "t": "img",
+      "size": 8379,
+      "dur": 13
+     },
+     {
+      "n": "kd-11.svg",
+      "t": "img",
+      "size": 8317,
+      "dur": 13
+     },
+     {
+      "n": "kd-15.svg",
+      "t": "img",
+      "size": 8795,
+      "dur": 13
+     },
+     {
+      "n": "kd-36.svg",
+      "t": "img",
+      "size": 8794,
+      "dur": 13
+     },
+     {
+      "n": "kd-43.svg",
+      "t": "img",
+      "size": 9569,
+      "dur": 18
+     },
+     {
+      "n": "kd-54.svg",
+      "t": "img",
+      "size": 9567,
+      "dur": 18
+     },
+     {
+      "n": "kd-17.svg",
+      "t": "img",
+      "size": 9569,
+      "dur": 18
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 12
+     },
+     {
+      "n": "kd-29.svg",
+      "t": "img",
+      "size": 10578,
+      "dur": 7
+     },
+     {
+      "n": "kd-27.svg",
+      "t": "img",
+      "size": 10576,
+      "dur": 9
+     },
+     {
+      "n": "kd-38.svg",
+      "t": "img",
+      "size": 10577,
+      "dur": 9
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 19,
+    "totalBytes": 232264
+   }
+  },
+  "obekty": {
+   "path": "/obekty.html",
+   "mob": {
+    "title": "Построенные дома в Твери и области — портфолио | Каркас Комфорт",
+    "titleLen": 63,
+    "desc": "Каркасные дома, построенные компанией «Каркас Комфорт» в Тверской области: площадь, срок строительства, комплектация и стоимость по каждому объекту.",
+    "descLen": 148,
+    "canonical": "https://karkascomfort.ru/obekty.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Дома, которые уже стоят"
+    ],
+    "headings": [
+     "H1: Дома, которые уже стоят",
+     "H3: Дом для семьи в Конаковском районе",
+     "H3: Просторный дом под Торжком",
+     "H3: Компактный дом в Лихославле",
+     "H3: Дом со вторым светом",
+     "H3: Дом с сауной и кабинетом",
+     "H2: Дом 8×10 в Конаковском районе",
+     "H3: Фундамент",
+     "H3: Каркас и кровля",
+     "H3: Контур",
+     "H3: Инженерия и сдача",
+     "H3: Объектов с 2009 года",
+     "H3: Квадратных метров",
+     "H3: Месяца на дом",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 6939,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [
+     {
+      "el": "table.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "tbody.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "tr.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "td.",
+      "left": 198,
+      "right": 580,
+      "w": 382
+     },
+     {
+      "el": "tr.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "td.",
+      "left": 198,
+      "right": 580,
+      "w": 382
+     },
+     {
+      "el": "tr.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "td.",
+      "left": 198,
+      "right": 580,
+      "w": 382
+     },
+     {
+      "el": "tr.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "td.",
+      "left": 198,
+      "right": 580,
+      "w": 382
+     },
+     {
+      "el": "tr.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "td.",
+      "left": 198,
+      "right": 580,
+      "w": 382
+     }
+    ],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "/assets/img/projects/kd-17.svg",
+      "alt": "Дом для семьи в Конаковском районе, 118 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-29.svg",
+      "alt": "Просторный дом под Торжком, 178 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-08.svg",
+      "alt": "Компактный дом в Лихославле, 44 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-36.svg",
+      "alt": "Дом со вторым светом, 96 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-38.svg",
+      "alt": "Дом с сауной и кабинетом, 200 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x232"
+     },
+     {
+      "src": "assets/img/projects/kd-17.svg",
+      "alt": "Каркасный дом 8×10 в Конаковском районе",
+      "w": "960",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x231"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 169,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 88,
+    "lcpEl": "IMG.",
+    "cls": 0,
+    "nav": {
+     "dcl": 40,
+     "load": 41,
+     "transfer": 20087
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 3
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 7
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 7
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 10
+     },
+     {
+      "n": "kd-17.svg",
+      "t": "img",
+      "size": 9569,
+      "dur": 12
+     },
+     {
+      "n": "kd-29.svg",
+      "t": "img",
+      "size": 10578,
+      "dur": 11
+     },
+     {
+      "n": "kd-08.svg",
+      "t": "img",
+      "size": 8375,
+      "dur": 11
+     },
+     {
+      "n": "kd-36.svg",
+      "t": "img",
+      "size": 8794,
+      "dur": 11
+     },
+     {
+      "n": "kd-38.svg",
+      "t": "img",
+      "size": 10577,
+      "dur": 11
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 10
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 11,
+    "totalBytes": 160705
+   },
+   "desk": {
+    "title": "Построенные дома в Твери и области — портфолио | Каркас Комфорт",
+    "titleLen": 63,
+    "desc": "Каркасные дома, построенные компанией «Каркас Комфорт» в Тверской области: площадь, срок строительства, комплектация и стоимость по каждому объекту.",
+    "descLen": 148,
+    "canonical": "https://karkascomfort.ru/obekty.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Дома, которые уже стоят"
+    ],
+    "headings": [
+     "H1: Дома, которые уже стоят",
+     "H3: Дом для семьи в Конаковском районе",
+     "H3: Просторный дом под Торжком",
+     "H3: Компактный дом в Лихославле",
+     "H3: Дом со вторым светом",
+     "H3: Дом с сауной и кабинетом",
+     "H2: Дом 8×10 в Конаковском районе",
+     "H3: Фундамент",
+     "H3: Каркас и кровля",
+     "H3: Контур",
+     "H3: Инженерия и сдача",
+     "H3: Объектов с 2009 года",
+     "H3: Квадратных метров",
+     "H3: Месяца на дом",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 4291,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "/assets/img/projects/kd-17.svg",
+      "alt": "Дом для семьи в Конаковском районе, 118 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-29.svg",
+      "alt": "Просторный дом под Торжком, 178 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-08.svg",
+      "alt": "Компактный дом в Лихославле, 44 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-36.svg",
+      "alt": "Дом со вторым светом, 96 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "/assets/img/projects/kd-38.svg",
+      "alt": "Дом с сауной и кабинетом, 200 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "424x282"
+     },
+     {
+      "src": "assets/img/projects/kd-17.svg",
+      "alt": "Каркасный дом 8×10 в Конаковском районе",
+      "w": "960",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "665x443"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 211,
+      "h": 18
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 100,
+    "lcpEl": "IMG.",
+    "cls": 0,
+    "nav": {
+     "dcl": 42,
+     "load": 44,
+     "transfer": 20087
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 10
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 11
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 9
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 13
+     },
+     {
+      "n": "kd-29.svg",
+      "t": "img",
+      "size": 10578,
+      "dur": 11
+     },
+     {
+      "n": "kd-17.svg",
+      "t": "img",
+      "size": 9569,
+      "dur": 11
+     },
+     {
+      "n": "kd-08.svg",
+      "t": "img",
+      "size": 8375,
+      "dur": 11
+     },
+     {
+      "n": "kd-38.svg",
+      "t": "img",
+      "size": 10577,
+      "dur": 11
+     },
+     {
+      "n": "kd-36.svg",
+      "t": "img",
+      "size": 8794,
+      "dur": 11
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 10
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 11,
+    "totalBytes": 160705
+   }
+  },
+  "uslugi": {
+   "path": "/uslugi.html",
+   "mob": {
+    "title": "Услуги и этапы строительства — Каркас Комфорт, Тверь",
+    "titleLen": 52,
+    "desc": "Полный цикл работ: проектирование, фундамент, каркас, кровля, отопление, водоснабжение, канализация, электрика и отделка. Этапы строительства и гарантия 5 лет.",
+    "descLen": 159,
+    "canonical": "https://karkascomfort.ru/uslugi.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Полный цикл: от проекта до подключённых коммуникаций"
+    ],
+    "headings": [
+     "H1: Полный цикл: от проекта до подключённых коммуникаций",
+     "H3: Проектирование",
+     "H3: Фундаментные работы",
+     "H3: Каркас и кровля",
+     "H3: Отопление",
+     "H3: Вода и канализация",
+     "H3: Электрика",
+     "H3: Отделка",
+     "H3: Бани и хозпостройки",
+     "H3: Ремонт и достройка",
+     "H2: Этапы строительства",
+     "H3: Заявка и предварительный расчёт",
+     "H3: Выезд на участок",
+     "H3: Проект и смета",
+     "H3: Договор",
+     "H3: Фундамент",
+     "H3: Каркас и кровля",
+     "H3: Контур и инженерия",
+     "H3: Отделка и сдача",
+     "H2: Ипотека, маткапитал и рассрочка по этапам",
+     "H3: Гарантия",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 7274,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 169,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 80,
+    "lcpEl": "H1.",
+    "cls": 0,
+    "nav": {
+     "dcl": 54,
+     "load": 56,
+     "transfer": 20330
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 5
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 7
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 8
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 8
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 2
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   },
+   "desk": {
+    "title": "Услуги и этапы строительства — Каркас Комфорт, Тверь",
+    "titleLen": 52,
+    "desc": "Полный цикл работ: проектирование, фундамент, каркас, кровля, отопление, водоснабжение, канализация, электрика и отделка. Этапы строительства и гарантия 5 лет.",
+    "descLen": 159,
+    "canonical": "https://karkascomfort.ru/uslugi.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Полный цикл: от проекта до подключённых коммуникаций"
+    ],
+    "headings": [
+     "H1: Полный цикл: от проекта до подключённых коммуникаций",
+     "H3: Проектирование",
+     "H3: Фундаментные работы",
+     "H3: Каркас и кровля",
+     "H3: Отопление",
+     "H3: Вода и канализация",
+     "H3: Электрика",
+     "H3: Отделка",
+     "H3: Бани и хозпостройки",
+     "H3: Ремонт и достройка",
+     "H2: Этапы строительства",
+     "H3: Заявка и предварительный расчёт",
+     "H3: Выезд на участок",
+     "H3: Проект и смета",
+     "H3: Договор",
+     "H3: Фундамент",
+     "H3: Каркас и кровля",
+     "H3: Контур и инженерия",
+     "H3: Отделка и сдача",
+     "H2: Ипотека, маткапитал и рассрочка по этапам",
+     "H3: Гарантия",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 4335,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 211,
+      "h": 18
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 104,
+    "lcpEl": "H1.",
+    "cls": 0,
+    "nav": {
+     "dcl": 58,
+     "load": 59,
+     "transfer": 20330
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 17
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 17
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 17
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 17
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 6
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   }
+  },
+  "karkasnye-doma": {
+   "path": "/karkasnye-doma.html",
+   "mob": {
+    "title": "Каркасные дома под ключ в Твери и области — технология и цены | Каркас Комфорт",
+    "titleLen": 78,
+    "desc": "Строительство каркасных домов под ключ в Твери: технология, состав стены, комплектации, сроки и цены от 32 000 ₽/м². Фиксированная смета, гарантия 5 лет.",
+    "descLen": 153,
+    "canonical": "https://karkascomfort.ru/karkasnye-doma.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Каркасные дома под ключ"
+    ],
+    "headings": [
+     "H1: Каркасные дома под ключ",
+     "H2: Состав стены",
+     "H2: Из чего собираем дом",
+     "H3: Пиломатериал",
+     "H3: Утеплитель",
+     "H3: Кровля",
+     "H3: Окна",
+     "H3: Инженерия",
+     "H3: Крепёж",
+     "H2: Подбираем под грунт вашего участка",
+     "H3: Свайно-винтовой",
+     "H3: Ленточный мелкозаглублённый",
+     "H3: Утеплённая плита",
+     "H2: Кому каркасный дом не подойдёт",
+     "H3: Если нужен «дом на века» из камня",
+     "H3: Если планируете тяжёлую отделку",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 6349,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [
+     {
+      "el": "table.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "thead.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "tr.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "th.",
+      "left": 219,
+      "right": 478,
+      "w": 259
+     },
+     {
+      "el": "th.",
+      "left": 478,
+      "right": 580,
+      "w": 102
+     },
+     {
+      "el": "tbody.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "tr.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "td.",
+      "left": 219,
+      "right": 478,
+      "w": 259
+     },
+     {
+      "el": "td.",
+      "left": 478,
+      "right": 580,
+      "w": 102
+     },
+     {
+      "el": "tr.",
+      "left": 20,
+      "right": 580,
+      "w": 560
+     },
+     {
+      "el": "td.",
+      "left": 219,
+      "right": 478,
+      "w": 259
+     },
+     {
+      "el": "td.",
+      "left": 478,
+      "right": 580,
+      "w": 102
+     }
+    ],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "assets/img/projects/kd-36.svg",
+      "alt": "Каркасный дом с террасой",
+      "w": "960",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x231"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 169,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 72,
+    "lcpEl": "P.lead",
+    "cls": 0,
+    "nav": {
+     "dcl": 46,
+     "load": 48,
+     "transfer": 19885
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 8
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 8
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 8
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 10
+     },
+     {
+      "n": "kd-36.svg",
+      "t": "img",
+      "size": 8794,
+      "dur": 3
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 3
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 7,
+    "totalBytes": 121606
+   },
+   "desk": {
+    "title": "Каркасные дома под ключ в Твери и области — технология и цены | Каркас Комфорт",
+    "titleLen": 78,
+    "desc": "Строительство каркасных домов под ключ в Твери: технология, состав стены, комплектации, сроки и цены от 32 000 ₽/м². Фиксированная смета, гарантия 5 лет.",
+    "descLen": 153,
+    "canonical": "https://karkascomfort.ru/karkasnye-doma.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Каркасные дома под ключ"
+    ],
+    "headings": [
+     "H1: Каркасные дома под ключ",
+     "H2: Состав стены",
+     "H2: Из чего собираем дом",
+     "H3: Пиломатериал",
+     "H3: Утеплитель",
+     "H3: Кровля",
+     "H3: Окна",
+     "H3: Инженерия",
+     "H3: Крепёж",
+     "H2: Подбираем под грунт вашего участка",
+     "H3: Свайно-винтовой",
+     "H3: Ленточный мелкозаглублённый",
+     "H3: Утеплённая плита",
+     "H2: Кому каркасный дом не подойдёт",
+     "H3: Если нужен «дом на века» из камня",
+     "H3: Если планируете тяжёлую отделку",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 4194,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "assets/img/projects/kd-36.svg",
+      "alt": "Каркасный дом с террасой",
+      "w": "960",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "579x385"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 211,
+      "h": 18
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 140,
+    "lcpEl": "IMG.",
+    "cls": 0,
+    "nav": {
+     "dcl": 72,
+     "load": 74,
+     "transfer": 19885
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 14
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 13
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 14
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 13
+     },
+     {
+      "n": "kd-36.svg",
+      "t": "img",
+      "size": 8794,
+      "dur": 5
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 5
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 7,
+    "totalBytes": 121606
+   }
+  },
+  "o-kompanii": {
+   "path": "/o-kompanii.html",
+   "mob": {
+    "title": "О компании — Каркас Комфорт, строительство домов в Твери с 2009 года",
+    "titleLen": 68,
+    "desc": "ООО «Каркас Комфорт»: с 2009 года строим каркасные дома, бани и гаражи в Твери и Тверской области. Более 300 объектов, свои бригады, фиксированная смета, гарантия 5 лет.",
+    "descLen": 169,
+    "canonical": "https://karkascomfort.ru/o-kompanii.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Строим дома в Тверской области с 2009 года"
+    ],
+    "headings": [
+     "H1: Строим дома в Тверской области с 2009 года",
+     "H2: Как мы работаем",
+     "H2: Что для нас важно",
+     "H3: Реквизиты",
+     "H2: Заказчики о работе с нами",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 5258,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 123,
+      "h": 21
+     },
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 182,
+      "h": 21
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 169,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 64,
+    "lcpEl": "P.lead",
+    "cls": 0,
+    "nav": {
+     "dcl": 41,
+     "load": 42,
+     "transfer": 18438
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 8
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 8
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 7
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 10
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 3
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   },
+   "desk": {
+    "title": "О компании — Каркас Комфорт, строительство домов в Твери с 2009 года",
+    "titleLen": 68,
+    "desc": "ООО «Каркас Комфорт»: с 2009 года строим каркасные дома, бани и гаражи в Твери и Тверской области. Более 300 объектов, свои бригады, фиксированная смета, гарантия 5 лет.",
+    "descLen": 169,
+    "canonical": "https://karkascomfort.ru/o-kompanii.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Строим дома в Тверской области с 2009 года"
+    ],
+    "headings": [
+     "H1: Строим дома в Тверской области с 2009 года",
+     "H2: Как мы работаем",
+     "H2: Что для нас важно",
+     "H3: Реквизиты",
+     "H2: Заказчики о работе с нами",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 3538,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 123,
+      "h": 21
+     },
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 182,
+      "h": 21
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 211,
+      "h": 18
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 84,
+    "lcpEl": "H1.",
+    "cls": 0,
+    "nav": {
+     "dcl": 46,
+     "load": 47,
+     "transfer": 18438
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 6
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 10
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 9
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 10
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 4
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   }
+  },
+  "kontakty": {
+   "path": "/kontakty.html",
+   "mob": {
+    "title": "Контакты — Каркас Комфорт, Тверь, ул. Серебряная, 12",
+    "titleLen": 52,
+    "desc": "Телефоны, почта и адрес офиса компании «Каркас Комфорт» в Твери. Работаем ежедневно с 8:00 до 20:00, выезд на замер по Твери и области.",
+    "descLen": 135,
+    "canonical": "https://karkascomfort.ru/kontakty.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Свяжитесь с нами"
+    ],
+    "headings": [
+     "H1: Свяжитесь с нами",
+     "H3: Телефоны",
+     "H3: Почта",
+     "H3: Офис",
+     "H2: Напишите нам",
+     "H2: Куда выезжаем",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList",
+     "LocalBusiness"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 3873,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 170,
+      "h": 27
+     },
+     {
+      "el": "a.",
+      "text": "8 (4822) 75-25-05",
+      "w": 174,
+      "h": 27
+     },
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 239,
+      "h": 26
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 229,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form card",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "textarea:message",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 96,
+    "lcpEl": "P.lead",
+    "cls": 0,
+    "nav": {
+     "dcl": 62,
+     "load": 64,
+     "transfer": 15913
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 13
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 12
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 13
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 13
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 4
+     }
+    ],
+    "badContrast": [],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   },
+   "desk": {
+    "title": "Контакты — Каркас Комфорт, Тверь, ул. Серебряная, 12",
+    "titleLen": 52,
+    "desc": "Телефоны, почта и адрес офиса компании «Каркас Комфорт» в Твери. Работаем ежедневно с 8:00 до 20:00, выезд на замер по Твери и области.",
+    "descLen": 135,
+    "canonical": "https://karkascomfort.ru/kontakty.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Свяжитесь с нами"
+    ],
+    "headings": [
+     "H1: Свяжитесь с нами",
+     "H3: Телефоны",
+     "H3: Почта",
+     "H3: Офис",
+     "H2: Напишите нам",
+     "H2: Куда выезжаем",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList",
+     "LocalBusiness"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 2454,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 170,
+      "h": 27
+     },
+     {
+      "el": "a.",
+      "text": "8 (4822) 75-25-05",
+      "w": 174,
+      "h": 27
+     },
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 239,
+      "h": 26
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 479,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form card",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "textarea:message",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 72,
+    "lcpEl": "P.lead",
+    "cls": 0,
+    "nav": {
+     "dcl": 38,
+     "load": 40,
+     "transfer": 15913
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 8
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 7
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 7
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 11
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 3
+     }
+    ],
+    "badContrast": [],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   }
+  },
+  "proekt": {
+   "path": "/proekty/kd-40.html",
+   "mob": {
+    "title": "Каркасный дом 9×13 (КД-40) — 165 м² под ключ | Каркас Комфорт",
+    "titleLen": 61,
+    "desc": "Проект каркасного дома 9×13 площадью 165 м²: полутораэтажный, 4 спальни, срок 3–4 месяца. Цена от 5 280 000 ₽ под ключ с коммуникациями.",
+    "descLen": 136,
+    "canonical": "https://karkascomfort.ru/proekty/kd-40.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Каркасный дом 9×13 · КД-40"
+    ],
+    "headings": [
+     "H1: Каркасный дом 9×13 · КД-40",
+     "H2: Что входит в ориентировочную стоимость",
+     "H3: Фундамент и каркас",
+     "H3: Кровля и фасад",
+     "H3: Коммуникации",
+     "H3: Окна и двери",
+     "H2: Дома близкой площади",
+     "H3: Каркасный дом 9×12",
+     "H3: Каркасный дом 9×9",
+     "H3: Каркасный дом 8×10",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "Product",
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 6079,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "/assets/img/projects/kd-40.svg",
+      "alt": "Каркасный дом КД-40, 9×13 м, 165 м²",
+      "w": "1200",
+      "h": "800",
+      "loading": null,
+      "fetchpriority": "high",
+      "natural": "240x150",
+      "rendered": "350x233"
+     },
+     {
+      "src": "/assets/img/projects/kd-29.svg",
+      "alt": "Каркасный дом КД-29, 9×12 м, 178 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-31.svg",
+      "alt": "Каркасный дом КД-31, 9×9 м, 145 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     },
+     {
+      "src": "/assets/img/projects/kd-42.svg",
+      "alt": "Каркасный дом КД-42, 8×10 м, 140 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "0x0",
+      "rendered": "348x232"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "Проекты",
+      "w": 56,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×12",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 169,
+      "h": 38
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 60,
+    "lcpEl": "IMG.",
+    "cls": 0,
+    "nav": {
+     "dcl": 46,
+     "load": 47,
+     "transfer": 21195
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 9
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 9
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 9
+     },
+     {
+      "n": "kd-40.svg",
+      "t": "img",
+      "size": 9151,
+      "dur": 9
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 11
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 8
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 7,
+    "totalBytes": 121963
+   },
+   "desk": {
+    "title": "Каркасный дом 9×13 (КД-40) — 165 м² под ключ | Каркас Комфорт",
+    "titleLen": 61,
+    "desc": "Проект каркасного дома 9×13 площадью 165 м²: полутораэтажный, 4 спальни, срок 3–4 месяца. Цена от 5 280 000 ₽ под ключ с коммуникациями.",
+    "descLen": 136,
+    "canonical": "https://karkascomfort.ru/proekty/kd-40.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Каркасный дом 9×13 · КД-40"
+    ],
+    "headings": [
+     "H1: Каркасный дом 9×13 · КД-40",
+     "H2: Что входит в ориентировочную стоимость",
+     "H3: Фундамент и каркас",
+     "H3: Кровля и фасад",
+     "H3: Коммуникации",
+     "H3: Окна и двери",
+     "H2: Дома близкой площади",
+     "H3: Каркасный дом 9×12",
+     "H3: Каркасный дом 9×9",
+     "H3: Каркасный дом 8×10",
+     "H2: Смета с разбивкой по этапам — за один рабочий день",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "Product",
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 3765,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [
+     {
+      "src": "/assets/img/projects/kd-40.svg",
+      "alt": "Каркасный дом КД-40, 9×13 м, 165 м²",
+      "w": "1200",
+      "h": "800",
+      "loading": null,
+      "fetchpriority": "high",
+      "natural": "240x150",
+      "rendered": "702x468"
+     },
+     {
+      "src": "/assets/img/projects/kd-29.svg",
+      "alt": "Каркасный дом КД-29, 9×12 м, 178 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "/assets/img/projects/kd-31.svg",
+      "alt": "Каркасный дом КД-31, 9×9 м, 145 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     },
+     {
+      "src": "/assets/img/projects/kd-42.svg",
+      "alt": "Каркасный дом КД-42, 8×10 м, 140 м²",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "384x256"
+     }
+    ],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "Проекты",
+      "w": 56,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×12",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×9",
+      "w": 194,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 204,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 127,
+      "h": 21
+     },
+     {
+      "el": "input.sr-only",
+      "text": "",
+      "w": 1,
+      "h": 1
+     },
+     {
+      "el": "input.",
+      "text": "",
+      "w": 22,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "политикой конфиденциальности",
+      "w": 211,
+      "h": 18
+     }
+    ],
+    "forms": [
+     {
+      "cls": "form",
+      "action": null,
+      "fields": [
+       "text*:name",
+       "tel*:phone",
+       "hidden:project",
+       "text:website",
+       "checkbox*:consent"
+      ],
+      "labels": [
+       true,
+       true,
+       false,
+       true
+      ]
+     }
+    ],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 124,
+    "lcpEl": "IMG.",
+    "cls": 0,
+    "nav": {
+     "dcl": 56,
+     "load": 61,
+     "transfer": 21195
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 10
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 6
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 10
+     },
+     {
+      "n": "kd-40.svg",
+      "t": "img",
+      "size": 9151,
+      "dur": 10
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 9
+     },
+     {
+      "n": "kd-29.svg",
+      "t": "img",
+      "size": 10578,
+      "dur": 8
+     },
+     {
+      "n": "kd-31.svg",
+      "t": "img",
+      "size": 10568,
+      "dur": 9
+     },
+     {
+      "n": "kd-42.svg",
+      "t": "img",
+      "size": 10570,
+      "dur": 8
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 8
+     }
+    ],
+    "badContrast": [
+     {
+      "sel": "p.eyebrow",
+      "text": "Расчёт стоимости",
+      "color": [
+       192,
+       138,
+       74
+      ],
+      "bg": [
+       30,
+       61,
+       41
+      ],
+      "size": 12,
+      "weight": "600",
+      "ratio": 3.98
+     }
+    ],
+    "consoleErrors": [],
+    "requestCount": 10,
+    "totalBytes": 153679
+   }
+  },
+  "politika": {
+   "path": "/politika.html",
+   "mob": {
+    "title": "Политика конфиденциальности — Каркас Комфорт",
+    "titleLen": 44,
+    "desc": "Политика обработки персональных данных ООО «Каркас Комфорт» в соответствии с Федеральным законом № 152-ФЗ «О персональных данных».",
+    "descLen": 130,
+    "canonical": "https://karkascomfort.ru/politika.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Политика в отношении обработки персональных данных"
+    ],
+    "headings": [
+     "H1: Политика в отношении обработки персональных данных",
+     "H2: 1. Общие положения",
+     "H2: 2. Какие данные мы собираем",
+     "H2: 3. Цели обработки",
+     "H2: 4. Правовые основания",
+     "H2: 5. Условия обработки и передача третьим лицам",
+     "H2: 6. Срок хранения",
+     "H2: 7. Права пользователя",
+     "H2: 8. Файлы cookie",
+     "H2: 9. Контакты оператора",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 4259,
+    "docWidth": 390,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 206,
+      "h": 23
+     }
+    ],
+    "forms": [],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 48,
+    "lcpEl": "P.",
+    "cls": 0,
+    "nav": {
+     "dcl": 35,
+     "load": 35,
+     "transfer": 14968
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 8
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 9
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 6
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 9
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 2
+     }
+    ],
+    "badContrast": [],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   },
+   "desk": {
+    "title": "Политика конфиденциальности — Каркас Комфорт",
+    "titleLen": 44,
+    "desc": "Политика обработки персональных данных ООО «Каркас Комфорт» в соответствии с Федеральным законом № 152-ФЗ «О персональных данных».",
+    "descLen": 130,
+    "canonical": "https://karkascomfort.ru/politika.html",
+    "og": [
+     "og:type",
+     "og:site_name",
+     "og:title",
+     "og:description",
+     "og:url",
+     "og:image",
+     "og:locale",
+     "og:image:width",
+     "og:image:height"
+    ],
+    "h1": [
+     "Политика в отношении обработки персональных данных"
+    ],
+    "headings": [
+     "H1: Политика в отношении обработки персональных данных",
+     "H2: 1. Общие положения",
+     "H2: 2. Какие данные мы собираем",
+     "H2: 3. Цели обработки",
+     "H2: 4. Правовые основания",
+     "H2: 5. Условия обработки и передача третьим лицам",
+     "H2: 6. Срок хранения",
+     "H2: 7. Права пользователя",
+     "H2: 8. Файлы cookie",
+     "H2: 9. Контакты оператора",
+     "H4: Разделы",
+     "H4: Проекты",
+     "H4: Контакты"
+    ],
+    "jsonld": [
+     "BreadcrumbList"
+    ],
+    "lang": "ru",
+    "viewportMeta": "width=device-width, initial-scale=1",
+    "docHeight": 3128,
+    "docWidth": 1440,
+    "overflowX": false,
+    "overflowCulprits": [],
+    "fontFaces": [
+     "Playfair Display|loaded|U+0-10FFFF",
+     "Manrope|loaded|U+0-10FFFF"
+    ],
+    "imgs": [],
+    "tap": [
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 157,
+      "h": 18
+     },
+     {
+      "el": "a.",
+      "text": "Главная",
+      "w": 52,
+      "h": 22
+     },
+     {
+      "el": "a.",
+      "text": "karkascomfort@yandex.ru",
+      "w": 206,
+      "h": 23
+     },
+     {
+      "el": "a.",
+      "text": "8 (920) 171-69-69",
+      "w": 139,
+      "h": 23
+     }
+    ],
+    "forms": [],
+    "leadEndpoint": "/api/lead.php",
+    "lcp": 72,
+    "lcpEl": "H1.",
+    "cls": 0,
+    "nav": {
+     "dcl": 38,
+     "load": 38,
+     "transfer": 14968
+    },
+    "resources": [
+     {
+      "n": "playfair-display-wght.woff2",
+      "t": "link",
+      "size": 37176,
+      "dur": 11
+     },
+     {
+      "n": "manrope-wght.woff2",
+      "t": "link",
+      "size": 22224,
+      "dur": 11
+     },
+     {
+      "n": "style.css?v=dfa48cdb",
+      "t": "link",
+      "size": 33909,
+      "dur": 7
+     },
+     {
+      "n": "main.js?v=265ce22b",
+      "t": "script",
+      "size": 18723,
+      "dur": 11
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
+      "dur": 3
+     }
+    ],
+    "badContrast": [],
+    "consoleErrors": [],
+    "requestCount": 6,
+    "totalBytes": 112812
+   }
+  }
+ },
+ "generated": "2026-08-23T19:04:52.022Z"
+}

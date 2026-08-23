@@ -4,14 +4,14 @@
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 
 const C = {
-  sky0: '#F6F1E7', sky1: '#EFE4D4', sky2: '#E4D6C3',
-  sun: '#F7DCB0', sunCore: '#FBEBD2',
-  far: '#C3CEC0', mid: '#93AB94', near: '#5F7D66', deep: '#3E5748',
-  ground0: '#E3DCCC', ground1: '#D3CBB8', ground2: '#BFB7A2',
-  wood: '#C89A64', woodDark: '#A87B47', woodLight: '#DDB684',
-  roof: '#2E3A33', roofLight: '#3F5049',
-  glass: '#FFD79B', glassCore: '#FFF0D4', frame: '#F6F1E7',
-  stone: '#8C8578', smoke: '#FFFFFF'
+  sky0: '#F4EFE7', sky1: '#EDE1CE', sky2: '#DFCDB4',
+  sun: '#F2D3A2', sunCore: '#FBE9CC',
+  far: '#B9C6B7', mid: '#87A189', near: '#4F6E58', deep: '#2F5D3F',
+  ground0: '#E7DFD0', ground1: '#D6CCB8', ground2: '#C0B6A0',
+  wood: '#C08A4A', woodDark: '#8A5E2B', woodLight: '#DCB47F',
+  roof: '#221F17', roofLight: '#332E23',
+  glass: '#F5CE8E', glassCore: '#FFF1D8', frame: '#F4EFE7',
+  stone: '#8A857A', smoke: '#FFFFFF'
 };
 
 const rng = (seed) => {

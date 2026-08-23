@@ -23,12 +23,20 @@ DirectoryIndex index.html index.php
   # RewriteCond %{HTTP_HOST} !^www\. [NC]
   # RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
 
+  # --- 3a. Карточки проектов переехали из ?id= в отдельные страницы ---
+  RewriteCond %{QUERY_STRING} (^|&)id=([a-z0-9-]+)
+  RewriteRule ^proekt\.html$ /proekty/%2.html? [R=301,L]
+  RewriteRule ^proekt\.html$ /proekty.html [R=301,L]
+
   # --- 3. Редиректы со старых адресов сайта (301, чтобы не потерять позиции) ---
   #     Проверьте список по Яндекс.Вебмастеру и дополните своими адресами.
   RewriteRule ^karkasnye-doma/?$            /karkasnye-doma.html [R=301,L]
   RewriteRule ^proekty/?$                   /proekty.html [R=301,L]
-  RewriteRule ^proekty/nedorogie-doma/?$    /proekty.html [R=301,L]
-  RewriteRule ^proekty/(.*)$                /proekty.html [R=301,L]
+  #     Внимание: /proekty/<проект>.html — это реальные страницы проектов,
+  #     поэтому на каталог отправляем только адреса, которым не соответствует файл.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{DOCUMENT_ROOT}/proekty/$1.html !-f
+  RewriteRule ^proekty/(.+?)/?$             /proekty.html [R=301,L]
   RewriteRule ^uslugi/?$                    /uslugi.html [R=301,L]
   RewriteRule ^kontakty/?$                  /kontakty.html [R=301,L]
   RewriteRule ^o-kompanii/?$                /o-kompanii.html [R=301,L]

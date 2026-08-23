@@ -97,20 +97,60 @@ foreach (array_map('trim', explode(',', (string) $config['to'])) as $to) {
     }
 }
 
-/* --- дубль в Telegram, если настроен --- */
-if (!empty($config['telegram_token']) && !empty($config['telegram_chat_id']) && function_exists('curl_init')) {
-    $ch = curl_init('https://api.telegram.org/bot' . $config['telegram_token'] . '/sendMessage');
+/* --- отправка во внешний сервис: Telegram и CRM --- */
+function post_to(string $url, $payload, bool $asJson): bool
+{
+    if ($url === '' || !function_exists('curl_init')) {
+        return false;
+    }
+    $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_POST           => true,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT        => 5,
-        CURLOPT_POSTFIELDS     => http_build_query([
-            'chat_id' => $config['telegram_chat_id'],
-            'text'    => $body,
-        ]),
+        CURLOPT_CONNECTTIMEOUT => 3,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
+        CURLOPT_HTTPHEADER     => $asJson ? ['Content-Type: application/json; charset=utf-8'] : [],
+        CURLOPT_POSTFIELDS     => $asJson
+            ? json_encode($payload, JSON_UNESCAPED_UNICODE)
+            : http_build_query($payload),
     ]);
-    curl_exec($ch);
+    $ok = curl_exec($ch) !== false && curl_getinfo($ch, CURLINFO_RESPONSE_CODE) < 400;
     curl_close($ch);
+    return $ok;
+}
+
+/* --- дубль в Telegram, если настроен --- */
+$telegram = false;
+if (!empty($config['telegram_token']) && !empty($config['telegram_chat_id'])) {
+    $telegram = post_to(
+        'https://api.telegram.org/bot' . $config['telegram_token'] . '/sendMessage',
+        ['chat_id' => $config['telegram_chat_id'], 'text' => $body, 'disable_web_page_preview' => true],
+        false
+    );
+}
+
+/* --- заявка в CRM, если настроен вебхук --- */
+$crm = false;
+if (!empty($config['crm_webhook'])) {
+    $source = [
+        'name'    => $name,
+        'phone'   => $phone,
+        'message' => $message,
+        'project' => $project,
+        'page'    => $page,
+        'time'    => $when,
+        'ip'      => $ip,
+    ];
+    $payload = [];
+    foreach (($config['crm_fields'] ?? []) as $crmField => $leadField) {
+        $payload[$crmField] = $source[$leadField] ?? '';
+    }
+    if (!$payload) {
+        $payload = $source;
+    }
+    $crm = post_to($config['crm_webhook'], $payload, ($config['crm_format'] ?? 'json') === 'json');
 }
 
 /* --- запись в файл: страховка на случай проблем с почтой --- */
@@ -119,11 +159,17 @@ if (!empty($config['log_file'])) {
     if ($fh) {
         if (ftell($fh) === 0) {
             fwrite($fh, "\xEF\xBB\xBF");                       // BOM, чтобы Excel открыл кириллицу
-            fputcsv($fh, ['Дата', 'Имя', 'Телефон', 'Проект', 'Сообщение', 'Страница', 'IP', 'Почта отправлена'], ';');
+            fputcsv($fh, ['Дата', 'Имя', 'Телефон', 'Проект', 'Сообщение', 'Страница', 'IP', 'Почта', 'Telegram', 'CRM'], ';');
         }
-        fputcsv($fh, [$when, $name, $phone, $project, $message, $page, $ip, $sent ? 'да' : 'нет'], ';');
+        fputcsv($fh, [$when, $name, $phone, $project, $message, $page, $ip,
+            $sent ? 'да' : 'нет', $telegram ? 'да' : 'нет', $crm ? 'да' : 'нет'], ';');
         fclose($fh);
     }
+}
+
+if (!$sent && !$telegram && !$crm) {
+    /* ни один канал не принял заявку: она записана в CSV, но человеку об этом знать нужно */
+    fail('Заявку не удалось передать менеджеру. Позвоните, пожалуйста: 8 (920) 171-69-69', 502);
 }
 
 echo json_encode(['ok' => true], JSON_UNESCAPED_UNICODE);
