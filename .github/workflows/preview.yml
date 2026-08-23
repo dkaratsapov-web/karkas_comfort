@@ -1,6 +1,11 @@
 # Демонстрационная версия сайта на GitHub Pages.
 # Адрес: https://<владелец>.github.io/<репозиторий>/
 # Обновляется автоматически при каждом пуше в рабочую ветку.
+#
+# ПЕРЕД ПЕРВЫМ ЗАПУСКОМ нужно один раз включить Pages вручную:
+#   Settings → Pages → Build and deployment → Source: GitHub Actions
+# Сам workflow включить их не может: создание сайта Pages — админская
+# операция, токену GITHUB_TOKEN она недоступна.
 
 name: Preview site
 
@@ -66,3 +71,11 @@ jobs:
       - name: Публикация
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Подсказка, если публикация не прошла
+        if: failure()
+        run: |
+          echo "::error::Похоже, GitHub Pages ещё не включены."
+          echo "Откройте Settings → Pages → Build and deployment"
+          echo "и выберите Source: GitHub Actions, затем перезапустите этот workflow."
+
