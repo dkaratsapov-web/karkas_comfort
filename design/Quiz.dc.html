@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Manrope:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; font-family: "Manrope", system-ui, sans-serif; }
+    a { color: #7FB894; text-decoration: none; } a:hover { color: #9BCCAC; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 780px; background: #17150F; color: #F4EFE7; padding: 56px 64px; box-sizing: border-box;">
+
+  <div style="display: grid; grid-template-columns: 1fr 520px; gap: 56px; height: 100%;">
+
+    <div style="display: flex; flex-direction: column;">
+      <div style="font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #C7BCA6;">Расчёт стоимости</div>
+      <h2 style="font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: 42px; line-height: 1.12; margin: 16px 0 0;">Три вопроса —<br>и вы видите вилку цены</h2>
+      <p style="font-size: 17px; line-height: 1.6; color: #C7BCA6; margin: 20px 0 0; max-width: 460px;">Телефон спрашиваем последним, уже после того как показали сумму. Смету с разбивкой по этапам пришлём в течение рабочего дня.</p>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 36px;">
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 15px; color: #DCD4C6;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7FB894" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+          Без звонка-допроса: сначала цифры, потом разговор
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 15px; color: #DCD4C6;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7FB894" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+          Вилка честная: «от и до», а не одна красивая цифра
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 15px; color: #DCD4C6;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7FB894" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+          Заявка уходит на почту, в Telegram и в CRM одновременно
+        </div>
+      </div>
+
+      <div style="flex-grow: 1;"></div>
+      <div style="font-size: 13px; color: #9A9182;">Шаг 3 из 3 — только имя и телефон. Согласие на обработку — отдельной галочкой, с текстом ошибки, если её не поставили.</div>
+    </div>
+
+    <!-- карточка квиза, шаг 2 -->
+    <div style="background: #FFFDF9; color: #17150F; border-radius: 4px; padding: 32px; display: flex; flex-direction: column;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="font-size: 13px; color: #6E6659;">Шаг 2 из 3</div>
+        <div style="font-size: 13px; color: #6E6659;">Площадь: 117 м²</div>
+      </div>
+      <div style="display: flex; gap: 6px; margin-top: 12px;">
+        <div style="flex-grow: 1; height: 4px; background: #2F5D3F; border-radius: 2px;"></div>
+        <div style="flex-grow: 1; height: 4px; background: #2F5D3F; border-radius: 2px;"></div>
+        <div style="flex-grow: 1; height: 4px; background: #E2D9C9; border-radius: 2px;"></div>
+      </div>
+
+      <h3 style="font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: 26px; margin: 26px 0 0;">Какая комплектация нужна?</h3>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border: 1px solid #E2D9C9; border-radius: 3px;">
+          <div>
+            <div style="font-size: 16px; font-weight: 600;">Стандарт</div>
+            <div style="font-size: 13px; color: #6E6659; margin-top: 3px;">Тёплый контур, без внутренней отделки</div>
+          </div>
+          <div style="font-size: 15px; font-weight: 600; color: #4A4437;">от 3 744 000 ₽</div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border: 2px solid #2F5D3F; background: #F2F7F3; border-radius: 3px;">
+          <div>
+            <div style="font-size: 16px; font-weight: 700;">Комфорт</div>
+            <div style="font-size: 13px; color: #4A4437; margin-top: 3px;">Плюс коммуникации и черновая отделка</div>
+          </div>
+          <div style="font-size: 15px; font-weight: 700; color: #2F5D3F;">от 4 797 000 ₽</div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border: 1px solid #E2D9C9; border-radius: 3px;">
+          <div>
+            <div style="font-size: 16px; font-weight: 600;">Под ключ</div>
+            <div style="font-size: 13px; color: #6E6659; margin-top: 3px;">Заезжайте с мебелью — отделка готова</div>
+          </div>
+          <div style="font-size: 15px; font-weight: 600; color: #4A4437;">от 6 084 000 ₽</div>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1;"></div>
+
+      <div style="padding: 16px 20px; background: #F4EFE7; border-radius: 3px; margin-top: 24px;">
+        <div style="font-size: 13px; color: #6E6659;">Предварительно для дома 117 м², комплектация «Комфорт»</div>
+        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 28px; margin-top: 6px;">4,8 – 5,2 млн ₽</div>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 18px;">
+        <div style="display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; border: 1px solid #C9BFAC; border-radius: 2px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#17150F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+        </div>
+        <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 10px; height: 54px; background: #2F5D3F; color: #FFFDF9; font-size: 16px; font-weight: 600; border-radius: 2px;">
+          Дальше
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFDF9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
