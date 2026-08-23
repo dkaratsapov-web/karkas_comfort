@@ -5,7 +5,10 @@
   const $  = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
-  const PRICING = window.KK_PRICING || { ratePerM2: { standart: 32000, komfort: 41000, pod_kluch: 52000 } };
+  const RATES = (() => {
+    try { return JSON.parse(document.body.dataset.rates); }
+    catch { return { standart: 32000, komfort: 41000, pod_kluch: 52000 }; }
+  })();
 
   /* ---------- события аналитики ----------
      Работает и с Яндекс.Метрикой, и с Google Analytics, и без них.
@@ -223,7 +226,7 @@
     const areaOut = $('#quiz-area-value', quiz);
     const state = { step: 0, area: 100, tier: 'komfort', land: 'yes' };
 
-    const total = () => state.area * PRICING.ratePerM2[state.tier];
+    const total = () => state.area * RATES[state.tier];
     const range = () => `${(total() * .95 / 1e6).toFixed(1).replace('.', ',')} – ${(total() * 1.08 / 1e6).toFixed(1).replace('.', ',')} млн ₽`;
 
     const render = () => {
@@ -253,67 +256,58 @@
     render();
   }
 
-  /* ---------- каталог: фильтры ---------- */
+  /* ---------- каталог: фильтры и сортировка ----------
+     Карточки приходят с сервера готовыми (их видно и без JS, и поисковику),
+     поэтому здесь мы только показываем нужные и меняем их порядок. */
   const catalog = $('#catalog');
-  if (catalog && window.KK_PROJECTS) {
+  if (catalog) {
     const list = $('#catalog-list', catalog);
     const count = $('#catalog-count', catalog);
     const toggle = $('.filters__toggle', catalog);
     const filters = $('.filters', catalog);
+    const cards = $$('.project', list);
     const params = new URLSearchParams(location.search);
     const state = {
       floors: params.get('floors') || 'all',
       size: params.get('size') || 'all',
       sort: params.get('sort') || 'area-asc'
     };
-
-    const inSize = (p) => state.size === 'all'
-      || (state.size === 's' && p.area < 90)
-      || (state.size === 'm' && p.area >= 90 && p.area < 150)
-      || (state.size === 'l' && p.area >= 150);
-
+    const num = (card, key) => Number(card.dataset[key]);
+    const inSize = (card) => {
+      const area = num(card, 'area');
+      return state.size === 'all'
+        || (state.size === 's' && area < 90)
+        || (state.size === 'm' && area >= 90 && area < 150)
+        || (state.size === 'l' && area >= 150);
+    };
     const plural = (n) => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'проект'
       : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'проекта' : 'проектов');
-
-    const card = (p) => `
-      <article class="project">
-        <div class="project__media">
-          <img src="${p.photos && p.photos.length ? '/assets/img/photos/' + p.photos[0] : 'assets/img/projects/' + p.slug + '.svg'}" alt="Каркасный дом ${p.code}, ${p.size} м, ${p.area} м²" loading="lazy" width="900" height="600">
-          <span class="project__code">${p.code}</span>
-        </div>
-        <div class="project__body">
-          <h3 class="project__title"><a href="${p.url}">Каркасный дом ${p.size}</a></h3>
-          <ul class="specs">
-            <li>${p.area} м²</li>
-            <li>${p.floors === 1 ? '1 этаж' : p.floors === 1.5 ? '1,5 этажа' : '2 этажа'}</li>
-            <li>${p.bedrooms} ${p.bedrooms === 1 ? 'спальня' : p.bedrooms < 5 ? 'спальни' : 'спален'}</li>
-            ${p.terrace ? '<li>терраса</li>' : ''}
-          </ul>
-          <div class="project__foot">
-            <span class="price">${p.price ? '' : 'от '}${money(p.priceFrom)}<small>${p.price ? 'под ключ, по договору' : 'под ключ, ориентировочно'}</small></span>
-            <span class="project__more">Подробнее →</span>
-          </div>
-        </div>
-      </article>`;
 
     const syncUrl = () => {
       const q = new URLSearchParams();
       if (state.floors !== 'all') q.set('floors', state.floors);
       if (state.size !== 'all') q.set('size', state.size);
       if (state.sort !== 'area-asc') q.set('sort', state.sort);
-      const url = location.pathname + (q.toString() ? '?' + q : '');
-      history.replaceState(null, '', url);          // подборкой можно поделиться ссылкой
+      history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : ''));
     };
 
+    let empty = null;
     const render = () => {
-      const items = window.KK_PROJECTS.filter((p) =>
-        (state.floors === 'all' || String(p.floors) === state.floors) && inSize(p));
+      const shown = cards.filter((card) =>
+        (state.floors === 'all' || card.dataset.floors === state.floors) && inSize(card));
       const [key, dir] = state.sort.split('-');
-      const sortKey = key === 'price' ? 'priceFrom' : key;
-      items.sort((a, b) => (a[sortKey] - b[sortKey]) * (dir === 'asc' ? 1 : -1));
-      list.innerHTML = items.map(card).join('')
-        || '<p class="muted">По этим параметрам проектов нет — подберём индивидуально, позвоните нам.</p>';
-      if (count) count.textContent = plural(items.length);
+      const field = key === 'price' ? 'price' : 'area';
+      shown.sort((a, b) => (num(a, field) - num(b, field)) * (dir === 'desc' ? -1 : 1));
+      cards.forEach((card) => { card.hidden = !shown.includes(card); });
+      shown.forEach((card) => list.append(card));          // порядок задаётся перестановкой узлов
+      if (count) count.textContent = plural(shown.length);
+      if (!empty) {
+        empty = document.createElement('p');
+        empty.className = 'muted';
+        empty.textContent = 'По этим параметрам проектов нет — подберём индивидуально, позвоните нам.';
+        list.after(empty);
+      }
+      empty.hidden = shown.length > 0;
     };
 
     $$('.chip', catalog).forEach((chip) => {
@@ -336,8 +330,8 @@
       filters.classList.add('is-collapsed');
       toggle.setAttribute('aria-expanded', 'false');
       toggle.addEventListener('click', () => {
-        const open = filters.classList.toggle('is-collapsed');
-        toggle.setAttribute('aria-expanded', String(!open));
+        const collapsed = filters.classList.toggle('is-collapsed');
+        toggle.setAttribute('aria-expanded', String(!collapsed));
       });
     }
 

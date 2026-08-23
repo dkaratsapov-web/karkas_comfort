@@ -47,10 +47,6 @@ const analytics = [
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config",${JSON.stringify(site.gtag)});</script>` : ''
 ].filter(Boolean).join('\n');
 
-writeFileSync('assets/js/projects-data.js',
-  `/* Данные каталога. Источник: src/data/projects.json — правьте там и запускайте сборку. */\nwindow.KK_PROJECTS = ${JSON.stringify(
-    projects.map((p) => ({ ...p, priceFrom: priceOf(p), priceTop: priceTop(p), url: projectUrl(p.slug) })), null, 2)};\nwindow.KK_PRICING = ${JSON.stringify(pricing)};\n`);
-
 /* ---------- цены ---------- */
 function priceOf(p) { return p.price ?? Math.round(p.area * pricing.ratePerM2.standart); }
 function priceTop(p) { return Math.round(p.area * pricing.ratePerM2.pod_kluch); }
@@ -85,8 +81,7 @@ for (const f of ['favicon.ico', 'apple-touch-icon.png', 'icon-192.png', 'icon-51
 /* ---------- версии статики, чтобы браузер не показывал старый кеш ---------- */
 const V = {
   css: hash('assets/css/style.css'),
-  main: hash('assets/js/main.js'),
-  data: hash('assets/js/projects-data.js')
+  main: hash('assets/js/main.js')
 };
 const previewBar = PREVIEW ? `  <div class="preview-bar">
     <span><b>Демонстрационная версия.</b> Заявки не отправляются, цены и фотографии ориентировочные.</span>
@@ -103,8 +98,7 @@ const absolutize = (html) => html.replace(/(href|src)="(?!https?:|\/\/|\/|#|tel:
 
 const version = (html) => html
   .replace(/assets\/css\/style\.css(?!\?)/g, `assets/css/style.css?v=${V.css}`)
-  .replace(/assets\/js\/main\.js(?!\?)/g, `assets/js/main.js?v=${V.main}`)
-  .replace(/assets\/js\/projects-data\.js(?!\?)/g, `assets/js/projects-data.js?v=${V.data}`);
+  .replace(/assets\/js\/main\.js(?!\?)/g, `assets/js/main.js?v=${V.main}`);
 
 /* ---------- микроразметка ---------- */
 const ld = (obj) => `  <script type="application/ld+json">${JSON.stringify(obj)}</script>`;
@@ -132,7 +126,7 @@ const productLd = (p) => ld({
 });
 
 /* ---------- шаблоны блоков ---------- */
-const projectCard = (p) => `      <article class="project">
+const projectCard = (p) => `      <article class="project" data-floors="${p.floors}" data-area="${p.area}" data-price="${priceOf(p)}">
         <div class="project__media">
           <img src="${photoOf(p)}" alt="Каркасный дом ${p.code}, ${p.size} м, ${p.area} м²" loading="lazy" width="900" height="600">
           <span class="project__code">${p.code}</span>
@@ -180,7 +174,7 @@ ${head
     .replace(/\{\{ogimage\}\}/g, ogimage)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
     .replace('</head>', `${extraLd ? extraLd + '\n' : ''}${PREVIEW ? '  <meta name="robots" content="noindex, nofollow">\n' : ''}${PREVIEW || !analytics ? '' : analytics + '\n'}</head>`)}
-<body data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
+<body data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
 ${previewBar}${header}
   <main id="main">
 ${content.trimEnd()}

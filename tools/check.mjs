@@ -25,16 +25,17 @@ p.on('pageerror', (e) => errs.push(e.message));
 const catalogHtml = await (await p.request.get(`${B}/proekty.html`)).text();
 ok('каталог отдаётся сервером со всеми карточками (без JS)', (catalogHtml.split('class="project"').length - 1) === 15);
 await p.goto(`${B}/proekty.html`, { waitUntil: 'networkidle' });
-ok('каталог отрисован (15 карточек)', (await p.$$('#catalog-list .project')).length === 15);
+ok('каталог отрисован (15 карточек)', (await p.$$('#catalog-list .project:not([hidden])')).length === 15);
 await p.click('.chip[data-group="floors"][data-value="2"]');
-const twoFloors = await p.$$eval('#catalog-list .specs', (els) => els.map((e) => e.textContent));
+const twoFloors = await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.map((e) => e.textContent));
 ok('фильтр «2 этажа» оставил только двухэтажные', twoFloors.length > 0 && twoFloors.every((t) => t.includes('2 этажа')));
 ok('фильтр сохраняется в адресе страницы', new URL(p.url()).searchParams.get('floors') === '2');
 await p.goto(`${B}/proekty.html?floors=1&size=s`, { waitUntil: 'networkidle' });
-ok('ссылка с фильтром открывает готовую подборку', (await p.$$('#catalog-list .project')).length > 0
-  && (await p.$$eval('#catalog-list .specs', (els) => els.every((e) => e.textContent.includes('1 этаж')))));
+ok('ссылка с фильтром открывает готовую подборку', (await p.$$('#catalog-list .project:not([hidden])')).length > 0
+  && (await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.every((e) => e.textContent.includes('1 этаж')))));
 await p.selectOption('#catalog-sort', 'area-desc');
-ok('сортировка по площади', (await p.textContent('#catalog-list .specs li')).trim().endsWith('м²'));
+ok('сортировка по площади переставляет карточки',
+  (await p.textContent('#catalog-list .project:not([hidden]) .specs li')).trim().endsWith('м²'));
 
 /* 2. Страница проекта — отдельный статический адрес с разметкой товара */
 const projHtml = await (await p.request.get(`${B}/proekty/kd-29.html`)).text();

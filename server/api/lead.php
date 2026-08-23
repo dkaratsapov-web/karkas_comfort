@@ -153,6 +153,14 @@ if (!empty($config['crm_webhook'])) {
     $crm = post_to($config['crm_webhook'], $payload, ($config['crm_format'] ?? 'json') === 'json');
 }
 
+/* Значение для CSV: Excel и LibreOffice исполняют ячейку, начинающуюся
+   с =, +, -, @ или табуляции, как формулу. Заявку присылает кто угодно,
+   поэтому такие значения обезвреживаем апострофом. */
+function csv_safe(string $value): string
+{
+    return preg_match('/^[=+\-@\t\r]/', $value) === 1 ? "'" . $value : $value;
+}
+
 /* --- запись в файл: страховка на случай проблем с почтой --- */
 if (!empty($config['log_file'])) {
     $fh = @fopen($config['log_file'], 'a');
@@ -161,8 +169,8 @@ if (!empty($config['log_file'])) {
             fwrite($fh, "\xEF\xBB\xBF");                       // BOM, чтобы Excel открыл кириллицу
             fputcsv($fh, ['Дата', 'Имя', 'Телефон', 'Проект', 'Сообщение', 'Страница', 'IP', 'Почта', 'Telegram', 'CRM'], ';');
         }
-        fputcsv($fh, [$when, $name, $phone, $project, $message, $page, $ip,
-            $sent ? 'да' : 'нет', $telegram ? 'да' : 'нет', $crm ? 'да' : 'нет'], ';');
+        fputcsv($fh, array_map('csv_safe', [$when, $name, $phone, $project, $message, $page, $ip,
+            $sent ? 'да' : 'нет', $telegram ? 'да' : 'нет', $crm ? 'да' : 'нет']), ';');
         fclose($fh);
     }
 }
