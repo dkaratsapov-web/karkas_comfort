@@ -5,3 +5,7 @@ node_modules/
 karkascomfort-site.zip
 dist/api/leads.csv
 preview/
+
+# Полностраничные скриншоты аудита — тяжёлые, хранятся локально
+audit/screens/
+audit/raw.json
