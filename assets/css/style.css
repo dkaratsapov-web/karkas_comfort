@@ -539,7 +539,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .footer__grid { display: grid; gap: 28px; grid-template-columns: 1fr; }
 @media (min-width: 700px) { .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; } }
-.footer h4 { color: var(--on-dark); margin-bottom: 14px; }
+.footer__title { font-family: var(--text); font-size: 17px; font-weight: 700; color: var(--on-dark); margin: 0 0 14px; }
 .footer a { color: var(--on-dark-2); display: inline-flex; align-items: center; min-height: 44px; }
 .footer a:hover { color: var(--on-dark); }
 .footer__logo { display: flex; align-items: center; gap: 11px; font-family: var(--display); font-size: 20px; color: var(--on-dark); }
