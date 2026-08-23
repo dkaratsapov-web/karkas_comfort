@@ -248,13 +248,10 @@ for (const p of projects) {
             <div class="gallery__main">
               <img src="${photoOf(p)}" alt="Каркасный дом ${p.code}, ${p.size} м, ${p.area} м²" width="1200" height="800" fetchpriority="high">
             </div>
-            <div class="gallery__thumbs">
-              ${(p.photos && p.photos.length > 1
-                ? p.photos.slice(1, 4).map((f, i) => `<img src="/assets/img/photos/${f}" alt="Каркасный дом ${p.code}, фото ${i + 2}" loading="lazy" width="400" height="300">`)
-                : ['фасад', 'интерьер', 'терраса'].map((label) => `<div class="gallery__thumb" aria-hidden="true"></div>`)
-              ).join('\n              ')}
-              ${p.plan ? `<img src="/assets/img/photos/${p.plan}" alt="Планировка дома ${p.code}" loading="lazy" width="400" height="300">` : '<div class="gallery__thumb" aria-hidden="true"></div>'}
-            </div>
+${(p.photos && p.photos.length > 1) || p.plan ? `            <div class="gallery__thumbs">
+              ${(p.photos || []).slice(1, 4).map((f, i) => `<img src="/assets/img/photos/${f}" alt="Каркасный дом ${p.code}, фото ${i + 2}" loading="lazy" width="400" height="300">`).join('\n              ')}
+              ${p.plan ? `<img src="/assets/img/photos/${p.plan}" alt="Планировка дома ${p.code}" loading="lazy" width="400" height="300">` : ''}
+            </div>` : ''}
           </div>
 
           <div class="stack">
