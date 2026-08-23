@@ -68,16 +68,7 @@ ok('смена комплектации меняет вилку', (await p.textC
 await p.click('.quiz__step.is-current [data-quiz-next]');
 ok('последний шаг — короткая форма с телефоном', await p.isVisible('.quiz__step.is-current form'));
 
-/* 5. Калькулятор на странице технологии */
-await p.goto(`${B}/karkasnye-doma.html`, { waitUntil: 'networkidle' });
-if (await p.$('#calc')) {
-  const sum0 = await p.textContent('#calc-sum');
-  await p.fill('#calc-area', '200');
-  await p.dispatchEvent('#calc-area', 'input');
-  ok('калькулятор пересчитывает', sum0 !== (await p.textContent('#calc-sum')));
-}
-
-/* 6. Формы: валидация и доступность ошибок */
+/* 5. Формы: валидация и доступность ошибок */
 await p.goto(`${B}/index.html`, { waitUntil: 'networkidle' });
 await p.click('a[href="#zayavka"]');
 await p.click('#zayavka button[type="submit"]');
@@ -100,7 +91,7 @@ ok('после отправки пользователь видит однозн
   (await p.isVisible('#zayavka .form__ok')) !== (await p.isVisible('#zayavka .form__error')));
 await p.close();
 
-/* 7. Мобильная версия */
+/* 6. Мобильная версия */
 p = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 p.on('pageerror', (e) => errs.push(e.message));
 await p.goto(`${B}/index.html`, { waitUntil: 'networkidle' });
@@ -122,7 +113,7 @@ await p.goto(`${B}/proekty.html`, { waitUntil: 'networkidle' });
 await p.screenshot({ path: 'mob-catalog.png' });
 await p.close();
 
-/* 8. Все страницы: битые ссылки, разметка, шрифты */
+/* 7. Все страницы: битые ссылки, разметка, шрифты */
 p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
 const pages = ['index.html', 'karkasnye-doma.html', 'proekty.html', 'obekty.html', 'uslugi.html', 'o-kompanii.html', 'kontakty.html', 'politika.html', '404.html', 'proekty/kd-40.html'];
@@ -152,7 +143,7 @@ ok('шрифты подгружены', await p.evaluate(() => document.fonts.ch
 ok('на семейство приходится по одному файлу шрифта',
   await p.evaluate(() => performance.getEntriesByType('resource').filter((r) => r.name.endsWith('.woff2')).length <= 2));
 
-/* 9. Заявка реально уходит на сервер (только там, где есть PHP) */
+/* 8. Заявка реально уходит на сервер (только там, где есть PHP) */
 if (hasPhp) {
   const req = p.waitForResponse((r) => r.url().includes('/api/lead.php'), { timeout: 15000 });
   await p.goto(`${B}/kontakty.html`, { waitUntil: 'networkidle' });

@@ -54,7 +54,7 @@
   --tap: 48px;                      /* минимальная тач-цель */
   --actionbar: 76px;                /* высота мобильной панели действий */
 
-  --display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --display: "Playfair Display", "Manrope", Georgia, "Times New Roman", serif;
   --text: "Manrope", "Segoe UI", system-ui, sans-serif;
   --ease: cubic-bezier(.22, .68, .28, 1);
 }
@@ -337,6 +337,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 }
 @media (min-width: 900px) {
   .filters__toggle { display: none; }
+  .filters__body { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; width: 100%; }
   .filters__group { display: flex; gap: 8px; }
 }
 

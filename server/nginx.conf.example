@@ -41,8 +41,9 @@ server {
     #  Внимание: /proekty/<проект>.html — реальные страницы проектов.
     #  На каталог отправляем только те адреса, которым не соответствует файл.
     location /proekty/ {
-        try_files $uri $uri.html /proekty.html;
+        try_files $uri $uri.html @proekty_catalog;
     }
+    location @proekty_catalog { return 301 /proekty.html; }
     location = /uslugi/                 { return 301 /uslugi.html; }
     location = /kontakty/               { return 301 /kontakty.html; }
     location = /o-kompanii/             { return 301 /o-kompanii.html; }

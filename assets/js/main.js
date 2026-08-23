@@ -5,7 +5,7 @@
   const $  = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
-  const PRICING = window.KK_PRICING || { ratePerM2: { standart: 32000, komfort: 41000, pod_kluch: 52000 }, foundation: 190000, mortgage: { rate: .05, years: 20, downpayment: .2 } };
+  const PRICING = window.KK_PRICING || { ratePerM2: { standart: 32000, komfort: 41000, pod_kluch: 52000 } };
 
   /* ---------- события аналитики ----------
      Работает и с Яндекс.Метрикой, и с Google Analytics, и без них.
@@ -251,30 +251,6 @@
     }));
     $$('[data-quiz-prev]', quiz).forEach((b) => b.addEventListener('click', () => { state.step = Math.max(state.step - 1, 0); render(); }));
     render();
-  }
-
-  /* ---------- калькулятор стоимости (страница «Каркасные дома») ---------- */
-  const calc = $('#calc');
-  if (calc) {
-    const area = $('#calc-area', calc);
-    const areaOut = $('#calc-area-value', calc);
-    const sum = $('#calc-sum', calc);
-    const term = $('#calc-term', calc);
-    const monthly = $('#calc-monthly', calc);
-    const recalc = () => {
-      const a = Number(area.value);
-      const tier = ($('input[name="tier"]:checked', calc) || {}).value || 'standart';
-      const foundation = $('#calc-foundation', calc) && $('#calc-foundation', calc).checked ? PRICING.foundation : 0;
-      const totalSum = a * PRICING.ratePerM2[tier] + foundation;
-      areaOut.textContent = a + ' м²';
-      sum.textContent = money(totalSum);
-      const { rate, years, downpayment } = PRICING.mortgage;
-      const body = totalSum * (1 - downpayment), r = rate / 12, n = years * 12;
-      if (monthly) monthly.textContent = money(body * r / (1 - Math.pow(1 + r, -n)));
-      if (term) term.textContent = a <= 90 ? '1,5–2 месяца' : a <= 150 ? '2–3 месяца' : '3–4 месяца';
-    };
-    calc.addEventListener('input', recalc);
-    recalc();
   }
 
   /* ---------- каталог: фильтры ---------- */

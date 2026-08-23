@@ -12,5 +12,9 @@
     Order allow,deny
     Deny from all
   </FilesMatch>
+  <Files "config.php">
+    Order allow,deny
+    Deny from all
+  </Files>
 </IfModule>
 Options -Indexes

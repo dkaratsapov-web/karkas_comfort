@@ -306,4 +306,4 @@ window.KK_PROJECTS = [
     "url": "/proekty/kd-38.html"
   }
 ];
-window.KK_PRICING = {"_комментарий":"Ставки за м² под ключ. Пока в projects.json нет поля price, цена проекта считается как площадь × ставка komfort и помечается как ориентировочная. Реальный прайс: проставьте price у каждого проекта.","estimated":true,"ratePerM2":{"standart":32000,"komfort":41000,"pod_kluch":52000},"foundation":190000,"mortgage":{"rate":0.05,"years":20,"downpayment":0.2}};
+window.KK_PRICING = {"_комментарий":"Ставки за м² под ключ. Пока в projects.json нет поля price, цена «от» считается как площадь × ставка standart (базовый тёплый контур) и помечается как ориентировочная. Реальный прайс: проставьте price у каждого проекта.","estimated":true,"ratePerM2":{"standart":32000,"komfort":41000,"pod_kluch":52000}};

@@ -167,6 +167,8 @@ ${reviews.map((r) => `          <article class="card review">
 
 /* ---------- сборка одной страницы ---------- */
 function page({ file, meta, content, extraLd = '', root = false }) {
+  /* на странице без блока заявки кнопка панели действий ведёт на расчёт с главной */
+  const hasLeadForm = content.includes('id="zayavka"');
   const canonical = meta.canonical || `${SITE}/${file === 'index.html' ? '' : file}`;
   const ogimage = meta.ogimage ? `${SITE}${meta.ogimage}` : `${SITE}/assets/img/og.png`;
   let html = `<!doctype html>
@@ -184,7 +186,7 @@ ${previewBar}${header}
 ${content.trimEnd()}
   </main>
 ${footer}
-${actionbar}
+${hasLeadForm ? actionbar : actionbar.replace('href="#zayavka"', 'href="/index.html#raschet"')}
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
@@ -207,7 +209,11 @@ for (const file of files) {
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
   content = content.replace(/\{\{projects:(\d+)\}\}/g, (_, n) => projects.slice(0, Number(n)).map(projectCard).join('\n'));
   content = content.replace(/\{\{projects:all\}\}/g, () => projects.map(projectCard).join('\n'));
-  content = content.replace(/\{\{reviews\}\}/g, () => reviewsBlock());
+  /* пока отзывов нет, секция с ними не выводится вовсе — не оставляем пустую рамку */
+  content = reviews.length
+    ? content.replace(/\{\{reviews\}\}/g, () => reviewsBlock())
+    : content.replace(/[ \t]*<section[^>]*>(?:(?!<\/section>)[\s\S])*?\{\{reviews\}\}[\s\S]*?<\/section>\n/g, '')
+             .replace(/\{\{reviews\}\}/g, '');
 
   const blocks = [];
   if (meta.breadcrumb) blocks.push(breadcrumbLd(meta.breadcrumb));
