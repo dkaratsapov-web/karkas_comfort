@@ -24,69 +24,69 @@
     ],
     "headings": [
      "H1: Такой страницы нет",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 1941,
+    "docHeight": 1945,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [],
     "forms": [],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 44,
+    "lcp": 84,
     "lcpEl": "P.",
     "cls": 0,
     "nav": {
-     "dcl": 33,
-     "load": 33,
-     "transfer": 10302
+     "dcl": 64,
+     "load": 64,
+     "transfer": 10468
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 7
+      "size": 38104,
+      "dur": 24
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 8
+      "size": 41140,
+      "dur": 24
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 7
+      "size": 35107,
+      "dur": 20
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 10
+      "size": 16865,
+      "dur": 26
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 2
+      "dur": 4
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    },
    "desk": {
     "title": "Страница не найдена — Каркас Комфорт",
@@ -110,64 +110,64 @@
     ],
     "headings": [
      "H1: Такой страницы нет",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 1178,
+    "docHeight": 1173,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      }
     ],
     "forms": [],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 60,
+    "lcp": 148,
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 31,
-     "load": 31,
-     "transfer": 10302
+     "dcl": 49,
+     "load": 50,
+     "transfer": 10468
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 8
+      "size": 38104,
+      "dur": 13
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 7
+      "size": 41140,
+      "dur": 13
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 7
+      "size": 35107,
+      "dur": 12
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 9
+      "size": 16865,
+      "dur": 16
      },
      {
       "n": "favicon.svg",
@@ -179,14 +179,14 @@
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    }
   },
   "index": {
    "path": "/",
    "mob": {
-    "title": "Каркасные дома под ключ в Твери и Тверской области | Каркас Комфорт",
-    "titleLen": 67,
+    "title": "Каркасные дома под ключ в Твери и области | Каркас Комфорт",
+    "titleLen": 58,
     "desc": "Строим каркасные дома под ключ в Твери и области с 2009 года: более 300 домов, цена от 32 000 ₽/м², смета фиксируется в договоре, срок от 1,5 месяцев, гарантия 5 лет.",
     "descLen": 166,
     "canonical": "https://karkascomfort.ru/",
@@ -242,30 +242,25 @@
      "H3: Фундамент и каркас",
      "H3: Контур и инженерия",
      "H3: Сдача и гарантия",
-     "H2: Что вы получаете на бумаге, а не на словах",
-     "H3: Договор подряда",
-     "H3: Смета-приложение",
-     "H3: Гарантия 5 лет",
-     "H3: Акты по этапам",
      "H2: Строим по всей Тверской области",
      "H2: Что спрашивают чаще всего",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "parsed"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 17888,
+    "docHeight": 17256,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
@@ -276,7 +271,7 @@
       "loading": null,
       "fetchpriority": "high",
       "natural": "267x150",
-      "rendered": "390x600"
+      "rendered": "390x621"
      },
      {
       "src": "/assets/img/projects/kd-17.svg",
@@ -393,44 +388,38 @@
      {
       "el": "a.",
       "text": "Каркасный дом 6×6",
-      "w": 195,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×8",
-      "w": 195,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×10",
-      "w": 204,
+      "w": 214,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 7×7",
-      "w": 190,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×9",
-      "w": 194,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 8×8",
-      "w": 195,
+      "w": 201,
       "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
      },
      {
       "el": "input.sr-only",
@@ -447,8 +436,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 169,
-      "h": 38
+      "w": 175,
+      "h": 36
      }
     ],
     "forms": [
@@ -488,56 +477,50 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 96,
+    "lcp": 148,
     "lcpEl": "IMG.hero__bg",
     "cls": 0,
     "nav": {
-     "dcl": 67,
-     "load": 71,
-     "transfer": 54049
+     "dcl": 106,
+     "load": 109,
+     "transfer": 53121
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 9
+      "size": 38104,
+      "dur": 27
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 9
+      "size": 41140,
+      "dur": 26
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 8
-     },
-     {
-      "n": "projects-data.js?v=0d527939",
-      "t": "script",
-      "size": 8113,
-      "dur": 11
+      "size": 35107,
+      "dur": 25
      },
      {
       "n": "hero.svg",
       "t": "img",
-      "size": 12890,
-      "dur": 9
+      "size": 15075,
+      "dur": 26
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 11
+      "size": 16865,
+      "dur": 29
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 8
+      "dur": 6
      }
     ],
     "badContrast": [
@@ -550,13 +533,13 @@
        166
       ],
       "bg": [
-       244,
-       244,
-       233
+       245,
+       235,
+       235
       ],
       "size": 11.5,
       "weight": "400",
-      "ratio": 1.7
+      "ratio": 1.61
      },
      {
       "sel": "span",
@@ -567,13 +550,13 @@
        166
       ],
       "bg": [
-       244,
-       244,
-       233
+       245,
+       235,
+       235
       ],
       "size": 11.5,
       "weight": "400",
-      "ratio": 1.7
+      "ratio": 1.61
      },
      {
       "sel": "span",
@@ -584,13 +567,13 @@
        166
       ],
       "bg": [
-       244,
-       244,
-       233
+       245,
+       235,
+       235
       ],
       "size": 11.5,
       "weight": "400",
-      "ratio": 1.7
+      "ratio": 1.61
      },
      {
       "sel": "span",
@@ -601,13 +584,13 @@
        166
       ],
       "bg": [
-       244,
-       244,
-       233
+       245,
+       235,
+       235
       ],
       "size": 11.5,
       "weight": "400",
-      "ratio": 1.7
+      "ratio": 1.61
      },
      {
       "sel": "button.layer",
@@ -618,13 +601,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -635,13 +618,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -652,13 +635,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -669,13 +652,13 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
+      "ratio": 1.65
      },
      {
       "sel": "button.layer",
@@ -686,13 +669,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -703,13 +686,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -720,13 +703,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -737,13 +720,13 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
+      "ratio": 1.65
      },
      {
       "sel": "button.layer",
@@ -754,13 +737,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -771,13 +754,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -788,13 +771,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -805,13 +788,13 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
+      "ratio": 1.65
      },
      {
       "sel": "button.layer",
@@ -822,13 +805,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -839,13 +822,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -856,13 +839,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -873,13 +856,13 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
+      "ratio": 1.65
      },
      {
       "sel": "button.layer",
@@ -890,13 +873,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -907,13 +890,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -924,13 +907,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -941,39 +924,22 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
-     },
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
+      "ratio": 1.65
      }
     ],
     "consoleErrors": [],
-    "requestCount": 8,
-    "totalBytes": 133815
+    "requestCount": 7,
+    "totalBytes": 147071
    },
    "desk": {
-    "title": "Каркасные дома под ключ в Твери и Тверской области | Каркас Комфорт",
-    "titleLen": 67,
+    "title": "Каркасные дома под ключ в Твери и области | Каркас Комфорт",
+    "titleLen": 58,
     "desc": "Строим каркасные дома под ключ в Твери и области с 2009 года: более 300 домов, цена от 32 000 ₽/м², смета фиксируется в договоре, срок от 1,5 месяцев, гарантия 5 лет.",
     "descLen": 166,
     "canonical": "https://karkascomfort.ru/",
@@ -1029,30 +995,25 @@
      "H3: Фундамент и каркас",
      "H3: Контур и инженерия",
      "H3: Сдача и гарантия",
-     "H2: Что вы получаете на бумаге, а не на словах",
-     "H3: Договор подряда",
-     "H3: Смета-приложение",
-     "H3: Гарантия 5 лет",
-     "H3: Акты по этапам",
      "H2: Строим по всей Тверской области",
      "H2: Что спрашивают чаще всего",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "parsed"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 11504,
+    "docHeight": 10988,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
@@ -1063,7 +1024,7 @@
       "loading": null,
       "fetchpriority": "high",
       "natural": "267x150",
-      "rendered": "1440x636"
+      "rendered": "1440x618"
      },
      {
       "src": "/assets/img/projects/kd-17.svg",
@@ -1180,50 +1141,44 @@
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×6",
-      "w": 195,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×8",
-      "w": 195,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×10",
-      "w": 204,
+      "w": 214,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 7×7",
-      "w": 190,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×9",
-      "w": 194,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 8×8",
-      "w": 195,
+      "w": 201,
       "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
      },
      {
       "el": "input.sr-only",
@@ -1240,8 +1195,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 211,
-      "h": 18
+      "w": 218,
+      "h": 16
      }
     ],
     "forms": [
@@ -1281,77 +1236,139 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 128,
+    "lcp": 208,
     "lcpEl": "IMG.hero__bg",
     "cls": 0,
     "nav": {
-     "dcl": 67,
-     "load": 70,
-     "transfer": 54049
+     "dcl": 82,
+     "load": 86,
+     "transfer": 53121
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 11
+      "size": 38104,
+      "dur": 20
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 33909,
-      "dur": 9
+      "size": 41140,
+      "dur": 20
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 22224,
-      "dur": 10
-     },
-     {
-      "n": "projects-data.js?v=0d527939",
-      "t": "script",
-      "size": 8113,
-      "dur": 16
+      "size": 35107,
+      "dur": 19
      },
      {
       "n": "hero.svg",
       "t": "img",
-      "size": 12890,
-      "dur": 15
+      "size": 15075,
+      "dur": 20
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 15
+      "size": 16865,
+      "dur": 23
      },
      {
       "n": "kd-17.svg",
       "t": "img",
-      "size": 9569,
-      "dur": 10
+      "size": 10749,
+      "dur": 4
      },
      {
       "n": "kd-29.svg",
       "t": "img",
-      "size": 10578,
-      "dur": 10
+      "size": 11850,
+      "dur": 9
      },
      {
       "n": "kd-08.svg",
       "t": "img",
-      "size": 8375,
+      "size": 9493,
       "dur": 10
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 10
+      "dur": 9
      }
     ],
     "badContrast": [
+     {
+      "sel": "span",
+      "text": "за м² под ключ",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       245,
+       235,
+       235
+      ],
+      "size": 13,
+      "weight": "400",
+      "ratio": 1.61
+     },
+     {
+      "sel": "span",
+      "text": "срок строительства",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       245,
+       235,
+       235
+      ],
+      "size": 13,
+      "weight": "400",
+      "ratio": 1.61
+     },
+     {
+      "sel": "span",
+      "text": "гарантия по договору",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       245,
+       235,
+       235
+      ],
+      "size": 13,
+      "weight": "400",
+      "ratio": 1.61
+     },
+     {
+      "sel": "span",
+      "text": "домов в Тверской области",
+      "color": [
+       199,
+       188,
+       166
+      ],
+      "bg": [
+       245,
+       235,
+       235
+      ],
+      "size": 13,
+      "weight": "400",
+      "ratio": 1.61
+     },
      {
       "sel": "button.layer",
       "text": "Пароизоляцияс проклейкой стыков\n              —",
@@ -1361,13 +1378,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -1378,13 +1395,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -1395,13 +1412,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -1412,13 +1429,13 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
+      "ratio": 1.65
      },
      {
       "sel": "button.layer",
@@ -1429,13 +1446,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -1446,13 +1463,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -1463,13 +1480,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -1480,13 +1497,13 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
+      "ratio": 1.65
      },
      {
       "sel": "button.layer",
@@ -1497,13 +1514,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -1514,13 +1531,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -1531,13 +1548,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -1548,13 +1565,13 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
+      "ratio": 1.65
      },
      {
       "sel": "button.layer",
@@ -1565,13 +1582,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -1582,13 +1599,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -1599,13 +1616,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -1616,13 +1633,13 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
+      "ratio": 1.65
      },
      {
       "sel": "button.layer",
@@ -1633,13 +1650,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.3333,
       "weight": "400",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__name",
@@ -1650,13 +1667,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span",
@@ -1667,13 +1684,13 @@
        231
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 15.5,
       "weight": "600",
-      "ratio": 1.01
+      "ratio": 1
      },
      {
       "sel": "span.layer__size",
@@ -1684,35 +1701,18 @@
        166
       ],
       "bg": [
-       238,
-       238,
-       238
+       241,
+       241,
+       227
       ],
       "size": 13.5,
       "weight": "400",
-      "ratio": 1.62
-     },
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
+      "ratio": 1.65
      }
     ],
     "consoleErrors": [],
-    "requestCount": 11,
-    "totalBytes": 162337
+    "requestCount": 10,
+    "totalBytes": 179163
    }
   },
   "proekty": {
@@ -1739,6 +1739,7 @@
     ],
     "headings": [
      "H1: Проекты каркасных домов и цены",
+     "H2: Все проекты",
      "H3: Каркасный дом 6×8",
      "H3: Каркасный дом 6×6",
      "H3: Каркасный дом 6×10",
@@ -1757,9 +1758,9 @@
      "H2: Построим по индивидуальному проекту",
      "H3: Что входит в проект",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList",
@@ -1767,17 +1768,17 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 10176,
+    "docHeight": 10574,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
-      "src": "assets/img/projects/kd-08.svg",
+      "src": "/assets/img/projects/kd-08.svg",
       "alt": "Каркасный дом КД-08, 6×8 м, 44 м²",
       "w": "900",
       "h": "600",
@@ -1787,7 +1788,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-23.svg",
+      "src": "/assets/img/projects/kd-23.svg",
       "alt": "Каркасный дом КД-23, 6×6 м, 55 м²",
       "w": "900",
       "h": "600",
@@ -1797,7 +1798,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-60.svg",
+      "src": "/assets/img/projects/kd-60.svg",
       "alt": "Каркасный дом КД-60, 6×10 м, 58 м²",
       "w": "900",
       "h": "600",
@@ -1807,7 +1808,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-11.svg",
+      "src": "/assets/img/projects/kd-11.svg",
       "alt": "Каркасный дом КД-11, 7×7 м, 72 м²",
       "w": "900",
       "h": "600",
@@ -1817,7 +1818,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-15.svg",
+      "src": "/assets/img/projects/kd-15.svg",
       "alt": "Каркасный дом КД-15, 6×9 м, 84 м²",
       "w": "900",
       "h": "600",
@@ -1827,7 +1828,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-36.svg",
+      "src": "/assets/img/projects/kd-36.svg",
       "alt": "Каркасный дом КД-36, 8×8 м, 96 м²",
       "w": "900",
       "h": "600",
@@ -1837,7 +1838,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-54.svg",
+      "src": "/assets/img/projects/kd-54.svg",
       "alt": "Каркасный дом КД-54, 8×9 м, 106 м²",
       "w": "900",
       "h": "600",
@@ -1847,7 +1848,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-43.svg",
+      "src": "/assets/img/projects/kd-43.svg",
       "alt": "Каркасный дом КД-43, 6×12 м, 108 м²",
       "w": "900",
       "h": "600",
@@ -1857,7 +1858,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-17.svg",
+      "src": "/assets/img/projects/kd-17.svg",
       "alt": "Каркасный дом КД-17, 8×10 м, 118 м²",
       "w": "900",
       "h": "600",
@@ -1867,7 +1868,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-42.svg",
+      "src": "/assets/img/projects/kd-42.svg",
       "alt": "Каркасный дом КД-42, 8×10 м, 140 м²",
       "w": "900",
       "h": "600",
@@ -1877,7 +1878,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-31.svg",
+      "src": "/assets/img/projects/kd-31.svg",
       "alt": "Каркасный дом КД-31, 9×9 м, 145 м²",
       "w": "900",
       "h": "600",
@@ -1887,7 +1888,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-40.svg",
+      "src": "/assets/img/projects/kd-40.svg",
       "alt": "Каркасный дом КД-40, 9×13 м, 165 м²",
       "w": "900",
       "h": "600",
@@ -1897,7 +1898,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-29.svg",
+      "src": "/assets/img/projects/kd-29.svg",
       "alt": "Каркасный дом КД-29, 9×12 м, 178 м²",
       "w": "900",
       "h": "600",
@@ -1907,7 +1908,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-27.svg",
+      "src": "/assets/img/projects/kd-27.svg",
       "alt": "Каркасный дом КД-27, 8×14 м, 190 м²",
       "w": "900",
       "h": "600",
@@ -1917,7 +1918,7 @@
       "rendered": "348x232"
      },
      {
-      "src": "assets/img/projects/kd-38.svg",
+      "src": "/assets/img/projects/kd-38.svg",
       "alt": "Каркасный дом КД-38, 10×12 м, 200 м²",
       "w": "900",
       "h": "600",
@@ -1931,104 +1932,98 @@
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×8",
-      "w": 195,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 6×6",
-      "w": 195,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 6×10",
-      "w": 204,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 7×7",
-      "w": 190,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 6×9",
-      "w": 194,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 8×8",
-      "w": 195,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 8×9",
-      "w": 194,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 6×12",
-      "w": 202,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 8×10",
-      "w": 204,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 8×10",
-      "w": 204,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 9×9",
-      "w": 194,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 9×13",
-      "w": 200,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 9×12",
       "w": 201,
       "h": 28
      },
      {
       "el": "a.",
+      "text": "Каркасный дом 6×6",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×10",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 7×7",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×9",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×8",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×9",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×12",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×9",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×13",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×12",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
       "text": "Каркасный дом 8×14",
-      "w": 202,
+      "w": 214,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 10×12",
-      "w": 211,
+      "w": 226,
       "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
      },
      {
       "el": "input.sr-only",
@@ -2045,8 +2040,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 169,
-      "h": 38
+      "w": 175,
+      "h": 36
      }
     ],
     "forms": [
@@ -2069,98 +2064,74 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 144,
+    "lcp": 196,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 85,
-     "load": 89,
-     "transfer": 32808
+     "dcl": 122,
+     "load": 128,
+     "transfer": 33849
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 9
+      "size": 38104,
+      "dur": 7
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 15
+      "size": 41140,
+      "dur": 19
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 15
+      "size": 35107,
+      "dur": 12
      },
      {
-      "n": "projects-data.js?v=0d527939",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 8113,
-      "dur": 15
+      "size": 16865,
+      "dur": 19
      },
      {
-      "n": "main.js?v=265ce22b",
-      "t": "script",
-      "size": 18723,
-      "dur": 16
+      "n": "kd-23.svg",
+      "t": "img",
+      "size": 9391,
+      "dur": 5
+     },
+     {
+      "n": "kd-08.svg",
+      "t": "img",
+      "size": 9493,
+      "dur": 17
+     },
+     {
+      "n": "kd-11.svg",
+      "t": "img",
+      "size": 9465,
+      "dur": 17
+     },
+     {
+      "n": "kd-60.svg",
+      "t": "img",
+      "size": 9497,
+      "dur": 17
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 8
-     },
-     {
-      "n": "kd-08.svg",
-      "t": "img",
-      "size": 8375,
-      "dur": 12
-     },
-     {
-      "n": "kd-23.svg",
-      "t": "img",
-      "size": 8243,
-      "dur": 12
-     },
-     {
-      "n": "kd-60.svg",
-      "t": "img",
-      "size": 8379,
-      "dur": 12
-     },
-     {
-      "n": "kd-11.svg",
-      "t": "img",
-      "size": 8317,
-      "dur": 12
+      "dur": 16
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
-    "requestCount": 11,
-    "totalBytes": 154239
+    "requestCount": 10,
+    "totalBytes": 169842
    },
    "desk": {
     "title": "Проекты каркасных домов — цены под ключ в Твери | Каркас Комфорт",
@@ -2184,6 +2155,7 @@
     ],
     "headings": [
      "H1: Проекты каркасных домов и цены",
+     "H2: Все проекты",
      "H3: Каркасный дом 6×8",
      "H3: Каркасный дом 6×6",
      "H3: Каркасный дом 6×10",
@@ -2202,9 +2174,9 @@
      "H2: Построим по индивидуальному проекту",
      "H3: Что входит в проект",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList",
@@ -2212,17 +2184,17 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4878,
+    "docHeight": 4784,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
-      "src": "assets/img/projects/kd-08.svg",
+      "src": "/assets/img/projects/kd-08.svg",
       "alt": "Каркасный дом КД-08, 6×8 м, 44 м²",
       "w": "900",
       "h": "600",
@@ -2232,7 +2204,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-23.svg",
+      "src": "/assets/img/projects/kd-23.svg",
       "alt": "Каркасный дом КД-23, 6×6 м, 55 м²",
       "w": "900",
       "h": "600",
@@ -2242,7 +2214,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-60.svg",
+      "src": "/assets/img/projects/kd-60.svg",
       "alt": "Каркасный дом КД-60, 6×10 м, 58 м²",
       "w": "900",
       "h": "600",
@@ -2252,7 +2224,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-11.svg",
+      "src": "/assets/img/projects/kd-11.svg",
       "alt": "Каркасный дом КД-11, 7×7 м, 72 м²",
       "w": "900",
       "h": "600",
@@ -2262,7 +2234,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-15.svg",
+      "src": "/assets/img/projects/kd-15.svg",
       "alt": "Каркасный дом КД-15, 6×9 м, 84 м²",
       "w": "900",
       "h": "600",
@@ -2272,7 +2244,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-36.svg",
+      "src": "/assets/img/projects/kd-36.svg",
       "alt": "Каркасный дом КД-36, 8×8 м, 96 м²",
       "w": "900",
       "h": "600",
@@ -2282,7 +2254,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-54.svg",
+      "src": "/assets/img/projects/kd-54.svg",
       "alt": "Каркасный дом КД-54, 8×9 м, 106 м²",
       "w": "900",
       "h": "600",
@@ -2292,7 +2264,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-43.svg",
+      "src": "/assets/img/projects/kd-43.svg",
       "alt": "Каркасный дом КД-43, 6×12 м, 108 м²",
       "w": "900",
       "h": "600",
@@ -2302,7 +2274,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-17.svg",
+      "src": "/assets/img/projects/kd-17.svg",
       "alt": "Каркасный дом КД-17, 8×10 м, 118 м²",
       "w": "900",
       "h": "600",
@@ -2312,37 +2284,37 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-42.svg",
+      "src": "/assets/img/projects/kd-42.svg",
       "alt": "Каркасный дом КД-42, 8×10 м, 140 м²",
       "w": "900",
       "h": "600",
       "loading": "lazy",
       "fetchpriority": null,
-      "natural": "0x0",
+      "natural": "240x150",
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-31.svg",
+      "src": "/assets/img/projects/kd-31.svg",
       "alt": "Каркасный дом КД-31, 9×9 м, 145 м²",
       "w": "900",
       "h": "600",
       "loading": "lazy",
       "fetchpriority": null,
-      "natural": "0x0",
+      "natural": "240x150",
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-40.svg",
+      "src": "/assets/img/projects/kd-40.svg",
       "alt": "Каркасный дом КД-40, 9×13 м, 165 м²",
       "w": "900",
       "h": "600",
       "loading": "lazy",
       "fetchpriority": null,
-      "natural": "0x0",
+      "natural": "240x150",
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-29.svg",
+      "src": "/assets/img/projects/kd-29.svg",
       "alt": "Каркасный дом КД-29, 9×12 м, 178 м²",
       "w": "900",
       "h": "600",
@@ -2352,7 +2324,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-27.svg",
+      "src": "/assets/img/projects/kd-27.svg",
       "alt": "Каркасный дом КД-27, 8×14 м, 190 м²",
       "w": "900",
       "h": "600",
@@ -2362,7 +2334,7 @@
       "rendered": "384x256"
      },
      {
-      "src": "assets/img/projects/kd-38.svg",
+      "src": "/assets/img/projects/kd-38.svg",
       "alt": "Каркасный дом КД-38, 10×12 м, 200 м²",
       "w": "900",
       "h": "600",
@@ -2376,122 +2348,104 @@
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
-     },
-     {
-      "el": "button.chip",
-      "text": "1",
-      "w": 40,
-      "h": 44
-     },
-     {
-      "el": "button.chip",
-      "text": "2",
-      "w": 42,
-      "h": 44
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 6×8",
-      "w": 195,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 6×6",
-      "w": 195,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 6×10",
-      "w": 204,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 7×7",
-      "w": 190,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 6×9",
-      "w": 194,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 8×8",
-      "w": 195,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 8×9",
-      "w": 194,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 6×12",
-      "w": 202,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 8×10",
-      "w": 204,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 8×10",
-      "w": 204,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 9×9",
-      "w": 194,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 9×13",
-      "w": 200,
-      "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "Каркасный дом 9×12",
       "w": 201,
       "h": 28
      },
      {
       "el": "a.",
+      "text": "Каркасный дом 6×6",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×10",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 7×7",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×9",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×8",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×9",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 6×12",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 8×10",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×9",
+      "w": 201,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×13",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
+      "text": "Каркасный дом 9×12",
+      "w": 214,
+      "h": 28
+     },
+     {
+      "el": "a.",
       "text": "Каркасный дом 8×14",
-      "w": 202,
+      "w": 214,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 10×12",
-      "w": 211,
+      "w": 226,
       "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
      },
      {
       "el": "input.sr-only",
@@ -2508,8 +2462,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 211,
-      "h": 18
+      "w": 218,
+      "h": 16
      }
     ],
     "forms": [
@@ -2532,146 +2486,140 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 100,
-    "lcpEl": "H1.",
+    "lcp": 204,
+    "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 59,
-     "load": 63,
-     "transfer": 32808
+     "dcl": 76,
+     "load": 82,
+     "transfer": 33849
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 6
+      "size": 38104,
+      "dur": 15
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 12
+      "size": 41140,
+      "dur": 15
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 11
+      "size": 35107,
+      "dur": 15
      },
      {
-      "n": "projects-data.js?v=0d527939",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 8113,
-      "dur": 11
-     },
-     {
-      "n": "main.js?v=265ce22b",
-      "t": "script",
-      "size": 18723,
-      "dur": 11
-     },
-     {
-      "n": "kd-08.svg",
-      "t": "img",
-      "size": 8375,
-      "dur": 5
+      "size": 16865,
+      "dur": 25
      },
      {
       "n": "kd-23.svg",
       "t": "img",
-      "size": 8243,
-      "dur": 10
+      "size": 9391,
+      "dur": 15
+     },
+     {
+      "n": "kd-08.svg",
+      "t": "img",
+      "size": 9493,
+      "dur": 15
      },
      {
       "n": "kd-60.svg",
       "t": "img",
-      "size": 8379,
-      "dur": 13
+      "size": 9497,
+      "dur": 15
      },
      {
       "n": "kd-11.svg",
       "t": "img",
-      "size": 8317,
-      "dur": 13
+      "size": 9465,
+      "dur": 20
      },
      {
       "n": "kd-15.svg",
       "t": "img",
-      "size": 8795,
-      "dur": 13
+      "size": 9943,
+      "dur": 27
      },
      {
       "n": "kd-36.svg",
       "t": "img",
-      "size": 8794,
-      "dur": 13
-     },
-     {
-      "n": "kd-43.svg",
-      "t": "img",
-      "size": 9569,
-      "dur": 18
+      "size": 9942,
+      "dur": 28
      },
      {
       "n": "kd-54.svg",
       "t": "img",
-      "size": 9567,
-      "dur": 18
+      "size": 10747,
+      "dur": 29
+     },
+     {
+      "n": "kd-43.svg",
+      "t": "img",
+      "size": 10749,
+      "dur": 30
      },
      {
       "n": "kd-17.svg",
       "t": "img",
-      "size": 9569,
-      "dur": 18
+      "size": 10749,
+      "dur": 34
+     },
+     {
+      "n": "kd-42.svg",
+      "t": "img",
+      "size": 11868,
+      "dur": 37
+     },
+     {
+      "n": "kd-31.svg",
+      "t": "img",
+      "size": 11866,
+      "dur": 37
+     },
+     {
+      "n": "kd-40.svg",
+      "t": "img",
+      "size": 10307,
+      "dur": 37
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 12
+      "dur": 25
      },
      {
       "n": "kd-29.svg",
       "t": "img",
-      "size": 10578,
-      "dur": 7
+      "size": 11850,
+      "dur": 15
      },
      {
       "n": "kd-27.svg",
       "t": "img",
-      "size": 10576,
-      "dur": 9
+      "size": 11848,
+      "dur": 15
      },
      {
       "n": "kd-38.svg",
       "t": "img",
-      "size": 10577,
-      "dur": 9
+      "size": 11849,
+      "dur": 15
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
-    "requestCount": 19,
-    "totalBytes": 232264
+    "requestCount": 21,
+    "totalBytes": 291560
    }
   },
   "obekty": {
@@ -2698,6 +2646,7 @@
     ],
     "headings": [
      "H1: Дома, которые уже стоят",
+     "H2: Построенные объекты",
      "H3: Дом для семьи в Конаковском районе",
      "H3: Просторный дом под Торжком",
      "H3: Компактный дом в Лихославле",
@@ -2712,16 +2661,16 @@
      "H3: Квадратных метров",
      "H3: Месяца на дом",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 6939,
+    "docHeight": 7011,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [
@@ -2745,9 +2694,9 @@
      },
      {
       "el": "td.",
-      "left": 198,
+      "left": 194,
       "right": 580,
-      "w": 382
+      "w": 386
      },
      {
       "el": "tr.",
@@ -2757,9 +2706,9 @@
      },
      {
       "el": "td.",
-      "left": 198,
+      "left": 194,
       "right": 580,
-      "w": 382
+      "w": 386
      },
      {
       "el": "tr.",
@@ -2769,9 +2718,9 @@
      },
      {
       "el": "td.",
-      "left": 198,
+      "left": 194,
       "right": 580,
-      "w": 382
+      "w": 386
      },
      {
       "el": "tr.",
@@ -2781,9 +2730,9 @@
      },
      {
       "el": "td.",
-      "left": 198,
+      "left": 194,
       "right": 580,
-      "w": 382
+      "w": 386
      },
      {
       "el": "tr.",
@@ -2793,14 +2742,14 @@
      },
      {
       "el": "td.",
-      "left": 198,
+      "left": 194,
       "right": 580,
-      "w": 382
+      "w": 386
      }
     ],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
@@ -2868,14 +2817,8 @@
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
+      "w": 53,
+      "h": 28
      },
      {
       "el": "input.sr-only",
@@ -2892,8 +2835,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 169,
-      "h": 38
+      "w": 175,
+      "h": 36
      }
     ],
     "forms": [
@@ -2916,98 +2859,80 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 88,
+    "lcp": 136,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 40,
-     "load": 41,
-     "transfer": 20087
+     "dcl": 67,
+     "load": 70,
+     "transfer": 20313
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 3
-     },
-     {
-      "n": "manrope-wght.woff2",
-      "t": "link",
-      "size": 22224,
-      "dur": 7
-     },
-     {
-      "n": "style.css?v=dfa48cdb",
-      "t": "link",
-      "size": 33909,
-      "dur": 7
-     },
-     {
-      "n": "main.js?v=265ce22b",
-      "t": "script",
-      "size": 18723,
+      "size": 38104,
       "dur": 10
      },
      {
-      "n": "kd-17.svg",
-      "t": "img",
-      "size": 9569,
-      "dur": 12
+      "n": "golos-text-wght.woff2",
+      "t": "link",
+      "size": 41140,
+      "dur": 14
      },
      {
-      "n": "kd-29.svg",
-      "t": "img",
-      "size": 10578,
-      "dur": 11
+      "n": "style.css?v=2dc48d02",
+      "t": "link",
+      "size": 35107,
+      "dur": 10
      },
      {
-      "n": "kd-08.svg",
-      "t": "img",
-      "size": 8375,
-      "dur": 11
-     },
-     {
-      "n": "kd-36.svg",
-      "t": "img",
-      "size": 8794,
-      "dur": 11
-     },
-     {
-      "n": "kd-38.svg",
-      "t": "img",
-      "size": 10577,
-      "dur": 11
+      "n": "main.js?v=a7c171e2",
+      "t": "script",
+      "size": 16865,
+      "dur": 14
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 10
-     }
-    ],
-    "badContrast": [
+      "dur": 3
+     },
      {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
+      "n": "kd-17.svg",
+      "t": "img",
+      "size": 10749,
+      "dur": 15
+     },
+     {
+      "n": "kd-29.svg",
+      "t": "img",
+      "size": 11850,
+      "dur": 12
+     },
+     {
+      "n": "kd-08.svg",
+      "t": "img",
+      "size": 9493,
+      "dur": 15
+     },
+     {
+      "n": "kd-38.svg",
+      "t": "img",
+      "size": 11849,
+      "dur": 15
+     },
+     {
+      "n": "kd-36.svg",
+      "t": "img",
+      "size": 9942,
+      "dur": 15
      }
     ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 11,
-    "totalBytes": 160705
+    "totalBytes": 185879
    },
    "desk": {
     "title": "Построенные дома в Твери и области — портфолио | Каркас Комфорт",
@@ -3031,6 +2956,7 @@
     ],
     "headings": [
      "H1: Дома, которые уже стоят",
+     "H2: Построенные объекты",
      "H3: Дом для семьи в Конаковском районе",
      "H3: Просторный дом под Торжком",
      "H3: Компактный дом в Лихославле",
@@ -3045,22 +2971,22 @@
      "H3: Квадратных метров",
      "H3: Месяца на дом",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4291,
+    "docHeight": 4327,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
@@ -3128,20 +3054,14 @@
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
+      "w": 53,
+      "h": 28
      },
      {
       "el": "input.sr-only",
@@ -3158,8 +3078,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 211,
-      "h": 18
+      "w": 218,
+      "h": 16
      }
     ],
     "forms": [
@@ -3182,98 +3102,80 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 100,
+    "lcp": 164,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 42,
-     "load": 44,
-     "transfer": 20087
+     "dcl": 64,
+     "load": 66,
+     "transfer": 20313
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 10
+      "size": 38104,
+      "dur": 14
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 11
+      "size": 41140,
+      "dur": 14
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 9
+      "size": 35107,
+      "dur": 12
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 13
-     },
-     {
-      "n": "kd-29.svg",
-      "t": "img",
-      "size": 10578,
-      "dur": 11
+      "size": 16865,
+      "dur": 19
      },
      {
       "n": "kd-17.svg",
       "t": "img",
-      "size": 9569,
+      "size": 10749,
+      "dur": 9
+     },
+     {
+      "n": "kd-29.svg",
+      "t": "img",
+      "size": 11850,
       "dur": 11
      },
      {
       "n": "kd-08.svg",
       "t": "img",
-      "size": 8375,
-      "dur": 11
-     },
-     {
-      "n": "kd-38.svg",
-      "t": "img",
-      "size": 10577,
+      "size": 9493,
       "dur": 11
      },
      {
       "n": "kd-36.svg",
       "t": "img",
-      "size": 8794,
-      "dur": 11
+      "size": 9942,
+      "dur": 16
+     },
+     {
+      "n": "kd-38.svg",
+      "t": "img",
+      "size": 11849,
+      "dur": 17
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 10
+      "dur": 16
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 11,
-    "totalBytes": 160705
+    "totalBytes": 185879
    }
   },
   "uslugi": {
@@ -3300,6 +3202,7 @@
     ],
     "headings": [
      "H1: Полный цикл: от проекта до подключённых коммуникаций",
+     "H2: Что входит в работы",
      "H3: Проектирование",
      "H3: Фундаментные работы",
      "H3: Каркас и кровля",
@@ -3321,36 +3224,30 @@
      "H2: Ипотека, маткапитал и рассрочка по этапам",
      "H3: Гарантия",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 7274,
+    "docHeight": 7423,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
+      "w": 53,
+      "h": 28
      },
      {
       "el": "input.sr-only",
@@ -3367,8 +3264,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 169,
-      "h": 38
+      "w": 175,
+      "h": 36
      }
     ],
     "forms": [
@@ -3395,64 +3292,46 @@
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 54,
-     "load": 56,
-     "transfer": 20330
+     "dcl": 49,
+     "load": 50,
+     "transfer": 20554
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 5
+      "size": 38104,
+      "dur": 8
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 7
+      "size": 35107,
+      "dur": 8
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "golos-text-wght.woff2",
+      "t": "link",
+      "size": 41140,
+      "dur": 9
+     },
+     {
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 8
-     },
-     {
-      "n": "manrope-wght.woff2",
-      "t": "link",
-      "size": 22224,
-      "dur": 8
+      "size": 16865,
+      "dur": 11
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 2
+      "dur": 4
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    },
    "desk": {
     "title": "Услуги и этапы строительства — Каркас Комфорт, Тверь",
@@ -3476,6 +3355,7 @@
     ],
     "headings": [
      "H1: Полный цикл: от проекта до подключённых коммуникаций",
+     "H2: Что входит в работы",
      "H3: Проектирование",
      "H3: Фундаментные работы",
      "H3: Каркас и кровля",
@@ -3497,42 +3377,36 @@
      "H2: Ипотека, маткапитал и рассрочка по этапам",
      "H3: Гарантия",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4335,
+    "docHeight": 4397,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
+      "w": 53,
+      "h": 28
      },
      {
       "el": "input.sr-only",
@@ -3549,8 +3423,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 211,
-      "h": 18
+      "w": 218,
+      "h": 16
      }
     ],
     "forms": [
@@ -3577,71 +3451,53 @@
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 58,
-     "load": 59,
-     "transfer": 20330
+     "dcl": 47,
+     "load": 49,
+     "transfer": 20554
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 17
+      "size": 38104,
+      "dur": 8
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 17
+      "size": 41140,
+      "dur": 8
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 17
+      "size": 35107,
+      "dur": 10
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 17
+      "size": 16865,
+      "dur": 10
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 6
+      "dur": 4
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    }
   },
   "karkasnye-doma": {
    "path": "/karkasnye-doma.html",
    "mob": {
-    "title": "Каркасные дома под ключ в Твери и области — технология и цены | Каркас Комфорт",
-    "titleLen": 78,
+    "title": "Каркасные дома под ключ в Твери — технология и цены",
+    "titleLen": 51,
     "desc": "Строительство каркасных домов под ключ в Твери: технология, состав стены, комплектации, сроки и цены от 32 000 ₽/м². Фиксированная смета, гарантия 5 лет.",
     "descLen": 153,
     "canonical": "https://karkascomfort.ru/karkasnye-doma.html",
@@ -3677,16 +3533,16 @@
      "H3: Если нужен «дом на века» из камня",
      "H3: Если планируете тяжёлую отделку",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 6349,
+    "docHeight": 6531,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [
@@ -3710,15 +3566,15 @@
      },
      {
       "el": "th.",
-      "left": 219,
-      "right": 478,
-      "w": 259
+      "left": 220,
+      "right": 476,
+      "w": 255
      },
      {
       "el": "th.",
-      "left": 478,
+      "left": 476,
       "right": 580,
-      "w": 102
+      "w": 104
      },
      {
       "el": "tbody.",
@@ -3734,15 +3590,15 @@
      },
      {
       "el": "td.",
-      "left": 219,
-      "right": 478,
-      "w": 259
+      "left": 220,
+      "right": 476,
+      "w": 255
      },
      {
       "el": "td.",
-      "left": 478,
+      "left": 476,
       "right": 580,
-      "w": 102
+      "w": 104
      },
      {
       "el": "tr.",
@@ -3752,20 +3608,20 @@
      },
      {
       "el": "td.",
-      "left": 219,
-      "right": 478,
-      "w": 259
+      "left": 220,
+      "right": 476,
+      "w": 255
      },
      {
       "el": "td.",
-      "left": 478,
+      "left": 476,
       "right": 580,
-      "w": 102
+      "w": 104
      }
     ],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
@@ -3783,14 +3639,8 @@
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
+      "w": 53,
+      "h": 28
      },
      {
       "el": "input.sr-only",
@@ -3807,8 +3657,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 169,
-      "h": 38
+      "w": 175,
+      "h": 36
      }
     ],
     "forms": [
@@ -3831,78 +3681,60 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 72,
+    "lcp": 76,
     "lcpEl": "P.lead",
     "cls": 0,
     "nav": {
-     "dcl": 46,
-     "load": 48,
-     "transfer": 19885
+     "dcl": 48,
+     "load": 50,
+     "transfer": 19944
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 8
-     },
-     {
-      "n": "manrope-wght.woff2",
-      "t": "link",
-      "size": 22224,
-      "dur": 8
-     },
-     {
-      "n": "style.css?v=dfa48cdb",
-      "t": "link",
-      "size": 33909,
-      "dur": 8
-     },
-     {
-      "n": "main.js?v=265ce22b",
-      "t": "script",
-      "size": 18723,
+      "size": 38104,
       "dur": 10
+     },
+     {
+      "n": "style.css?v=2dc48d02",
+      "t": "link",
+      "size": 35107,
+      "dur": 9
+     },
+     {
+      "n": "golos-text-wght.woff2",
+      "t": "link",
+      "size": 41140,
+      "dur": 10
+     },
+     {
+      "n": "main.js?v=a7c171e2",
+      "t": "script",
+      "size": 16865,
+      "dur": 14
      },
      {
       "n": "kd-36.svg",
       "t": "img",
-      "size": 8794,
-      "dur": 3
+      "size": 9942,
+      "dur": 10
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 3
+      "dur": 9
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 7,
-    "totalBytes": 121606
+    "totalBytes": 141938
    },
    "desk": {
-    "title": "Каркасные дома под ключ в Твери и области — технология и цены | Каркас Комфорт",
-    "titleLen": 78,
+    "title": "Каркасные дома под ключ в Твери — технология и цены",
+    "titleLen": 51,
     "desc": "Строительство каркасных домов под ключ в Твери: технология, состав стены, комплектации, сроки и цены от 32 000 ₽/м². Фиксированная смета, гарантия 5 лет.",
     "descLen": 153,
     "canonical": "https://karkascomfort.ru/karkasnye-doma.html",
@@ -3938,22 +3770,22 @@
      "H3: Если нужен «дом на века» из камня",
      "H3: Если планируете тяжёлую отделку",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4194,
+    "docHeight": 4235,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
@@ -3971,20 +3803,14 @@
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
+      "w": 53,
+      "h": 28
      },
      {
       "el": "input.sr-only",
@@ -4001,8 +3827,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 211,
-      "h": 18
+      "w": 218,
+      "h": 16
      }
     ],
     "forms": [
@@ -4025,81 +3851,63 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 140,
+    "lcp": 116,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 72,
-     "load": 74,
-     "transfer": 19885
+     "dcl": 50,
+     "load": 52,
+     "transfer": 19944
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 14
+      "size": 38104,
+      "dur": 8
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 33909,
-      "dur": 13
+      "size": 41140,
+      "dur": 8
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 22224,
-      "dur": 14
+      "size": 35107,
+      "dur": 7
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 13
+      "size": 16865,
+      "dur": 14
      },
      {
       "n": "kd-36.svg",
       "t": "img",
-      "size": 8794,
-      "dur": 5
+      "size": 9942,
+      "dur": 10
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 5
+      "dur": 9
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 7,
-    "totalBytes": 121606
+    "totalBytes": 141938
    }
   },
   "o-kompanii": {
    "path": "/o-kompanii.html",
    "mob": {
-    "title": "О компании — Каркас Комфорт, строительство домов в Твери с 2009 года",
-    "titleLen": 68,
+    "title": "О компании — строим дома в Твери с 2009 года",
+    "titleLen": 44,
     "desc": "ООО «Каркас Комфорт»: с 2009 года строим каркасные дома, бани и гаражи в Твери и Тверской области. Более 300 объектов, свои бригады, фиксированная смета, гарантия 5 лет.",
     "descLen": 169,
     "canonical": "https://karkascomfort.ru/o-kompanii.html",
@@ -4122,50 +3930,43 @@
      "H2: Как мы работаем",
      "H2: Что для нас важно",
      "H3: Реквизиты",
-     "H2: Заказчики о работе с нами",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 5258,
+    "docHeight": 4330,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "8 (920) 171-69-69",
-      "w": 123,
-      "h": 21
+      "w": 125,
+      "h": 18
      },
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 182,
-      "h": 21
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
+      "w": 190,
+      "h": 18
      },
      {
       "el": "input.sr-only",
@@ -4182,8 +3983,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 169,
-      "h": 38
+      "w": 175,
+      "h": 36
      }
     ],
     "forms": [
@@ -4206,38 +4007,38 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 64,
+    "lcp": 108,
     "lcpEl": "P.lead",
     "cls": 0,
     "nav": {
-     "dcl": 41,
-     "load": 42,
-     "transfer": 18438
+     "dcl": 69,
+     "load": 72,
+     "transfer": 16638
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
+      "size": 38104,
+      "dur": 12
+     },
+     {
+      "n": "golos-text-wght.woff2",
+      "t": "link",
+      "size": 41140,
+      "dur": 12
+     },
+     {
+      "n": "style.css?v=2dc48d02",
+      "t": "link",
+      "size": 35107,
       "dur": 8
      },
      {
-      "n": "manrope-wght.woff2",
-      "t": "link",
-      "size": 22224,
-      "dur": 8
-     },
-     {
-      "n": "style.css?v=dfa48cdb",
-      "t": "link",
-      "size": 33909,
-      "dur": 7
-     },
-     {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 10
+      "size": 16865,
+      "dur": 12
      },
      {
       "n": "favicon.svg",
@@ -4246,32 +4047,14 @@
       "dur": 3
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    },
    "desk": {
-    "title": "О компании — Каркас Комфорт, строительство домов в Твери с 2009 года",
-    "titleLen": 68,
+    "title": "О компании — строим дома в Твери с 2009 года",
+    "titleLen": 44,
     "desc": "ООО «Каркас Комфорт»: с 2009 года строим каркасные дома, бани и гаражи в Твери и Тверской области. Более 300 объектов, свои бригады, фиксированная смета, гарантия 5 лет.",
     "descLen": 169,
     "canonical": "https://karkascomfort.ru/o-kompanii.html",
@@ -4294,56 +4077,49 @@
      "H2: Как мы работаем",
      "H2: Что для нас важно",
      "H3: Реквизиты",
-     "H2: Заказчики о работе с нами",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 3538,
+    "docHeight": 2779,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "8 (920) 171-69-69",
-      "w": 123,
-      "h": 21
+      "w": 125,
+      "h": 18
      },
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 182,
-      "h": 21
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
+      "w": 190,
+      "h": 18
      },
      {
       "el": "input.sr-only",
@@ -4360,8 +4136,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 211,
-      "h": 18
+      "w": 218,
+      "h": 16
      }
     ],
     "forms": [
@@ -4384,68 +4160,50 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 84,
+    "lcp": 112,
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 46,
-     "load": 47,
-     "transfer": 18438
+     "dcl": 58,
+     "load": 60,
+     "transfer": 16638
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 6
-     },
-     {
-      "n": "manrope-wght.woff2",
-      "t": "link",
-      "size": 22224,
+      "size": 38104,
       "dur": 10
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 33909,
-      "dur": 9
+      "size": 41140,
+      "dur": 11
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "style.css?v=2dc48d02",
+      "t": "link",
+      "size": 35107,
+      "dur": 8
+     },
+     {
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 10
+      "size": 16865,
+      "dur": 12
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 4
+      "dur": 3
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    }
   },
   "kontakty": {
@@ -4472,14 +4230,15 @@
     ],
     "headings": [
      "H1: Свяжитесь с нами",
+     "H2: Как с нами связаться",
      "H3: Телефоны",
      "H3: Почта",
      "H3: Офис",
      "H2: Напишите нам",
      "H2: Куда выезжаем",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList",
@@ -4487,39 +4246,39 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 3873,
+    "docHeight": 3973,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "8 (920) 171-69-69",
-      "w": 170,
-      "h": 27
+      "w": 173,
+      "h": 24
      },
      {
       "el": "a.",
       "text": "8 (4822) 75-25-05",
-      "w": 174,
-      "h": 27
+      "w": 176,
+      "h": 24
      },
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 239,
-      "h": 26
+      "w": 243,
+      "h": 23
      },
      {
       "el": "input.sr-only",
@@ -4536,8 +4295,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 229,
-      "h": 38
+      "w": 239,
+      "h": 36
      }
     ],
     "forms": [
@@ -4561,50 +4320,50 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 96,
+    "lcp": 88,
     "lcpEl": "P.lead",
     "cls": 0,
     "nav": {
-     "dcl": 62,
-     "load": 64,
-     "transfer": 15913
+     "dcl": 61,
+     "load": 62,
+     "transfer": 16201
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
+      "size": 38104,
+      "dur": 15
+     },
+     {
+      "n": "golos-text-wght.woff2",
+      "t": "link",
+      "size": 41140,
+      "dur": 15
+     },
+     {
+      "n": "style.css?v=2dc48d02",
+      "t": "link",
+      "size": 35107,
       "dur": 13
      },
      {
-      "n": "style.css?v=dfa48cdb",
-      "t": "link",
-      "size": 33909,
-      "dur": 12
-     },
-     {
-      "n": "manrope-wght.woff2",
-      "t": "link",
-      "size": 22224,
-      "dur": 13
-     },
-     {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 13
+      "size": 16865,
+      "dur": 19
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 4
+      "dur": 5
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    },
    "desk": {
     "title": "Контакты — Каркас Комфорт, Тверь, ул. Серебряная, 12",
@@ -4628,14 +4387,15 @@
     ],
     "headings": [
      "H1: Свяжитесь с нами",
+     "H2: Как с нами связаться",
      "H3: Телефоны",
      "H3: Почта",
      "H3: Офис",
      "H2: Напишите нам",
      "H2: Куда выезжаем",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList",
@@ -4643,45 +4403,45 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 2454,
+    "docHeight": 2466,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "8 (920) 171-69-69",
-      "w": 170,
-      "h": 27
+      "w": 173,
+      "h": 24
      },
      {
       "el": "a.",
       "text": "8 (4822) 75-25-05",
-      "w": 174,
-      "h": 27
+      "w": 176,
+      "h": 24
      },
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 239,
-      "h": 26
+      "w": 243,
+      "h": 23
      },
      {
       "el": "input.sr-only",
@@ -4698,8 +4458,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 479,
-      "h": 38
+      "w": 218,
+      "h": 16
      }
     ],
     "forms": [
@@ -4723,50 +4483,50 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 72,
+    "lcp": 116,
     "lcpEl": "P.lead",
     "cls": 0,
     "nav": {
-     "dcl": 38,
-     "load": 40,
-     "transfer": 15913
+     "dcl": 56,
+     "load": 58,
+     "transfer": 16201
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 8
+      "size": 38104,
+      "dur": 10
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 33909,
-      "dur": 7
+      "size": 41140,
+      "dur": 19
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 22224,
-      "dur": 7
+      "size": 35107,
+      "dur": 18
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 11
+      "size": 16865,
+      "dur": 19
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 3
+      "dur": 5
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    }
   },
   "proekt": {
@@ -4789,10 +4549,10 @@
      "og:image:height"
     ],
     "h1": [
-     "Каркасный дом 9×13 · КД-40"
+     "Каркасный дом 9×13проект КД-40"
     ],
     "headings": [
-     "H1: Каркасный дом 9×13 · КД-40",
+     "H1: Каркасный дом 9×13проект КД-40",
      "H2: Что входит в ориентировочную стоимость",
      "H3: Фундамент и каркас",
      "H3: Кровля и фасад",
@@ -4803,9 +4563,9 @@
      "H3: Каркасный дом 9×9",
      "H3: Каркасный дом 8×10",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "Product",
@@ -4813,13 +4573,13 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 6079,
+    "docHeight": 6060,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
@@ -4867,38 +4627,32 @@
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "Проекты",
-      "w": 56,
-      "h": 22
+      "w": 59,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 9×12",
-      "w": 201,
+      "w": 214,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 9×9",
-      "w": 194,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 8×10",
-      "w": 204,
+      "w": 214,
       "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
      },
      {
       "el": "input.sr-only",
@@ -4915,8 +4669,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 169,
-      "h": 38
+      "w": 175,
+      "h": 36
      }
     ],
     "forms": [
@@ -4939,74 +4693,56 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 60,
+    "lcp": 136,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 46,
-     "load": 47,
-     "transfer": 21195
+     "dcl": 87,
+     "load": 89,
+     "transfer": 21255
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
+      "size": 38104,
       "dur": 9
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 9
+      "size": 41140,
+      "dur": 23
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 9
+      "size": 35107,
+      "dur": 22
      },
      {
       "n": "kd-40.svg",
       "t": "img",
-      "size": 9151,
-      "dur": 9
+      "size": 10307,
+      "dur": 23
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 11
+      "size": 16865,
+      "dur": 26
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 8
+      "dur": 6
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 7,
-    "totalBytes": 121963
+    "totalBytes": 142303
    },
    "desk": {
     "title": "Каркасный дом 9×13 (КД-40) — 165 м² под ключ | Каркас Комфорт",
@@ -5026,10 +4762,10 @@
      "og:image:height"
     ],
     "h1": [
-     "Каркасный дом 9×13 · КД-40"
+     "Каркасный дом 9×13проект КД-40"
     ],
     "headings": [
-     "H1: Каркасный дом 9×13 · КД-40",
+     "H1: Каркасный дом 9×13проект КД-40",
      "H2: Что входит в ориентировочную стоимость",
      "H3: Фундамент и каркас",
      "H3: Кровля и фасад",
@@ -5040,9 +4776,9 @@
      "H3: Каркасный дом 9×9",
      "H3: Каркасный дом 8×10",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "Product",
@@ -5050,13 +4786,13 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 3765,
+    "docHeight": 3758,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [
      {
@@ -5104,44 +4840,38 @@
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "Проекты",
-      "w": 56,
-      "h": 22
+      "w": 59,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 9×12",
-      "w": 201,
+      "w": 214,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 9×9",
-      "w": 194,
+      "w": 201,
       "h": 28
      },
      {
       "el": "a.",
       "text": "Каркасный дом 8×10",
-      "w": 204,
+      "w": 214,
       "h": 28
-     },
-     {
-      "el": "a.",
-      "text": "8 (920) 171-69-69",
-      "w": 127,
-      "h": 21
      },
      {
       "el": "input.sr-only",
@@ -5158,8 +4888,8 @@
      {
       "el": "a.",
       "text": "политикой конфиденциальности",
-      "w": 211,
-      "h": 18
+      "w": 218,
+      "h": 16
      }
     ],
     "forms": [
@@ -5187,87 +4917,69 @@
     "cls": 0,
     "nav": {
      "dcl": 56,
-     "load": 61,
-     "transfer": 21195
+     "load": 58,
+     "transfer": 21255
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 10
+      "size": 38104,
+      "dur": 12
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 33909,
-      "dur": 6
+      "size": 41140,
+      "dur": 12
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 22224,
-      "dur": 10
+      "size": 35107,
+      "dur": 11
      },
      {
       "n": "kd-40.svg",
       "t": "img",
-      "size": 9151,
-      "dur": 10
+      "size": 10307,
+      "dur": 12
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 9
+      "size": 16865,
+      "dur": 16
      },
      {
       "n": "kd-29.svg",
       "t": "img",
-      "size": 10578,
-      "dur": 8
+      "size": 11850,
+      "dur": 6
      },
      {
       "n": "kd-31.svg",
       "t": "img",
-      "size": 10568,
-      "dur": 9
+      "size": 11866,
+      "dur": 12
      },
      {
       "n": "kd-42.svg",
       "t": "img",
-      "size": 10570,
-      "dur": 8
+      "size": 11868,
+      "dur": 12
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 8
+      "dur": 12
      }
     ],
-    "badContrast": [
-     {
-      "sel": "p.eyebrow",
-      "text": "Расчёт стоимости",
-      "color": [
-       192,
-       138,
-       74
-      ],
-      "bg": [
-       30,
-       61,
-       41
-      ],
-      "size": 12,
-      "weight": "600",
-      "ratio": 3.98
-     }
-    ],
+    "badContrast": [],
     "consoleErrors": [],
     "requestCount": 10,
-    "totalBytes": 153679
+    "totalBytes": 177887
    }
   },
   "politika": {
@@ -5303,84 +5015,84 @@
      "H2: 7. Права пользователя",
      "H2: 8. Файлы cookie",
      "H2: 9. Контакты оператора",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4259,
+    "docHeight": 4287,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 206,
-      "h": 23
+      "w": 216,
+      "h": 21
      }
     ],
     "forms": [],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 48,
+    "lcp": 72,
     "lcpEl": "P.",
     "cls": 0,
     "nav": {
-     "dcl": 35,
-     "load": 35,
-     "transfer": 14968
+     "dcl": 46,
+     "load": 47,
+     "transfer": 15134
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 8
+      "size": 38104,
+      "dur": 11
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 9
+      "size": 41140,
+      "dur": 11
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 6
+      "size": 35107,
+      "dur": 12
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 9
+      "size": 16865,
+      "dur": 16
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 2
+      "dur": 4
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    },
    "desk": {
     "title": "Политика конфиденциальности — Каркас Комфорт",
@@ -5413,84 +5125,84 @@
      "H2: 7. Права пользователя",
      "H2: 8. Файлы cookie",
      "H2: 9. Контакты оператора",
-     "H4: Разделы",
-     "H4: Проекты",
-     "H4: Контакты"
+     "H2: Разделы",
+     "H2: Проекты",
+     "H2: Контакты"
     ],
     "jsonld": [
      "BreadcrumbList"
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 3128,
+    "docHeight": 3136,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
     "fontFaces": [
-     "Playfair Display|loaded|U+0-10FFFF",
-     "Manrope|loaded|U+0-10FFFF"
+     "Nunito|loaded|U+0-10FFFF",
+     "Golos Text|loaded|U+0-10FFFF"
     ],
     "imgs": [],
     "tap": [
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 157,
-      "h": 18
+      "w": 165,
+      "h": 16
      },
      {
       "el": "a.",
       "text": "Главная",
-      "w": 52,
-      "h": 22
+      "w": 53,
+      "h": 28
      },
      {
       "el": "a.",
       "text": "karkascomfort@yandex.ru",
-      "w": 206,
-      "h": 23
+      "w": 216,
+      "h": 21
      },
      {
       "el": "a.",
       "text": "8 (920) 171-69-69",
-      "w": 139,
-      "h": 23
+      "w": 142,
+      "h": 21
      }
     ],
     "forms": [],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 72,
+    "lcp": 88,
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 38,
-     "load": 38,
-     "transfer": 14968
+     "dcl": 54,
+     "load": 54,
+     "transfer": 15134
     },
     "resources": [
      {
-      "n": "playfair-display-wght.woff2",
+      "n": "nunito-wght.woff2",
       "t": "link",
-      "size": 37176,
-      "dur": 11
+      "size": 38104,
+      "dur": 13
      },
      {
-      "n": "manrope-wght.woff2",
+      "n": "golos-text-wght.woff2",
       "t": "link",
-      "size": 22224,
-      "dur": 11
+      "size": 41140,
+      "dur": 14
      },
      {
-      "n": "style.css?v=dfa48cdb",
+      "n": "style.css?v=2dc48d02",
       "t": "link",
-      "size": 33909,
-      "dur": 7
+      "size": 35107,
+      "dur": 13
      },
      {
-      "n": "main.js?v=265ce22b",
+      "n": "main.js?v=a7c171e2",
       "t": "script",
-      "size": 18723,
-      "dur": 11
+      "size": 16865,
+      "dur": 17
      },
      {
       "n": "favicon.svg",
@@ -5502,9 +5214,9 @@
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 112812
+    "totalBytes": 131996
    }
   }
  },
- "generated": "2026-08-23T19:04:52.022Z"
+ "generated": "2026-08-25T08:50:47.889Z"
 }

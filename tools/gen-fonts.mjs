@@ -3,8 +3,9 @@
    потому что в текстах есть «м²», «×», «·», «—» из латинского диапазона.
    Здесь переменные шрифты Google Fonts урезаются до нужных знаков
    и собираются в один woff2 со всеми начертаниями по весу.
-   Знака рубля в Playfair Display нет вовсе, поэтому в CSS сразу за ним
-   в стеке стоит Manrope — цены набираются им, а не системным шрифтом.
+   Nunito (заголовки) и Golos Text (текст) — мягкие гротески со скруглёнными
+   формами: оба содержат кириллицу, знак рубля и «м²», так что запасных
+   шрифтов для отдельных символов не нужно.
 
    Исходники (переменные TTF) лежат в tools/fonts-src/ и в сборке не участвуют.
    Запуск: npm run fonts (нужен python3 с fonttools и brotli).              */
@@ -25,8 +26,8 @@ const UNICODES = [
 ].join(',');
 
 const FAMILIES = [
-  { src: 'Manrope.ttf', out: 'manrope-wght.woff2' },
-  { src: 'PlayfairDisplay.ttf', out: 'playfair-display-wght.woff2' }
+  { src: 'Nunito.ttf', out: 'nunito-wght.woff2' },
+  { src: 'GolosText.ttf', out: 'golos-text-wght.woff2' }
 ];
 
 for (const f of FAMILIES) {

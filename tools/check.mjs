@@ -140,7 +140,7 @@ ok('слой стены переключается', (await p.textContent('#wall
 ok('выбранный слой объявлен ассистивным технологиям',
   (await p.getAttribute('#wall .layer:nth-child(3)', 'aria-pressed')) === 'true');
 ok('разрез подсвечивает выбранный слой', await p.isVisible('.wall__cut rect[data-cut="2"].is-lit'));
-ok('шрифты подгружены', await p.evaluate(() => document.fonts.check('16px "Playfair Display"') && document.fonts.check('16px Manrope')));
+ok('шрифты подгружены', await p.evaluate(() => document.fonts.check('16px Nunito') && document.fonts.check('16px "Golos Text"')));
 ok('на семейство приходится по одному файлу шрифта',
   await p.evaluate(() => performance.getEntriesByType('resource').filter((r) => r.name.endsWith('.woff2')).length <= 2));
 

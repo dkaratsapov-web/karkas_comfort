@@ -36,10 +36,10 @@ function forest(rnd, { y, h, from, to, fill, opacity = 1, step = 26 }) {
 function spruce(x, groundY, scale, fill) {
   const s = scale;
   return `<g transform="translate(${x} ${groundY}) scale(${s.toFixed(2)})">
-    <rect x="-4" y="-24" width="8" height="28" rx="3" fill="${C.deep}" opacity=".8"/>
-    <path d="M0 -168 L34 -104 H-34 Z" fill="${fill}" opacity=".9"/>
-    <path d="M0 -132 L44 -58 H-44 Z" fill="${fill}"/>
-    <path d="M0 -92 L54 -14 H-54 Z" fill="${fill}"/>
+    <rect x="-4" y="-24" width="8" height="28" rx="4" fill="${C.deep}" opacity=".8"/>
+    <path d="M0 -168 Q14 -140 32 -108 Q16 -100 0 -100 Q-16 -100 -32 -108 Q-14 -140 0 -168 Z" fill="${fill}" opacity=".9" stroke="${fill}" stroke-width="7" stroke-linejoin="round" stroke-opacity=".9"/>
+    <path d="M0 -132 Q18 -98 42 -62 Q20 -52 0 -52 Q-20 -52 -42 -62 Q-18 -98 0 -132 Z" fill="${fill}" stroke="${fill}" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M0 -92 Q22 -54 52 -18 Q26 -8 0 -8 Q-26 -8 -52 -18 Q-22 -54 0 -92 Z" fill="${fill}" stroke="${fill}" stroke-width="9" stroke-linejoin="round"/>
   </g>`;
 }
 
@@ -57,8 +57,9 @@ function house(o) {
   const win = (x, y, ww, wh, mullions = 1) => {
     const bars = Array.from({ length: mullions }, (_, i) =>
       `<line x1="${x + (ww / (mullions + 1)) * (i + 1)}" y1="${y}" x2="${x + (ww / (mullions + 1)) * (i + 1)}" y2="${y + wh}" stroke="${C.frame}" stroke-width="${Math.max(2, ww * 0.04)}"/>`).join('');
-    return `<g><rect x="${x}" y="${y}" width="${ww}" height="${wh}" rx="2" fill="url(#glassGrad)"/>${bars}
-      <rect x="${x}" y="${y}" width="${ww}" height="${wh}" rx="2" fill="none" stroke="${C.frame}" stroke-width="${Math.max(3, ww * 0.055)}"/></g>`;
+    const wr = Math.max(4, ww * 0.09);
+    return `<g><rect x="${x}" y="${y}" width="${ww}" height="${wh}" rx="${wr}" fill="url(#glassGrad)"/>${bars}
+      <rect x="${x}" y="${y}" width="${ww}" height="${wh}" rx="${wr}" fill="none" stroke="${C.frame}" stroke-width="${Math.max(3, ww * 0.055)}" stroke-linejoin="round"/></g>`;
   };
 
   const planks = Array.from({ length: Math.floor(wallH / (w * 0.05)) }, (_, i) =>
@@ -80,9 +81,9 @@ function house(o) {
       : '';
 
   const door = `<g>
-      <rect x="${x0 + w * 0.845}" y="${groundY - wallH * 0.62}" width="${w * 0.095}" height="${wallH * 0.62}" rx="2" fill="${C.roof}"/>
-      <rect x="${x0 + w * 0.857}" y="${groundY - wallH * 0.53}" width="${w * 0.028}" height="${wallH * 0.26}" rx="2" fill="url(#glassGrad)" opacity=".8"/>
-      <rect x="${x0 + w * 0.83}" y="${groundY - 4}" width="${w * 0.125}" height="6" rx="2" fill="${C.stone}" opacity=".55"/>
+      <rect x="${x0 + w * 0.845}" y="${groundY - wallH * 0.62}" width="${w * 0.095}" height="${wallH * 0.62}" rx="6" fill="${C.roof}"/>
+      <rect x="${x0 + w * 0.857}" y="${groundY - wallH * 0.53}" width="${w * 0.028}" height="${wallH * 0.26}" rx="5" fill="url(#glassGrad)" opacity=".8"/>
+      <rect x="${x0 + w * 0.83}" y="${groundY - 4}" width="${w * 0.125}" height="6" rx="4" fill="${C.stone}" opacity=".55"/>
     </g>`;
 
   // терраса примыкает к левой стене, настил уходит в перспективу
@@ -99,14 +100,14 @@ function house(o) {
   return `<g>
     <ellipse cx="${cx}" cy="${groundY + 8}" rx="${w * 0.72}" ry="${w * 0.05}" fill="${C.ground2}" opacity=".45"/>
     ${terraceSvg}
-    ${chimney ? `<rect x="${cx + w * 0.17}" y="${ridge + gableH * 0.22}" width="${w * 0.05}" height="${gableH * 0.62}" rx="2" fill="${C.stone}"/>` : ''}
-    <rect x="${x0}" y="${wallY}" width="${w}" height="${wallH}" fill="${C.wood}"/>
-    <polygon points="${x0},${wallY} ${cx},${ridge} ${x1},${wallY}" fill="${C.woodLight}"/>
-    <polygon points="${cx},${ridge} ${x1},${wallY} ${cx},${wallY}" fill="${C.woodDark}" opacity=".22"/>
-    <rect x="${x0}" y="${wallY}" width="${w}" height="${wallH}" fill="url(#wallShade)"/>
+    ${chimney ? `<rect x="${cx + w * 0.17}" y="${ridge + gableH * 0.22}" width="${w * 0.05}" height="${gableH * 0.62}" rx="5" fill="${C.stone}"/>` : ''}
+    <rect x="${x0}" y="${wallY}" width="${w}" height="${wallH}" rx="${w * 0.02}" fill="${C.wood}"/>
+    <polygon points="${x0},${wallY} ${cx},${ridge} ${x1},${wallY}" fill="${C.woodLight}" stroke="${C.woodLight}" stroke-width="${roofT * 0.5}" stroke-linejoin="round"/>
+    <polygon points="${cx},${ridge} ${x1},${wallY} ${cx},${wallY}" fill="${C.woodDark}" opacity=".22" stroke="${C.woodDark}" stroke-width="${roofT * 0.4}" stroke-linejoin="round" stroke-opacity=".22"/>
+    <rect x="${x0}" y="${wallY}" width="${w}" height="${wallH}" rx="${w * 0.02}" fill="url(#wallShade)"/>
     ${planks}
-    <path d="M${x0 - eave} ${wallY + roofT * 0.4} L${cx} ${ridge - roofT * 0.6} L${x1 + eave} ${wallY + roofT * 0.4} L${x1 + eave} ${wallY + roofT * 1.6} L${cx} ${ridge + roofT * 0.7} L${x0 - eave} ${wallY + roofT * 1.6} Z" fill="${C.roof}"/>
-    <path d="M${x0 - eave} ${wallY + roofT * 0.4} L${cx} ${ridge - roofT * 0.6} L${cx} ${ridge + roofT * 0.1} L${x0 - eave * 0.5} ${wallY + roofT}  Z" fill="${C.roofLight}" opacity=".9"/>
+    <path d="M${x0 - eave} ${wallY + roofT * 0.4} L${cx} ${ridge - roofT * 0.6} L${x1 + eave} ${wallY + roofT * 0.4} L${x1 + eave} ${wallY + roofT * 1.6} L${cx} ${ridge + roofT * 0.7} L${x0 - eave} ${wallY + roofT * 1.6} Z" fill="${C.roof}" stroke="${C.roof}" stroke-width="${roofT * 0.55}" stroke-linejoin="round"/>
+    <path d="M${x0 - eave} ${wallY + roofT * 0.4} L${cx} ${ridge - roofT * 0.6} L${cx} ${ridge + roofT * 0.1} L${x0 - eave * 0.5} ${wallY + roofT}  Z" fill="${C.roofLight}" opacity=".9" stroke="${C.roofLight}" stroke-width="${roofT * 0.4}" stroke-linejoin="round" stroke-opacity=".9"/>
     ${upper}${ground}${door}
   </g>`;
 }

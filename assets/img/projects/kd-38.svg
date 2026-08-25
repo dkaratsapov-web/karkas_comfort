@@ -34,10 +34,10 @@
   <rect x="0" y="360" width="960" height="130" fill="url(#mist)" opacity=".7"/>
   <path d="M0 470 Q300 452 560 466 T960 450 V600 H0 Z" fill="url(#groundGrad)"/>
   <g transform="translate(78 504) scale(0.62)">
-    <rect x="-4" y="-24" width="8" height="28" rx="3" fill="#2F5D3F" opacity=".8"/>
-    <path d="M0 -168 L34 -104 H-34 Z" fill="#4F6E58" opacity=".9"/>
-    <path d="M0 -132 L44 -58 H-44 Z" fill="#4F6E58"/>
-    <path d="M0 -92 L54 -14 H-54 Z" fill="#4F6E58"/>
+    <rect x="-4" y="-24" width="8" height="28" rx="4" fill="#2F5D3F" opacity=".8"/>
+    <path d="M0 -168 Q14 -140 32 -108 Q16 -100 0 -100 Q-16 -100 -32 -108 Q-14 -140 0 -168 Z" fill="#4F6E58" opacity=".9" stroke="#4F6E58" stroke-width="7" stroke-linejoin="round" stroke-opacity=".9"/>
+    <path d="M0 -132 Q18 -98 42 -62 Q20 -52 0 -52 Q-20 -52 -42 -62 Q-18 -98 0 -132 Z" fill="#4F6E58" stroke="#4F6E58" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M0 -92 Q22 -54 52 -18 Q26 -8 0 -8 Q-26 -8 -52 -18 Q-22 -54 0 -92 Z" fill="#4F6E58" stroke="#4F6E58" stroke-width="9" stroke-linejoin="round"/>
   </g>
   <g>
     <ellipse cx="470" cy="518" rx="374.4" ry="26" fill="#C0B6A0" opacity=".45"/>
@@ -49,33 +49,33 @@
       <rect x="139.8" y="328" width="10.192" height="176" fill="#8A5E2B" opacity=".75"/>
       <rect x="54" y="459.8" width="156" height="8.008000000000001" fill="#8A5E2B" opacity=".45"/>
     </g>
-    <rect x="558.4" y="144.54399999999998" width="26" height="83.82400000000001" rx="2" fill="#8A857A"/>
-    <rect x="210" y="250" width="520" height="260" fill="#C08A4A"/>
-    <polygon points="210,250 470,114.79999999999998 730,250" fill="#DCB47F"/>
-    <polygon points="470,114.79999999999998 730,250 470,250" fill="#8A5E2B" opacity=".22"/>
-    <rect x="210" y="250" width="520" height="260" fill="url(#wallShade)"/>
+    <rect x="558.4" y="144.54399999999998" width="26" height="83.82400000000001" rx="5" fill="#8A857A"/>
+    <rect x="210" y="250" width="520" height="260" rx="10.4" fill="#C08A4A"/>
+    <polygon points="210,250 470,114.79999999999998 730,250" fill="#DCB47F" stroke="#DCB47F" stroke-width="7.28" stroke-linejoin="round"/>
+    <polygon points="470,114.79999999999998 730,250 470,250" fill="#8A5E2B" opacity=".22" stroke="#8A5E2B" stroke-width="5.824000000000001" stroke-linejoin="round" stroke-opacity=".22"/>
+    <rect x="210" y="250" width="520" height="260" rx="10.4" fill="url(#wallShade)"/>
     <line x1="210" y1="276" x2="730" y2="276" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="302" x2="730" y2="302" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="328" x2="730" y2="328" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="354" x2="730" y2="354" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="380" x2="730" y2="380" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="406" x2="730" y2="406" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="432" x2="730" y2="432" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="458" x2="730" y2="458" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="484" x2="730" y2="484" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/><line x1="210" y1="510" x2="730" y2="510" stroke="#8A5E2B" stroke-width=".9" opacity=".2"/>
-    <path d="M184 255.824 L470 106.06399999999998 L756 255.824 L756 273.296 L470 124.99199999999999 L184 273.296 Z" fill="#221F17"/>
-    <path d="M184 255.824 L470 106.06399999999998 L470 116.25599999999999 L197 264.56  Z" fill="#332E23" opacity=".9"/>
-    <g><rect x="251.6" y="281.2" width="52" height="67.60000000000001" rx="2" fill="url(#glassGrad)"/><line x1="277.6" y1="281.2" x2="277.6" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
-      <rect x="251.6" y="281.2" width="52" height="67.60000000000001" rx="2" fill="none" stroke="#F4EFE7" stroke-width="3"/></g><g><rect x="345.20000000000005" y="281.2" width="52" height="67.60000000000001" rx="2" fill="url(#glassGrad)"/><line x1="371.20000000000005" y1="281.2" x2="371.20000000000005" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
-      <rect x="345.20000000000005" y="281.2" width="52" height="67.60000000000001" rx="2" fill="none" stroke="#F4EFE7" stroke-width="3"/></g><g><rect x="454.4" y="281.2" width="52" height="67.60000000000001" rx="2" fill="url(#glassGrad)"/><line x1="480.4" y1="281.2" x2="480.4" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
-      <rect x="454.4" y="281.2" width="52" height="67.60000000000001" rx="2" fill="none" stroke="#F4EFE7" stroke-width="3"/></g><g><rect x="532.4" y="281.2" width="52" height="67.60000000000001" rx="2" fill="url(#glassGrad)"/><line x1="558.4" y1="281.2" x2="558.4" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
-      <rect x="532.4" y="281.2" width="52" height="67.60000000000001" rx="2" fill="none" stroke="#F4EFE7" stroke-width="3"/></g><g><rect x="615.6" y="281.2" width="52" height="67.60000000000001" rx="2" fill="url(#glassGrad)"/><line x1="641.6" y1="281.2" x2="641.6" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
-      <rect x="615.6" y="281.2" width="52" height="67.60000000000001" rx="2" fill="none" stroke="#F4EFE7" stroke-width="3"/></g><g><rect x="251.6" y="395.6" width="156" height="88.4" rx="2" fill="url(#glassGrad)"/><line x1="303.6" y1="395.6" x2="303.6" y2="484" stroke="#F4EFE7" stroke-width="6.24"/><line x1="355.6" y1="395.6" x2="355.6" y2="484" stroke="#F4EFE7" stroke-width="6.24"/>
-      <rect x="251.6" y="395.6" width="156" height="88.4" rx="2" fill="none" stroke="#F4EFE7" stroke-width="8.58"/></g><g><rect x="454.4" y="407.976" width="52" height="63.648" rx="2" fill="url(#glassGrad)"/><line x1="480.4" y1="407.976" x2="480.4" y2="471.624" stroke="#F4EFE7" stroke-width="2.08"/>
-      <rect x="454.4" y="407.976" width="52" height="63.648" rx="2" fill="none" stroke="#F4EFE7" stroke-width="3"/></g><g><rect x="532.4" y="407.976" width="52" height="63.648" rx="2" fill="url(#glassGrad)"/><line x1="558.4" y1="407.976" x2="558.4" y2="471.624" stroke="#F4EFE7" stroke-width="2.08"/>
-      <rect x="532.4" y="407.976" width="52" height="63.648" rx="2" fill="none" stroke="#F4EFE7" stroke-width="3"/></g><g>
-      <rect x="649.4" y="348.8" width="49.4" height="161.2" rx="2" fill="#221F17"/>
-      <rect x="655.64" y="372.2" width="14.56" height="67.60000000000001" rx="2" fill="url(#glassGrad)" opacity=".8"/>
-      <rect x="641.5999999999999" y="506" width="65" height="6" rx="2" fill="#8A857A" opacity=".55"/>
+    <path d="M184 255.824 L470 106.06399999999998 L756 255.824 L756 273.296 L470 124.99199999999999 L184 273.296 Z" fill="#221F17" stroke="#221F17" stroke-width="8.008000000000001" stroke-linejoin="round"/>
+    <path d="M184 255.824 L470 106.06399999999998 L470 116.25599999999999 L197 264.56  Z" fill="#332E23" opacity=".9" stroke="#332E23" stroke-width="5.824000000000001" stroke-linejoin="round" stroke-opacity=".9"/>
+    <g><rect x="251.6" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="url(#glassGrad)"/><line x1="277.6" y1="281.2" x2="277.6" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
+      <rect x="251.6" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="none" stroke="#F4EFE7" stroke-width="3" stroke-linejoin="round"/></g><g><rect x="345.20000000000005" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="url(#glassGrad)"/><line x1="371.20000000000005" y1="281.2" x2="371.20000000000005" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
+      <rect x="345.20000000000005" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="none" stroke="#F4EFE7" stroke-width="3" stroke-linejoin="round"/></g><g><rect x="454.4" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="url(#glassGrad)"/><line x1="480.4" y1="281.2" x2="480.4" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
+      <rect x="454.4" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="none" stroke="#F4EFE7" stroke-width="3" stroke-linejoin="round"/></g><g><rect x="532.4" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="url(#glassGrad)"/><line x1="558.4" y1="281.2" x2="558.4" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
+      <rect x="532.4" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="none" stroke="#F4EFE7" stroke-width="3" stroke-linejoin="round"/></g><g><rect x="615.6" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="url(#glassGrad)"/><line x1="641.6" y1="281.2" x2="641.6" y2="348.8" stroke="#F4EFE7" stroke-width="2.08"/>
+      <rect x="615.6" y="281.2" width="52" height="67.60000000000001" rx="4.68" fill="none" stroke="#F4EFE7" stroke-width="3" stroke-linejoin="round"/></g><g><rect x="251.6" y="395.6" width="156" height="88.4" rx="14.04" fill="url(#glassGrad)"/><line x1="303.6" y1="395.6" x2="303.6" y2="484" stroke="#F4EFE7" stroke-width="6.24"/><line x1="355.6" y1="395.6" x2="355.6" y2="484" stroke="#F4EFE7" stroke-width="6.24"/>
+      <rect x="251.6" y="395.6" width="156" height="88.4" rx="14.04" fill="none" stroke="#F4EFE7" stroke-width="8.58" stroke-linejoin="round"/></g><g><rect x="454.4" y="407.976" width="52" height="63.648" rx="4.68" fill="url(#glassGrad)"/><line x1="480.4" y1="407.976" x2="480.4" y2="471.624" stroke="#F4EFE7" stroke-width="2.08"/>
+      <rect x="454.4" y="407.976" width="52" height="63.648" rx="4.68" fill="none" stroke="#F4EFE7" stroke-width="3" stroke-linejoin="round"/></g><g><rect x="532.4" y="407.976" width="52" height="63.648" rx="4.68" fill="url(#glassGrad)"/><line x1="558.4" y1="407.976" x2="558.4" y2="471.624" stroke="#F4EFE7" stroke-width="2.08"/>
+      <rect x="532.4" y="407.976" width="52" height="63.648" rx="4.68" fill="none" stroke="#F4EFE7" stroke-width="3" stroke-linejoin="round"/></g><g>
+      <rect x="649.4" y="348.8" width="49.4" height="161.2" rx="6" fill="#221F17"/>
+      <rect x="655.64" y="372.2" width="14.56" height="67.60000000000001" rx="5" fill="url(#glassGrad)" opacity=".8"/>
+      <rect x="641.5999999999999" y="506" width="65" height="6" rx="4" fill="#8A857A" opacity=".55"/>
     </g>
   </g>
   <g transform="translate(872 510) scale(0.78)">
-    <rect x="-4" y="-24" width="8" height="28" rx="3" fill="#2F5D3F" opacity=".8"/>
-    <path d="M0 -168 L34 -104 H-34 Z" fill="#2F5D3F" opacity=".9"/>
-    <path d="M0 -132 L44 -58 H-44 Z" fill="#2F5D3F"/>
-    <path d="M0 -92 L54 -14 H-54 Z" fill="#2F5D3F"/>
+    <rect x="-4" y="-24" width="8" height="28" rx="4" fill="#2F5D3F" opacity=".8"/>
+    <path d="M0 -168 Q14 -140 32 -108 Q16 -100 0 -100 Q-16 -100 -32 -108 Q-14 -140 0 -168 Z" fill="#2F5D3F" opacity=".9" stroke="#2F5D3F" stroke-width="7" stroke-linejoin="round" stroke-opacity=".9"/>
+    <path d="M0 -132 Q18 -98 42 -62 Q20 -52 0 -52 Q-20 -52 -42 -62 Q-18 -98 0 -132 Z" fill="#2F5D3F" stroke="#2F5D3F" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M0 -92 Q22 -54 52 -18 Q26 -8 0 -8 Q-26 -8 -52 -18 Q-22 -54 0 -92 Z" fill="#2F5D3F" stroke="#2F5D3F" stroke-width="9" stroke-linejoin="round"/>
   </g>
   <path d="M0 560 Q260 544 520 556 T960 544 V600 H0 Z" fill="#C0B6A0" opacity=".3"/>
   <rect width="960" height="600" filter="url(#grain)" opacity=".45"/>

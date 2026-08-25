@@ -257,7 +257,7 @@ ${(p.photos && p.photos.length > 1) || p.plan ? `            <div class="gallery
           <div class="stack">
             <div class="card">
               <p class="eyebrow">Проект дома</p>
-              <h1 style="font-size:clamp(28px,3.4vw,40px)">Каркасный дом ${p.size}<span class="muted"> · ${p.code}</span></h1>
+              <h1 style="font-size:clamp(26px,3.2vw,38px)">Каркасный дом ${p.size}<span class="muted" style="display:block;font-size:.55em;font-weight:600;margin-top:6px">проект ${p.code}</span></h1>
               <p class="muted" style="margin-top:10px">${esc(p.note)}</p>
               <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price ? '' : 'от '}${money(priceOf(p))}<small>тёплый контур${p.price ? '' : ', ориентировочно'} · под ключ с отделкой — от ${money(priceTop(p))} · срок ${termOf(p)}</small></p>
               <div class="stack" style="margin-top:20px">
