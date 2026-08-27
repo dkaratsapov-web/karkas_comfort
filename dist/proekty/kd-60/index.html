@@ -23,7 +23,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-wght.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/golos-text-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=3324d167">
+  <link rel="stylesheet" href="/assets/css/style.css?v=1a65b44d">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Каркасный дом 6×10 (КД-60)","description":"Вытянутая планировка без коридоров, кухня-гостиная 22 м²","sku":"КД-60","image":"https://karkascomfort.ru/assets/img/projects/kd-60.svg","brand":{"@type":"Brand","name":"Каркас Комфорт"},"offers":{"@type":"Offer","priceCurrency":"RUB","price":1856000,"availability":"https://schema.org/InStock","url":"https://karkascomfort.ru/proekty/kd-60/","seller":{"@type":"Organization","name":"ООО «Каркас Комфорт»"}},"additionalProperty":[{"@type":"PropertyValue","name":"Площадь","value":"58 м²"},{"@type":"PropertyValue","name":"Этажность","value":"1 этаж"},{"@type":"PropertyValue","name":"Спальни","value":"3"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://karkascomfort.ru/"},{"@type":"ListItem","position":2,"name":"Проекты","item":"https://karkascomfort.ru/proekty.html"},{"@type":"ListItem","position":3,"name":"Дом 6×10 (КД-60)","item":"https://karkascomfort.ru/proekty/kd-60/"}]}</script>
 </head>
@@ -52,7 +52,22 @@
         <a href="/uslugi/">Услуги</a>
         <a href="/kontakty/">Контакты</a>
       </nav>
-      <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+      <div class="header__contacts">
+        <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+        <a class="header__phone header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+      </div>
+      <div class="header__aside">
+        <a class="header__mail" href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+        <span class="header__hours">с 8:00 до 20:00 без выходных</span>
+      </div>
+      <div class="header__im">
+        <a class="im" href="#" aria-label="Написать в Telegram" data-lead-messenger>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 8-6"/></svg>
+        </a>
+        <a class="im" href="#" aria-label="Написать в MAX" data-lead-messenger>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="5"/><path d="M8 15V9l4 4 4-4v6"/></svg>
+        </a>
+      </div>
       <a class="btn btn--sm header__cta" href="#zayavka">Рассчитать <span class="btn__arrow" aria-hidden="true">→</span></a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Открыть меню">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
@@ -70,7 +85,20 @@
       <a href="/o-kompanii/">О компании</a>
       <a href="/kontakty/">Контакты</a>
       <a class="mobile-nav__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
-      <a class="btn btn--block" href="#zayavka">Рассчитать стоимость</a>
+      <div class="mobile-nav__meta">
+        <a href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+        <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+        <span>с 8:00 до 20:00 без выходных</span>
+      </div>
+      <div class="mobile-nav__im">
+        <a class="im" href="#" aria-label="Написать в Telegram" data-lead-messenger>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 8-6"/></svg>
+        </a>
+        <a class="im" href="#" aria-label="Написать в MAX" data-lead-messenger>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="5"/><path d="M8 15V9l4 4 4-4v6"/></svg>
+        </a>
+      </div>
+      <a class="btn btn--block" href="#zayavka" style="margin-top:18px">Рассчитать стоимость</a>
     </div>
   </header>
 
@@ -86,9 +114,8 @@
         <div class="split split--narrow">
           <div class="gallery">
             <div class="gallery__main">
-              <img src="/assets/img/projects/kd-60.svg" alt="Каркасный дом КД-60, 6×10 м, 58 м²" width="1200" height="800" fetchpriority="high">
+              <img src="/assets/img/projects/kd-60.svg" alt="Каркасный дом КД-60 6×10 м, фото 1" width="1200" height="800" fetchpriority="high">
             </div>
-
           </div>
 
           <div class="stack">
@@ -122,6 +149,7 @@
       </div>
     </section>
 
+
     <section class="section section--paper">
       <div class="container">
         <div class="section__head">
@@ -144,7 +172,7 @@
             <p class="eyebrow">Похожие проекты</p>
             <h2>Дома близкой площади</h2>
           </div>
-          <a class="btn btn--ghost btn--sm" href="/proekty/">Все 15 проектов</a>
+          <a class="btn btn--ghost btn--sm" href="/proekty/">Все 16 проектов</a>
         </div>
         <div class="grid grid--3">
       <article class="project" data-floors="1.5" data-area="55" data-price="1760000">
@@ -295,6 +323,6 @@
       </a>
     </nav>
 
-  <script src="/assets/js/main.js?v=2130c4ae" defer></script>
+  <script src="/assets/js/main.js?v=88530a8c" defer></script>
 </body>
 </html>

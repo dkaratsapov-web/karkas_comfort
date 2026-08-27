@@ -6,6 +6,8 @@
    Проверка отправки заявки пройдёт только там, где работает PHP. */
 const { chromium } = await import(process.env.PW_MODULE || 'playwright');
 const B = process.env.BASE || 'http://127.0.0.1:8080';
+const { readFileSync } = await import('node:fs');
+const N = JSON.parse(readFileSync('src/data/projects.json', 'utf8')).length;   /* сколько проектов в данных */
 const b = await chromium.launch(process.env.PW_CHROME ? { executablePath: process.env.PW_CHROME } : {});
 const out = [];
 const ok = (n, c) => out.push(`${c ? '✓' : '✗ ПРОВАЛ'} ${n}`);
@@ -23,9 +25,9 @@ if (!hasPhp) out.push(`· PHP на сервере не отвечает (${probe
 let p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
 const catalogHtml = await (await p.request.get(`${B}/proekty/`)).text();
-ok('каталог отдаётся сервером со всеми карточками (без JS)', (catalogHtml.split('class="project"').length - 1) === 15);
+ok('каталог отдаётся сервером со всеми карточками (без JS)', (catalogHtml.split('class="project"').length - 1) === N);
 await p.goto(`${B}/proekty/`, { waitUntil: 'networkidle' });
-ok('каталог отрисован (15 карточек)', (await p.$$('#catalog-list .project:not([hidden])')).length === 15);
+ok(`каталог отрисован (${N} карточек)`, (await p.$$('#catalog-list .project:not([hidden])')).length === N);
 await p.click('.chip[data-group="floors"][data-value="2"]');
 const twoFloors = await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.map((e) => e.textContent));
 ok('фильтр «2 этажа» оставил только двухэтажные', twoFloors.length > 0 && twoFloors.every((t) => t.includes('2 этажа')));
@@ -131,7 +133,7 @@ for (const page of pages) {
 ok('все страницы и внутренние ссылки открываются' + (missing.length ? ': ' + missing.join(', ') : ''), missing.length === 0);
 
 const sitemap = await (await p.request.get(`${B}/sitemap.xml`)).text();
-ok(`в sitemap есть страницы проектов (${(sitemap.match(/\/proekty\/kd-/g) || []).length} шт.)`, (sitemap.match(/\/proekty\/kd-/g) || []).length === 15);
+ok(`в sitemap есть страницы проектов (${(sitemap.match(/\/proekty\/kd-/g) || []).length} шт.)`, (sitemap.match(/\/proekty\/kd-/g) || []).length === N);
 
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 await p.click('#wall .layer:nth-child(3)');

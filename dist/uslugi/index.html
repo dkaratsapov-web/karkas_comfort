@@ -23,7 +23,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-wght.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/golos-text-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=3324d167">
+  <link rel="stylesheet" href="/assets/css/style.css?v=1a65b44d">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://karkascomfort.ru/"},{"@type":"ListItem","position":2,"name":"Услуги и этапы","item":"https://karkascomfort.ru/uslugi.html"}]}</script>
 </head>
 
@@ -51,7 +51,22 @@
         <a href="/uslugi/">Услуги</a>
         <a href="/kontakty/">Контакты</a>
       </nav>
-      <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+      <div class="header__contacts">
+        <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+        <a class="header__phone header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+      </div>
+      <div class="header__aside">
+        <a class="header__mail" href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+        <span class="header__hours">с 8:00 до 20:00 без выходных</span>
+      </div>
+      <div class="header__im">
+        <a class="im" href="#" aria-label="Написать в Telegram" data-lead-messenger>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 8-6"/></svg>
+        </a>
+        <a class="im" href="#" aria-label="Написать в MAX" data-lead-messenger>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="5"/><path d="M8 15V9l4 4 4-4v6"/></svg>
+        </a>
+      </div>
       <a class="btn btn--sm header__cta" href="#zayavka">Рассчитать <span class="btn__arrow" aria-hidden="true">→</span></a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Открыть меню">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
@@ -69,7 +84,20 @@
       <a href="/o-kompanii/">О компании</a>
       <a href="/kontakty/">Контакты</a>
       <a class="mobile-nav__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
-      <a class="btn btn--block" href="#zayavka">Рассчитать стоимость</a>
+      <div class="mobile-nav__meta">
+        <a href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+        <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+        <span>с 8:00 до 20:00 без выходных</span>
+      </div>
+      <div class="mobile-nav__im">
+        <a class="im" href="#" aria-label="Написать в Telegram" data-lead-messenger>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 8-6"/></svg>
+        </a>
+        <a class="im" href="#" aria-label="Написать в MAX" data-lead-messenger>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="5"/><path d="M8 15V9l4 4 4-4v6"/></svg>
+        </a>
+      </div>
+      <a class="btn btn--block" href="#zayavka" style="margin-top:18px">Рассчитать стоимость</a>
     </div>
   </header>
 
@@ -244,6 +272,6 @@
       </a>
     </nav>
 
-  <script src="/assets/js/main.js?v=2130c4ae" defer></script>
+  <script src="/assets/js/main.js?v=88530a8c" defer></script>
 </body>
 </html>

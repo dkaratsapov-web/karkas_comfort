@@ -338,6 +338,104 @@
     render();
   }
 
+  /* ---------- галерея проекта: переключение главного кадра ---------- */
+  const gal = $('[data-gallery]');
+  if (gal) {
+    const main = $('.gallery__main img', gal);
+    const now  = $('[data-gallery-current]', gal);
+    const thumbs = $$('button.gallery__thumb', gal);
+    thumbs.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        const img = $('img', btn);
+        main.src = btn.dataset.full || img.src;
+        main.alt = img.alt;
+        main.dataset.zoomIndex = String(i);
+        thumbs.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        if (now) now.textContent = String(i + 1);
+      });
+    });
+  }
+
+  /* ---------- просмотр фотографий во весь экран ---------- */
+  const zoomables = $$('[data-zoom]');
+  if (zoomables.length) {
+    let box = null, items = [], idx = 0, opener = null;
+
+    const build = () => {
+      box = document.createElement('div');
+      box.className = 'lightbox';
+      box.setAttribute('role', 'dialog');
+      box.setAttribute('aria-modal', 'true');
+      box.setAttribute('aria-label', 'Просмотр фотографии');
+      box.innerHTML =
+        '<button class="lightbox__close" type="button" aria-label="Закрыть">&times;</button>' +
+        '<button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Предыдущее фото">&#8249;</button>' +
+        '<figure class="lightbox__stage"><img alt=""><figcaption class="lightbox__cap"></figcaption></figure>' +
+        '<button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Следующее фото">&#8250;</button>';
+      document.body.append(box);
+      box.addEventListener('click', (e) => {
+        if (e.target === box || e.target.closest('.lightbox__close')) close();
+        else if (e.target.closest('.lightbox__nav--prev')) go(-1);
+        else if (e.target.closest('.lightbox__nav--next')) go(1);
+      });
+      return box;
+    };
+
+    const show = () => {
+      const el = items[idx];
+      const img = $('img', box);
+      img.src = el.dataset.zoom || el.currentSrc || el.src;
+      img.alt = el.alt || '';
+      $('.lightbox__cap', box).textContent = `${el.alt || ''} — ${idx + 1} из ${items.length}`;
+      $$('.lightbox__nav', box).forEach((b) => { b.hidden = items.length < 2; });
+    };
+
+    const go = (step) => { idx = (idx + step + items.length) % items.length; show(); };
+
+    const close = () => {
+      if (!box) return;
+      box.classList.remove('is-open');
+      box.hidden = true;
+      document.body.classList.remove('is-locked');
+      if (opener) opener.focus({ preventScroll: true });
+    };
+
+    const open = (el) => {
+      /* data-zoom-target: элемент открывает чужой набор (главный кадр — всю галерею) */
+      const group = el.dataset.zoomTarget || el.dataset.zoomGroup || '';
+      items = $$(`[data-zoom][data-zoom-group="${group}"]`);
+      if (!items.length) items = [el];
+      idx = items.indexOf(el);
+      if (idx < 0) idx = Math.min(items.length - 1, Number(el.dataset.zoomIndex || 0));
+      opener = el.closest('button, a') || el;
+      box = box || build();
+      box.hidden = false;
+      box.classList.add('is-open');
+      document.body.classList.add('is-locked');
+      show();
+      $('.lightbox__close', box).focus({ preventScroll: true });
+      track('photo_zoom', { page: location.pathname });
+    };
+
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('[data-zoom]');
+      if (el) { e.preventDefault(); open(el); }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!box || box.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
+      else if (e.key === 'Tab') {
+        const f = $$('button:not([hidden])', box);
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  }
+
   /* ---------- активный пункт меню ---------- */
   const section = (url) => (url.split('?')[0].split('#')[0].replace(/^\/|\/$/g, '').split('/')[0] || '');
   const here = section(location.pathname);

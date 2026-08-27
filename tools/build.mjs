@@ -214,6 +214,7 @@ for (const file of files) {
   if (!m) throw new Error(`Нет блока <!--meta --> в ${file}`);
   const meta = JSON.parse(m[1]);
   let content = raw.slice(m[0].length);
+  content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
   content = content.replace(/\{\{projects:(\d+)\}\}/g, (_, n) => projects.slice(0, Number(n)).map(projectCard).join('\n'));
@@ -254,6 +255,165 @@ const included = [
   ['Окна и двери', 'Двухкамерные стеклопакеты, входная утеплённая дверь, откосы и подоконники.']
 ];
 
+const img = (f) => `/assets/img/photos/${f}`;
+/* Уменьшенный вариант кадра (…-800.jpg), если он подготовлен рядом с оригиналом.
+   Полный файл остаётся для полноэкранного просмотра. */
+const small = (f) => {
+  const alt = f.replace(/\.(jpe?g|png|webp)$/i, '-800.$1');
+  return existsSync(`assets/img/photos/${alt}`) ? alt : f;
+};
+const srcset = (f, sizes) => {
+  const alt = small(f);
+  return alt === f ? `src="${img(f)}"` : `src="${img(alt)}" srcset="${img(alt)} 800w, ${img(f)} 1700w" sizes="${sizes}"`;
+};
+const photoAlt = (p, i) => `Каркасный дом ${p.code} ${p.size} м, фото ${i + 1}`;
+
+/* Галерея: крупный кадр + лента миниатюр. Переключение — в main.js; без скрипта
+   страница остаётся рабочей: виден первый кадр, миниатюры кликаются в лайтбокс. */
+function galleryBlock(p) {
+  const list = p.photos || [];
+  if (list.length < 2) {
+    return `          <div class="gallery">
+            <div class="gallery__main">
+              <img src="${photoOf(p)}" alt="${photoAlt(p, 0)}" width="1200" height="800" fetchpriority="high">
+            </div>
+          </div>`;
+  }
+  const shown = list.slice(0, 5);
+  const rest = list.length - shown.length;
+  const thumbs = shown.map((f, i) => {
+    const pic = `<img ${srcset(f, "(min-width: 1100px) 160px, 20vw")} alt="${photoAlt(p, i)}" loading="lazy" width="400" height="300">`;
+    /* последняя миниатюра при большом наборе ведёт к полной галерее ниже */
+    return i === shown.length - 1 && rest > 0
+      ? `<a class="gallery__thumb gallery__thumb--more" href="#foto" data-more="+${rest}" aria-label="Смотреть все ${list.length} фотографий">${pic}</a>`
+      : `<button class="gallery__thumb" type="button" aria-pressed="${i === 0}" data-full="${img(f)}">${pic}</button>`;
+  }).join('\n              ');
+  return `          <div class="gallery" data-gallery>
+            <div class="gallery__main">
+              <img src="${img(list[0])}" alt="${photoAlt(p, 0)}" width="1200" height="800" fetchpriority="high" data-zoom="${img(list[0])}" data-zoom-target="${p.slug}-all" data-zoom-index="0">
+              <p class="gallery__count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5"/></svg><span><span data-gallery-current>1</span> из ${list.length} — фото объекта</span></p>
+            </div>
+            <div class="gallery__thumbs">
+              ${thumbs}
+            </div>
+          </div>`;
+}
+
+/* Планировка с экспликацией — только там, где есть данные обмеров из проекта. */
+function planBlock(p) {
+  if (!p.plan || !(p.rooms || []).length) return '';
+  const rows = p.rooms.map((r, i) => `                  <tr><td>${i + 1}. ${esc(r.name)}</td><td>${r.area}</td></tr>`).join('\n');
+  const total = p.roomsTotal ? `                <tfoot>
+                  <tr><td>Итого по экспликации</td><td>${p.roomsTotal} м²</td></tr>
+                </tfoot>` : '';
+  const tep = (p.tep || []).map(([t, v]) => `                  <tr><th scope="row">${esc(t)}</th><td>${esc(v)}</td></tr>`).join('\n');
+  return `
+    <section class="section section--paper" id="planirovka">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Планировка</p>
+          <h2>План этажа и площади помещений</h2>
+          <p class="lead">Цифры взяты из эскизного проекта${p.docs ? ` (${esc(p.docs).toLowerCase()})` : ''}. Планировку подгоняем под вашу семью до старта работ.</p>
+        </div>
+        <div class="split split--narrow">
+          <figure class="plan-sheet" style="margin:0">
+            <img src="${img(p.plan)}" alt="Планировка каркасного дома ${p.code}, ${p.size} м" loading="lazy" width="1400" height="990" data-zoom="${img(p.plan)}" data-zoom-group="${p.slug}-plan">
+          </figure>
+          <div class="stack">
+            <div class="card">
+              <table class="rooms-table">
+                <thead><tr><th scope="col">Помещение</th><th scope="col">Площадь, м²</th></tr></thead>
+                <tbody>
+${rows}
+                </tbody>
+${total}
+              </table>
+            </div>
+${tep ? `            <div class="card">
+              <h3 style="font-size:17px;margin-bottom:8px">Технико-экономические показатели</h3>
+              <table class="specs-table">
+                <tbody>
+${tep}
+                </tbody>
+              </table>
+            </div>` : ''}
+          </div>
+        </div>
+      </div>
+    </section>
+`;
+}
+
+/* Полный набор фотографий объекта. */
+function photosBlock(p) {
+  const list = p.photos || [];
+  if (list.length < 3) return '';
+  const cells = list.map((f, i) => `          <figure><img ${srcset(f, "(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw")} alt="${photoAlt(p, i)}" loading="lazy" width="900" height="675" data-zoom="${img(f)}" data-zoom-group="${p.slug}-all"></figure>`).join('\n');
+  return `
+    <section class="section" id="foto">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Объект</p>
+          <h2>Как этот дом выглядит вживую</h2>
+          <p class="lead">${list.length} фотографий с площадки: каркас, фасад из вертикальной доски, тёмные примыкания и терраса под общей кровлей. Живая съёмка — без визуализаций и стоковых картинок.</p>
+        </div>
+        <div class="shots shots--photos">
+${cells}
+        </div>
+      </div>
+    </section>
+`;
+}
+
+/* Конструктив: разрез из проекта и состав ограждающих конструкций. */
+function structureBlock(p) {
+  if (!p.section || !(p.layers || []).length) return '';
+  const cols = p.layers.map((l) => `          <article class="card">
+            <h3 style="font-size:17px">${esc(l.name)}</h3>
+            <ul class="checks" style="margin-top:10px">
+${l.items.map((i) => `              <li>${esc(i)}</li>`).join('\n')}
+            </ul>
+          </article>`).join('\n');
+  return `
+    <section class="section" id="konstruktiv">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Конструктив</p>
+          <h2>Что внутри стен, кровли и пола</h2>
+          <p class="lead">Состав слоёв — прямо из разреза ${esc(p.section.title)}. Никаких «утеплитель по проекту»: толщины и материалы зафиксированы до начала работ.</p>
+        </div>
+        <figure class="plan-sheet" style="margin:0 0 clamp(18px,2vw,28px)">
+          <img src="${img(p.section.file)}" alt="${esc(p.section.title)} — каркасный дом ${p.code}" loading="lazy" width="1700" height="1167" data-zoom="${img(p.section.file)}" data-zoom-group="${p.slug}-section">
+        </figure>
+        <div class="grid grid--3">
+${cols}
+        </div>
+      </div>
+    </section>
+`;
+}
+
+/* Листы альбома: объёмные виды и фасады. */
+function sheetsBlock(p) {
+  const list = p.drawings || [];
+  if (!list.length) return '';
+  const cells = list.map((d) => `          <figure><img ${srcset(d.file, "(min-width: 760px) 33vw, 100vw")} alt="${esc(d.title)} — проект ${p.code}" loading="lazy" width="900" height="675" data-zoom="${img(d.file)}" data-zoom-group="${p.slug}-sheets"><figcaption>${esc(d.title)}</figcaption></figure>`).join('\n');
+  return `
+    <section class="section section--paper" id="chertezhi">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Альбом проекта</p>
+          <h2>Виды и фасады из эскизного проекта</h2>
+          <p class="lead">Листы альбома: объёмные виды и фасады. Полный комплект передаём заказчику вместе с договором.</p>
+        </div>
+        <div class="shots shots--sheets">
+${cells}
+        </div>
+      </div>
+    </section>
+`;
+}
+
 for (const p of projects) {
   const similar = projects.filter((x) => x.slug !== p.slug)
     .sort((a, b) => Math.abs(a.area - p.area) - Math.abs(b.area - p.area)).slice(0, 3);
@@ -269,15 +429,7 @@ for (const p of projects) {
     <section class="section" style="padding-top:clamp(20px,2.4vw,36px)">
       <div class="container">
         <div class="split split--narrow">
-          <div class="gallery">
-            <div class="gallery__main">
-              <img src="${photoOf(p)}" alt="Каркасный дом ${p.code}, ${p.size} м, ${p.area} м²" width="1200" height="800" fetchpriority="high">
-            </div>
-${(p.photos && p.photos.length > 1) || p.plan ? `            <div class="gallery__thumbs">
-              ${(p.photos || []).slice(1, 4).map((f, i) => `<img src="/assets/img/photos/${f}" alt="Каркасный дом ${p.code}, фото ${i + 2}" loading="lazy" width="400" height="300">`).join('\n              ')}
-              ${p.plan ? `<img src="/assets/img/photos/${p.plan}" alt="Планировка дома ${p.code}" loading="lazy" width="400" height="300">` : ''}
-            </div>` : ''}
-          </div>
+${galleryBlock(p)}
 
           <div class="stack">
             <div class="card">
@@ -300,7 +452,9 @@ ${(p.photos && p.photos.length > 1) || p.plan ? `            <div class="gallery
                   <tr><th scope="row">Спальни</th><td>${p.bedrooms}</td></tr>
                   <tr><th scope="row">Терраса</th><td>${p.terrace ? 'есть' : 'нет'}</td></tr>
                   <tr><th scope="row">Срок строительства</th><td>${termOf(p)}</td></tr>
-                  <tr><th scope="row">Фундамент</th><td>свайно-винтовой или ленточный</td></tr>
+                  ${(p.structure || []).length
+                    ? p.structure.map(([t, v]) => `<tr><th scope="row">${esc(t)}</th><td>${esc(v)}</td></tr>`).join('\n                  ')
+                    : '<tr><th scope=\"row\">Фундамент</th><td>свайно-винтовой или ленточный</td></tr>'}
                   <tr><th scope="row">Гарантия</th><td>5 лет по договору</td></tr>
                 </tbody>
               </table>
@@ -310,6 +464,7 @@ ${(p.photos && p.photos.length > 1) || p.plan ? `            <div class="gallery
       </div>
     </section>
 
+${planBlock(p)}${photosBlock(p)}${structureBlock(p)}${sheetsBlock(p)}
     <section class="section section--paper">
       <div class="container">
         <div class="section__head">
@@ -329,7 +484,7 @@ ${included.map(([t, d]) => `          <article class="card"><h3>${t}</h3><p>${d}
             <p class="eyebrow">Похожие проекты</p>
             <h2>Дома близкой площади</h2>
           </div>
-          <a class="btn btn--ghost btn--sm" href="/proekty.html">Все 15 проектов</a>
+          <a class="btn btn--ghost btn--sm" href="/proekty.html">Все ${projects.length} проектов</a>
         </div>
         <div class="grid grid--3">
 ${similar.map(projectCard).join('\n')}
