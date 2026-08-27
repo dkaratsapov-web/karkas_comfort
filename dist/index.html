@@ -23,7 +23,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-wght.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/golos-text-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=d7be3015">
+  <link rel="stylesheet" href="/assets/css/style.css?v=903db39e">
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"GeneralContractor","name":"Каркас Комфорт","url":"https://karkascomfort.ru/","telephone":"+7-920-171-69-69","email":"karkascomfort@yandex.ru","address":{"@type":"PostalAddress","streetAddress":"ул. Серебряная, 12, офис 31","addressLocality":"Тверь","postalCode":"170100","addressCountry":"RU"},"areaServed":"Тверская область","openingHours":"Mo-Su 08:00-20:00","priceRange":"от 32 000 ₽/м²"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Можно ли жить в каркасном доме круглый год?","acceptedAnswer":{"@type":"Answer","text":"Да, все наши дома рассчитаны на постоянное проживание: 150 мм утеплителя в стенах, 200 мм в перекрытии, отсутствие мостиков холода и водяное отопление. Сезонный вариант отличается только толщиной утепления и составом коммуникаций."}},{"@type":"Question","name":"Сколько времени занимает строительство?","acceptedAnswer":{"@type":"Answer","text":"Дом до 90 м² — полтора-два месяца, до 150 м² — два-три месяца, больше 150 м² — три-четыре месяца. Сроки прописываются в договоре, работы идут поэтапно с приёмкой каждого этапа."}},{"@type":"Question","name":"Может ли смета вырасти в процессе?","acceptedAnswer":{"@type":"Answer","text":"Нет, если проект не меняется. Стоимость согласовывается до начала работ и фиксируется в договоре. Изменение цены возможно только по вашей инициативе — например, если вы решили добавить террасу или сменить отделку."}},{"@type":"Question","name":"Работаете зимой?","acceptedAnswer":{"@type":"Answer","text":"Да. Каркасная технология не требует «мокрых» процессов, поэтому зимой мы ставим свайно-винтовой фундамент и продолжаем сборку. Зимой обычно свободнее график и короче срок ожидания бригады."}},{"@type":"Question","name":"Что с фундаментом на сложном грунте?","acceptedAnswer":{"@type":"Answer","text":"В Тверской области часто встречаются торфяники и высокая вода. На таких участках мы считаем сваи увеличенной длины или ленту с уширением. Тип фундамента определяем после выезда на участок, а не по телефону."}},{"@type":"Question","name":"Можно ли переделать типовой проект?","acceptedAnswer":{"@type":"Answer","text":"Можно. Перепланировка, добавление террасы, гаража, второго санузла, перенос окон — обычная практика. Также строим полностью по индивидуальному проекту, в том числе по вашим чертежам."}}]}]</script>
 </head>
 
@@ -40,9 +40,13 @@
         <a href="/proekty/">Проекты</a>
         <a href="/obekty/">Объекты</a>
         <a href="/uslugi/">Услуги</a>
-        <a href="/stati/">Статьи</a>
         <a href="/kontakty/">Контакты</a>
       </nav>
+
+      <a class="nav-solo" href="/stati/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>
+        Статьи
+      </a>
 
       <div class="header__side">
         <div class="header__contacts">
@@ -104,25 +108,25 @@
 
   <main id="main">
 <section class="hero">
-      <img class="hero__bg" src="/assets/img/photos/hero.jpg" alt="Каркасный дом с террасой, построенный в Тверской области" width="2000" height="1125" fetchpriority="high">
-      <div class="hero__scrim"></div>
       <div class="container container--wide hero__inner">
         <div class="hero__content">
           <p class="hero__tag">Тверь и область · с 2009 года</p>
           <h1>Каркасный дом под ключ <em>за два месяца</em></h1>
           <p class="hero__lead">Фундамент, каркас, кровля, отопление и электрика — одна компания, один договор. Смета фиксируется до начала работ и не растёт в процессе стройки.</p>
           <div class="hero__actions">
-            <a class="btn" href="#raschet">Рассчитать мой дом <span class="btn__arrow" aria-hidden="true">→</span></a>
-            <a class="btn btn--outline-light" href="/proekty/">16 готовых проектов</a>
+            <a class="btn" href="#raschet">Рассчитать мой дом<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+            <a class="btn btn--ghost" href="/proekty/">18 готовых проектов</a>
           </div>
         </div>
+        <figure class="hero__shot">
+          <img class="hero__bg" src="/assets/img/photos/hero-house.jpg" srcset="assets/img/photos/hero-house-800.jpg 640w, assets/img/photos/hero-house.jpg 1200w" sizes="(min-width: 1000px) 44vw, 100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="1200" height="1500" fetchpriority="high">
+        </figure>
         <div class="hero__facts">
           <div class="hero__fact"><b>от 32 000 ₽</b><span>за м² под ключ</span></div>
           <div class="hero__fact"><b>от 1,5 мес.</b><span>срок строительства</span></div>
           <div class="hero__fact"><b>5 лет</b><span>гарантия по договору</span></div>
           <div class="hero__fact"><b>300+</b><span>домов в Тверской области</span></div>
         </div>
-        <div class="hero__bar"></div>
       </div>
     </section>
 
@@ -191,57 +195,17 @@
           <div>
             <p class="eyebrow" data-num="02">Построенные объекты</p>
             <h2>Дома, которые уже стоят в Тверской области</h2>
-            <p class="lead">Каждый объект — с площадью, сроком и комплектацией. Посмотрите, что получается в вашем бюджете.</p>
+            <p class="lead">Показываем только те дома, по которым есть съёмка с площадки, с площадью, сроком и комплектацией.</p>
           </div>
           <a class="btn btn--ghost" href="/obekty/">Все объекты <span class="btn__arrow" aria-hidden="true">→</span></a>
         </div>
         <div class="bento">
-        <a class="tile" href="/proekty/kd-117/">
+        <a class="tile tile--wide" href="/proekty/kd-117/">
           <div class="tile__media"><img src="/assets/img/photos/kd-117-foto-07.jpg" alt="Дом с террасой 8,45×10,5, 117 м²" loading="lazy" width="900" height="600"></div>
           <div class="tile__body">
             <h3>Дом с террасой 8,45×10,5</h3>
             <p class="tile__meta"><span>8,45×10,5 м · 117 м²</span><span>2,5 месяца</span><span>Тёплый контур</span></p>
             <p class="tile__place">Гришкино, Тверская область</p>
-          </div>
-        </a>
-        <a class="tile" href="/proekty/kd-17/">
-          <div class="tile__media"><img src="/assets/img/projects/kd-17.svg" alt="Дом для семьи в Конаковском районе, 118 м²" loading="lazy" width="900" height="600"></div>
-          <div class="tile__body">
-            <h3>Дом для семьи в Конаковском районе</h3>
-            <p class="tile__meta"><span>8×10 м · 118 м²</span><span>2,5 месяца</span><span>Комфорт</span></p>
-            <p class="tile__place">Конаковский район</p>
-          </div>
-        </a>
-        <a class="tile" href="/proekty/kd-29/">
-          <div class="tile__media"><img src="/assets/img/projects/kd-29.svg" alt="Просторный дом под Торжком, 178 м²" loading="lazy" width="900" height="600"></div>
-          <div class="tile__body">
-            <h3>Просторный дом под Торжком</h3>
-            <p class="tile__meta"><span>9×12 м · 178 м²</span><span>3,5 месяца</span><span>Под ключ с отделкой</span></p>
-            <p class="tile__place">Торжок</p>
-          </div>
-        </a>
-        <a class="tile" href="/proekty/kd-08/">
-          <div class="tile__media"><img src="/assets/img/projects/kd-08.svg" alt="Компактный дом в Лихославле, 44 м²" loading="lazy" width="900" height="600"></div>
-          <div class="tile__body">
-            <h3>Компактный дом в Лихославле</h3>
-            <p class="tile__meta"><span>6×8 м · 44 м²</span><span>6 недель</span><span>Тёплый контур</span></p>
-            <p class="tile__place">Лихославль</p>
-          </div>
-        </a>
-        <a class="tile" href="/proekty/kd-36/">
-          <div class="tile__media"><img src="/assets/img/projects/kd-36.svg" alt="Дом со вторым светом, 96 м²" loading="lazy" width="900" height="600"></div>
-          <div class="tile__body">
-            <h3>Дом со вторым светом</h3>
-            <p class="tile__meta"><span>8×8 м · 96 м²</span><span>2 месяца</span><span>Комфорт</span></p>
-            <p class="tile__place">Калининский район</p>
-          </div>
-        </a>
-        <a class="tile" href="/proekty/kd-38/">
-          <div class="tile__media"><img src="/assets/img/projects/kd-38.svg" alt="Дом с сауной и кабинетом, 200 м²" loading="lazy" width="900" height="600"></div>
-          <div class="tile__body">
-            <h3>Дом с сауной и кабинетом</h3>
-            <p class="tile__meta"><span>10×12 м · 200 м²</span><span>4 месяца</span><span>Под ключ с отделкой</span></p>
-            <p class="tile__place">Завидово</p>
           </div>
         </a>
         </div>
@@ -253,7 +217,7 @@
         <div class="section__head section__head--row">
           <div>
             <p class="eyebrow" data-num="03">Каталог проектов</p>
-            <h2>16 готовых проектов от 44 до 200 м²</h2>
+            <h2>18 готовых проектов от 44 до 200 м²</h2>
             <p class="lead">Любой проект адаптируем под ваш участок: перепланировка, терраса, гараж, второй санузел.</p>
           </div>
           <a class="btn btn--ghost" href="/proekty/">Весь каталог <span class="btn__arrow" aria-hidden="true">→</span></a>
@@ -269,6 +233,34 @@
           <ul class="specs"><li>117 м²</li><li>1 этаж</li><li>3 спальни</li><li>терраса</li></ul>
           <div class="project__foot">
             <span class="price">от 3 744 000 ₽<small>под ключ, ориентировочно · 2,5 месяца</small></span>
+            <span class="project__more">Подробнее →</span>
+          </div>
+        </div>
+      </article>
+      <article class="project" data-floors="1" data-area="152" data-price="6028257">
+        <div class="project__media">
+          <img src="/assets/img/photos/kd-152-vid-1.jpg" alt="Каркасный дом КД-152, 9,6×14,2 м, 152 м²" loading="lazy" width="900" height="600">
+          <span class="project__code">КД-152</span>
+        </div>
+        <div class="project__body">
+          <h3 class="project__title"><a href="/proekty/kd-152/">Каркасный дом 9,6×14,2</a></h3>
+          <ul class="specs"><li>152 м²</li><li>1 этаж</li><li>3 спальни</li><li>терраса</li></ul>
+          <div class="project__foot">
+            <span class="price">6 028 257 ₽<small>тёплый контур, по смете · 3–4 месяца</small></span>
+            <span class="project__more">Подробнее →</span>
+          </div>
+        </div>
+      </article>
+      <article class="project" data-floors="1" data-area="100" data-price="4452858">
+        <div class="project__media">
+          <img src="/assets/img/photos/kd-100-viz-01.jpg" alt="Каркасный дом КД-100, 8,5×10,0 м, 100 м²" loading="lazy" width="900" height="600">
+          <span class="project__code">КД-100</span>
+        </div>
+        <div class="project__body">
+          <h3 class="project__title"><a href="/proekty/kd-100/">Каркасный дом 8,5×10,0</a></h3>
+          <ul class="specs"><li>100 м²</li><li>1 этаж</li><li>3 спальни</li><li>терраса</li></ul>
+          <div class="project__foot">
+            <span class="price">4 452 858 ₽<small>тёплый контур, по смете · 2–3 месяца</small></span>
             <span class="project__more">Подробнее →</span>
           </div>
         </div>
@@ -311,34 +303,6 @@
           <ul class="specs"><li>58 м²</li><li>1 этаж</li><li>3 спальни</li><li>терраса</li></ul>
           <div class="project__foot">
             <span class="price">от 1 856 000 ₽<small>под ключ, ориентировочно · 1,5–2 месяца</small></span>
-            <span class="project__more">Подробнее →</span>
-          </div>
-        </div>
-      </article>
-      <article class="project" data-floors="1.5" data-area="72" data-price="2304000">
-        <div class="project__media">
-          <img src="/assets/img/projects/kd-11.svg" alt="Каркасный дом КД-11, 7×7 м, 72 м²" loading="lazy" width="900" height="600">
-          <span class="project__code">КД-11</span>
-        </div>
-        <div class="project__body">
-          <h3 class="project__title"><a href="/proekty/kd-11/">Каркасный дом 7×7</a></h3>
-          <ul class="specs"><li>72 м²</li><li>1,5 этажа</li><li>3 спальни</li></ul>
-          <div class="project__foot">
-            <span class="price">от 2 304 000 ₽<small>под ключ, ориентировочно · 1,5–2 месяца</small></span>
-            <span class="project__more">Подробнее →</span>
-          </div>
-        </div>
-      </article>
-      <article class="project" data-floors="1.5" data-area="84" data-price="2688000">
-        <div class="project__media">
-          <img src="/assets/img/projects/kd-15.svg" alt="Каркасный дом КД-15, 6×9 м, 84 м²" loading="lazy" width="900" height="600">
-          <span class="project__code">КД-15</span>
-        </div>
-        <div class="project__body">
-          <h3 class="project__title"><a href="/proekty/kd-15/">Каркасный дом 6×9</a></h3>
-          <ul class="specs"><li>84 м²</li><li>1,5 этажа</li><li>3 спальни</li><li>терраса</li></ul>
-          <div class="project__foot">
-            <span class="price">от 2 688 000 ₽<small>под ключ, ориентировочно · 1,5–2 месяца</small></span>
             <span class="project__more">Подробнее →</span>
           </div>
         </div>
@@ -581,14 +545,74 @@
           <p class="eyebrow" data-num="07">Как мы работаем</p>
           <h2>Шесть шагов от звонка до ключей</h2>
         </div>
-        <div class="timeline">
-          <article class="tl"><span class="tl__num">01</span><h3>Заявка и расчёт</h3><p>Обсуждаем проект, участок и бюджет. Предварительный расчёт готовим за один день — бесплатно и без обязательств.</p></article>
-          <article class="tl"><span class="tl__num">02</span><h3>Выезд на участок</h3><p>Смотрим грунт, подъезд и стороны света, подбираем тип фундамента и уточняем смету. По Твери и ближайшим районам — бесплатно.</p></article>
-          <article class="tl"><span class="tl__num">03</span><h3>Проект и договор</h3><p>Фиксируем планировку, комплектацию, сроки и стоимость. Смета становится приложением к договору.</p></article>
-          <article class="tl"><span class="tl__num">04</span><h3>Фундамент и каркас</h3><p>Сваи или лента, обвязка, каркас, перекрытия и стропильная система с кровлей. Дом встаёт под крышу.</p></article>
-          <article class="tl"><span class="tl__num">05</span><h3>Контур и инженерия</h3><p>Утепление, мембраны, фасад, окна и двери. Затем электрика, отопление, водоснабжение и канализация.</p></article>
-          <article class="tl"><span class="tl__num">06</span><h3>Сдача и гарантия</h3><p>Принимаете дом по акту, получаете паспорта на оборудование и гарантию 5 лет на конструктив и работы.</p></article>
-        </div>
+        <ol class="steps">
+          <li class="step">
+            <div class="step__text">
+              <h3>Заявка и расчёт</h3>
+              <p>Обсуждаем проект, участок и бюджет. Предварительный расчёт готовим за один день — бесплатно и без обязательств.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">01</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M8 7h8"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15v3"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Выезд на участок</h3>
+              <p>Смотрим грунт, подъезд и стороны света, подбираем тип фундамента и уточняем смету. По Твери и ближайшим районам — бесплатно.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">02</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Проект и договор</h3>
+              <p>Фиксируем планировку, комплектацию, сроки и стоимость. Смета становится приложением к договору.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">03</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M10 5v9M4 14h6M14 19v-5M14 14h6"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Фундамент и каркас</h3>
+              <p>Сваи или лента, обвязка, каркас, перекрытия и стропильная система с кровлей. Дом встаёт под крышу.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">04</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M8 20V8l4-4 4 4v12"/><path d="M8 12h8"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Контур и инженерия</h3>
+              <p>Утепление, мембраны, фасад, окна и двери. Затем электрика, отопление, водоснабжение и канализация.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">05</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5"/><path d="M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Сдача и гарантия</h3>
+              <p>Принимаете дом по акту, получаете паспорта на оборудование и гарантию 5 лет на конструктив и работы.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">06</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="14" r="4"/><path d="M11 11 20 2"/><path d="M17 5l2 2M15 7l2 2"/></svg></span>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 

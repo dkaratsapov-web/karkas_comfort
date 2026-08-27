@@ -78,25 +78,25 @@
   ]
 } -->
     <section class="hero">
-      <img class="hero__bg" src="assets/img/hero.svg" alt="Каркасный дом на лесном участке в вечернем свете" width="1600" height="900" fetchpriority="high">
-      <div class="hero__scrim"></div>
       <div class="container container--wide hero__inner">
         <div class="hero__content">
           <p class="hero__tag">Тверь и область · с 2009 года</p>
           <h1>Каркасный дом под ключ <em>за два месяца</em></h1>
           <p class="hero__lead">Фундамент, каркас, кровля, отопление и электрика — одна компания, один договор. Смета фиксируется до начала работ и не растёт в процессе стройки.</p>
           <div class="hero__actions">
-            <a class="btn" href="#raschet">Рассчитать мой дом <span class="btn__arrow" aria-hidden="true">→</span></a>
-            <a class="btn btn--outline-light" href="proekty.html">{{projects:count}} готовых проектов</a>
+            <a class="btn" href="#raschet">Рассчитать мой дом<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+            <a class="btn btn--ghost" href="proekty.html">{{projects:count}} готовых проектов</a>
           </div>
         </div>
+        <figure class="hero__shot">
+          <img class="hero__bg" src="assets/img/photos/hero-house.jpg" srcset="assets/img/photos/hero-house-800.jpg 640w, assets/img/photos/hero-house.jpg 1200w" sizes="(min-width: 1000px) 44vw, 100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="1200" height="1500" fetchpriority="high">
+        </figure>
         <div class="hero__facts">
           <div class="hero__fact"><b>от 32 000 ₽</b><span>за м² под ключ</span></div>
           <div class="hero__fact"><b>от 1,5 мес.</b><span>срок строительства</span></div>
           <div class="hero__fact"><b>5 лет</b><span>гарантия по договору</span></div>
           <div class="hero__fact"><b>300+</b><span>домов в Тверской области</span></div>
         </div>
-        <div class="hero__bar"></div>
       </div>
     </section>
 
@@ -165,7 +165,7 @@
           <div>
             <p class="eyebrow" data-num="02">Построенные объекты</p>
             <h2>Дома, которые уже стоят в Тверской области</h2>
-            <p class="lead">Каждый объект — с площадью, сроком и комплектацией. Посмотрите, что получается в вашем бюджете.</p>
+            <p class="lead">Показываем только те дома, по которым есть съёмка с площадки, с площадью, сроком и комплектацией.</p>
           </div>
           <a class="btn btn--ghost" href="obekty.html">Все объекты <span class="btn__arrow" aria-hidden="true">→</span></a>
         </div>
@@ -425,14 +425,74 @@
           <p class="eyebrow" data-num="07">Как мы работаем</p>
           <h2>Шесть шагов от звонка до ключей</h2>
         </div>
-        <div class="timeline">
-          <article class="tl"><span class="tl__num">01</span><h3>Заявка и расчёт</h3><p>Обсуждаем проект, участок и бюджет. Предварительный расчёт готовим за один день — бесплатно и без обязательств.</p></article>
-          <article class="tl"><span class="tl__num">02</span><h3>Выезд на участок</h3><p>Смотрим грунт, подъезд и стороны света, подбираем тип фундамента и уточняем смету. По Твери и ближайшим районам — бесплатно.</p></article>
-          <article class="tl"><span class="tl__num">03</span><h3>Проект и договор</h3><p>Фиксируем планировку, комплектацию, сроки и стоимость. Смета становится приложением к договору.</p></article>
-          <article class="tl"><span class="tl__num">04</span><h3>Фундамент и каркас</h3><p>Сваи или лента, обвязка, каркас, перекрытия и стропильная система с кровлей. Дом встаёт под крышу.</p></article>
-          <article class="tl"><span class="tl__num">05</span><h3>Контур и инженерия</h3><p>Утепление, мембраны, фасад, окна и двери. Затем электрика, отопление, водоснабжение и канализация.</p></article>
-          <article class="tl"><span class="tl__num">06</span><h3>Сдача и гарантия</h3><p>Принимаете дом по акту, получаете паспорта на оборудование и гарантию 5 лет на конструктив и работы.</p></article>
-        </div>
+        <ol class="steps">
+          <li class="step">
+            <div class="step__text">
+              <h3>Заявка и расчёт</h3>
+              <p>Обсуждаем проект, участок и бюджет. Предварительный расчёт готовим за один день — бесплатно и без обязательств.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">01</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M8 7h8"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01M8.5 15h.01M12 15h.01M15.5 15v3"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Выезд на участок</h3>
+              <p>Смотрим грунт, подъезд и стороны света, подбираем тип фундамента и уточняем смету. По Твери и ближайшим районам — бесплатно.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">02</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Проект и договор</h3>
+              <p>Фиксируем планировку, комплектацию, сроки и стоимость. Смета становится приложением к договору.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">03</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M10 5v9M4 14h6M14 19v-5M14 14h6"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Фундамент и каркас</h3>
+              <p>Сваи или лента, обвязка, каркас, перекрытия и стропильная система с кровлей. Дом встаёт под крышу.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">04</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M8 20V8l4-4 4 4v12"/><path d="M8 12h8"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Контур и инженерия</h3>
+              <p>Утепление, мембраны, фасад, окна и двери. Затем электрика, отопление, водоснабжение и канализация.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">05</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5"/><path d="M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></svg></span>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step__text">
+              <h3>Сдача и гарантия</h3>
+              <p>Принимаете дом по акту, получаете паспорта на оборудование и гарантию 5 лет на конструктив и работы.</p>
+            </div>
+            <span class="step__mark" aria-hidden="true"></span>
+            <div class="step__badge">
+              <span class="step__num" aria-hidden="true">06</span>
+              <span class="step__tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="14" r="4"/><path d="M11 11 20 2"/><path d="M17 5l2 2M15 7l2 2"/></svg></span>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 

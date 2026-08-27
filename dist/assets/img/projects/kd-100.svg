@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="Фасад каркасного дома КД-100, 8,5×10,0 м">
+<defs>
+  <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+    <line x1="0" y1="0" x2="0" y2="7" stroke="#3A362C" stroke-width="1" stroke-opacity=".34"/>
+  </pattern>
+  <pattern id="board" width="11" height="8" patternUnits="userSpaceOnUse">
+    <line x1="0" y1="0" x2="0" y2="8" stroke="#2A2620" stroke-width=".7" stroke-opacity=".2"/>
+  </pattern>
+</defs>
+  <rect width="960" height="600" fill="#F3EDE3"/>
+  <line x1="0" y1="490" x2="960" y2="490" stroke="#2A2620" stroke-width="1" stroke-opacity=".1"/>
+  <text x="34" y="46" font-family="Menlo, Consolas, monospace" font-size="21" letter-spacing="1.5" fill="#2A2620" fill-opacity=".42">КД-100</text>
+  <g>
+    <path d="M91.1 343.0 L376.3 246.9 L879.2 369.1 L879.2 383.1 L376.3 260.9 L91.1 357.0 Z" fill="url(#hatch)" stroke="#2A2620" stroke-width="2.4" stroke-linejoin="round"/>
+    <rect x="117.1" y="335.0" width="518.4000000000001" height="145" fill="#C08A4A" fill-opacity=".16"/>
+    <rect x="117.1" y="335.0" width="518.4000000000001" height="145" fill="url(#board)"/>
+    <rect x="117.1" y="335.0" width="518.4000000000001" height="145" fill="none" stroke="#2A2620" stroke-width="2.4"/>
+    
+    <rect x="635.5" y="466.0" width="217.7" height="9" fill="#C08A4A" fill-opacity=".26" stroke="#2A2620" stroke-width="1.3" stroke-opacity=".55"/>
+    <line x1="843.2" y1="466.0" x2="843.2" y2="377.1" stroke="#2A2620" stroke-width="2.4" stroke-opacity=".6"/>
+    <line x1="727.0" y1="466.0" x2="727.0" y2="359.9" stroke="#2A2620" stroke-width="2.4" stroke-opacity=".6"/>
+    <rect x="352.3" y="396.0" width="48" height="84" fill="#3A362C" fill-opacity=".15" stroke="#2A2620" stroke-width="1.7" stroke-opacity=".78"/>
+    <g><rect x="152.1" y="375.6" width="72" height="52" rx="2" fill="#2F5D3F" fill-opacity=".12" stroke="#2A2620" stroke-width="1.4" stroke-opacity=".72"/>
+      <line x1="188.1" y1="375.6" x2="188.1" y2="427.6" stroke="#2A2620" stroke-width=".9" stroke-opacity=".4"/></g>
+    <g><rect x="340.3" y="375.6" width="72" height="52" rx="2" fill="#2F5D3F" fill-opacity=".12" stroke="#2A2620" stroke-width="1.4" stroke-opacity=".72"/>
+      <line x1="376.3" y1="375.6" x2="376.3" y2="427.6" stroke="#2A2620" stroke-width=".9" stroke-opacity=".4"/></g>
+    <g><rect x="528.5" y="375.6" width="72" height="52" rx="2" fill="#2F5D3F" fill-opacity=".12" stroke="#2A2620" stroke-width="1.4" stroke-opacity=".72"/>
+      <line x1="564.5" y1="375.6" x2="564.5" y2="427.6" stroke="#2A2620" stroke-width=".9" stroke-opacity=".4"/></g>
+    <rect x="111.1" y="480.0" width="748.1" height="10" fill="#3A362C" fill-opacity=".28" stroke="#2A2620" stroke-width="1.5" stroke-opacity=".55"/>
+    <g>
+    <line x1="117.11999999999995" y1="538" x2="635.52" y2="538" stroke="#2A2620" stroke-width="1" stroke-opacity=".45"/>
+    <path d="M112.11999999999995 543 L122.11999999999995 533" stroke="#2A2620" stroke-width="1.4" stroke-opacity=".65"/><path d="M630.52 543 L640.52 533" stroke="#2A2620" stroke-width="1.4" stroke-opacity=".65"/>
+    <line x1="117.11999999999995" y1="512" x2="117.11999999999995" y2="548" stroke="#2A2620" stroke-width=".8" stroke-opacity=".25"/>
+    <line x1="635.52" y1="512" x2="635.52" y2="548" stroke="#2A2620" stroke-width=".8" stroke-opacity=".25"/>
+    <text x="376.31999999999994" y="529" text-anchor="middle" font-family="Menlo, Consolas, monospace" font-size="19" fill="#2A2620" fill-opacity=".62">8,5 м</text>
+  </g>
+  </g>
+</svg>

@@ -50,7 +50,7 @@ const srcset = (f, sizes) => {
   const alt = small(f);
   return alt === f ? `src="${img(f)}"` : `src="${img(alt)}" srcset="${img(alt)} 800w, ${img(f)} 1700w" sizes="${sizes}"`;
 };
-const photoAlt = (p, i) => `Каркасный дом ${p.code} ${p.size} м, фото ${i + 1}`;
+const photoAlt = (p, i) => `Каркасный дом ${p.code} ${p.size} м, ${p.photos && p.photos.length ? 'фото' : 'кадр'} ${i + 1}`;
 
 
 const articleUrl = (slug) => `/stati/${slug}/`;
@@ -104,11 +104,11 @@ const analytics = [
 ].filter(Boolean).join('\n');
 
 /* ---------- цены ---------- */
-function priceOf(p) { return p.price ?? Math.round(p.area * pricing.ratePerM2.standart); }
-function priceTop(p) { return Math.round(p.area * pricing.ratePerM2.pod_kluch); }
+function priceOf(p) { return p.prices?.kontur ?? p.price ?? Math.round(p.area * pricing.ratePerM2.standart); }
+function priceTop(p) { return p.prices?.pod_kluch ?? Math.round(p.area * pricing.ratePerM2.pod_kluch); }
 function projectUrl(slug) { return `/proekty/${slug}/`; }
 const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
-const priceNote = (p) => (p.price ? 'под ключ, по договору' : 'под ключ, ориентировочно');
+const priceNote = (p) => (p.prices ? 'тёплый контур, по смете' : p.price ? 'под ключ, по договору' : 'под ключ, ориентировочно');
 const termOf = (p) => p.term || (p.area <= 90 ? '1,5–2 месяца' : p.area <= 150 ? '2–3 месяца' : '3–4 месяца');
 const floorsLabel = (f) => (f === 1 ? '1 этаж' : f === 1.5 ? '1,5 этажа' : '2 этажа');
 const floorsWord = (f) => (f === 1 ? 'Одноэтажный' : f === 1.5 ? 'Полутораэтажный' : 'Двухэтажный');
@@ -116,7 +116,16 @@ const bedroomsWord = (n) => `${n} ${n === 1 ? 'спальня' : n < 5 ? 'спа
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /* фотография объекта, если её передал заказчик, иначе временная иллюстрация */
-const photoOf = (p) => (p.photos && p.photos.length ? `/assets/img/photos/${p.photos[0]}` : `/assets/img/projects/${p.slug}.svg`);
+/* Кадры для карточки и галереи: фотографии объекта, иначе визуализации,
+   иначе объёмные виды из альбома, иначе временная развёртка фасада. */
+const shotsOf = (p) => (p.photos && p.photos.length ? p.photos
+  : p.viz && p.viz.length ? p.viz
+  : (p.drawings || []).filter((d) => /vid-|3d/.test(d.file)).map((d) => d.file));
+const shotsAnchor = (p) => (p.photos && p.photos.length ? '#foto' : p.viz && p.viz.length ? '#viz' : '#chertezhi');
+const photoOf = (p) => {
+  const list = shotsOf(p);
+  return list.length ? `/assets/img/photos/${list[0]}` : `/assets/img/projects/${p.slug}.svg`;
+};
 
 /* ---------- чистая папка выгрузки ---------- */
 rmSync(OUT, { recursive: true, force: true });
@@ -205,13 +214,13 @@ const projectCard = (p) => `      <article class="project" data-floors="${p.floo
           <h3 class="project__title"><a href="${projectUrl(p.slug)}">Каркасный дом ${p.size}</a></h3>
           <ul class="specs"><li>${p.area} м²</li><li>${floorsLabel(p.floors)}</li><li>${bedroomsWord(p.bedrooms)}</li>${p.terrace ? '<li>терраса</li>' : ''}</ul>
           <div class="project__foot">
-            <span class="price">${p.price ? '' : 'от '}${money(priceOf(p))}<small>${priceNote(p)} · ${termOf(p)}</small></span>
+            <span class="price">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>${priceNote(p)} · ${termOf(p)}</small></span>
             <span class="project__more">Подробнее →</span>
           </div>
         </div>
       </article>`;
 
-const caseTile = (c) => `        <a class="tile" href="${projectUrl(c.slug)}">
+const caseTile = (c) => `        <a class="tile${cases.length === 1 ? ' tile--wide' : ''}" href="${projectUrl(c.slug)}">
           <div class="tile__media"><img src="${c.photos && c.photos.length ? `/assets/img/photos/${c.photos[0]}` : `/assets/img/projects/${c.slug}.svg`}" alt="${esc(c.title)}, ${c.area} м²" loading="lazy" width="900" height="600"></div>
           <div class="tile__body">
             <h3>${esc(c.title)}</h3>
@@ -270,13 +279,6 @@ for (const file of files) {
   if (!m) throw new Error(`Нет блока <!--meta --> в ${file}`);
   const meta = JSON.parse(m[1]);
   let content = raw.slice(m[0].length);
-  /* фотография первого экрана вместо временной развёртки */
-  if (HERO_PHOTO) {
-    content = content.replace(
-      /<img class="hero__bg"[^>]*>/,
-      `<img class="hero__bg" src="/${HERO_PHOTO}" alt="Каркасный дом с террасой, построенный в Тверской области" width="2000" height="1125" fetchpriority="high">`
-    );
-  }
   content = content.replace(/\{\{articles:(\d+)\}\}/g, (_, n) => articles.slice(0, Number(n)).map(articleCard).join('\n'));
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{cta\}\}/g, () => cta);
@@ -322,7 +324,7 @@ const included = [
 /* Галерея: крупный кадр + лента миниатюр. Переключение — в main.js; без скрипта
    страница остаётся рабочей: виден первый кадр, миниатюры кликаются в лайтбокс. */
 function galleryBlock(p) {
-  const list = p.photos || [];
+  const list = shotsOf(p);
   if (list.length < 2) {
     return `          <div class="gallery">
             <div class="gallery__main">
@@ -336,13 +338,14 @@ function galleryBlock(p) {
     const pic = `<img ${srcset(f, "(min-width: 1100px) 160px, 20vw")} alt="${photoAlt(p, i)}" loading="lazy" width="400" height="300">`;
     /* последняя миниатюра при большом наборе ведёт к полной галерее ниже */
     return i === shown.length - 1 && rest > 0
-      ? `<a class="gallery__thumb gallery__thumb--more" href="#foto" data-more="+${rest}" aria-label="Смотреть все ${list.length} фотографий">${pic}</a>`
+      ? `<a class="gallery__thumb gallery__thumb--more" href="${shotsAnchor(p)}" data-more="+${rest}" aria-label="Смотреть все ${list.length} кадров">${pic}</a>`
       : `<button class="gallery__thumb" type="button" aria-pressed="${i === 0}" data-full="${img(f)}">${pic}</button>`;
   }).join('\n              ');
-  return `          <div class="gallery" data-gallery>
+  const sheets = !(p.photos && p.photos.length) && !(p.viz && p.viz.length);
+  return `          <div class="gallery${sheets ? ' gallery--sheets' : ''}" data-gallery>
             <div class="gallery__main">
-              <img src="${img(list[0])}" alt="${photoAlt(p, 0)}" width="1200" height="800" fetchpriority="high" data-zoom="${img(list[0])}" data-zoom-target="${p.slug}-all" data-zoom-index="0">
-              <p class="gallery__count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5"/></svg><span><span data-gallery-current>1</span> из ${list.length} — фото объекта</span></p>
+              <img src="${img(list[0])}" alt="${photoAlt(p, 0)}" width="1200" height="800" fetchpriority="high" data-zoom="${img(list[0])}" data-zoom-target="${p.slug}-${p.photos && p.photos.length ? 'all' : p.viz && p.viz.length ? 'viz' : 'sheets'}" data-zoom-index="0">
+              <p class="gallery__count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5"/></svg><span><span data-gallery-current>1</span> из ${list.length} — ${p.photos && p.photos.length ? 'фото объекта' : 'визуализация проекта'}</span></p>
             </div>
             <div class="gallery__thumbs">
               ${thumbs}
@@ -364,7 +367,7 @@ function planBlock(p) {
         <div class="section__head">
           <p class="eyebrow">Планировка</p>
           <h2>План этажа и площади помещений</h2>
-          <p class="lead">Цифры взяты из эскизного проекта${p.docs ? ` (${esc(p.docs).toLowerCase()})` : ''}. Планировку подгоняем под вашу семью до старта работ.</p>
+          <p class="lead">Цифры взяты из проекта${p.docs ? `. ${esc(p.docs)}` : ''}. Планировку подгоняем под вашу семью до старта работ.</p>
         </div>
         <div class="split split--narrow">
           <figure class="plan-sheet" style="margin:0">
@@ -407,6 +410,59 @@ function photosBlock(p) {
           <p class="eyebrow">Объект</p>
           <h2>Как этот дом выглядит вживую</h2>
           <p class="lead">${list.length} фотографий с площадки: каркас, фасад из вертикальной доски, тёмные примыкания и терраса под общей кровлей. Живая съёмка — без визуализаций и стоковых картинок.</p>
+        </div>
+        <div class="shots shots--photos">
+${cells}
+        </div>
+      </div>
+    </section>
+`;
+}
+
+/* Цены по комплектациям из сметы к договору. Показываем только итоги:
+   состав материалов и закупочные цены на сайт не выносим. */
+function pricesBlock(p) {
+  if (!p.prices) return '';
+  const rows = [
+    ['Тёплый контур', p.prices.kontur, 'Фундамент, каркас, перекрытия, кровля, утепление, мембраны, окна, входная дверь и наружная отделка. Инженерии и внутренней отделки нет.'],
+    ['Вайтбокс', p.prices.vaytboks, 'Тёплый контур плюс электрика, отопление, вода и канализация по дому, черновая отделка стен и полов.'],
+    ['Под ключ с отделкой', p.prices.pod_kluch, 'Полный цикл с чистовой отделкой, напольными покрытиями, санузлом и межкомнатными дверями. Заезжаете с мебелью.']
+  ].filter(([, v]) => v);
+  return `
+    <section class="section" id="ceny">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Стоимость</p>
+          <h2>Три комплектации этого дома</h2>
+          <p class="lead">Суммы из сметы к договору на этот проект, а не расчёт по средней ставке за метр. Итог зависит от участка, грунта и удалённости: считаем точно после выезда.</p>
+        </div>
+        <div class="price-rows">
+${rows.map(([name, sum, what], i) => `          <article class="price-row${i === 1 ? ' price-row--pick' : ''}">
+            <div class="price-row__head">
+              <h3>${esc(name)}</h3>
+              <p class="price-row__sum">${money(sum)}</p>
+            </div>
+            <p class="price-row__what">${esc(what)}</p>
+            <a class="btn btn--ghost btn--sm" href="#zayavka" data-project="${p.code}, ${esc(name)}">Уточнить смету<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+          </article>`).join('\n')}
+        </div>
+      </div>
+    </section>
+`;
+}
+
+/* Визуализации проекта. Подписаны честно: это не фотографии объекта. */
+function vizBlock(p) {
+  const list = p.viz || [];
+  if (!list.length) return '';
+  const cells = list.map((f, i) => `          <figure><img ${srcset(f, '(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw')} alt="Визуализация каркасного дома ${p.code}, кадр ${i + 1}" loading="lazy" width="900" height="506" data-zoom="${img(f)}" data-zoom-group="${p.slug}-viz"></figure>`).join('\n');
+  return `
+    <section class="section" id="viz">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Как будет выглядеть</p>
+          <h2>Визуализации проекта</h2>
+          <p class="lead">Компьютерные визуализации по рабочему проекту: материалы фасада, цвет кровли и посадка дома на участке. Это не фотографии построенного объекта.</p>
         </div>
         <div class="shots shots--photos">
 ${cells}
@@ -507,7 +563,7 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
               <p class="eyebrow">Проект дома</p>
               <h1 style="font-size:clamp(25px,2.8vw,34px)">Каркасный дом ${p.size}<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">проект ${p.code}</span></h1>
               <p class="muted" style="margin-top:10px">${esc(p.note)}</p>
-              <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price ? '' : 'от '}${money(priceOf(p))}<small>тёплый контур${p.price ? '' : ', ориентировочно'} · под ключ с отделкой — от ${money(priceTop(p))} · срок ${termOf(p)}</small></p>
+              <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>тёплый контур${p.prices ? ' по смете' : p.price ? '' : ', ориентировочно'} · под ключ с отделкой ${p.prices ? '' : '— от '}${money(priceTop(p))} · срок ${termOf(p)}</small></p>
               <div class="stack" style="margin-top:20px">
                 <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${p.area} м²)">Рассчитать этот проект</a>
                 <a class="btn btn--ghost btn--block" href="#" data-lead-messenger>Написать в Telegram</a>
@@ -523,7 +579,7 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
       </div>
     </section>
 
-${planBlock(p)}${photosBlock(p)}${structureBlock(p)}${sheetsBlock(p)}
+${pricesBlock(p)}${planBlock(p)}${vizBlock(p)}${photosBlock(p)}${structureBlock(p)}${sheetsBlock(p)}
     <section class="section section--paper">
       <div class="container">
         <div class="section__head">
@@ -634,7 +690,7 @@ for (const a of articles) {
     ogimage: ARTICLE_IMG(a),
     scripts: []
   };
-  const content = `    <ol class="crumbs container">
+  const content = `    <ol class="crumbs container container--text">
       <li><a href="/index.html">Главная</a></li>
       <li><a href="/stati/">Статьи</a></li>
       <li>${esc(a.h1 || a.title)}</li>
