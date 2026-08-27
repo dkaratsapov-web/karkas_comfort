@@ -53,6 +53,18 @@ const srcset = (f, sizes) => {
 const photoAlt = (p, i) => `Каркасный дом ${p.code} ${p.size} м, ${p.photos && p.photos.length ? 'фото' : 'кадр'} ${i + 1}`;
 
 
+/* Витрина на главной: построенный объект и проекты с альбомами.
+   Тип подписан на каждой плитке, чтобы проект не выдавался за объект. */
+const projectTile = (p) => `        <a class="tile" href="${projectUrl(p.slug)}">
+          <div class="tile__media"><img ${srcset(shotsOf(p)[0] || '', '(min-width: 1100px) 33vw, 100vw')} alt="Каркасный дом ${p.code}, ${p.size} м" loading="lazy" width="900" height="600"></div>
+          <div class="tile__body">
+            <p class="tile__badge tile__badge--plan">Проект, альбом и смета</p>
+            <h3>Дом ${p.size} (${p.code})</h3>
+            <p class="tile__meta"><span>${p.area} м²</span><span>${floorsLabel(p.floors)}</span><span>${bedroomsWord(p.bedrooms)}</span></p>
+            <p class="tile__price">${p.prices ? `${money(priceOf(p))} за тёплый контур` : `от ${money(priceOf(p))}`}</p>
+          </div>
+        </a>`;
+
 const articleUrl = (slug) => `/stati/${slug}/`;
 const ARTICLE_IMG = (a) => (a.cover ? `/assets/img/photos/${a.cover}` : '/assets/img/og.png');
 const dateRu = (iso) => {
@@ -220,9 +232,10 @@ const projectCard = (p) => `      <article class="project" data-floors="${p.floo
         </div>
       </article>`;
 
-const caseTile = (c) => `        <a class="tile${cases.length === 1 ? ' tile--wide' : ''}" href="${projectUrl(c.slug)}">
+const caseTile = (c) => `        <a class="tile" href="${projectUrl(c.slug)}">
           <div class="tile__media"><img src="${c.photos && c.photos.length ? `/assets/img/photos/${c.photos[0]}` : `/assets/img/projects/${c.slug}.svg`}" alt="${esc(c.title)}, ${c.area} м²" loading="lazy" width="900" height="600"></div>
           <div class="tile__body">
+            <p class="tile__badge">Объект, есть съёмка</p>
             <h3>${esc(c.title)}</h3>
             <p class="tile__meta"><span>${c.size} м · ${c.area} м²</span><span>${c.term}</span><span>${esc(c.tier)}</span></p>
             ${c.place ? `<p class="tile__place">${esc(c.place)}</p>` : ''}
@@ -283,6 +296,10 @@ for (const file of files) {
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
+  content = content.replace(/\{\{showcase\}\}/g, () => [
+    ...cases.map(caseTile),
+    ...projects.filter((p) => p.prices).slice(0, 2).map(projectTile)
+  ].join('\n'));
   content = content.replace(/\{\{projects:(\d+)\}\}/g, (_, n) => projects.slice(0, Number(n)).map(projectCard).join('\n'));
   content = content.replace(/\{\{projects:all\}\}/g, () => projects.map(projectCard).join('\n'));
   /* пока отзывов нет, секция с ними не выводится вовсе — не оставляем пустую рамку */

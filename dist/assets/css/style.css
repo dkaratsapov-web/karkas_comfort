@@ -272,19 +272,13 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* «Статьи» стоят особняком: контурная кнопка, отделённая от меню */
 .nav-solo {
   display: none; align-items: center; gap: 8px;
-  min-height: 42px; padding: 9px 16px 9px 13px; margin-left: 10px;
+  min-height: 40px; padding: 9px 18px; margin-left: clamp(8px, 1vw, 16px);
   font-size: 14.5px; font-weight: 600; color: var(--ink);
   border: 1px solid rgba(23, 21, 15, .16); border-radius: var(--r-pill);
   white-space: nowrap;
   transition: color .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease);
 }
-.nav-solo::before {
-  content: ""; width: 1px; height: 26px; margin-right: 12px; margin-left: -13px;
-  background: rgba(23, 21, 15, .1);
-}
-.nav-solo svg { width: 17px; height: 17px; opacity: .55; }
 .nav-solo:hover { color: var(--brand); border-color: var(--brand); background: var(--brand-tint); }
-.nav-solo:hover svg { opacity: .9; }
 .nav-solo[aria-current="page"] { color: var(--brand); border-color: var(--brand); background: var(--brand-tint); }
 @media (min-width: 1120px) { .nav-solo { display: inline-flex; } }
 
@@ -315,9 +309,9 @@ section[id], div[id] { scroll-margin-top: 88px; }
 
 /* мессенджеры: одинаковая посадка, фирменный цвет только при наведении */
 .header__im { display: none; gap: 6px; }
-@media (min-width: 1360px) { .header__im { display: flex; } }
+@media (min-width: 1440px) { .header__im { display: flex; } }
 .im {
-  width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
   color: var(--ink-2); background: transparent;
   border: 1px solid rgba(23, 21, 15, .12); border-radius: var(--r-pill);
   transition: color .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease);
@@ -327,6 +321,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .im:hover { border-color: transparent; background: rgba(23, 21, 15, .06); color: var(--ink); }
 .im--tg:hover { color: #2AABEE; background: rgba(42, 171, 238, .1); }
 .im--max:hover { color: #7A5CFF; background: rgba(122, 92, 255, .1); }
+.im--vk:hover { color: #0077FF; background: rgba(0, 119, 255, .1); }
 
 .header__cta { display: none; flex-shrink: 0; }
 @media (min-width: 1120px) { .header__cta { display: inline-flex; } }
@@ -377,48 +372,54 @@ section[id], div[id] { scroll-margin-top: 88px; }
 @media (prefers-reduced-motion: reduce) { .mobile-nav.is-open > * { animation: none; } }
 
 /* ---------- первый экран ----------
-   Слева текст на светлом фоне, справа фотография целиком в рамке.
-   Рамка вложенная: внешняя оболочка со своим фоном, внутри кадр
-   с меньшим радиусом. Кадр заходит под капсулу шапки. */
-.hero { position: relative; background: var(--page); color: var(--ink); overflow: hidden; }
-.hero__inner {
-  position: relative;
-  display: grid; gap: clamp(28px, 3.4vw, 56px);
-  padding-top: calc(var(--header-h) + 24px + clamp(8px, 1.4vw, 30px));
-  padding-bottom: clamp(40px, 5vw, 84px);
+   Фотография лежит в скруглённой панели, а не во всю ширину экрана.
+   Затемнение идёт слева направо мягкими ступенями: текст читается,
+   дом остаётся видимым. Цифры вынесены под панель на светлый фон. */
+.hero { position: relative; background: var(--page); color: var(--ink); }
+.hero > .container { padding-top: calc(var(--header-h) + 26px); padding-bottom: clamp(30px, 3.4vw, 56px); }
+
+.hero__panel {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: clamp(340px, 52vh, 620px);
+  display: flex; align-items: center;
+  border-radius: clamp(22px, 2.2vw, 34px);
+  box-shadow: 0 0 0 1px rgba(23, 21, 15, .06), 0 40px 80px -46px rgba(38, 30, 20, .9);
 }
-/* на телефоне цифры идут сразу под текстом, фотография ниже */
-.hero__content { order: 1; }
-.hero__facts { order: 2; }
-.hero__shot { order: 3; }
-@media (min-width: 1000px) {
-  .hero__inner { grid-template-columns: minmax(0, 1fr) minmax(0, .78fr); align-items: center; column-gap: clamp(32px, 4vw, 72px); }
-  .hero__content, .hero__shot { order: 0; }
-  .hero__facts { order: 0; grid-column: 1 / -1; }
+.hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.hero__scrim {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(96deg,
+      rgba(17, 15, 11, .92) 0%,
+      rgba(17, 15, 11, .86) 22%,
+      rgba(17, 15, 11, .68) 42%,
+      rgba(17, 15, 11, .38) 62%,
+      rgba(17, 15, 11, .16) 80%,
+      rgba(17, 15, 11, .08) 100%),
+    linear-gradient(180deg, rgba(17, 15, 11, .3) 0%, rgba(17, 15, 11, 0) 30%, rgba(17, 15, 11, 0) 70%, rgba(17, 15, 11, .34) 100%);
 }
-.hero__content { max-width: 720px; }
-.hero__tag { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
-.hero h1 { margin-top: 18px; color: var(--ink); text-wrap: balance; }
-.hero h1 em { font-style: normal; color: var(--brand); }
-.hero__lead { font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; color: var(--ink-2); margin-top: 18px; max-width: 54ch; }
-.hero__actions { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
+@media (max-width: 899px) {
+  .hero__scrim {
+    background: linear-gradient(180deg, rgba(17, 15, 11, .82) 0%, rgba(17, 15, 11, .7) 45%, rgba(17, 15, 11, .55) 70%, rgba(17, 15, 11, .78) 100%);
+  }
+}
+
+.hero__content {
+  position: relative; max-width: 640px;
+  padding: clamp(28px, 3.4vw, 56px) clamp(22px, 3vw, 52px);
+  color: var(--on-dark);
+}
+.hero__tag { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--on-dark-2); }
+.hero h1 { margin-top: 16px; color: var(--on-dark); text-wrap: balance; }
+.hero h1 em { font-style: normal; color: #9BCCAC; }
+.hero__lead { font-size: clamp(15.5px, 1.3vw, 18px); line-height: 1.6; color: rgba(244, 239, 231, .84); margin-top: 16px; max-width: 52ch; }
+.hero__actions { display: flex; flex-direction: column; gap: 10px; margin-top: 26px; }
 @media (min-width: 600px) { .hero__actions { flex-direction: row; flex-wrap: wrap; } }
 
-.hero__shot {
-  margin: 0; padding: 8px;
-  background: var(--surface); border-radius: 32px;
-  box-shadow: 0 0 0 1px rgba(23, 21, 15, .06), 0 40px 80px -44px rgba(58, 44, 28, .85);
-}
-.hero__shot img {
-  display: block; width: 100%; height: auto; border-radius: 24px;
-  aspect-ratio: 5 / 6; max-height: 58vh; object-fit: cover; background: var(--page-2);
-}
-@media (max-width: 999px) { .hero__shot img { aspect-ratio: 4 / 3; max-height: none; } }
-
 /* три факта: цена, срок, гарантия — видны до сгиба на телефоне */
-.hero__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: clamp(24px, 2.6vw, 36px); }
+.hero__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
 .hero__fact {
-  padding: 15px 17px 17px; border-radius: var(--r);
+  padding: 12px 14px 13px; border-radius: var(--r);
   background: var(--surface);
   box-shadow: 0 0 0 1px rgba(23, 21, 15, .055), 0 12px 28px -20px rgba(58, 44, 28, .7);
 }
@@ -426,7 +427,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .hero__fact span { display: block; font-size: 12px; line-height: 1.3; color: var(--muted); margin-top: 5px; }
 @media (min-width: 700px) {
   .hero__facts { gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .hero__fact { padding: 18px 22px 20px; }
+  .hero__fact { padding: 16px 20px 18px; }
   .hero__fact span { font-size: 13px; }
 }
 .hero__bar { padding-bottom: clamp(28px, 4vw, 52px); }
@@ -533,6 +534,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .card__num { display: block; font-family: var(--text); font-size: 13px; font-weight: 700; letter-spacing: .1em; color: var(--accent); margin-bottom: 12px; }
 .card h3 { margin-bottom: 10px; }
 .card p { color: var(--ink-2); font-size: 15.5px; }
+.card :where(h3, p, li) { overflow-wrap: break-word; }
 .section--dark .card { background: var(--dark-2); border-color: rgba(244, 239, 231, .16); }
 .section--dark .card p { color: var(--on-dark-2); }
 .section--dark .card__num { color: var(--accent-bright); }
@@ -770,12 +772,12 @@ section[id], div[id] { scroll-margin-top: 88px; }
 
 /* ---------- шаги, таймлайн ---------- */
 .timeline { display: grid; gap: 2px; }
-.tl { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 6px 24px; padding: 22px 0; border-top: 1px solid var(--line-soft); align-items: start; transition: background .5s var(--ease); }
+.tl { display: grid; grid-template-columns: minmax(72px, max-content) minmax(0, 1fr); gap: 6px 24px; padding: 22px 0; border-top: 1px solid var(--line-soft); align-items: start; transition: background .5s var(--ease); }
 .tl:hover { background: rgba(23, 21, 15, .022); }
 .tl__num {
   grid-column: 1; grid-row: 1 / span 2;
-  font-family: var(--display); font-size: 30px; font-weight: 700; line-height: 1;
-  color: var(--accent); opacity: .34; padding-top: 2px;
+  font-family: var(--display); font-size: clamp(15px, 1.5vw, 17px); font-weight: 700; line-height: 1.3;
+  color: var(--accent); padding-top: 4px; white-space: nowrap;
   font-variant-numeric: tabular-nums;
   transition: opacity .5s var(--ease);
 }
@@ -841,7 +843,6 @@ section[id], div[id] { scroll-margin-top: 88px; }
 @media (min-width: 700px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .bento { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 /* один объект занимает всю строку, а не жмётся в узкую колонку */
-.bento:has(> .tile--wide) { grid-template-columns: minmax(0, 1fr); }
 .tile {
   display: flex; flex-direction: column; padding: 6px;
   background: var(--surface); border-radius: 26px;
@@ -939,17 +940,21 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .marquee__row { display: flex; gap: 12px; flex-wrap: wrap; }
 
 /* ---------- подвал ---------- */
-.footer { background: var(--dark); color: var(--on-dark-2); padding: clamp(40px, 5vw, 72px) 0 32px; }
-.footer__grid { display: grid; gap: 28px; grid-template-columns: 1fr; }
+/* ---------- подвал: плотный, без лишнего воздуха ---------- */
+.footer { background: var(--dark); color: var(--on-dark-2); padding: clamp(30px, 3.2vw, 48px) 0 20px; }
+.footer__grid { display: grid; gap: 22px 28px; grid-template-columns: 1fr; }
 @media (min-width: 700px) { .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; } }
-.footer__title { font-family: var(--text); font-size: 17px; font-weight: 700; color: var(--on-dark); margin: 0 0 14px; }
-.footer a { color: var(--on-dark-2); display: inline-flex; align-items: center; min-height: 44px; }
+@media (min-width: 1100px) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr 1.1fr; gap: 24px 36px; } }
+.footer__title { font-family: var(--text); font-size: 14px; font-weight: 700; letter-spacing: .04em; color: var(--on-dark); margin: 0 0 8px; }
+.footer a { color: var(--on-dark-2); display: inline-flex; align-items: center; min-height: 32px; font-size: 14.5px; }
 .footer a:hover { color: var(--on-dark); }
-.footer__logo img { width: auto; height: 52px; }
-.footer__phone { font-family: var(--display); font-size: 24px; color: var(--on-dark); }
+.footer p { font-size: 14.5px; line-height: 1.5; }
+.footer__logo img { width: auto; height: 40px; }
+.footer__logo { margin-bottom: 10px; }
+.footer__phone { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--on-dark); min-height: 34px; }
 .footer ul { list-style: none; margin: 0; padding: 0; }
-.footer__bottom { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(244, 239, 231, .16); font-size: 13px; }
+.footer li { line-height: 1.35; font-size: 14.5px; }
+.footer__bottom { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(244, 239, 231, .14); font-size: 12.5px; }
 
 /* ---------- появление блоков ---------- */
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
@@ -1207,13 +1212,13 @@ body::after {
   .price-row .btn { grid-column: 2; grid-row: 1 / span 2; }
 }
 
-/* единственный объект в портфолио разворачивается в широкую плитку */
-.tile--wide { padding: 8px; }
-@media (min-width: 760px) {
-  .tile--wide { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: center; gap: clamp(18px, 2.4vw, 36px); }
-  .tile--wide .tile__media { aspect-ratio: 4 / 3; height: 100%; }
-  .tile--wide .tile__body { padding: clamp(8px, 1.6vw, 24px) clamp(12px, 2vw, 28px) clamp(8px, 1.6vw, 24px) 0; }
-  .tile--wide h3 { font-size: clamp(22px, 2.2vw, 28px); }
-  .tile--wide .tile__meta { margin-top: 14px; font-size: 14.5px; }
-  .tile--wide .tile__place { margin-top: 12px; font-size: 14.5px; }
 }
+
+.tile__badge {
+  display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+  padding: 5px 11px; margin-bottom: 10px; border-radius: var(--r-pill);
+  font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--brand-deep); background: var(--brand-tint);
+}
+.tile__badge--plan { color: var(--accent); background: rgba(192, 138, 74, .13); }
+.tile__price { margin-top: 10px; font-family: var(--display); font-size: 17px; font-weight: 700; color: var(--ink); }

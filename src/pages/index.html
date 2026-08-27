@@ -78,19 +78,20 @@
   ]
 } -->
     <section class="hero">
-      <div class="container container--wide hero__inner">
-        <div class="hero__content">
-          <p class="hero__tag">Тверь и область · с 2009 года</p>
-          <h1>Каркасный дом под ключ <em>за два месяца</em></h1>
-          <p class="hero__lead">Фундамент, каркас, кровля, отопление и электрика — одна компания, один договор. Смета фиксируется до начала работ и не растёт в процессе стройки.</p>
-          <div class="hero__actions">
-            <a class="btn" href="#raschet">Рассчитать мой дом<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
-            <a class="btn btn--ghost" href="proekty.html">{{projects:count}} готовых проектов</a>
+      <div class="container container--wide">
+        <div class="hero__panel">
+          <img class="hero__bg" src="assets/img/photos/hero.jpg" srcset="assets/img/photos/hero-800.jpg 1100w, assets/img/photos/hero.jpg 2200w" sizes="100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="2200" height="1100" fetchpriority="high">
+          <div class="hero__scrim" aria-hidden="true"></div>
+          <div class="hero__content">
+            <p class="hero__tag">Тверь и область · с 2009 года</p>
+            <h1>Каркасный дом под ключ <em>за два месяца</em></h1>
+            <p class="hero__lead">Фундамент, каркас, кровля, отопление и электрика — одна компания, один договор. Смета фиксируется до начала работ и не растёт в процессе стройки.</p>
+            <div class="hero__actions">
+              <a class="btn" href="#raschet">Рассчитать мой дом<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+              <a class="btn btn--outline-light" href="proekty.html">{{projects:count}} готовых проектов</a>
+            </div>
           </div>
         </div>
-        <figure class="hero__shot">
-          <img class="hero__bg" src="assets/img/photos/hero-house.jpg" srcset="assets/img/photos/hero-house-800.jpg 640w, assets/img/photos/hero-house.jpg 1200w" sizes="(min-width: 1000px) 44vw, 100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="1200" height="1500" fetchpriority="high">
-        </figure>
         <div class="hero__facts">
           <div class="hero__fact"><b>от 32 000 ₽</b><span>за м² под ключ</span></div>
           <div class="hero__fact"><b>от 1,5 мес.</b><span>срок строительства</span></div>
@@ -164,13 +165,13 @@
         <div class="section__head section__head--row">
           <div>
             <p class="eyebrow" data-num="02">Построенные объекты</p>
-            <h2>Дома, которые уже стоят в Тверской области</h2>
-            <p class="lead">Показываем только те дома, по которым есть съёмка с площадки, с площадью, сроком и комплектацией.</p>
+            <h2>Объект на площадке и свежие проекты</h2>
+            <p class="lead">Дом в Гришкино снят на площадке. По двум проектам показываем альбомы и суммы из смет к договору, а не расчёт по средней ставке.</p>
           </div>
           <a class="btn btn--ghost" href="obekty.html">Все объекты <span class="btn__arrow" aria-hidden="true">→</span></a>
         </div>
         <div class="bento">
-{{cases}}
+{{showcase}}
         </div>
       </div>
     </section>
