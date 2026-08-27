@@ -12,8 +12,10 @@ name: Preview site
 on:
   push:
     branches:
+      # Публиковать демо может только ветка по умолчанию: окружение
+      # github-pages не пускает остальные. Рабочая ветка попадает сюда
+      # перемоткой — npm run publish:demo.
       - claude/karkas-comfort-redesign-0zy3xi
-      - claude/site-analysis-redesign-tfso59
       - main
     paths-ignore:
       - 'README.md'
