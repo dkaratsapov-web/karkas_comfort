@@ -37,6 +37,56 @@ const projects = JSON.parse(read('src/data/projects.json'));
 const cases = JSON.parse(read('src/data/cases.json'));
 const pricing = JSON.parse(read('src/data/pricing.json'));
 const reviews = JSON.parse(read('src/data/reviews.json'));
+const articles = JSON.parse(read('src/data/articles.json'));
+
+const img = (f) => `/assets/img/photos/${f}`;
+/* Уменьшенный вариант кадра (…-800.jpg), если он подготовлен рядом с оригиналом.
+   Полный файл остаётся для полноэкранного просмотра. */
+const small = (f) => {
+  const alt = f.replace(/\.(jpe?g|png|webp)$/i, '-800.$1');
+  return existsSync(`assets/img/photos/${alt}`) ? alt : f;
+};
+const srcset = (f, sizes) => {
+  const alt = small(f);
+  return alt === f ? `src="${img(f)}"` : `src="${img(alt)}" srcset="${img(alt)} 800w, ${img(f)} 1700w" sizes="${sizes}"`;
+};
+const photoAlt = (p, i) => `Каркасный дом ${p.code} ${p.size} м, фото ${i + 1}`;
+
+
+const articleUrl = (slug) => `/stati/${slug}/`;
+const ARTICLE_IMG = (a) => (a.cover ? `/assets/img/photos/${a.cover}` : '/assets/img/og.png');
+const dateRu = (iso) => {
+  const m = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+  const [y, mo, d] = iso.split('-');
+  return `${Number(d)} ${m[Number(mo) - 1]} ${y}`;
+};
+
+function articleBody(blocks) {
+  return blocks.map((b) => {
+    if (b.h2) return `        <h2>${esc(b.h2)}</h2>`;
+    if (b.h3) return `        <h3>${esc(b.h3)}</h3>`;
+    if (b.p) return `        <p>${esc(b.p)}</p>`;
+    if (b.ul) return `        <ul class="checks checks--tight">\n${b.ul.map((i) => `          <li>${esc(i)}</li>`).join('\n')}\n        </ul>`;
+    if (b.table) return `        <div class="table-wrap"><table class="data-table">
+          <thead><tr>${b.table[0].map((c) => `<th scope="col">${esc(c)}</th>`).join('')}</tr></thead>
+          <tbody>${b.table.slice(1).map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${esc(c)}</th>` : `<td>${esc(c)}</td>`)).join('')}</tr>`).join('')}</tbody>
+        </table></div>`;
+    return '';
+  }).join('\n');
+}
+
+const articleCard = (a) => `        <article class="post">
+          <a class="post__media${/razrez|fasad|vid-|plan|3d/.test(a.cover || '') ? ' post__media--sheet' : ''}" href="${articleUrl(a.slug)}" tabindex="-1" aria-hidden="true">
+            <img ${srcset(a.cover, '(min-width: 900px) 33vw, 100vw')} alt="" loading="lazy" width="900" height="600">
+          </a>
+          <div class="post__body">
+            <p class="post__tag">${esc(a.tag)}</p>
+            <h3 class="post__title"><a href="${articleUrl(a.slug)}">${esc(a.h1 || a.title)}</a></h3>
+            <p class="post__lead">${esc(a.lead)}</p>
+            <p class="post__meta"><time datetime="${a.updated || a.date}">${dateRu(a.updated || a.date)}</time><span>${a.read} мин чтения</span></p>
+          </div>
+        </article>`;
+
 const site = JSON.parse(read('src/data/site.json'));
 
 /* Счётчики подключаются, только если в src/data/site.json указан номер.
@@ -227,6 +277,7 @@ for (const file of files) {
       `<img class="hero__bg" src="/${HERO_PHOTO}" alt="Каркасный дом с террасой, построенный в Тверской области" width="2000" height="1125" fetchpriority="high">`
     );
   }
+  content = content.replace(/\{\{articles:(\d+)\}\}/g, (_, n) => articles.slice(0, Number(n)).map(articleCard).join('\n'));
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
@@ -267,19 +318,6 @@ const included = [
   ['Коммуникации', 'Скрытая электрика с щитком, отопление, водоснабжение и канализация до точки подключения.'],
   ['Окна и двери', 'Двухкамерные стеклопакеты, входная утеплённая дверь, откосы и подоконники.']
 ];
-
-const img = (f) => `/assets/img/photos/${f}`;
-/* Уменьшенный вариант кадра (…-800.jpg), если он подготовлен рядом с оригиналом.
-   Полный файл остаётся для полноэкранного просмотра. */
-const small = (f) => {
-  const alt = f.replace(/\.(jpe?g|png|webp)$/i, '-800.$1');
-  return existsSync(`assets/img/photos/${alt}`) ? alt : f;
-};
-const srcset = (f, sizes) => {
-  const alt = small(f);
-  return alt === f ? `src="${img(f)}"` : `src="${img(alt)}" srcset="${img(alt)} 800w, ${img(f)} 1700w" sizes="${sizes}"`;
-};
-const photoAlt = (p, i) => `Каркасный дом ${p.code} ${p.size} м, фото ${i + 1}`;
 
 /* Галерея: крупный кадр + лента миниатюр. Переключение — в main.js; без скрипта
    страница остаётся рабочей: виден первый кадр, миниатюры кликаются в лайтбокс. */
@@ -536,6 +574,143 @@ ${cta}`;
 <meta http-equiv="refresh" content="0; url=${projectUrl(p.slug)}"></head>
 <body><p>Страница переехала: <a href="${projectUrl(p.slug)}">${projectUrl(p.slug)}</a></p></body></html>\n`));
   built.push({ url: projectUrl(p.slug), priority: 0.8 });
+}
+
+
+/* ---------- полезные статьи ----------
+   Тексты живут в src/data/articles.json. Отсюда собираются
+   раздел /stati/ и страницы вида /stati/<slug>/ с разметкой Article,
+   хлебными крошками и блоком вопросов. */
+mkdirSync(`${OUT}/stati`, { recursive: true });
+
+/* раздел со списком */
+{
+  const meta = {
+    title: 'Статьи о строительстве каркасных домов | Каркас Комфорт',
+    description: 'Разборы по строительству каркасного дома: цены и сметы, фундаменты, пирог стены, зимняя стройка и договор подряда. Опыт компании «Каркас Комфорт» в Тверской области.',
+    canonical: `${SITE}/stati/`,
+    ogimage: ARTICLE_IMG(articles[0]),
+    scripts: []
+  };
+  const content = `    <ol class="crumbs container">
+      <li><a href="/index.html">Главная</a></li>
+      <li>Статьи</li>
+    </ol>
+
+    <section class="section" style="padding-top:clamp(16px,2vw,28px)">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Полезное</p>
+          <h1>Статьи о строительстве каркасных домов</h1>
+          <p class="lead">Разбираем то, о чём чаще всего спрашивают на первом звонке: из чего складывается цена, какой фундамент выбрать, что внутри стены и на что смотреть в договоре.</p>
+        </div>
+        <div class="posts">
+${articles.map(articleCard).join('\n')}
+        </div>
+      </div>
+    </section>
+
+${cta}`;
+  const blocks = [
+    breadcrumbLd([{ name: 'Главная', url: '/' }, { name: 'Статьи', url: '/stati/' }]),
+    ld({
+      '@context': 'https://schema.org', '@type': 'ItemList',
+      itemListElement: articles.map((a, i) => ({
+        '@type': 'ListItem', position: i + 1, url: `${SITE}${articleUrl(a.slug)}`, name: a.title
+      }))
+    })
+  ];
+  writeFileSync(`${OUT}/stati/index.html`, page({ file: 'stati/', meta, content, extraLd: blocks.join('\n') }));
+  built.push({ url: '/stati/', priority: 0.7 });
+}
+
+/* страницы статей */
+for (const a of articles) {
+  const related = (a.related || []).map((s) => articles.find((x) => x.slug === s)).filter(Boolean);
+  const meta = {
+    title: `${a.title} | Каркас Комфорт`,
+    description: a.description,
+    canonical: `${SITE}${articleUrl(a.slug)}`,
+    ogimage: ARTICLE_IMG(a),
+    scripts: []
+  };
+  const content = `    <ol class="crumbs container">
+      <li><a href="/index.html">Главная</a></li>
+      <li><a href="/stati/">Статьи</a></li>
+      <li>${esc(a.h1 || a.title)}</li>
+    </ol>
+
+    <article class="section" style="padding-top:clamp(16px,2vw,28px)">
+      <div class="container container--text">
+        <header class="post-head">
+          <p class="eyebrow">${esc(a.tag)}</p>
+          <h1>${esc(a.h1 || a.title)}</h1>
+          <p class="lead">${esc(a.lead)}</p>
+          <p class="post__meta">
+            <time datetime="${a.date}">Опубликовано ${dateRu(a.date)}</time>
+            ${a.updated && a.updated !== a.date ? `<time datetime="${a.updated}">обновлено ${dateRu(a.updated)}</time>` : ''}
+            <span>${a.read} мин чтения</span>
+          </p>
+        </header>
+${a.cover ? `        <figure class="post-cover${/razrez|fasad|vid-|plan|3d/.test(a.cover) ? ' post-cover--sheet' : ''}">
+          <img ${srcset(a.cover, '(min-width: 1100px) 900px, 100vw')} alt="${esc(a.h1 || a.title)}" width="1700" height="1100" fetchpriority="high">
+        </figure>` : ''}
+        <div class="prose">
+${articleBody(a.body)}
+        </div>
+${(a.faq || []).length ? `        <section class="post-faq">
+          <h2>Короткие ответы</h2>
+          <div class="faq">
+${a.faq.map((f) => `            <details class="faq__item">
+              <summary>${esc(f.q)}</summary>
+              <p>${esc(f.a)}</p>
+            </details>`).join('\n')}
+          </div>
+        </section>` : ''}
+      </div>
+    </article>
+
+${related.length ? `    <section class="section section--paper">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Читайте дальше</p>
+          <h2>Ещё по теме</h2>
+        </div>
+        <div class="posts">
+${related.map(articleCard).join('\n')}
+        </div>
+      </div>
+    </section>
+` : ''}
+${cta}`;
+
+  const blocks = [
+    ld({
+      '@context': 'https://schema.org', '@type': 'Article',
+      headline: a.title,
+      description: a.description,
+      image: `${SITE}${ARTICLE_IMG(a)}`,
+      datePublished: a.date,
+      dateModified: a.updated || a.date,
+      inLanguage: 'ru-RU',
+      author: { '@type': 'Organization', name: 'Каркас Комфорт', url: SITE },
+      publisher: { '@type': 'Organization', name: 'ООО «Каркас Комфорт»', logo: { '@type': 'ImageObject', url: `${SITE}/assets/img/logo.svg` } },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}${articleUrl(a.slug)}` }
+    }),
+    breadcrumbLd([
+      { name: 'Главная', url: '/' },
+      { name: 'Статьи', url: '/stati/' },
+      { name: a.h1 || a.title, url: articleUrl(a.slug) }
+    ]),
+    ...((a.faq || []).length ? [ld({
+      '@context': 'https://schema.org', '@type': 'FAQPage',
+      mainEntity: a.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }))
+    })] : [])
+  ];
+
+  mkdirSync(`${OUT}/stati/${a.slug}`, { recursive: true });
+  writeFileSync(`${OUT}/stati/${a.slug}/index.html`, page({ file: `stati/${a.slug}/`, meta, content, extraLd: blocks.join('\n') }));
+  built.push({ url: articleUrl(a.slug), priority: 0.7 });
 }
 
 /* ---------- старый адрес карточки: редирект на новую страницу ---------- */
