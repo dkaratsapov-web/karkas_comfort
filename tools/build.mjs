@@ -26,6 +26,7 @@ const header = partial('header');
 const footer = partial('footer');
 const cta = partial('cta');
 const actionbar = partial('actionbar');
+const modal = partial('modal');
 
 /* Фотография первого экрана: если файл положен в assets/img/photos/,
    берём его; пока файла нет — временная иллюстрация. */
@@ -165,6 +166,7 @@ const caseTile = (c) => `        <a class="tile" href="${projectUrl(c.slug)}">
           <div class="tile__body">
             <h3>${esc(c.title)}</h3>
             <p class="tile__meta"><span>${c.size} м · ${c.area} м²</span><span>${c.term}</span><span>${esc(c.tier)}</span></p>
+            ${c.place ? `<p class="tile__place">${esc(c.place)}</p>` : ''}
           </div>
         </a>`;
 
@@ -200,6 +202,7 @@ ${content.trimEnd()}
   </main>
 ${footer}
 ${hasLeadForm ? actionbar : actionbar.replace('href="#zayavka"', 'href="/index.html#raschet"')}
+${modal}
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
@@ -469,7 +472,7 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
               <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price ? '' : 'от '}${money(priceOf(p))}<small>тёплый контур${p.price ? '' : ', ориентировочно'} · под ключ с отделкой — от ${money(priceTop(p))} · срок ${termOf(p)}</small></p>
               <div class="stack" style="margin-top:20px">
                 <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${p.area} м²)">Рассчитать этот проект</a>
-                <a class="btn btn--ghost btn--block" href="https://wa.me/79201716969?text=${encodeURIComponent(`Здравствуйте! Интересует проект ${p.code} (${p.size}, ${p.area} м²)`)}" rel="nofollow noopener" data-lead-messenger>Спросить в WhatsApp</a>
+                <a class="btn btn--ghost btn--block" href="#" data-lead-messenger>Написать в Telegram</a>
               </div>
               <ul class="checks checks--tight" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft)">
                 <li>Смета с ценами до подписания договора</li>

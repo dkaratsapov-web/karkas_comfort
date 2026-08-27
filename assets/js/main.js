@@ -373,6 +373,68 @@
     render();
   }
 
+  /* ---------- окно заявки ----------
+     Кнопки «Рассчитать» больше не прыгают к якорю, а открывают форму
+     поверх страницы. Контекст (проект или комплектация) уезжает
+     в скрытое поле, чтобы менеджер видел, откуда пришла заявка. */
+  const modal = $('#lead-modal');
+  if (modal) {
+    const card = $('.modal__card', modal);
+    const projectNote = $('[data-modal-project]', modal);
+    const projectInput = $('[data-modal-project-input]', modal);
+    let opener = null;
+
+    const focusables = () => $$('button, a[href], input, textarea, select', card)
+      .filter((el) => !el.hasAttribute('disabled') && el.offsetParent !== null);
+
+    const close = () => {
+      modal.classList.remove('is-open');
+      const done = () => { modal.hidden = true; modal.removeEventListener('transitionend', done); };
+      modal.addEventListener('transitionend', done);
+      setTimeout(done, 400);
+      document.body.classList.remove('is-locked');
+      if (opener) opener.focus({ preventScroll: true });
+    };
+
+    const open = (from) => {
+      opener = from || null;
+      const project = from ? (from.dataset.project || from.closest('[data-project]')?.dataset.project || '') : '';
+      if (projectInput) projectInput.value = project;
+      if (projectNote) {
+        projectNote.hidden = !project;
+        projectNote.textContent = project ? `Проект: ${project}` : '';
+      }
+      modal.hidden = false;
+      requestAnimationFrame(() => modal.classList.add('is-open'));
+      document.body.classList.add('is-locked');
+      const first = focusables()[1] || focusables()[0];
+      if (first) first.focus({ preventScroll: true });
+      track('lead_modal_open', { page: location.pathname });
+    };
+
+    /* все кнопки, которые раньше вели к форме на странице */
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href$="#zayavka"], a[href$="#raschet"], [data-lead-modal]');
+      if (!link || link.closest('.modal')) return;
+      e.preventDefault();
+      const nav = link.closest('.mobile-nav');
+      if (nav && nav.classList.contains('is-open')) $('.burger')?.click();
+      open(link);
+    });
+
+    modal.addEventListener('click', (e) => { if (e.target.closest('[data-modal-close]')) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key !== 'Tab') return;
+      const items = focusables();
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
   /* ---------- галерея проекта: переключение главного кадра ---------- */
   const gal = $('[data-gallery]');
   if (gal) {

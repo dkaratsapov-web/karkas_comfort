@@ -1,0 +1,36 @@
+  <div class="modal" id="lead-modal" hidden>
+    <div class="modal__scrim" data-modal-close></div>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal__close" type="button" aria-label="Закрыть" data-modal-close>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
+      </button>
+      <p class="eyebrow">Расчёт стоимости</p>
+      <h2 id="modal-title">Смета за один рабочий день</h2>
+      <p class="modal__lead">Оставьте номер: уточним участок и проект, посчитаем и пришлём смету с ценой каждого этапа.</p>
+      <p class="modal__project" data-modal-project hidden></p>
+      <form class="form" novalidate>
+        <div class="form__body">
+          <div class="field">
+            <label for="m-name">Как к вам обращаться</label>
+            <input type="text" id="m-name" name="name" required autocomplete="name" placeholder="Имя">
+            <span class="field__error" id="m-name-error">Пожалуйста, укажите имя</span>
+          </div>
+          <div class="field">
+            <label for="m-phone">Телефон</label>
+            <input type="tel" id="m-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
+            <span class="field__error" id="m-phone-error">Введите номер полностью</span>
+          </div>
+          <input type="hidden" name="project" data-modal-project-input value="">
+          <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="consent">
+            <input type="checkbox" name="consent" required>
+            <span>Согласен на обработку персональных данных в соответствии с <a href="politika.html">политикой конфиденциальности</a></span>
+          </label>
+          <button class="btn btn--accent btn--block" type="submit">Получить смету</button>
+        </div>
+        <p class="form__error" role="alert"></p>
+        <p class="form__ok" role="status">Спасибо! Заявка принята, перезвоним в рабочее время с 8:00 до 20:00.</p>
+      </form>
+      <p class="modal__call">Или позвоните сразу: <a href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a></p>
+    </div>
+  </div>

@@ -51,7 +51,11 @@ await p.goto(`${B}/proekty/kd-29/`, { waitUntil: 'networkidle' });
 ok('характеристики проекта заполнены', (await p.$$('.spec-card__grid > div')).length >= 8);
 ok('похожие проекты подобраны', (await p.$$('.grid--3 .project')).length === 3);
 await p.click('a[href="#zayavka"][data-project]');
-ok('в форму подставлен код проекта', (await p.inputValue('#p-project-input')).includes('КД-29'));
+await p.waitForSelector('#lead-modal:not([hidden])');
+ok('кнопка проекта открывает окно заявки', await p.isVisible('#lead-modal .modal__card'));
+ok('в форму подставлен код проекта', (await p.inputValue('#lead-modal [data-modal-project-input]')).includes('КД-29'));
+await p.keyboard.press('Escape');
+await p.waitForTimeout(500);
 
 /* 3. Старый адрес карточки ведёт на новый */
 const oldPage = await (await p.request.get(`${B}/proekt.html?id=kd-29`)).text();
@@ -73,7 +77,7 @@ ok('последний шаг — короткая форма с телефон�
 
 /* 5. Формы: валидация и доступность ошибок */
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
-await p.click('a[href="#zayavka"]');
+await p.$eval('#zayavka', (el) => el.scrollIntoView());
 await p.click('#zayavka button[type="submit"]');
 ok('пустая форма не отправляется', await p.isVisible('#zayavka .field--error'));
 ok('ошибка объявлена ассистивным технологиям', (await p.$$('#zayavka [aria-invalid="true"]')).length > 0);

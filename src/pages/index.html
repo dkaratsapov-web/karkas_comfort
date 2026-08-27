@@ -200,9 +200,11 @@
         </div>
         <div class="tiers">
           <article class="card tier">
-            <span class="tier__label">Базовая</span>
-            <h3>Тёплый контур</h3>
-            <p class="tier__price">от 32 000 ₽<small>за м² под ключ</small></p>
+            <div class="tier__head">
+              <span class="tier__label">Базовая</span>
+              <h3>Тёплый контур</h3>
+              <p class="tier__price">от 32 000 ₽<small>за м² под ключ</small></p>
+            </div>
             <ul class="checks">
               <li>Фундамент и обвязка</li>
               <li>Каркас, перекрытия, кровля</li>
@@ -212,12 +214,14 @@
               <li class="no">Инженерные сети</li>
               <li class="no">Внутренняя отделка</li>
             </ul>
-            <a class="btn btn--ghost btn--block" href="#raschet">Рассчитать</a>
+            <a class="btn btn--ghost btn--block" href="#raschet" data-project="Комплектация «Тёплый контур»">Рассчитать<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
           </article>
           <article class="card tier tier--featured">
-            <span class="tier__label">Выбирают чаще всего</span>
-            <h3>Комфорт</h3>
-            <p class="tier__price">от 41 000 ₽<small>за м² под ключ</small></p>
+            <div class="tier__head">
+              <span class="tier__label">Выбирают чаще всего</span>
+              <h3>Комфорт</h3>
+              <p class="tier__price">от 41 000 ₽<small>за м² под ключ</small></p>
+            </div>
             <ul class="checks">
               <li>Всё из «Тёплого контура»</li>
               <li>Электрика со щитом и розетками</li>
@@ -227,12 +231,14 @@
               <li class="no">Чистовая отделка</li>
               <li class="no">Сантехника и двери</li>
             </ul>
-            <a class="btn btn--block" href="#raschet">Рассчитать</a>
+            <a class="btn btn--block" href="#raschet" data-project="Комплектация «Комфорт»">Рассчитать<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
           </article>
           <article class="card tier">
-            <span class="tier__label">Максимальная</span>
-            <h3>Под ключ с отделкой</h3>
-            <p class="tier__price">от 52 000 ₽<small>за м² под ключ</small></p>
+            <div class="tier__head">
+              <span class="tier__label">Максимальная</span>
+              <h3>Под ключ с отделкой</h3>
+              <p class="tier__price">от 52 000 ₽<small>за м² под ключ</small></p>
+            </div>
             <ul class="checks">
               <li>Всё из комплектации «Комфорт»</li>
               <li>Чистовая отделка стен и потолков</li>
@@ -242,7 +248,7 @@
               <li>Уборка и вывоз мусора</li>
               <li>Заезжаете с мебелью</li>
             </ul>
-            <a class="btn btn--ghost btn--block" href="#raschet">Рассчитать</a>
+            <a class="btn btn--ghost btn--block" href="#raschet" data-project="Комплектация «Под ключ с отделкой»">Рассчитать<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
           </article>
         </div>
         <p class="muted" style="margin-top:24px;font-size:15px;max-width:70ch">Цены ориентировочные и зависят от проекта, типа фундамента и удалённости участка. Точную смету считаем бесплатно за один день.</p>
@@ -420,12 +426,12 @@
           <h2>Шесть шагов от звонка до ключей</h2>
         </div>
         <div class="timeline">
-          <article class="tl"><span class="tl__num">Шаг 01</span><h3>Заявка и расчёт</h3><p>Обсуждаем проект, участок и бюджет. Предварительный расчёт готовим за один день — бесплатно и без обязательств.</p></article>
-          <article class="tl"><span class="tl__num">Шаг 02</span><h3>Выезд на участок</h3><p>Смотрим грунт, подъезд и стороны света, подбираем тип фундамента и уточняем смету. По Твери и ближайшим районам — бесплатно.</p></article>
-          <article class="tl"><span class="tl__num">Шаг 03</span><h3>Проект и договор</h3><p>Фиксируем планировку, комплектацию, сроки и стоимость. Смета становится приложением к договору.</p></article>
-          <article class="tl"><span class="tl__num">Шаг 04</span><h3>Фундамент и каркас</h3><p>Сваи или лента, обвязка, каркас, перекрытия и стропильная система с кровлей. Дом встаёт под крышу.</p></article>
-          <article class="tl"><span class="tl__num">Шаг 05</span><h3>Контур и инженерия</h3><p>Утепление, мембраны, фасад, окна и двери. Затем электрика, отопление, водоснабжение и канализация.</p></article>
-          <article class="tl"><span class="tl__num">Шаг 06</span><h3>Сдача и гарантия</h3><p>Принимаете дом по акту, получаете паспорта на оборудование и гарантию 5 лет на конструктив и работы.</p></article>
+          <article class="tl"><span class="tl__num">01</span><h3>Заявка и расчёт</h3><p>Обсуждаем проект, участок и бюджет. Предварительный расчёт готовим за один день — бесплатно и без обязательств.</p></article>
+          <article class="tl"><span class="tl__num">02</span><h3>Выезд на участок</h3><p>Смотрим грунт, подъезд и стороны света, подбираем тип фундамента и уточняем смету. По Твери и ближайшим районам — бесплатно.</p></article>
+          <article class="tl"><span class="tl__num">03</span><h3>Проект и договор</h3><p>Фиксируем планировку, комплектацию, сроки и стоимость. Смета становится приложением к договору.</p></article>
+          <article class="tl"><span class="tl__num">04</span><h3>Фундамент и каркас</h3><p>Сваи или лента, обвязка, каркас, перекрытия и стропильная система с кровлей. Дом встаёт под крышу.</p></article>
+          <article class="tl"><span class="tl__num">05</span><h3>Контур и инженерия</h3><p>Утепление, мембраны, фасад, окна и двери. Затем электрика, отопление, водоснабжение и канализация.</p></article>
+          <article class="tl"><span class="tl__num">06</span><h3>Сдача и гарантия</h3><p>Принимаете дом по акту, получаете паспорта на оборудование и гарантию 5 лет на конструктив и работы.</p></article>
         </div>
       </div>
     </section>
@@ -510,7 +516,7 @@
 
         <p class="note-line">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
-          Образцы договора и сметы высылаем до звонка — попросите в форме или в WhatsApp.
+          Образцы договора и сметы высылаем до звонка — попросите в форме или в Telegram.
         </p>
       </div>
     </section>
