@@ -339,10 +339,10 @@
   }
 
   /* ---------- активный пункт меню ---------- */
-  const path = location.pathname;
-  const page = path.split('/').filter(Boolean).pop() || 'index.html';
+  const section = (url) => (url.split('?')[0].split('#')[0].replace(/^\/|\/$/g, '').split('/')[0] || '');
+  const here = section(location.pathname);
   $$('.nav a, .mobile-nav a').forEach((a) => {
-    const href = (a.getAttribute('href') || '').replace(/^\//, '');
-    if (href === page || (path.includes('/proekty/') && href === 'proekty.html')) a.setAttribute('aria-current', 'page');
+    const target = section(a.getAttribute('href') || '');
+    if (target && target === here) a.setAttribute('aria-current', 'page');
   });
 })();

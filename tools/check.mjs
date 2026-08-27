@@ -22,15 +22,15 @@ if (!hasPhp) out.push(`· PHP на сервере не отвечает (${probe
 /* 1. Каталог: карточки есть в HTML, фильтры работают и попадают в адрес */
 let p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
-const catalogHtml = await (await p.request.get(`${B}/proekty.html`)).text();
+const catalogHtml = await (await p.request.get(`${B}/proekty/`)).text();
 ok('каталог отдаётся сервером со всеми карточками (без JS)', (catalogHtml.split('class="project"').length - 1) === 15);
-await p.goto(`${B}/proekty.html`, { waitUntil: 'networkidle' });
+await p.goto(`${B}/proekty/`, { waitUntil: 'networkidle' });
 ok('каталог отрисован (15 карточек)', (await p.$$('#catalog-list .project:not([hidden])')).length === 15);
 await p.click('.chip[data-group="floors"][data-value="2"]');
 const twoFloors = await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.map((e) => e.textContent));
 ok('фильтр «2 этажа» оставил только двухэтажные', twoFloors.length > 0 && twoFloors.every((t) => t.includes('2 этажа')));
 ok('фильтр сохраняется в адресе страницы', new URL(p.url()).searchParams.get('floors') === '2');
-await p.goto(`${B}/proekty.html?floors=1&size=s`, { waitUntil: 'networkidle' });
+await p.goto(`${B}/proekty/?floors=1&size=s`, { waitUntil: 'networkidle' });
 ok('ссылка с фильтром открывает готовую подборку', (await p.$$('#catalog-list .project:not([hidden])')).length > 0
   && (await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.every((e) => e.textContent.includes('1 этаж')))));
 await p.selectOption('#catalog-sort', 'area-desc');
@@ -38,14 +38,14 @@ ok('сортировка по площади переставляет карто
   (await p.textContent('#catalog-list .project:not([hidden]) .specs li')).trim().endsWith('м²'));
 
 /* 2. Страница проекта — отдельный статический адрес с разметкой товара */
-const projHtml = await (await p.request.get(`${B}/proekty/kd-29.html`)).text();
+const projHtml = await (await p.request.get(`${B}/proekty/kd-29/`)).text();
 const projNoJs = projHtml.replace(/<script[\s\S]*?<\/script>/g, '');
 ok('страница проекта существует отдельным адресом', /9×12/.test(projNoJs));
 ok('цена и характеристики есть в HTML без скриптов', /₽/.test(projNoJs) && /Полутораэтажный|Двухэтажный|Одноэтажный/.test(projNoJs));
 ok('разметка Product + Offer', /"@type":"Product"/.test(projHtml) && /"@type":"Offer"/.test(projHtml));
 ok('хлебные крошки в разметке', /"@type":"BreadcrumbList"/.test(projHtml));
-ok('свой canonical у страницы проекта', /rel="canonical" href="[^"]*\/proekty\/kd-29\.html"/.test(projHtml));
-await p.goto(`${B}/proekty/kd-29.html`, { waitUntil: 'networkidle' });
+ok('свой canonical у страницы проекта', /rel="canonical" href="[^"]*\/proekty\/kd-29\/"/.test(projHtml));
+await p.goto(`${B}/proekty/kd-29/`, { waitUntil: 'networkidle' });
 ok('таблица характеристик заполнена', (await p.$$('.specs-table tr')).length === 8);
 ok('похожие проекты подобраны', (await p.$$('.grid--3 .project')).length === 3);
 await p.click('a[href="#zayavka"][data-project]');
@@ -56,7 +56,7 @@ const oldPage = await (await p.request.get(`${B}/proekt.html?id=kd-29`)).text();
 ok('старый адрес карточки не индексируется и ведёт в каталог', /noindex/.test(oldPage) && /proekty/.test(oldPage));
 
 /* 4. Квиз на главной */
-await p.goto(`${B}/index.html`, { waitUntil: 'networkidle' });
+await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 const q0 = await p.textContent('#quiz-result');
 await p.fill('#quiz-area', '200');
 await p.dispatchEvent('#quiz-area', 'input');
@@ -70,7 +70,7 @@ await p.click('.quiz__step.is-current [data-quiz-next]');
 ok('последний шаг — короткая форма с телефоном', await p.isVisible('.quiz__step.is-current form'));
 
 /* 5. Формы: валидация и доступность ошибок */
-await p.goto(`${B}/index.html`, { waitUntil: 'networkidle' });
+await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 await p.click('a[href="#zayavka"]');
 await p.click('#zayavka button[type="submit"]');
 ok('пустая форма не отправляется', await p.isVisible('#zayavka .field--error'));
@@ -95,7 +95,7 @@ await p.close();
 /* 6. Мобильная версия */
 p = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 p.on('pageerror', (e) => errs.push(e.message));
-await p.goto(`${B}/index.html`, { waitUntil: 'networkidle' });
+await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 ok('нет горизонтальной прокрутки на 390px',
   await p.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth));
 ok('цена, срок и гарантия видны на первом экране',
@@ -103,38 +103,37 @@ ok('цена, срок и гарантия видны на первом экра
 ok('панель действий не перекрывает контент',
   await p.evaluate(() => parseFloat(getComputedStyle(document.body).paddingBottom) >= document.querySelector('.actionbar').getBoundingClientRect().height - 1));
 await p.click('.burger');
-ok('мобильное меню открывается', await p.isVisible('.mobile-nav.is-open a[href="proekty.html"]'));
+ok('мобильное меню открывается', await p.isVisible('.mobile-nav.is-open a[href="/proekty/"]'));
 ok('фон под открытым меню не прокручивается', await p.evaluate(() => document.body.classList.contains('is-locked')));
 await p.keyboard.press('Escape');
 await p.waitForTimeout(200);
 ok('меню закрывается по Escape', !(await p.isVisible('.mobile-nav.is-open')));
 await p.evaluate(() => document.querySelectorAll('.reveal').forEach((e) => e.classList.add('is-visible')));
 await p.screenshot({ path: 'mob-top.png' });
-await p.goto(`${B}/proekty.html`, { waitUntil: 'networkidle' });
+await p.goto(`${B}/proekty/`, { waitUntil: 'networkidle' });
 await p.screenshot({ path: 'mob-catalog.png' });
 await p.close();
 
 /* 7. Все страницы: битые ссылки, разметка, шрифты */
 p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
-const pages = ['index.html', 'karkasnye-doma.html', 'proekty.html', 'obekty.html', 'uslugi.html', 'o-kompanii.html', 'kontakty.html', 'politika.html', '404.html', 'proekty/kd-40.html'];
+const pages = ['', 'karkasnye-doma/', 'proekty/', 'obekty/', 'uslugi/', 'o-kompanii/', 'kontakty/', 'politika/', '404.html', 'proekty/kd-40/'];
 const missing = [];
 for (const page of pages) {
   const resp = await p.goto(`${B}/${page}`, { waitUntil: 'networkidle' });
   if (!resp.ok() && page !== '404.html') missing.push(`${page} → ${resp.status()}`);
-  const links = await p.$$eval('a[href$=".html"]', (as) => [...new Set(as.map((a) => a.getAttribute('href')))]);
+  const links = await p.$$eval('a[href^="/"]', (as) => [...new Set(as.map((a) => a.getAttribute('href')))]);
   for (const l of links) {
-    const url = l.startsWith('/') ? `${B}${l}` : `${B}/${page.includes('/') ? page.split('/')[0] + '/' : ''}${l}`;
-    const r = await p.request.get(url.split('?')[0]);
+    const r = await p.request.get(`${B}${l}`.split('?')[0].split('#')[0]);
     if (!r.ok()) missing.push(`${page}: ссылка ${l} → ${r.status()}`);
   }
 }
 ok('все страницы и внутренние ссылки открываются' + (missing.length ? ': ' + missing.join(', ') : ''), missing.length === 0);
 
 const sitemap = await (await p.request.get(`${B}/sitemap.xml`)).text();
-ok(`в sitemap есть страницы проектов (${(sitemap.match(/\/proekty\//g) || []).length} шт.)`, (sitemap.match(/\/proekty\//g) || []).length === 15);
+ok(`в sitemap есть страницы проектов (${(sitemap.match(/\/proekty\/kd-/g) || []).length} шт.)`, (sitemap.match(/\/proekty\/kd-/g) || []).length === 15);
 
-await p.goto(`${B}/index.html`, { waitUntil: 'networkidle' });
+await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 await p.click('#wall .layer:nth-child(3)');
 ok('слой стены переключается', (await p.textContent('#wall-note')).includes('Стойки 150×50'));
 ok('выбранный слой объявлен ассистивным технологиям',
@@ -147,7 +146,7 @@ ok('на семейство приходится по одному файлу ш
 /* 8. Заявка реально уходит на сервер (только там, где есть PHP) */
 if (hasPhp) {
   const req = p.waitForResponse((r) => r.url().includes('/api/lead.php'), { timeout: 15000 });
-  await p.goto(`${B}/kontakty.html`, { waitUntil: 'networkidle' });
+  await p.goto(`${B}/kontakty/`, { waitUntil: 'networkidle' });
   await p.fill('#k-name', 'Пётр');
   await p.fill('#k-phone', '9201716969');
   await p.check('form.form input[name="consent"]');

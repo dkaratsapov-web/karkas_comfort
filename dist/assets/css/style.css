@@ -49,7 +49,7 @@
   --sh-2: 0 24px 60px rgba(38, 30, 20, .10);
 
   /* --- Ритм --- */
-  --container: 1320px;
+  --container: 1560px;
   --gutter: clamp(20px, 4vw, 64px);
   --section-y: clamp(44px, 4.6vw, 76px);
   --tap: 48px;                      /* минимальная тач-цель */
@@ -126,7 +126,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 
 /* ---------- сетка ---------- */
 .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
-.container--wide { max-width: 1560px; }
+.container--wide { max-width: 1760px; }
 
 .section { padding: var(--section-y) 0; }
 .section--tight { padding-top: clamp(24px, 2.4vw, 40px); }        /* продолжение предыдущего блока */
@@ -151,7 +151,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 }
 .section--dark .eyebrow { color: var(--accent-bright); }
 
-.lead { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; color: var(--ink-2); margin-top: 16px; }
+.lead { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; color: var(--ink-2); margin-top: 16px; max-width: 62ch; }
 .muted { color: var(--muted); }
 
 .grid { display: grid; gap: clamp(16px, 1.8vw, 24px); grid-template-columns: 1fr; }
@@ -219,9 +219,9 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .header.is-stuck { border-bottom-color: transparent; box-shadow: 0 4px 24px rgba(38, 30, 20, .07); }
 .header__row { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 72px; }
 
-.logo { display: flex; align-items: center; gap: 11px; min-height: var(--tap); color: var(--ink); font-family: var(--display); font-size: 19px; letter-spacing: .01em; }
-.logo:hover { color: var(--ink); }
-.logo img, .logo svg { width: 30px; height: 30px; }
+.logo { display: inline-flex; align-items: center; min-height: var(--tap); }
+.logo img { width: auto; height: 42px; }
+@media (min-width: 900px) { .logo img { height: 48px; } }
 
 .nav { display: none; gap: 26px; }
 .nav a { color: var(--ink-2); font-size: 15px; padding: 12px 0; }
@@ -266,11 +266,11 @@ section[id], div[id] { scroll-margin-top: 88px; }
   .hero__scrim { background: linear-gradient(90deg, rgba(23, 21, 15, .93) 0%, rgba(23, 21, 15, .86) 28%, rgba(23, 21, 15, .7) 54%, rgba(23, 21, 15, .46) 78%, rgba(23, 21, 15, .36) 100%), linear-gradient(0deg, rgba(23, 21, 15, .66) 0%, rgba(23, 21, 15, .2) 22%, rgba(23, 21, 15, 0) 40%); }
 }
 .hero__inner { position: relative; padding-top: clamp(32px, 5vw, 92px); }
-.hero__content { max-width: 720px; }
+.hero__content { max-width: 760px; }
 .hero__tag { font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--on-dark-2); display: flex; align-items: center; gap: 10px; }
 .hero h1 { margin-top: 18px; color: var(--on-dark); }
 .hero h1 em { font-style: normal; color: #9BCCAC; }
-.hero__lead { font-size: clamp(16px, 1.5vw, 19px); line-height: 1.55; color: var(--on-dark-2); margin-top: 18px; max-width: 540px; }
+.hero__lead { font-size: clamp(16px, 1.5vw, 19px); line-height: 1.55; color: var(--on-dark-2); margin-top: 18px; max-width: 56ch; }
 .hero__actions { display: flex; flex-direction: column; gap: 10px; margin-top: 26px; }
 @media (min-width: 600px) { .hero__actions { flex-direction: row; flex-wrap: wrap; } }
 
@@ -621,7 +621,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .footer__title { font-family: var(--text); font-size: 17px; font-weight: 700; color: var(--on-dark); margin: 0 0 14px; }
 .footer a { color: var(--on-dark-2); display: inline-flex; align-items: center; min-height: 44px; }
 .footer a:hover { color: var(--on-dark); }
-.footer__logo { display: flex; align-items: center; gap: 11px; font-family: var(--display); font-size: 20px; color: var(--on-dark); }
+.footer__logo img { width: auto; height: 52px; }
 .footer__phone { font-family: var(--display); font-size: 24px; color: var(--on-dark); }
 .footer ul { list-style: none; margin: 0; padding: 0; }
 .footer__bottom { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(244, 239, 231, .16); font-size: 13px; }

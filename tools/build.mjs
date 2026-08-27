@@ -27,6 +27,11 @@ const footer = partial('footer');
 const cta = partial('cta');
 const actionbar = partial('actionbar');
 
+/* Фотография первого экрана: если файл положен в assets/img/photos/,
+   берём его; пока файла нет — временная иллюстрация. */
+const HERO_PHOTO = ['hero.jpg', 'hero.jpeg', 'hero.webp', 'hero.png']
+  .map((f) => `assets/img/photos/${f}`).find((f) => existsSync(f));
+
 const projects = JSON.parse(read('src/data/projects.json'));
 const cases = JSON.parse(read('src/data/cases.json'));
 const pricing = JSON.parse(read('src/data/pricing.json'));
@@ -50,7 +55,7 @@ const analytics = [
 /* ---------- цены ---------- */
 function priceOf(p) { return p.price ?? Math.round(p.area * pricing.ratePerM2.standart); }
 function priceTop(p) { return Math.round(p.area * pricing.ratePerM2.pod_kluch); }
-function projectUrl(slug) { return `/proekty/${slug}.html`; }
+function projectUrl(slug) { return `/proekty/${slug}/`; }
 const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
 const priceNote = (p) => (p.price ? 'под ключ, по договору' : 'под ключ, ориентировочно');
 const termOf = (p) => p.term || (p.area <= 90 ? '1,5–2 месяца' : p.area <= 150 ? '2–3 месяца' : '3–4 месяца');
@@ -83,18 +88,29 @@ const V = {
   css: hash('assets/css/style.css'),
   main: hash('assets/js/main.js')
 };
-const previewBar = PREVIEW ? `  <div class="preview-bar">
-    <span><b>Демонстрационная версия.</b> Заявки не отправляются, цены и фотографии ориентировочные.</span>
-    <a href="https://karkascomfort.ru">Действующий сайт →</a>
-  </div>\n` : '';
+const previewBar = '';   // плашку демо-версии заказчик просил убрать
 
 /* в превью сайт лежит в подпапке — правим корневые ссылки и закрываем от индексации */
 const rebase = (html) => (BASE
   ? html.replace(/(href|src)="\/(?!\/)/g, `$1="${BASE}/`)
   : html);
 
-/* страницы проектов лежат в подпапке — их ссылки должны быть от корня */
-const absolutize = (html) => html.replace(/(href|src)="(?!https?:|\/\/|\/|#|tel:|mailto:|data:)/g, '$1="/');
+/* Адреса без .html: страница живёт в своей папке (obekty/index.html),
+   поэтому все внутренние ссылки делаем от корня и убираем расширение. */
+const pageUrl = (file) => (file === 'index.html' ? '/' : file === '404.html' ? '/404.html' : `/${file.replace(/\.html$/, '')}/`);
+const outPath = (file) => (file === 'index.html' || file === '404.html' ? file : `${file.replace(/\.html$/, '')}/index.html`);
+
+const linkify = (html) => html
+  /* ссылки на страницы: proekty.html?size=s -> /proekty/?size=s */
+  .replace(/href="(?!https?:|\/\/|#|tel:|mailto:|data:)([a-z0-9-]+)\.html(\?[^"]*)?(#[^"]*)?"/gi,
+    (_, name, query = '', hash = '') => `href="${name === 'index' ? '/' : name === '404' ? '/404.html' : `/${name}/`}${query}${hash}"`)
+  /* корневые ссылки, записанные вручную: /proekty.html -> /proekty/ */
+  .replace(/href="\/([a-z0-9-]+)\.html(\?[^"]*)?(#[^"]*)?"/gi,
+    (m, name, query = '', hash = '') => (name === '404' || name === 'index'
+      ? `href="/${name === 'index' ? '' : '404.html'}${query}${hash}"`
+      : `href="/${name}/${query}${hash}"`))
+  /* остальные относительные пути (стили, шрифты, картинки) — от корня */
+  .replace(/(href|src)="(?!https?:|\/\/|\/|#|tel:|mailto:|data:)/g, '$1="/');
 
 const version = (html) => html
   .replace(/assets\/css\/style\.css(?!\?)/g, `assets/css/style.css?v=${V.css}`)
@@ -160,10 +176,10 @@ ${reviews.map((r) => `          <article class="card review">
         </div>` : '');
 
 /* ---------- сборка одной страницы ---------- */
-function page({ file, meta, content, extraLd = '', root = false }) {
+function page({ file, meta, content, extraLd = '' }) {
   /* на странице без блока заявки кнопка панели действий ведёт на расчёт с главной */
   const hasLeadForm = content.includes('id="zayavka"');
-  const canonical = meta.canonical || `${SITE}/${file === 'index.html' ? '' : file}`;
+  const canonical = meta.canonical || `${SITE}${pageUrl(file)}`;
   const ogimage = meta.ogimage ? `${SITE}${meta.ogimage}` : `${SITE}/assets/img/og.png`;
   let html = `<!doctype html>
 <html lang="ru">
@@ -185,8 +201,7 @@ ${hasLeadForm ? actionbar : actionbar.replace('href="#zayavka"', 'href="/index.h
 </body>
 </html>
 `;
-  if (root) html = absolutize(html);
-  return rebase(version(html));
+  return rebase(version(linkify(html)));
 }
 
 /* ---------- обычные страницы ---------- */
@@ -217,8 +232,18 @@ for (const file of files) {
     itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}${projectUrl(p.slug)}`, name: `Каркасный дом ${p.size} (${p.code})` }))
   }));
 
-  writeFileSync(`${OUT}/${file}`, page({ file, meta, content, extraLd: blocks.join('\n') }));
-  if (meta.noindex !== true) built.push({ url: `/${file === 'index.html' ? '' : file}`, priority: meta.priority ?? 0.6 });
+  const out = outPath(file);
+  mkdirSync(`${OUT}/${out.split('/').slice(0, -1).join('/')}` || OUT, { recursive: true });
+  writeFileSync(`${OUT}/${out}`, page({ file, meta, content, extraLd: blocks.join('\n') }));
+  if (meta.noindex !== true) built.push({ url: pageUrl(file), priority: meta.priority ?? 0.6 });
+  /* на GitHub Pages нет переадресации с сервера — кладём файл-заглушку,
+     чтобы старые ссылки вида /obekty.html не отдавали 404 */
+  if (PREVIEW && file !== 'index.html' && file !== '404.html') {
+    writeFileSync(`${OUT}/${file}`, rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="robots" content="noindex"><link rel="canonical" href="${SITE}${pageUrl(file)}">
+<meta http-equiv="refresh" content="0; url=${pageUrl(file)}"></head>
+<body><p>Страница переехала: <a href="${pageUrl(file)}">${pageUrl(file)}</a></p></body></html>\n`));
+  }
 }
 
 /* ---------- страницы проектов ---------- */
@@ -328,7 +353,12 @@ ${cta}`;
       { name: `Дом ${p.size} (${p.code})`, url: projectUrl(p.slug) }
     ])
   ];
-  writeFileSync(`${OUT}/proekty/${p.slug}.html`, page({ file: `proekty/${p.slug}.html`, meta, content, extraLd: blocks.join('\n'), root: true }));
+  mkdirSync(`${OUT}/proekty/${p.slug}`, { recursive: true });
+  writeFileSync(`${OUT}/proekty/${p.slug}/index.html`, page({ file: `proekty/${p.slug}/`, meta, content, extraLd: blocks.join('\n') }));
+  if (PREVIEW) writeFileSync(`${OUT}/proekty/${p.slug}.html`, rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="robots" content="noindex"><link rel="canonical" href="${SITE}${projectUrl(p.slug)}">
+<meta http-equiv="refresh" content="0; url=${projectUrl(p.slug)}"></head>
+<body><p>Страница переехала: <a href="${projectUrl(p.slug)}">${projectUrl(p.slug)}</a></p></body></html>\n`));
   built.push({ url: projectUrl(p.slug), priority: 0.8 });
 }
 
@@ -339,15 +369,15 @@ writeFileSync(`${OUT}/proekt.html`, rebase(`<!doctype html>
   <meta charset="utf-8">
   <title>Проекты каркасных домов — Каркас Комфорт</title>
   <meta name="robots" content="noindex, follow">
-  <link rel="canonical" href="${SITE}/proekty.html">
+  <link rel="canonical" href="${SITE}/proekty/">
   <script>
     /* старые ссылки вида proekt.html?id=kd-40 ведут на статическую страницу проекта */
     var id = new URLSearchParams(location.search).get('id');
-    location.replace(id ? '/proekty/' + id.replace(/[^a-z0-9-]/gi, '') + '.html' : '/proekty.html');
+    location.replace(id ? '/proekty/' + id.replace(/[^a-z0-9-]/gi, '') + '/' : '/proekty/');
   </script>
-  <meta http-equiv="refresh" content="0; url=/proekty.html">
+  <meta http-equiv="refresh" content="0; url=/proekty/">
 </head>
-<body><p>Страница переехала: <a href="/proekty.html">каталог проектов</a>.</p></body>
+<body><p>Страница переехала: <a href="/proekty/">каталог проектов</a>.</p></body>
 </html>
 `));
 

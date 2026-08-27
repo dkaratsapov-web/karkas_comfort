@@ -1,7 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Каркас Комфорт">
-  <rect width="48" height="48" rx="12" fill="#1F5C3A"/>
-  <path d="M24 10 L38 21v3H10v-3z" fill="#E3A85C"/>
-  <path d="M13 26h22v12H13z" fill="none" stroke="#F7F6F2" stroke-width="2.6" stroke-linejoin="round"/>
-  <path d="M13 26l22 12M35 26L13 38" stroke="#F7F6F2" stroke-width="2.2" opacity=".75"/>
-  <path d="M24 26v12" stroke="#C8791F" stroke-width="2.6"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 110" width="300" height="110" role="img" aria-label="Каркас Комфорт">
+  <title>Каркас Комфорт</title>
+  <g fill="none" stroke="#F5A623" stroke-width="13" stroke-linecap="square">
+    <path d="M42 78 L150 12 L258 78"/>
+    <path d="M70 96 L70 30"/>
+    <path d="M230 96 L230 30"/>
+    <path d="M42 96 L42 60"/>
+    <path d="M258 96 L258 60"/>
+  </g>
+  <g fill="#F5A623">
+    <rect x="136" y="52" width="12" height="12" rx="2"/>
+    <rect x="154" y="52" width="12" height="12" rx="2"/>
+    <rect x="136" y="70" width="12" height="12" rx="2"/>
+    <rect x="154" y="70" width="12" height="12" rx="2"/>
+  </g>
 </svg>
