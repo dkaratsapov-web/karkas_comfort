@@ -10,6 +10,41 @@
     catch { return { standart: 32000, komfort: 41000, pod_kluch: 52000 }; }
   })();
 
+  document.documentElement.classList.add('js');
+
+  /* ---------- появление блоков при прокрутке ----------
+     Секции и карточки выезжают снизу с небольшой задержкой друг за другом.
+     Без IntersectionObserver и при отключённой анимации всё видно сразу. */
+  const reveal = () => {
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const groups = [
+      ['.section__head', 0],
+      ['.grid > *, .tiers > *, .bento > *, .shots > *, .steps > *, .timeline > *, .figures > *', 55],
+      ['.split > *, .card, .project, .tile', 45]
+    ];
+    const seen = new Set();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+
+    groups.forEach(([sel, step]) => {
+      $$(sel).forEach((el) => {
+        if (seen.has(el) || el.closest('.header, .mobile-nav, .hero')) return;
+        seen.add(el);
+        const sibs = el.parentElement ? Array.from(el.parentElement.children).indexOf(el) : 0;
+        el.dataset.reveal = '';
+        el.style.setProperty('--d', `${Math.min(sibs, 5) * step}ms`);
+        io.observe(el);
+      });
+    });
+  };
+  reveal();
+
   /* ---------- события аналитики ----------
      Работает и с Яндекс.Метрикой, и с Google Analytics, и без них.
      Номер счётчика Метрики берётся из data-metrika у <body>. */

@@ -23,28 +23,19 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-wght.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/golos-text-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=1a65b44d">
+  <link rel="stylesheet" href="/assets/css/style.css?v=60403ca8">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Каркасный дом 7×7 (КД-11)","description":"Квадратный сруб каркаса — самый экономичный периметр стен","sku":"КД-11","image":"https://karkascomfort.ru/assets/img/projects/kd-11.svg","brand":{"@type":"Brand","name":"Каркас Комфорт"},"offers":{"@type":"Offer","priceCurrency":"RUB","price":2304000,"availability":"https://schema.org/InStock","url":"https://karkascomfort.ru/proekty/kd-11/","seller":{"@type":"Organization","name":"ООО «Каркас Комфорт»"}},"additionalProperty":[{"@type":"PropertyValue","name":"Площадь","value":"72 м²"},{"@type":"PropertyValue","name":"Этажность","value":"1,5 этажа"},{"@type":"PropertyValue","name":"Спальни","value":"3"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://karkascomfort.ru/"},{"@type":"ListItem","position":2,"name":"Проекты","item":"https://karkascomfort.ru/proekty.html"},{"@type":"ListItem","position":3,"name":"Дом 7×7 (КД-11)","item":"https://karkascomfort.ru/proekty/kd-11/"}]}</script>
 </head>
 
 <body data-rates="{&quot;standart&quot;:32000,&quot;komfort&quot;:41000,&quot;pod_kluch&quot;:52000}" data-lead-endpoint="/api/lead.php">
   <a class="skip-link" href="#main">К содержимому</a>
-  <div class="topbar">
-    <div class="container topbar__row">
-      <span class="topbar__geo">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Тверь и Тверская область
-      </span>
-      <span class="topbar__hours">Работаем с 8:00 до 20:00 без выходных</span>
-      <span class="topbar__mail"><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></span>
-    </div>
-  </div>
   <header class="header">
     <div class="container header__row">
-      <a class="logo" href="/" aria-label="Каркас Комфорт — на главную">
+      <a class="logo" href="/" aria-label="Каркас Комфорт, на главную">
         <img src="/assets/img/logo-h.svg" alt="Каркас Комфорт" width="470" height="112">
       </a>
+
       <nav class="nav" aria-label="Основная навигация">
         <a href="/karkasnye-doma/">Каркасные дома</a>
         <a href="/proekty/">Проекты</a>
@@ -52,30 +43,40 @@
         <a href="/uslugi/">Услуги</a>
         <a href="/kontakty/">Контакты</a>
       </nav>
-      <div class="header__contacts">
-        <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
-        <a class="header__phone header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+
+      <div class="header__side">
+        <div class="header__contacts">
+          <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+          <a class="header__phone header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+        </div>
+
+        <span class="header__rule" aria-hidden="true"></span>
+
+        <div class="header__aside">
+          <a class="header__mail" href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+          <span class="header__hours">ежедневно, 8:00 до 20:00</span>
+        </div>
+
+        <div class="header__im">
+          <a class="im im--tg" href="#" aria-label="Написать в Telegram" data-lead-messenger>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+          </a>
+          <a class="im im--max" href="#" aria-label="Написать в MAX" data-lead-messenger>
+            <span aria-hidden="true">MAX</span>
+          </a>
+        </div>
+
+        <a class="btn btn--sm header__cta" href="#zayavka">Рассчитать<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
       </div>
-      <div class="header__aside">
-        <a class="header__mail" href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
-        <span class="header__hours">с 8:00 до 20:00 без выходных</span>
-      </div>
-      <div class="header__im">
-        <a class="im" href="#" aria-label="Написать в Telegram" data-lead-messenger>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 8-6"/></svg>
-        </a>
-        <a class="im" href="#" aria-label="Написать в MAX" data-lead-messenger>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="5"/><path d="M8 15V9l4 4 4-4v6"/></svg>
-        </a>
-      </div>
-      <a class="btn btn--sm header__cta" href="#zayavka">Рассчитать <span class="btn__arrow" aria-hidden="true">→</span></a>
+
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Открыть меню">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+        <span class="burger__box" aria-hidden="true"><span></span><span></span></span>
       </button>
     </div>
+
     <div class="mobile-nav" id="mobile-nav" hidden>
       <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
       </button>
       <a href="/">Главная</a>
       <a href="/karkasnye-doma/">Каркасные дома</a>
@@ -88,17 +89,15 @@
       <div class="mobile-nav__meta">
         <a href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
         <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
-        <span>с 8:00 до 20:00 без выходных</span>
+        <span>ежедневно, 8:00 до 20:00</span>
       </div>
       <div class="mobile-nav__im">
-        <a class="im" href="#" aria-label="Написать в Telegram" data-lead-messenger>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 8-6"/></svg>
+        <a class="im im--tg" href="#" aria-label="Написать в Telegram" data-lead-messenger>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         </a>
-        <a class="im" href="#" aria-label="Написать в MAX" data-lead-messenger>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="5"/><path d="M8 15V9l4 4 4-4v6"/></svg>
-        </a>
+        <a class="im im--max" href="#" aria-label="Написать в MAX" data-lead-messenger><span aria-hidden="true">MAX</span></a>
       </div>
-      <a class="btn btn--block" href="#zayavka" style="margin-top:18px">Рассчитать стоимость</a>
+      <a class="btn btn--block" href="#zayavka" style="margin-top:18px">Рассчитать стоимость<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
     </div>
   </header>
 
@@ -109,42 +108,48 @@
       <li>Дом 7×7 (КД-11)</li>
     </ol>
 
-    <section class="section" style="padding-top:clamp(20px,2.4vw,36px)">
+    <section class="section" style="padding-top:clamp(16px,2vw,28px)">
       <div class="container">
         <div class="split split--narrow">
+          <div class="stack" style="gap:clamp(18px,2vw,28px)">
           <div class="gallery">
             <div class="gallery__main">
               <img src="/assets/img/projects/kd-11.svg" alt="Каркасный дом КД-11 7×7 м, фото 1" width="1200" height="800" fetchpriority="high">
             </div>
           </div>
 
-          <div class="stack">
+            <div class="card spec-card">
+              <h2 class="spec-card__title">Характеристики проекта</h2>
+              <dl class="spec-card__grid">
+                <div><dt>Габариты</dt><dd>7×7 м</dd></div>
+                <div><dt>Площадь</dt><dd>72 м²</dd></div>
+                <div><dt>Этажность</dt><dd>Полутораэтажный</dd></div>
+                <div><dt>Спальни</dt><dd>3</dd></div>
+                <div><dt>Терраса</dt><dd>нет</dd></div>
+                <div><dt>Срок строительства</dt><dd>1,5–2 месяца</dd></div>
+                <div><dt>Фундамент</dt><dd>свайно-винтовой или ленточный</dd></div>
+                <div><dt>Гарантия</dt><dd>5 лет по договору</dd></div>
+              </dl>
+            </div>
+          </div>
+
+          <aside class="project-aside">
             <div class="card">
               <p class="eyebrow">Проект дома</p>
-              <h1 style="font-size:clamp(26px,3.2vw,38px)">Каркасный дом 7×7<span class="muted" style="display:block;font-size:.55em;font-weight:600;margin-top:6px">проект КД-11</span></h1>
+              <h1 style="font-size:clamp(25px,2.8vw,34px)">Каркасный дом 7×7<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">проект КД-11</span></h1>
               <p class="muted" style="margin-top:10px">Квадратный сруб каркаса — самый экономичный периметр стен</p>
               <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">от 2 304 000 ₽<small>тёплый контур, ориентировочно · под ключ с отделкой — от 3 744 000 ₽ · срок 1,5–2 месяца</small></p>
               <div class="stack" style="margin-top:20px">
                 <a class="btn btn--block" href="#zayavka" data-project="КД-11 (7×7, 72 м²)">Рассчитать этот проект</a>
                 <a class="btn btn--ghost btn--block" href="https://wa.me/79201716969?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%20%D0%9A%D0%94-11%20(7%C3%977%2C%2072%20%D0%BC%C2%B2)" rel="nofollow noopener" data-lead-messenger>Спросить в WhatsApp</a>
               </div>
+              <ul class="checks checks--tight" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft)">
+                <li>Смета с ценами до подписания договора</li>
+                <li>Фиксированная стоимость на весь срок</li>
+                <li>Планировку меняем под вашу семью</li>
+              </ul>
             </div>
-
-            <div class="card">
-              <table class="specs-table">
-                <tbody>
-                  <tr><th scope="row">Габариты</th><td>7×7 м</td></tr>
-                  <tr><th scope="row">Площадь</th><td>72 м²</td></tr>
-                  <tr><th scope="row">Этажность</th><td>Полутораэтажный</td></tr>
-                  <tr><th scope="row">Спальни</th><td>3</td></tr>
-                  <tr><th scope="row">Терраса</th><td>нет</td></tr>
-                  <tr><th scope="row">Срок строительства</th><td>1,5–2 месяца</td></tr>
-                  <tr><th scope="row">Фундамент</th><td>свайно-винтовой или ленточный</td></tr>
-                  <tr><th scope="row">Гарантия</th><td>5 лет по договору</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>
@@ -323,6 +328,6 @@
       </a>
     </nav>
 
-  <script src="/assets/js/main.js?v=88530a8c" defer></script>
+  <script src="/assets/js/main.js?v=09990be0" defer></script>
 </body>
 </html>

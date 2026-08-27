@@ -48,7 +48,7 @@ ok('разметка Product + Offer', /"@type":"Product"/.test(projHtml) && /"@
 ok('хлебные крошки в разметке', /"@type":"BreadcrumbList"/.test(projHtml));
 ok('свой canonical у страницы проекта', /rel="canonical" href="[^"]*\/proekty\/kd-29\/"/.test(projHtml));
 await p.goto(`${B}/proekty/kd-29/`, { waitUntil: 'networkidle' });
-ok('таблица характеристик заполнена', (await p.$$('.specs-table tr')).length === 8);
+ok('характеристики проекта заполнены', (await p.$$('.spec-card__grid > div')).length >= 8);
 ok('похожие проекты подобраны', (await p.$$('.grid--3 .project')).length === 3);
 await p.click('a[href="#zayavka"][data-project]');
 ok('в форму подставлен код проекта', (await p.inputValue('#p-project-input')).includes('КД-29'));

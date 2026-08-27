@@ -92,7 +92,10 @@ const previewBar = '';   // плашку демо-версии заказчик 
 
 /* в превью сайт лежит в подпапке — правим корневые ссылки и закрываем от индексации */
 const rebase = (html) => (BASE
-  ? html.replace(/(href|src)="\/(?!\/)/g, `$1="${BASE}/`)
+  ? html
+    .replace(/(href|src|data-zoom|data-full)="\/(?!\/)/g, `$1="${BASE}/`)
+    /* srcset — это список «путь ширина, путь ширина», его тоже надо переписать */
+    .replace(/srcset="([^"]+)"/g, (_, list) => `srcset="${list.replace(/(^|,\s*)\/(?!\/)/g, `$1${BASE}/`)}"`)
   : html);
 
 /* Адреса без .html: страница живёт в своей папке (obekty/index.html),
@@ -214,6 +217,13 @@ for (const file of files) {
   if (!m) throw new Error(`Нет блока <!--meta --> в ${file}`);
   const meta = JSON.parse(m[1]);
   let content = raw.slice(m[0].length);
+  /* фотография первого экрана вместо временной развёртки */
+  if (HERO_PHOTO) {
+    content = content.replace(
+      /<img class="hero__bg"[^>]*>/,
+      `<img class="hero__bg" src="/${HERO_PHOTO}" alt="Каркасный дом с террасой, построенный в Тверской области" width="2000" height="1125" fetchpriority="high">`
+    );
+  }
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
@@ -420,46 +430,54 @@ for (const p of projects) {
   const title = `Каркасный дом ${p.size} (${p.code}) — ${p.area} м² под ключ | Каркас Комфорт`;
   const description = `Проект каркасного дома ${p.size} площадью ${p.area} м²: ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))} под ключ с коммуникациями.`;
 
+  const specs = [
+    ['Габариты', `${p.size} м`],
+    ['Площадь', `${p.area} м²`],
+    ['Этажность', floorsWord(p.floors)],
+    ['Спальни', String(p.bedrooms)],
+    ['Терраса', p.terrace ? 'есть' : 'нет'],
+    ['Срок строительства', termOf(p)],
+    ...(p.structure || [['Фундамент', 'свайно-винтовой или ленточный']]),
+    ['Гарантия', '5 лет по договору']
+  ];
+
   const content = `    <ol class="crumbs container">
       <li><a href="/index.html">Главная</a></li>
       <li><a href="/proekty.html">Проекты</a></li>
       <li>Дом ${p.size} (${p.code})</li>
     </ol>
 
-    <section class="section" style="padding-top:clamp(20px,2.4vw,36px)">
+    <section class="section" style="padding-top:clamp(16px,2vw,28px)">
       <div class="container">
         <div class="split split--narrow">
+          <div class="stack" style="gap:clamp(18px,2vw,28px)">
 ${galleryBlock(p)}
 
-          <div class="stack">
+            <div class="card spec-card">
+              <h2 class="spec-card__title">Характеристики проекта</h2>
+              <dl class="spec-card__grid">
+${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</dd></div>`).join('\n')}
+              </dl>
+            </div>
+          </div>
+
+          <aside class="project-aside">
             <div class="card">
               <p class="eyebrow">Проект дома</p>
-              <h1 style="font-size:clamp(26px,3.2vw,38px)">Каркасный дом ${p.size}<span class="muted" style="display:block;font-size:.55em;font-weight:600;margin-top:6px">проект ${p.code}</span></h1>
+              <h1 style="font-size:clamp(25px,2.8vw,34px)">Каркасный дом ${p.size}<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">проект ${p.code}</span></h1>
               <p class="muted" style="margin-top:10px">${esc(p.note)}</p>
               <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price ? '' : 'от '}${money(priceOf(p))}<small>тёплый контур${p.price ? '' : ', ориентировочно'} · под ключ с отделкой — от ${money(priceTop(p))} · срок ${termOf(p)}</small></p>
               <div class="stack" style="margin-top:20px">
                 <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${p.area} м²)">Рассчитать этот проект</a>
                 <a class="btn btn--ghost btn--block" href="https://wa.me/79201716969?text=${encodeURIComponent(`Здравствуйте! Интересует проект ${p.code} (${p.size}, ${p.area} м²)`)}" rel="nofollow noopener" data-lead-messenger>Спросить в WhatsApp</a>
               </div>
+              <ul class="checks checks--tight" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft)">
+                <li>Смета с ценами до подписания договора</li>
+                <li>Фиксированная стоимость на весь срок</li>
+                <li>Планировку меняем под вашу семью</li>
+              </ul>
             </div>
-
-            <div class="card">
-              <table class="specs-table">
-                <tbody>
-                  <tr><th scope="row">Габариты</th><td>${p.size} м</td></tr>
-                  <tr><th scope="row">Площадь</th><td>${p.area} м²</td></tr>
-                  <tr><th scope="row">Этажность</th><td>${floorsWord(p.floors)}</td></tr>
-                  <tr><th scope="row">Спальни</th><td>${p.bedrooms}</td></tr>
-                  <tr><th scope="row">Терраса</th><td>${p.terrace ? 'есть' : 'нет'}</td></tr>
-                  <tr><th scope="row">Срок строительства</th><td>${termOf(p)}</td></tr>
-                  ${(p.structure || []).length
-                    ? p.structure.map(([t, v]) => `<tr><th scope="row">${esc(t)}</th><td>${esc(v)}</td></tr>`).join('\n                  ')
-                    : '<tr><th scope=\"row\">Фундамент</th><td>свайно-винтовой или ленточный</td></tr>'}
-                  <tr><th scope="row">Гарантия</th><td>5 лет по договору</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>

@@ -1,19 +1,10 @@
   <a class="skip-link" href="#main">К содержимому</a>
-  <div class="topbar">
-    <div class="container topbar__row">
-      <span class="topbar__geo">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Тверь и Тверская область
-      </span>
-      <span class="topbar__hours">Работаем с 8:00 до 20:00 без выходных</span>
-      <span class="topbar__mail"><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></span>
-    </div>
-  </div>
   <header class="header">
     <div class="container header__row">
-      <a class="logo" href="index.html" aria-label="Каркас Комфорт — на главную">
+      <a class="logo" href="index.html" aria-label="Каркас Комфорт, на главную">
         <img src="assets/img/logo-h.svg" alt="Каркас Комфорт" width="470" height="112">
       </a>
+
       <nav class="nav" aria-label="Основная навигация">
         <a href="karkasnye-doma.html">Каркасные дома</a>
         <a href="proekty.html">Проекты</a>
@@ -21,30 +12,40 @@
         <a href="uslugi.html">Услуги</a>
         <a href="kontakty.html">Контакты</a>
       </nav>
-      <div class="header__contacts">
-        <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
-        <a class="header__phone header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+
+      <div class="header__side">
+        <div class="header__contacts">
+          <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+          <a class="header__phone header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+        </div>
+
+        <span class="header__rule" aria-hidden="true"></span>
+
+        <div class="header__aside">
+          <a class="header__mail" href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+          <span class="header__hours">ежедневно, 8:00 до 20:00</span>
+        </div>
+
+        <div class="header__im">
+          <a class="im im--tg" href="#" aria-label="Написать в Telegram" data-lead-messenger>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+          </a>
+          <a class="im im--max" href="#" aria-label="Написать в MAX" data-lead-messenger>
+            <span aria-hidden="true">MAX</span>
+          </a>
+        </div>
+
+        <a class="btn btn--sm header__cta" href="#zayavka">Рассчитать<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
       </div>
-      <div class="header__aside">
-        <a class="header__mail" href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
-        <span class="header__hours">с 8:00 до 20:00 без выходных</span>
-      </div>
-      <div class="header__im">
-        <a class="im" href="#" aria-label="Написать в Telegram" data-lead-messenger>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 8-6"/></svg>
-        </a>
-        <a class="im" href="#" aria-label="Написать в MAX" data-lead-messenger>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="5"/><path d="M8 15V9l4 4 4-4v6"/></svg>
-        </a>
-      </div>
-      <a class="btn btn--sm header__cta" href="#zayavka">Рассчитать <span class="btn__arrow" aria-hidden="true">→</span></a>
+
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Открыть меню">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg>
+        <span class="burger__box" aria-hidden="true"><span></span><span></span></span>
       </button>
     </div>
+
     <div class="mobile-nav" id="mobile-nav" hidden>
       <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
       </button>
       <a href="index.html">Главная</a>
       <a href="karkasnye-doma.html">Каркасные дома</a>
@@ -57,16 +58,14 @@
       <div class="mobile-nav__meta">
         <a href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
         <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
-        <span>с 8:00 до 20:00 без выходных</span>
+        <span>ежедневно, 8:00 до 20:00</span>
       </div>
       <div class="mobile-nav__im">
-        <a class="im" href="#" aria-label="Написать в Telegram" data-lead-messenger>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l5 2 2 6 3-4 5 4z"/><path d="m8 13 8-6"/></svg>
+        <a class="im im--tg" href="#" aria-label="Написать в Telegram" data-lead-messenger>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         </a>
-        <a class="im" href="#" aria-label="Написать в MAX" data-lead-messenger>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="5"/><path d="M8 15V9l4 4 4-4v6"/></svg>
-        </a>
+        <a class="im im--max" href="#" aria-label="Написать в MAX" data-lead-messenger><span aria-hidden="true">MAX</span></a>
       </div>
-      <a class="btn btn--block" href="#zayavka" style="margin-top:18px">Рассчитать стоимость</a>
+      <a class="btn btn--block" href="#zayavka" style="margin-top:18px">Рассчитать стоимость<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
     </div>
   </header>
