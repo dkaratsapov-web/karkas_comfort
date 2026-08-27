@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Golos+Text:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "Golos Text", "Segoe UI", system-ui, sans-serif; }
+    a { color: #2F5D3F; text-decoration: none; } a:hover { color: #1E3D29; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 900px; position: relative; overflow: hidden; background: #17150F; color: #F4EFE7;">
+
+  <!-- фотография объекта -->
+  <div style="position: absolute; inset: 0; background: #241F18;"></div>
+  <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(23,21,15,.96) 0%, rgba(23,21,15,.88) 34%, rgba(23,21,15,.62) 62%, rgba(23,21,15,.42) 100%);"></div>
+  <div style="position: absolute; right: 56px; top: 116px; width: 620px; height: 470px; border-radius: 24px; background: #2E2820; display: flex; align-items: center; justify-content: center; color: rgba(244,239,231,.42); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;">Фото объекта · 3:2</div>
+
+  <!-- шапка -->
+  <div style="position: relative; display: flex; align-items: center; justify-content: space-between; padding: 18px 56px; border-bottom: 1px solid rgba(244,239,231,.12);">
+    <div style="display: flex; align-items: center; gap: 11px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F4EFE7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10 12 3l9 7"/><path d="M6 10v11h12V10"/><path d="M10 21v-6h4v6"/></svg>
+      <div style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -.01em;">Каркас Комфорт</div>
+    </div>
+    <div style="display: flex; gap: 28px; font-size: 15px; color: #D6CDBC;">
+      <span>Каркасные дома</span><span>Проекты</span><span>Объекты</span><span>Услуги</span><span>Контакты</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 18px;">
+      <div style="font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 700;">8 (920) 171-69-69</div>
+      <div style="display: flex; align-items: center; gap: 9px; padding: 12px 22px; background: #2F5D3F; border-radius: 999px; font-size: 14px; font-weight: 700; color: #FFFDF9;">Рассчитать</div>
+    </div>
+  </div>
+
+  <!-- оффер: плотная левая колонка -->
+  <div style="position: relative; display: grid; grid-template-columns: 640px 1fr; gap: 40px; padding: 62px 56px 0;">
+    <div style="display: flex; flex-direction: column; gap: 22px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="width: 34px; height: 1px; background: #C08A4A;"></span>
+        <span style="font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #D9B183; font-weight: 700;">Тверь и область · с 2009 года</span>
+      </div>
+      <h1 style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 60px; line-height: 1.06; letter-spacing: -.02em; margin: 0; text-wrap: balance;">Каркасный дом под ключ <span style="color: #9BCCAC;">за два месяца</span></h1>
+      <p style="font-size: 18px; line-height: 1.5; color: #CFC6B5; margin: 0; max-width: 520px;">Фундамент, каркас, кровля, отопление и электрика — одна компания, один договор. Смета фиксируется до начала работ.</p>
+
+      <div style="display: flex; gap: 12px; margin-top: 4px;">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 17px 30px; background: #2F5D3F; border-radius: 999px; font-size: 16px; font-weight: 700; color: #FFFDF9;">
+          Рассчитать мой дом
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFDF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </div>
+        <div style="padding: 17px 28px; border: 1px solid rgba(244,239,231,.4); border-radius: 999px; font-size: 16px; font-weight: 600;">15 готовых проектов</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- лента фактов: вплотную к низу, без пустого провала -->
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; background: rgba(23,21,15,.72); backdrop-filter: blur(8px); border-top: 1px solid rgba(244,239,231,.14);">
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: rgba(244,239,231,.12);">
+      <div style="background: rgba(23,21,15,.5); padding: 22px 28px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-family: 'Nunito', sans-serif; font-size: 27px; font-weight: 800; letter-spacing: -.02em;">от 32 000 ₽</span>
+        <span style="font-size: 13px; color: #B4AA98;">за м² под ключ</span>
+      </div>
+      <div style="background: rgba(23,21,15,.5); padding: 22px 28px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-family: 'Nunito', sans-serif; font-size: 27px; font-weight: 800; letter-spacing: -.02em;">от 1,5 мес.</span>
+        <span style="font-size: 13px; color: #B4AA98;">срок строительства</span>
+      </div>
+      <div style="background: rgba(23,21,15,.5); padding: 22px 28px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-family: 'Nunito', sans-serif; font-size: 27px; font-weight: 800; letter-spacing: -.02em;">5 лет</span>
+        <span style="font-size: 13px; color: #B4AA98;">гарантия по договору</span>
+      </div>
+      <div style="background: rgba(23,21,15,.5); padding: 22px 28px; display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-family: 'Nunito', sans-serif; font-size: 27px; font-weight: 800; letter-spacing: -.02em;">300+</span>
+        <span style="font-size: 13px; color: #B4AA98;">домов в Тверской области</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

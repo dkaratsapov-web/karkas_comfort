@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Golos+Text:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; font-family: "Golos Text", "Segoe UI", system-ui, sans-serif; }
+    a { color: #2F5D3F; text-decoration: none; } a:hover { color: #1E3D29; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 860px; background: #F4EFE7; color: #17150F; padding: 72px 56px; box-sizing: border-box;">
+
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
+    <div style="max-width: 620px;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+        <span style="width: 30px; height: 1px; background: #8A5E2B;"></span>
+        <span style="font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #8A5E2B; font-weight: 700;">Почему нас выбирают</span>
+      </div>
+      <h2 style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 38px; line-height: 1.14; letter-spacing: -.02em; margin: 0;">Один договор — весь дом, без подрядчиков со стороны</h2>
+    </div>
+    <p style="font-size: 16px; line-height: 1.55; color: #3A342A; max-width: 420px; margin: 0;">Фундамент, каркас, кровля, отопление, вода и электрика — работы одной компании и одна ответственность за результат.</p>
+  </div>
+
+  <!-- бенто: крупный визуальный якорь + плотные карточки -->
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 36px;">
+
+    <!-- крупная плитка с фото -->
+    <div style="grid-column: span 2; grid-row: span 2; border-radius: 24px; overflow: hidden; background: #FFFDF9; border: 1px solid #F0EAE0; box-shadow: 0 2px 6px rgba(38,30,20,.04), 0 12px 30px rgba(38,30,20,.06); display: flex; flex-direction: column;">
+      <div style="flex-grow: 1; background: #E7DFD0; display: flex; align-items: center; justify-content: center; color: #8C8272; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;">Фото со стройки · бригада на объекте</div>
+      <div style="padding: 24px 26px 26px;">
+        <div style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -.01em;">Постоянные бригады, а не сезонные наёмные</div>
+        <p style="font-size: 15px; line-height: 1.55; color: #3A342A; margin: 10px 0 0;">Мастера в штате, прораб на объекте и фотоотчёт по каждому этапу — вы видите стройку, даже если приезжаете раз в месяц.</p>
+      </div>
+    </div>
+
+    <!-- карточки с иконками -->
+    <div style="border-radius: 24px; background: #FFFDF9; border: 1px solid #F0EAE0; box-shadow: 0 2px 6px rgba(38,30,20,.04), 0 12px 30px rgba(38,30,20,.06); padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 12px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2F5D3F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+      <div style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 18px;">Смета не растёт</div>
+      <p style="font-size: 14.5px; line-height: 1.5; color: #3A342A; margin: 0;">Стоимость становится приложением к договору и меняется только по вашей инициативе.</p>
+    </div>
+
+    <div style="border-radius: 24px; background: #FFFDF9; border: 1px solid #F0EAE0; box-shadow: 0 2px 6px rgba(38,30,20,.04), 0 12px 30px rgba(38,30,20,.06); padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 12px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2F5D3F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+      <div style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 18px;">Все коммуникации сразу</div>
+      <p style="font-size: 14.5px; line-height: 1.5; color: #3A342A; margin: 0;">Электрика, отопление, вода и канализация входят в проект, а не всплывают потом.</p>
+    </div>
+
+    <!-- цифра как якорь -->
+    <div style="border-radius: 24px; background: #17150F; color: #F4EFE7; padding: 24px 24px 26px; display: flex; flex-direction: column; justify-content: space-between;">
+      <span style="font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #C7BCA6; font-weight: 700;">Влажность доски</span>
+      <div>
+        <div style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 44px; letter-spacing: -.03em; line-height: 1;">18 %</div>
+        <p style="font-size: 14px; line-height: 1.5; color: #C7BCA6; margin: 8px 0 0;">Камерная сушка, антисептирование, базальтовый утеплитель и вентзазор.</p>
+      </div>
+    </div>
+
+    <div style="border-radius: 24px; background: #FFFDF9; border: 1px solid #F0EAE0; box-shadow: 0 2px 6px rgba(38,30,20,.04), 0 12px 30px rgba(38,30,20,.06); padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 12px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2F5D3F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M7 8v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V8"/></svg>
+      <div style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 18px;">Оплата по этапам</div>
+      <p style="font-size: 14.5px; line-height: 1.5; color: #3A342A; margin: 0;">Без предоплаты за весь дом: платите по факту приёмки каждого этапа.</p>
+    </div>
+  </div>
+
+  <!-- лента-подвал секции: закрывает низ, вместо пустоты -->
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 22px; padding: 20px 26px; border-radius: 999px; background: #EDF3EE; border: 1px solid #DCE7DE;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F5D3F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7v5c0 4.4 3.2 8.3 8 9 4.8-.7 8-4.6 8-9V7l-8-4z"/><path d="m9 12 2 2 4-4"/></svg>
+      <span style="font-size: 16px; font-weight: 600;">Ипотека на строительство от 5 % и материнский капитал — помогаем собрать документы</span>
+    </div>
+    <span style="font-size: 15px; font-weight: 700; color: #2F5D3F; white-space: nowrap;">Как это работает →</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -31,7 +31,7 @@
     "jsonld": [],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 1945,
+    "docHeight": 1921,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
@@ -43,12 +43,12 @@
     "tap": [],
     "forms": [],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 84,
+    "lcp": 92,
     "lcpEl": "P.",
     "cls": 0,
     "nav": {
-     "dcl": 64,
-     "load": 64,
+     "dcl": 59,
+     "load": 61,
      "transfer": 10468
     },
     "resources": [
@@ -56,25 +56,25 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 24
+      "dur": 15
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 24
+      "dur": 15
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 20
+      "size": 41600,
+      "dur": 10
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 26
+      "dur": 15
      },
      {
       "n": "favicon.svg",
@@ -86,7 +86,7 @@
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    },
    "desk": {
     "title": "Страница не найдена — Каркас Комфорт",
@@ -117,7 +117,7 @@
     "jsonld": [],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 1173,
+    "docHeight": 1104,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -136,12 +136,12 @@
     ],
     "forms": [],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 148,
+    "lcp": 100,
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 49,
-     "load": 50,
+     "dcl": 47,
+     "load": 48,
      "transfer": 10468
     },
     "resources": [
@@ -149,37 +149,37 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 13
+      "dur": 12
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 13
+      "dur": 12
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 12
+      "size": 41600,
+      "dur": 5
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 16
+      "dur": 11
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 4
+      "dur": 3
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    }
   },
   "index": {
@@ -207,12 +207,10 @@
     "headings": [
      "H1: Каркасный дом под ключ за два месяца",
      "H2: Один договор — весь дом, без подрядчиков со стороны",
+     "H3: Постоянные бригады, а не сезонные наёмные",
      "H3: Смета не растёт",
-     "H3: Постоянные бригады",
      "H3: Все коммуникации сразу",
-     "H3: Сухой пиломатериал",
      "H3: Оплата по этапам",
-     "H3: Ипотека и маткапитал",
      "H2: Дома, которые уже стоят в Тверской области",
      "H3: Дом для семьи в Конаковском районе",
      "H3: Просторный дом под Торжком",
@@ -242,6 +240,11 @@
      "H3: Фундамент и каркас",
      "H3: Контур и инженерия",
      "H3: Сдача и гарантия",
+     "H2: Что вы получаете на бумаге, а не на словах",
+     "H3: Договор подряда",
+     "H3: Смета по этапам",
+     "H3: Гарантия по договору",
+     "H3: Фотоотчёт по этапам",
      "H2: Строим по всей Тверской области",
      "H2: Что спрашивают чаще всего",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
@@ -254,7 +257,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 17256,
+    "docHeight": 18403,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
@@ -274,13 +277,23 @@
       "rendered": "390x621"
      },
      {
+      "src": "assets/img/projects/kd-17.svg",
+      "alt": "Бригада «Каркас Комфорт» на объекте",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "348x218"
+     },
+     {
       "src": "/assets/img/projects/kd-17.svg",
       "alt": "Дом для семьи в Конаковском районе, 118 м²",
       "w": "900",
       "h": "600",
       "loading": "lazy",
       "fetchpriority": null,
-      "natural": "0x0",
+      "natural": "240x150",
       "rendered": "348x232"
      },
      {
@@ -387,6 +400,12 @@
     "tap": [
      {
       "el": "a.",
+      "text": "Уточнить условия →",
+      "w": 171,
+      "h": 27
+     },
+     {
+      "el": "a.",
       "text": "Каркасный дом 6×6",
       "w": 201,
       "h": 28
@@ -477,44 +496,50 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 148,
+    "lcp": 156,
     "lcpEl": "IMG.hero__bg",
     "cls": 0,
     "nav": {
-     "dcl": 106,
-     "load": 109,
-     "transfer": 53121
+     "dcl": 108,
+     "load": 115,
+     "transfer": 58767
     },
     "resources": [
      {
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 27
+      "dur": 8
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 26
+      "dur": 18
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 25
+      "size": 41600,
+      "dur": 18
      },
      {
       "n": "hero.svg",
       "t": "img",
       "size": 15075,
-      "dur": 26
+      "dur": 24
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 29
+      "dur": 24
+     },
+     {
+      "n": "kd-17.svg",
+      "t": "img",
+      "size": 10749,
+      "dur": 4
      },
      {
       "n": "favicon.svg",
@@ -934,8 +959,8 @@
      }
     ],
     "consoleErrors": [],
-    "requestCount": 7,
-    "totalBytes": 147071
+    "requestCount": 8,
+    "totalBytes": 164313
    },
    "desk": {
     "title": "Каркасные дома под ключ в Твери и области | Каркас Комфорт",
@@ -960,12 +985,10 @@
     "headings": [
      "H1: Каркасный дом под ключ за два месяца",
      "H2: Один договор — весь дом, без подрядчиков со стороны",
+     "H3: Постоянные бригады, а не сезонные наёмные",
      "H3: Смета не растёт",
-     "H3: Постоянные бригады",
      "H3: Все коммуникации сразу",
-     "H3: Сухой пиломатериал",
      "H3: Оплата по этапам",
-     "H3: Ипотека и маткапитал",
      "H2: Дома, которые уже стоят в Тверской области",
      "H3: Дом для семьи в Конаковском районе",
      "H3: Просторный дом под Торжком",
@@ -995,6 +1018,11 @@
      "H3: Фундамент и каркас",
      "H3: Контур и инженерия",
      "H3: Сдача и гарантия",
+     "H2: Что вы получаете на бумаге, а не на словах",
+     "H3: Договор подряда",
+     "H3: Смета по этапам",
+     "H3: Гарантия по договору",
+     "H3: Фотоотчёт по этапам",
      "H2: Строим по всей Тверской области",
      "H2: Что спрашивают чаще всего",
      "H2: Смета с разбивкой по этапам — за один рабочий день",
@@ -1007,7 +1035,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 10988,
+    "docHeight": 10388,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -1025,6 +1053,16 @@
       "fetchpriority": "high",
       "natural": "267x150",
       "rendered": "1440x618"
+     },
+     {
+      "src": "assets/img/projects/kd-17.svg",
+      "alt": "Бригада «Каркас Комфорт» на объекте",
+      "w": "900",
+      "h": "600",
+      "loading": "lazy",
+      "fetchpriority": null,
+      "natural": "240x150",
+      "rendered": "592x370"
      },
      {
       "src": "/assets/img/projects/kd-17.svg",
@@ -1146,6 +1184,12 @@
      },
      {
       "el": "a.",
+      "text": "Уточнить условия →",
+      "w": 171,
+      "h": 27
+     },
+     {
+      "el": "a.",
       "text": "Каркасный дом 6×6",
       "w": 201,
       "h": 28
@@ -1236,68 +1280,68 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 208,
+    "lcp": 220,
     "lcpEl": "IMG.hero__bg",
     "cls": 0,
     "nav": {
-     "dcl": 82,
-     "load": 86,
-     "transfer": 53121
+     "dcl": 92,
+     "load": 95,
+     "transfer": 58767
     },
     "resources": [
      {
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 20
+      "dur": 22
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 20
+      "dur": 21
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 19
+      "size": 41600,
+      "dur": 16
      },
      {
       "n": "hero.svg",
       "t": "img",
       "size": 15075,
-      "dur": 20
+      "dur": 21
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 23
+      "dur": 22
      },
      {
       "n": "kd-17.svg",
       "t": "img",
       "size": 10749,
-      "dur": 4
+      "dur": 12
      },
      {
       "n": "kd-29.svg",
       "t": "img",
       "size": 11850,
-      "dur": 9
+      "dur": 12
      },
      {
       "n": "kd-08.svg",
       "t": "img",
       "size": 9493,
-      "dur": 10
+      "dur": 12
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 9
+      "dur": 11
      }
     ],
     "badContrast": [
@@ -1712,7 +1756,7 @@
     ],
     "consoleErrors": [],
     "requestCount": 10,
-    "totalBytes": 179163
+    "totalBytes": 185656
    }
   },
   "proekty": {
@@ -1768,7 +1812,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 10574,
+    "docHeight": 10498,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
@@ -2064,12 +2108,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 196,
+    "lcp": 136,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 122,
-     "load": 128,
+     "dcl": 75,
+     "load": 82,
      "transfer": 33849
     },
     "resources": [
@@ -2077,61 +2121,61 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 7
+      "dur": 11
+     },
+     {
+      "n": "style.css?v=d919246c",
+      "t": "link",
+      "size": 41600,
+      "dur": 10
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 19
-     },
-     {
-      "n": "style.css?v=2dc48d02",
-      "t": "link",
-      "size": 35107,
-      "dur": 12
+      "dur": 11
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 19
+      "dur": 24
      },
      {
       "n": "kd-23.svg",
       "t": "img",
       "size": 9391,
-      "dur": 5
+      "dur": 12
      },
      {
       "n": "kd-08.svg",
       "t": "img",
       "size": 9493,
-      "dur": 17
-     },
-     {
-      "n": "kd-11.svg",
-      "t": "img",
-      "size": 9465,
-      "dur": 17
+      "dur": 13
      },
      {
       "n": "kd-60.svg",
       "t": "img",
       "size": 9497,
-      "dur": 17
+      "dur": 13
+     },
+     {
+      "n": "kd-11.svg",
+      "t": "img",
+      "size": 9465,
+      "dur": 13
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 16
+      "dur": 12
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 10,
-    "totalBytes": 169842
+    "totalBytes": 176335
    },
    "desk": {
     "title": "Проекты каркасных домов — цены под ключ в Твери | Каркас Комфорт",
@@ -2184,7 +2228,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4784,
+    "docHeight": 4588,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -2486,12 +2530,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 204,
+    "lcp": 188,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 76,
-     "load": 82,
+     "dcl": 59,
+     "load": 65,
      "transfer": 33849
     },
     "resources": [
@@ -2499,43 +2543,43 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 15
+      "dur": 10
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 15
+      "dur": 10
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 15
+      "size": 41600,
+      "dur": 9
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 25
+      "dur": 14
      },
      {
       "n": "kd-23.svg",
       "t": "img",
       "size": 9391,
-      "dur": 15
+      "dur": 11
      },
      {
       "n": "kd-08.svg",
       "t": "img",
       "size": 9493,
-      "dur": 15
+      "dur": 11
      },
      {
       "n": "kd-60.svg",
       "t": "img",
       "size": 9497,
-      "dur": 15
+      "dur": 11
      },
      {
       "n": "kd-11.svg",
@@ -2547,79 +2591,79 @@
       "n": "kd-15.svg",
       "t": "img",
       "size": 9943,
-      "dur": 27
+      "dur": 20
      },
      {
       "n": "kd-36.svg",
       "t": "img",
       "size": 9942,
-      "dur": 28
+      "dur": 20
      },
      {
       "n": "kd-54.svg",
       "t": "img",
       "size": 10747,
-      "dur": 29
+      "dur": 25
      },
      {
       "n": "kd-43.svg",
       "t": "img",
       "size": 10749,
-      "dur": 30
+      "dur": 27
      },
      {
       "n": "kd-17.svg",
       "t": "img",
       "size": 10749,
-      "dur": 34
+      "dur": 28
      },
      {
       "n": "kd-42.svg",
       "t": "img",
       "size": 11868,
-      "dur": 37
+      "dur": 33
      },
      {
       "n": "kd-31.svg",
       "t": "img",
       "size": 11866,
-      "dur": 37
+      "dur": 34
      },
      {
       "n": "kd-40.svg",
       "t": "img",
       "size": 10307,
-      "dur": 37
+      "dur": 34
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 25
+      "dur": 21
      },
      {
       "n": "kd-29.svg",
       "t": "img",
       "size": 11850,
-      "dur": 15
+      "dur": 11
      },
      {
       "n": "kd-27.svg",
       "t": "img",
       "size": 11848,
-      "dur": 15
+      "dur": 11
      },
      {
       "n": "kd-38.svg",
       "t": "img",
       "size": 11849,
-      "dur": 15
+      "dur": 11
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 21,
-    "totalBytes": 291560
+    "totalBytes": 298053
    }
   },
   "obekty": {
@@ -2670,7 +2714,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 7011,
+    "docHeight": 6775,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [
@@ -2859,12 +2903,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 136,
+    "lcp": 156,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 67,
-     "load": 70,
+     "dcl": 83,
+     "load": 85,
      "transfer": 20313
     },
     "resources": [
@@ -2872,67 +2916,67 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 10
+      "dur": 20
+     },
+     {
+      "n": "style.css?v=d919246c",
+      "t": "link",
+      "size": 41600,
+      "dur": 19
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 14
-     },
-     {
-      "n": "style.css?v=2dc48d02",
-      "t": "link",
-      "size": 35107,
-      "dur": 10
+      "dur": 19
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 14
-     },
-     {
-      "n": "favicon.svg",
-      "t": "other",
-      "size": 780,
-      "dur": 3
+      "dur": 22
      },
      {
       "n": "kd-17.svg",
       "t": "img",
       "size": 10749,
-      "dur": 15
+      "dur": 7
      },
      {
       "n": "kd-29.svg",
       "t": "img",
       "size": 11850,
-      "dur": 12
+      "dur": 7
      },
      {
       "n": "kd-08.svg",
       "t": "img",
       "size": 9493,
-      "dur": 15
-     },
-     {
-      "n": "kd-38.svg",
-      "t": "img",
-      "size": 11849,
-      "dur": 15
+      "dur": 16
      },
      {
       "n": "kd-36.svg",
       "t": "img",
       "size": 9942,
+      "dur": 16
+     },
+     {
+      "n": "kd-38.svg",
+      "t": "img",
+      "size": 11849,
+      "dur": 16
+     },
+     {
+      "n": "favicon.svg",
+      "t": "other",
+      "size": 780,
       "dur": 15
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 11,
-    "totalBytes": 185879
+    "totalBytes": 192372
    },
    "desk": {
     "title": "Построенные дома в Твери и области — портфолио | Каркас Комфорт",
@@ -2980,7 +3024,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4327,
+    "docHeight": 3952,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -3102,12 +3146,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 164,
+    "lcp": 208,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 64,
-     "load": 66,
+     "dcl": 88,
+     "load": 90,
      "transfer": 20313
     },
     "resources": [
@@ -3115,43 +3159,43 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 14
+      "dur": 11
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 14
+      "dur": 13
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 12
+      "size": 41600,
+      "dur": 10
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 19
+      "dur": 13
      },
      {
       "n": "kd-17.svg",
       "t": "img",
       "size": 10749,
-      "dur": 9
+      "dur": 8
      },
      {
       "n": "kd-29.svg",
       "t": "img",
       "size": 11850,
-      "dur": 11
+      "dur": 8
      },
      {
       "n": "kd-08.svg",
       "t": "img",
       "size": 9493,
-      "dur": 11
+      "dur": 14
      },
      {
       "n": "kd-36.svg",
@@ -3163,19 +3207,19 @@
       "n": "kd-38.svg",
       "t": "img",
       "size": 11849,
-      "dur": 17
+      "dur": 16
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 16
+      "dur": 14
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 11,
-    "totalBytes": 185879
+    "totalBytes": 192372
    }
   },
   "uslugi": {
@@ -3233,7 +3277,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 7423,
+    "docHeight": 6968,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
@@ -3288,12 +3332,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 80,
+    "lcp": 92,
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 49,
-     "load": 50,
+     "dcl": 59,
+     "load": 62,
      "transfer": 20554
     },
     "resources": [
@@ -3301,37 +3345,37 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 8
-     },
-     {
-      "n": "style.css?v=2dc48d02",
-      "t": "link",
-      "size": 35107,
-      "dur": 8
+      "dur": 6
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 9
+      "dur": 7
+     },
+     {
+      "n": "style.css?v=d919246c",
+      "t": "link",
+      "size": 41600,
+      "dur": 6
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 11
+      "dur": 10
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 4
+      "dur": 3
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    },
    "desk": {
     "title": "Услуги и этапы строительства — Каркас Комфорт, Тверь",
@@ -3386,7 +3430,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4397,
+    "docHeight": 3928,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -3451,8 +3495,8 @@
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 47,
-     "load": 49,
+     "dcl": 57,
+     "load": 59,
      "transfer": 20554
     },
     "resources": [
@@ -3460,37 +3504,37 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 8
+      "dur": 17
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 8
+      "dur": 17
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 10
+      "size": 41600,
+      "dur": 16
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 10
+      "dur": 20
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 4
+      "dur": 6
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    }
   },
   "karkasnye-doma": {
@@ -3542,7 +3586,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 6531,
+    "docHeight": 6361,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [
@@ -3681,12 +3725,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 76,
+    "lcp": 128,
     "lcpEl": "P.lead",
     "cls": 0,
     "nav": {
-     "dcl": 48,
-     "load": 50,
+     "dcl": 78,
+     "load": 80,
      "transfer": 19944
     },
     "resources": [
@@ -3694,18 +3738,18 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 10
-     },
-     {
-      "n": "style.css?v=2dc48d02",
-      "t": "link",
-      "size": 35107,
-      "dur": 9
+      "dur": 7
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
+      "dur": 15
+     },
+     {
+      "n": "style.css?v=d919246c",
+      "t": "link",
+      "size": 41600,
       "dur": 10
      },
      {
@@ -3715,22 +3759,22 @@
       "dur": 14
      },
      {
-      "n": "kd-36.svg",
-      "t": "img",
-      "size": 9942,
-      "dur": 10
-     },
-     {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 9
+      "dur": 4
+     },
+     {
+      "n": "kd-36.svg",
+      "t": "img",
+      "size": 9942,
+      "dur": 8
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 7,
-    "totalBytes": 141938
+    "totalBytes": 148431
    },
    "desk": {
     "title": "Каркасные дома под ключ в Твери — технология и цены",
@@ -3779,7 +3823,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4235,
+    "docHeight": 3807,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -3851,12 +3895,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 116,
+    "lcp": 120,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 50,
-     "load": 52,
+     "dcl": 52,
+     "load": 53,
      "transfer": 19944
     },
     "resources": [
@@ -3864,25 +3908,25 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 8
+      "dur": 10
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 8
+      "dur": 10
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 7
+      "size": 41600,
+      "dur": 18
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 14
+      "dur": 18
      },
      {
       "n": "kd-36.svg",
@@ -3894,13 +3938,13 @@
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 9
+      "dur": 8
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 7,
-    "totalBytes": 141938
+    "totalBytes": 148431
    }
   },
   "o-kompanii": {
@@ -3940,7 +3984,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4330,
+    "docHeight": 4226,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
@@ -4007,12 +4051,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 108,
+    "lcp": 116,
     "lcpEl": "P.lead",
     "cls": 0,
     "nav": {
-     "dcl": 69,
-     "load": 72,
+     "dcl": 78,
+     "load": 80,
      "transfer": 16638
     },
     "resources": [
@@ -4020,25 +4064,25 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 12
+      "dur": 13
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 12
+      "dur": 13
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 8
+      "size": 41600,
+      "dur": 10
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 12
+      "dur": 13
      },
      {
       "n": "favicon.svg",
@@ -4050,7 +4094,7 @@
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    },
    "desk": {
     "title": "О компании — строим дома в Твери с 2009 года",
@@ -4087,7 +4131,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 2779,
+    "docHeight": 2526,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -4160,12 +4204,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 112,
+    "lcp": 104,
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 58,
-     "load": 60,
+     "dcl": 48,
+     "load": 49,
      "transfer": 16638
     },
     "resources": [
@@ -4173,37 +4217,37 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 10
+      "dur": 8
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 11
+      "dur": 8
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 8
+      "size": 41600,
+      "dur": 13
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 12
+      "dur": 14
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 3
+      "dur": 7
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    }
   },
   "kontakty": {
@@ -4246,7 +4290,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 3973,
+    "docHeight": 3879,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
@@ -4320,12 +4364,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 88,
+    "lcp": 96,
     "lcpEl": "P.lead",
     "cls": 0,
     "nav": {
-     "dcl": 61,
-     "load": 62,
+     "dcl": 63,
+     "load": 65,
      "transfer": 16201
     },
     "resources": [
@@ -4333,37 +4377,37 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 15
+      "dur": 13
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 15
+      "dur": 13
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 13
+      "size": 41600,
+      "dur": 12
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 19
+      "dur": 12
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 5
+      "dur": 3
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    },
    "desk": {
     "title": "Контакты — Каркас Комфорт, Тверь, ул. Серебряная, 12",
@@ -4403,7 +4447,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 2466,
+    "docHeight": 2223,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -4483,12 +4527,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 116,
+    "lcp": 92,
     "lcpEl": "P.lead",
     "cls": 0,
     "nav": {
-     "dcl": 56,
-     "load": 58,
+     "dcl": 49,
+     "load": 51,
      "transfer": 16201
     },
     "resources": [
@@ -4496,25 +4540,25 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 10
+      "dur": 14
+     },
+     {
+      "n": "style.css?v=d919246c",
+      "t": "link",
+      "size": 41600,
+      "dur": 13
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 19
-     },
-     {
-      "n": "style.css?v=2dc48d02",
-      "t": "link",
-      "size": 35107,
-      "dur": 18
+      "dur": 13
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 19
+      "dur": 17
      },
      {
       "n": "favicon.svg",
@@ -4526,7 +4570,7 @@
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    }
   },
   "proekt": {
@@ -4573,7 +4617,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 6060,
+    "docHeight": 5928,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
@@ -4693,12 +4737,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 136,
+    "lcp": 128,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 87,
-     "load": 89,
+     "dcl": 82,
+     "load": 85,
      "transfer": 21255
     },
     "resources": [
@@ -4706,43 +4750,43 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 9
+      "dur": 11
+     },
+     {
+      "n": "style.css?v=d919246c",
+      "t": "link",
+      "size": 41600,
+      "dur": 6
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 23
-     },
-     {
-      "n": "style.css?v=2dc48d02",
-      "t": "link",
-      "size": 35107,
-      "dur": 22
+      "dur": 10
      },
      {
       "n": "kd-40.svg",
       "t": "img",
       "size": 10307,
-      "dur": 23
+      "dur": 10
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 26
+      "dur": 13
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 6
+      "dur": 4
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 7,
-    "totalBytes": 142303
+    "totalBytes": 148796
    },
    "desk": {
     "title": "Каркасный дом 9×13 (КД-40) — 165 м² под ключ | Каркас Комфорт",
@@ -4786,7 +4830,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 3758,
+    "docHeight": 3446,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -4912,12 +4956,12 @@
      }
     ],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 124,
+    "lcp": 140,
     "lcpEl": "IMG.",
     "cls": 0,
     "nav": {
-     "dcl": 56,
-     "load": 58,
+     "dcl": 68,
+     "load": 70,
      "transfer": 21255
     },
     "resources": [
@@ -4925,49 +4969,49 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 12
+      "dur": 11
+     },
+     {
+      "n": "style.css?v=d919246c",
+      "t": "link",
+      "size": 41600,
+      "dur": 9
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 12
-     },
-     {
-      "n": "style.css?v=2dc48d02",
-      "t": "link",
-      "size": 35107,
-      "dur": 11
+      "dur": 13
      },
      {
       "n": "kd-40.svg",
       "t": "img",
       "size": 10307,
-      "dur": 12
+      "dur": 13
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 16
+      "dur": 13
      },
      {
       "n": "kd-29.svg",
       "t": "img",
       "size": 11850,
-      "dur": 6
+      "dur": 8
      },
      {
       "n": "kd-31.svg",
       "t": "img",
       "size": 11866,
-      "dur": 12
+      "dur": 14
      },
      {
       "n": "kd-42.svg",
       "t": "img",
       "size": 11868,
-      "dur": 12
+      "dur": 14
      },
      {
       "n": "favicon.svg",
@@ -4979,7 +5023,7 @@
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 10,
-    "totalBytes": 177887
+    "totalBytes": 184380
    }
   },
   "politika": {
@@ -5024,7 +5068,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 4287,
+    "docHeight": 4263,
     "docWidth": 390,
     "overflowX": false,
     "overflowCulprits": [],
@@ -5049,12 +5093,12 @@
     ],
     "forms": [],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 72,
+    "lcp": 76,
     "lcpEl": "P.",
     "cls": 0,
     "nav": {
-     "dcl": 46,
-     "load": 47,
+     "dcl": 49,
+     "load": 50,
      "transfer": 15134
     },
     "resources": [
@@ -5062,25 +5106,25 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 11
+      "dur": 4
+     },
+     {
+      "n": "style.css?v=d919246c",
+      "t": "link",
+      "size": 41600,
+      "dur": 7
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 11
-     },
-     {
-      "n": "style.css?v=2dc48d02",
-      "t": "link",
-      "size": 35107,
-      "dur": 12
+      "dur": 8
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 16
+      "dur": 9
      },
      {
       "n": "favicon.svg",
@@ -5092,7 +5136,7 @@
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    },
    "desk": {
     "title": "Политика конфиденциальности — Каркас Комфорт",
@@ -5134,7 +5178,7 @@
     ],
     "lang": "ru",
     "viewportMeta": "width=device-width, initial-scale=1",
-    "docHeight": 3136,
+    "docHeight": 3067,
     "docWidth": 1440,
     "overflowX": false,
     "overflowCulprits": [],
@@ -5171,12 +5215,12 @@
     ],
     "forms": [],
     "leadEndpoint": "/api/lead.php",
-    "lcp": 88,
+    "lcp": 84,
     "lcpEl": "H1.",
     "cls": 0,
     "nav": {
-     "dcl": 54,
-     "load": 54,
+     "dcl": 42,
+     "load": 42,
      "transfer": 15134
     },
     "resources": [
@@ -5184,39 +5228,39 @@
       "n": "nunito-wght.woff2",
       "t": "link",
       "size": 38104,
-      "dur": 13
+      "dur": 11
      },
      {
       "n": "golos-text-wght.woff2",
       "t": "link",
       "size": 41140,
-      "dur": 14
+      "dur": 12
      },
      {
-      "n": "style.css?v=2dc48d02",
+      "n": "style.css?v=d919246c",
       "t": "link",
-      "size": 35107,
-      "dur": 13
+      "size": 41600,
+      "dur": 8
      },
      {
       "n": "main.js?v=a7c171e2",
       "t": "script",
       "size": 16865,
-      "dur": 17
+      "dur": 12
      },
      {
       "n": "favicon.svg",
       "t": "other",
       "size": 780,
-      "dur": 3
+      "dur": 5
      }
     ],
     "badContrast": [],
     "consoleErrors": [],
     "requestCount": 6,
-    "totalBytes": 131996
+    "totalBytes": 138489
    }
   }
  },
- "generated": "2026-08-25T08:50:47.889Z"
+ "generated": "2026-08-27T08:25:21.404Z"
 }
