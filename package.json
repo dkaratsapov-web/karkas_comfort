@@ -14,7 +14,8 @@
     "check": "node tools/check.mjs",
     "preview": "node tools/build-preview.mjs",
     "preview:serve": "npm run preview && npx http-server preview -p 8081 -c-1",
-    "fonts": "node tools/gen-fonts.mjs"
+    "fonts": "node tools/gen-fonts.mjs",
+    "publish:demo": "node tools/publish-demo.mjs"
   },
   "devDependencies": {
     "basic-ftp": "^6.2.0"
