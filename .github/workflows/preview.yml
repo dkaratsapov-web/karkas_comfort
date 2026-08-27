@@ -12,7 +12,7 @@ name: Preview site
 on:
   push:
     branches:
-      - claude/karkas-comfort-redesign-0zy3xi
+      - claude/site-analysis-redesign-tfso59
       - main
     paths-ignore:
       - 'README.md'
