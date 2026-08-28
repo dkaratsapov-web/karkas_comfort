@@ -23,7 +23,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-wght.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/golos-text-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=339ac34e">
+  <link rel="stylesheet" href="/assets/css/style.css?v=c7958cb4">
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"GeneralContractor","name":"Каркас Комфорт","url":"https://karkascomfort.ru/","telephone":"+7-920-171-69-69","email":"karkascomfort@yandex.ru","address":{"@type":"PostalAddress","streetAddress":"ул. Серебряная, 12, офис 31","addressLocality":"Тверь","postalCode":"170100","addressCountry":"RU"},"areaServed":"Тверская область","openingHours":"Mo-Su 08:00-20:00","priceRange":"от 32 000 ₽/м²"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Можно ли жить в каркасном доме круглый год?","acceptedAnswer":{"@type":"Answer","text":"Да, все наши дома рассчитаны на постоянное проживание: 150 мм утеплителя в стенах, 200 мм в перекрытии, отсутствие мостиков холода и водяное отопление. Сезонный вариант отличается только толщиной утепления и составом коммуникаций."}},{"@type":"Question","name":"Сколько времени занимает строительство?","acceptedAnswer":{"@type":"Answer","text":"Дом до 90 м² — полтора-два месяца, до 150 м² — два-три месяца, больше 150 м² — три-четыре месяца. Сроки прописываются в договоре, работы идут поэтапно с приёмкой каждого этапа."}},{"@type":"Question","name":"Может ли смета вырасти в процессе?","acceptedAnswer":{"@type":"Answer","text":"Нет, если проект не меняется. Стоимость согласовывается до начала работ и фиксируется в договоре. Изменение цены возможно только по вашей инициативе — например, если вы решили добавить террасу или сменить отделку."}},{"@type":"Question","name":"Работаете зимой?","acceptedAnswer":{"@type":"Answer","text":"Да. Каркасная технология не требует «мокрых» процессов, поэтому зимой мы ставим свайно-винтовой фундамент и продолжаем сборку. Зимой обычно свободнее график и короче срок ожидания бригады."}},{"@type":"Question","name":"Что с фундаментом на сложном грунте?","acceptedAnswer":{"@type":"Answer","text":"В Тверской области часто встречаются торфяники и высокая вода. На таких участках мы считаем сваи увеличенной длины или ленту с уширением. Тип фундамента определяем после выезда на участок, а не по телефону."}},{"@type":"Question","name":"Можно ли переделать типовой проект?","acceptedAnswer":{"@type":"Answer","text":"Можно. Перепланировка, добавление террасы, гаража, второго санузла, перенос окон — обычная практика. Также строим полностью по индивидуальному проекту, в том числе по вашим чертежам."}}]}]</script>
 </head>
 
@@ -38,6 +38,7 @@
       <nav class="nav" aria-label="Основная навигация">
         <a href="/proekty/">Проекты</a>
         <a href="/obekty/">Объекты</a>
+        <a href="/video/">Видео</a>
         <a href="/uslugi/">Услуги</a>
         <a href="/kontakty/">Контакты</a>
       </nav>
@@ -78,36 +79,48 @@
     </div>
 
     <div class="mobile-nav" id="mobile-nav" hidden>
-      <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
-      </button>
-      <a href="/">Главная</a>
-      <a href="/proekty/">Проекты и цены</a>
-      <a href="/obekty/">Построенные объекты</a>
-      <a href="/uslugi/">Услуги и этапы</a>
-      <a href="/stati/">Статьи</a>
-      <a href="/o-kompanii/">О компании</a>
-      <a href="/kontakty/">Контакты</a>
-      <a class="mobile-nav__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
-      <div class="mobile-nav__meta">
-        <a href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
-        <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
-        <span>ежедневно, 8:00 до 20:00</span>
+      <div class="mobile-nav__bar">
+        <img src="/assets/img/logo-h.svg" alt="Каркас Комфорт" width="470" height="112">
+        <button class="mobile-nav__close" type="button" aria-label="Закрыть меню">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
+        </button>
       </div>
-      <div class="mobile-nav__im">
-        <a class="im im--tg" href="#" aria-label="Написать в Telegram" data-lead-messenger>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
-        </a>
-        <a class="im im--max" href="#" aria-label="Написать в MAX" data-lead-messenger><span aria-hidden="true">MAX</span></a>
-        <a class="im im--vk" href="#" aria-label="Мы во ВКонтакте" data-lead-messenger><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.16 18.99c.61 0 .86-.41.85-.92-.03-1.92.71-2.95 2.06-1.6 1.49 1.49 1.8 2.52 3.6 2.52h3.2c.81 0 1.13-.26 1.13-.67 0-.86-1.42-2.39-2.63-3.5-1.69-1.57-1.77-1.6-.31-3.49 1.8-2.34 4.16-5.34 2.07-5.34h-3.98c-.77 0-.83.44-1.1 1.08-1 2.35-2.89 5.39-3.6 4.92-.75-.48-.41-2.4-.35-5.26.02-.75.01-1.27-1.14-1.54-.63-.14-1.24-.2-1.81-.2-2.27 0-3.84.95-2.95 1.12 1.57.29 1.42 3.69 1.05 5.16-.64 2.56-3.04-2.02-4.03-4.3-.24-.55-.32-.98-1.18-.98H.79c-.49 0-.79.16-.79.52 0 .6 2.96 6.72 5.79 9.77 2.75 2.97 5.48 2.58 7.37 2.58z"/></svg></a>
+
+      <nav class="mobile-nav__list" aria-label="Разделы сайта">
+        <a href="/"><span>Главная</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        <a href="/proekty/"><span>Проекты и цены</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        <a href="/obekty/"><span>Построенные объекты</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        <a href="/video/"><span>Видео</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        <a href="/uslugi/"><span>Услуги и этапы</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        <a href="/stati/"><span>Полезные статьи</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        <a href="/o-kompanii/"><span>О компании</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+        <a href="/kontakty/"><span>Контакты</span><svg class="mobile-nav__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+      </nav>
+
+      <div class="mobile-nav__card">
+        <a class="mobile-nav__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+        <div class="mobile-nav__meta">
+          <a href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+          <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+          <span>ежедневно, 8:00 до 20:00</span>
+        </div>
+        <div class="mobile-nav__im">
+          <a class="im im--tg" href="#" aria-label="Написать в Telegram" data-lead-messenger><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></a>
+          <a class="im im--max" href="#" aria-label="Написать в MAX" data-lead-messenger><span aria-hidden="true">MAX</span></a>
+          <a class="im im--vk" href="#" aria-label="Мы во ВКонтакте" data-lead-messenger><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.16 18.99c.61 0 .86-.41.85-.92-.03-1.92.71-2.95 2.06-1.6 1.49 1.49 1.8 2.52 3.6 2.52h3.2c.81 0 1.13-.26 1.13-.67 0-.86-1.42-2.39-2.63-3.5-1.69-1.57-1.77-1.6-.31-3.49 1.8-2.34 4.16-5.34 2.07-5.34h-3.98c-.77 0-.83.44-1.1 1.08-1 2.35-2.89 5.39-3.6 4.92-.75-.48-.41-2.4-.35-5.26.02-.75.01-1.27-1.14-1.54-.63-.14-1.24-.2-1.81-.2-2.27 0-3.84.95-2.95 1.12 1.57.29 1.42 3.69 1.05 5.16-.64 2.56-3.04-2.02-4.03-4.3-.24-.55-.32-.98-1.18-.98H.79c-.49 0-.79.16-.79.52 0 .6 2.96 6.72 5.79 9.77 2.75 2.97 5.48 2.58 7.37 2.58z"/></svg></a>
+        </div>
       </div>
-      <a class="btn btn--block" href="#zayavka" style="margin-top:18px">Рассчитать стоимость<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+
+      <a class="btn btn--block" href="#zayavka">Рассчитать стоимость<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
     </div>
   </header>
 
   <main id="main">
 <section class="hero">
-      <img class="hero__bg" src="/assets/img/photos/hero.jpg" srcset="assets/img/photos/hero-800.jpg 1100w, assets/img/photos/hero.jpg 2200w" sizes="100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="2200" height="1100" fetchpriority="high">
+      <picture class="hero__pic">
+        <source media="(max-width: 899px)" srcset="assets/img/photos/hero-mob.jpg">
+        <img class="hero__bg" src="/assets/img/photos/hero.jpg" srcset="assets/img/photos/hero-800.jpg 1100w, assets/img/photos/hero.jpg 2200w" sizes="100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="2200" height="1100" fetchpriority="high">
+      </picture>
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="container container--wide hero__inner">
         <div class="hero__content">
@@ -402,51 +415,56 @@
 
         <div class="calc" id="calc">
           <div class="calc__controls">
-            <div class="calc__field">
-              <div class="calc__label">
-                <label for="calc-area">Площадь дома</label>
+            <div class="calc__row calc__row--area">
+              <label class="calc__name" for="calc-area">Площадь дома</label>
+              <div class="calc__area">
+                <input class="range" type="range" id="calc-area" min="40" max="300" step="5" value="120">
                 <span class="calc__value"><input type="number" id="calc-area-num" min="40" max="300" step="1" value="120" aria-label="Площадь дома в квадратных метрах"> м²</span>
               </div>
-              <input class="range" type="range" id="calc-area" min="40" max="300" step="5" value="120">
-              <div class="range-row"><span>40 м²</span><span>300 м²</span></div>
             </div>
 
-            <div class="calc__field">
-              <div class="calc__label"><span id="calc-floors-label">Этажность</span></div>
+            <div class="calc__row">
+              <span class="calc__name" id="calc-floors-label">Этажность</span>
               <div class="seg" role="group" aria-labelledby="calc-floors-label" data-group="floors"></div>
             </div>
 
-            <div class="calc__field">
-              <div class="calc__label"><span id="calc-tier-label">Комплектация</span></div>
-              <div class="seg seg--stack" role="group" aria-labelledby="calc-tier-label" data-group="tier"></div>
+            <div class="calc__row">
+              <span class="calc__name" id="calc-tier-label">Комплектация</span>
+              <div class="seg" role="group" aria-labelledby="calc-tier-label" data-group="tier"></div>
             </div>
 
-            <div class="calc__field">
-              <div class="calc__label"><span id="calc-found-label">Фундамент</span></div>
+            <div class="calc__row">
+              <span class="calc__name" id="calc-found-label">Фундамент</span>
               <div class="seg" role="group" aria-labelledby="calc-found-label" data-group="foundation"></div>
             </div>
 
-            <div class="calc__field">
-              <div class="calc__label"><span id="calc-extra-label">Дополнительно</span></div>
+            <div class="calc__row">
+              <span class="calc__name" id="calc-extra-label">Дополнительно</span>
               <div class="calc__extras" role="group" aria-labelledby="calc-extra-label" data-group="extras"></div>
             </div>
           </div>
 
-          <aside class="calc__result">
-            <p class="calc__eyebrow">Предварительно</p>
-            <p class="calc__sum"><span data-calc-low>0</span> <span class="calc__dash">–</span> <span data-calc-high>0</span> <span class="calc__cur">₽</span></p>
-            <p class="calc__note" data-calc-note></p>
+          <div class="calc__result">
+            <div class="calc__total">
+              <p class="calc__eyebrow">Предварительно</p>
+              <p class="calc__sum"><span data-calc-low>0</span> <span class="calc__dash">–</span> <span data-calc-high>0</span> <span class="calc__cur">₽</span></p>
+              <p class="calc__note" data-calc-note></p>
+            </div>
 
-            <div class="calc__stages" data-calc-stages></div>
+            <div class="calc__split">
+              <div class="calc__bar" data-calc-bar aria-hidden="true"></div>
+              <div class="calc__legend" data-calc-legend></div>
+            </div>
 
-            <dl class="calc__meta">
-              <div><dt>Срок строительства</dt><dd data-calc-term>—</dd></div>
-              <div><dt>Цена за м²</dt><dd data-calc-perm2>—</dd></div>
-            </dl>
-
-            <a class="btn btn--accent btn--block" href="#zayavka" data-lead-modal data-calc-cta>Получить смету по этому расчёту<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
-            <p class="calc__small">Расчёт ориентировочный: точную смету считаем после выезда на участок, бесплатно. Вилка «от и до» — это разброс по грунту, логистике и выбранным материалам.</p>
-          </aside>
+            <div class="calc__foot">
+              <dl class="calc__meta">
+                <div><dt>Срок</dt><dd data-calc-term>—</dd></div>
+                <div><dt>За м²</dt><dd data-calc-perm2>—</dd></div>
+              </dl>
+              <a class="btn btn--accent" href="#zayavka" data-lead-modal data-calc-cta>Получить смету<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+            </div>
+            <p class="calc__small">Расчёт ориентировочный. Точную смету считаем после выезда на участок, бесплатно.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -970,6 +988,7 @@
             <li><a href="/proekty/">Проекты и цены</a></li>
             <li><a href="/obekty/">Построенные объекты</a></li>
             <li><a href="/uslugi/">Услуги и этапы работ</a></li>
+            <li><a href="/video/">Видео со строек</a></li>
             <li><a href="/stati/">Статьи о строительстве</a></li>
             <li><a href="/o-kompanii/">О компании</a></li>
             <li><a href="/kontakty/">Контакты</a></li>
@@ -1058,6 +1077,6 @@
     </div>
   </div>
 
-  <script src="/assets/js/main.js?v=85839cd3" defer></script>
+  <script src="/assets/js/main.js?v=3092194c" defer></script>
 </body>
 </html>

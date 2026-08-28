@@ -39,6 +39,7 @@ const pricing = JSON.parse(read('src/data/pricing.json'));
 const reviews = JSON.parse(read('src/data/reviews.json'));
 const articles = JSON.parse(read('src/data/articles.json'));
 const geo = JSON.parse(read('src/data/geo.json'));
+const videos = JSON.parse(read('src/data/videos.json'));
 
 const img = (f) => `/assets/img/photos/${f}`;
 /* Уменьшенный вариант кадра (…-800.jpg), если он подготовлен рядом с оригиналом.
@@ -112,6 +113,36 @@ function geoMap() {
       </svg>
       <figcaption class="geo__caption">Схема охвата: выезд по области, точки — города, где уже строили. Гришкино, где стоит дом 8,45×10,5, рядом с Тверью.</figcaption>
     </figure>`;
+}
+
+/* ---------- видео ----------
+   Ролики берутся из src/data/videos.json. Пока список пуст, показываем
+   честную заглушку вместо пустой сетки: выдумывать ролики нельзя.
+   Формат записи: { "title", "note", "poster", "src" | "youtube" | "vk" }. */
+function videosBlock() {
+  if (!videos.length) {
+    return `        <div class="empty">
+          <p class="empty__title">Ролики скоро появятся</p>
+          <p>Сейчас снимаем на объектах: сборка каркаса, кровельный пирог и обход готового дома. Пока стройку можно посмотреть на фотографиях в <a href="/obekty/">построенных объектах</a> и в карточках проектов.</p>
+          <a class="btn btn--ghost btn--sm" href="/proekty/">Смотреть проекты<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+        </div>`;
+  }
+  return `        <div class="videos">
+${videos.map((v) => {
+    const frame = v.youtube
+      ? `<iframe src="https://www.youtube.com/embed/${esc(v.youtube)}" title="${esc(v.title)}" loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>`
+      : v.vk
+        ? `<iframe src="${esc(v.vk)}" title="${esc(v.title)}" loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>`
+        : `<video controls preload="none"${v.poster ? ` poster="/assets/img/photos/${esc(v.poster)}"` : ''}><source src="/assets/video/${esc(v.src)}" type="video/mp4">Ваш браузер не проигрывает это видео.</video>`;
+    return `          <figure class="video">
+            <div class="video__frame">${frame}</div>
+            <figcaption>
+              <h3>${esc(v.title)}</h3>
+              ${v.note ? `<p>${esc(v.note)}</p>` : ''}
+            </figcaption>
+          </figure>`;
+  }).join('\n')}
+        </div>`;
 }
 
 const articleUrl = (slug) => `/stati/${slug}/`;
@@ -348,6 +379,7 @@ for (const file of files) {
   let content = raw.slice(m[0].length);
   content = content.replace(/\{\{articles:(\d+)\}\}/g, (_, n) => articles.slice(0, Number(n)).map(articleCard).join('\n'));
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
+  content = content.replace(/\{\{videos\}\}/g, () => videosBlock());
   content = content.replace(/\{\{geo\}\}/g, () => geoMap());
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));

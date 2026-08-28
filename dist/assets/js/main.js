@@ -282,17 +282,17 @@
         });
       };
 
-      seg($('[data-group="floors"]', calc), P.floors, 'floors', (it) => it.name);
+      seg($('[data-group="floors"]', calc), P.floors, 'floors', (it) => `<b>${it.name}</b>`);
       seg($('[data-group="foundation"]', calc), P.foundations, 'foundation',
-        (it) => `<b>${it.name}</b><span>${it.note}</span>`);
+        (it) => `<b>${it.name}</b><em>${nf.format(it.perM2)} ₽/м²</em>`);
       seg($('[data-group="tier"]', calc), P.tiers, 'tier',
-        (it) => `<b>${it.name}</b><span>${it.note}</span><em>${nf.format(P.ratePerM2[it.id])} ₽/м²</em>`);
+        (it) => `<b>${it.name}</b><em>${nf.format(P.ratePerM2[it.id])} ₽/м²</em>`);
 
       /* доплаты */
       const extrasHost = $('[data-group="extras"]', calc);
-      extrasHost.innerHTML = P.extras.map((it) => `<label class="calc__extra">
+      extrasHost.innerHTML = P.extras.map((it) => `<label class="calc__extra" title="${it.note}">
         <input type="checkbox" value="${it.id}">
-        <span class="calc__extra__body"><b>${it.name}</b><span>${it.note}</span></span>
+        <b>${it.name}</b>
         <em data-extra-sum="${it.id}"></em>
       </label>`).join('');
       extrasHost.addEventListener('change', (e) => {
@@ -347,7 +347,8 @@
         return { total, house, foundation, extras, tier, floor, found, term };
       };
 
-      const stagesHost = $('[data-calc-stages]', calc);
+      const barHost = $('[data-calc-bar]', calc);
+      const legendHost = $('[data-calc-legend]', calc);
       const update = () => {
         const r = compute();
         const low = r.total * (1 - P.spread);
@@ -356,28 +357,25 @@
         spin($('[data-calc-high]', calc), high);
 
         $('[data-calc-note]', calc).textContent =
-          `Дом ${state.area} м², ${r.floor.name.toLowerCase()}, «${r.tier.name}», фундамент: ${r.found.name.toLowerCase()}`;
+          `${state.area} м², ${r.floor.name.toLowerCase()}, «${r.tier.name}», ${r.found.name.toLowerCase()}`;
         $('[data-calc-term]', calc).textContent = r.term;
         $('[data-calc-perm2]', calc).textContent = `${nf.format(Math.round(r.total / state.area / 100) * 100)} ₽`;
 
         P.extras.forEach((it) => {
           const cell = $(`[data-extra-sum="${it.id}"]`, calc);
-          if (cell) cell.textContent = `+ ${nf.format(Math.round(extraSum(it) / 1000) * 1000)} ₽`;
+          if (cell) cell.textContent = `+${nf.format(Math.round(extraSum(it) / 1000))} тыс.`;
         });
 
-        /* этапы: доли зависят от комплектации, нулевые не показываем */
+        /* доли этапов зависят от комплектации: нулевые не показываем */
         const rows = P.stages
           .map((st) => ({ name: st.name, share: st.share[r.tier.id] || 0 }))
           .filter((st) => st.share > 0);
         const sum = rows.reduce((a, b) => a + b.share, 0) || 1;
-        const max = Math.max(...rows.map((st) => st.share));
-        stagesHost.innerHTML = rows.map((st) => {
+        barHost.innerHTML = rows.map((st, i) =>
+          `<i style="--w:${(st.share / sum * 100).toFixed(1)}%;--n:${i}"></i>`).join('');
+        legendHost.innerHTML = rows.map((st, i) => {
           const value = r.total * (st.share / sum);
-          return `<div class="calc__stage">
-            <span class="calc__stage__name">${st.name}</span>
-            <span class="calc__stage__bar"><i style="--w:${Math.round(st.share / max * 100)}%"></i></span>
-            <span class="calc__stage__sum">${nf.format(Math.round(value / 10000) * 10000)} ₽</span>
-          </div>`;
+          return `<span class="calc__legend__item"><i style="--n:${i}"></i>${st.name}<b>${nf.format(Math.round(value / 10000) * 10000)} ₽</b></span>`;
         }).join('');
 
         const cta = $('[data-calc-cta]', calc);

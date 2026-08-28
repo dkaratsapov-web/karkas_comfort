@@ -80,10 +80,10 @@ await p.click('.seg[data-group="foundation"] .seg__btn[data-value="plita"]');
 await p.waitForTimeout(600);
 ok('смена фундамента меняет сумму', (await sum()) !== c2);
 const c3 = await sum();
-await p.check('.calc__extras input[value="terrace"]');
+await p.click('label.calc__extra:has(input[value="terrace"])');
 await p.waitForTimeout(600);
 ok('доплата за террасу попадает в расчёт', (await sum()) !== c3);
-ok('разбивка по этапам показана', (await p.$$('.calc__stage')).length >= 4);
+ok('разбивка по этапам показана', (await p.$$('.calc__legend__item')).length >= 4);
 ok('кнопка сметы несёт параметры расчёта',
   /220 м²/.test(await p.getAttribute('[data-calc-cta]', 'data-project') || ''));
 
