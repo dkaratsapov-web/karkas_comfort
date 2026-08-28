@@ -408,13 +408,16 @@ section[id], div[id] { scroll-margin-top: 88px; }
   position: relative; isolation: isolate;
   min-height: 100svh; display: flex; align-items: stretch;
   background: var(--dark); color: var(--on-dark);
+  /* шапка занимает место в потоке — поднимаем кадр под неё, чтобы
+     сверху не оставалось светлой полосы */
+  margin-top: calc(-1 * (var(--header-h) + 14px));
   margin-bottom: calc(-1 * clamp(18px, 2vw, 34px));
 }
 .hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
 .hero__scrim {
   position: absolute; inset: 0; z-index: -1;
   background:
-    linear-gradient(96deg,
+    linear-gradient(264deg,
       rgba(15, 13, 9, .9) 0%, rgba(15, 13, 9, .82) 24%, rgba(15, 13, 9, .6) 44%,
       rgba(15, 13, 9, .32) 64%, rgba(15, 13, 9, .12) 84%, rgba(15, 13, 9, .06) 100%),
     linear-gradient(180deg, rgba(15, 13, 9, .5) 0%, rgba(15, 13, 9, .1) 26%,
@@ -427,11 +430,12 @@ section[id], div[id] { scroll-margin-top: 88px; }
   }
 }
 .hero__inner {
-  position: relative; display: flex; flex-direction: column; justify-content: center;
+  position: relative; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
   padding-top: calc(var(--header-h) + 44px);
   padding-bottom: clamp(28px, 3vw, 48px);
 }
-.hero__content { max-width: 660px; }
+.hero__content { max-width: 660px; width: 100%; }
+@media (min-width: 1000px) { .hero__content { max-width: 620px; } }
 .hero__tag { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--on-dark-2); }
 .hero h1 { margin-top: 18px; color: var(--on-dark); text-wrap: balance; }
 .hero h1 em { font-style: normal; color: #9BCCAC; }
@@ -440,7 +444,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 @media (min-width: 600px) { .hero__actions { flex-direction: row; flex-wrap: wrap; } }
 
 /* три факта: цена, срок, гарантия — видны до сгиба на телефоне */
-.hero__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: clamp(28px, 4vw, 56px); }
+.hero__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: clamp(28px, 4vw, 56px); width: 100%; }
 .hero__fact {
   padding: 13px 15px 15px; border-radius: var(--r);
   background: rgba(20, 18, 13, .46);
@@ -821,10 +825,8 @@ section[id], div[id] { scroll-margin-top: 88px; }
    Средняя выбрана по умолчанию и стоит на тёмном - решение видно сразу. */
 .tiers { display: grid; gap: 14px; grid-template-columns: 1fr; align-items: stretch; }
 @media (min-width: 980px) {
-  .tiers { display: flex; gap: 16px; }
-  .tier { flex: 1 1 0; min-width: 0; transition: flex-grow .65s var(--ease), transform .55s var(--ease), box-shadow .55s var(--ease), background .55s var(--ease); }
-  .tiers:hover .tier { flex-grow: .86; }
-  .tiers .tier:hover, .tiers .tier:focus-within { flex-grow: 1.45; }
+  .tiers { grid-template-columns: 1fr 1.14fr 1fr; gap: 16px; }
+  .tier { transition: transform .45s var(--ease), box-shadow .45s var(--ease); }
   .tiers .tier:hover { transform: translateY(-4px); }
 }
 .tier { display: flex; flex-direction: column; }
@@ -845,7 +847,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .tier .checks li:nth-child(7) { --i: 7; }
 @media (prefers-reduced-motion: reduce) {
   .js .tier .checks li { opacity: 1; transform: none; }
-  .tiers .tier, .tiers:hover .tier { flex-grow: 1; transform: none; }
+  .tiers .tier { transform: none; }
 }
 
 .tier--featured {
@@ -857,10 +859,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
     margin: -16px 0;
     padding-top: calc(clamp(19px, 2vw, 26px) + 16px);
     padding-bottom: calc(clamp(19px, 2vw, 26px) + 16px);
-    flex-grow: 1.2;
   }
-  .tiers:hover .tier--featured { flex-grow: 1.02; }
-  .tiers .tier--featured:hover, .tiers .tier--featured:focus-within { flex-grow: 1.6; }
 }
 .tier--featured .tier__head { border-bottom-color: rgba(244, 239, 231, .16); }
 .tier--featured h3 { color: var(--on-dark); }
@@ -990,8 +989,6 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .faq details[open] summary::after { content: "−"; }
 .faq p { padding-bottom: 18px; color: var(--ink-2); max-width: 72ch; }
 
-.geo { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
-.geo li { padding: 9px 16px; background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-pill); font-size: 14px; }
 
 .marquee { overflow: hidden; }
 .marquee__row { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -1378,3 +1375,49 @@ body::after {
 .calc__result .btn { margin-top: 20px; }
 .calc__small { margin-top: 12px; font-size: 12px; line-height: 1.45; color: var(--on-dark-2); }
 @media (prefers-reduced-motion: reduce) { .calc__stage__bar i { animation: none; } }
+
+/* ---------- схема географии ----------
+   Контур прочерчивается, лучи из Твери разбегаются к городам,
+   точки проявляются по очереди. Всё запускается, когда блок в кадре. */
+.geo { margin: 0; }
+.geo svg { display: block; width: 100%; height: auto; overflow: visible; }
+.geo__region { fill: rgba(47, 93, 63, .07); stroke: none; }
+.geo__outline {
+  fill: none; stroke: rgba(47, 93, 63, .45); stroke-width: 1.6;
+  stroke-linejoin: round; stroke-dasharray: 1600; stroke-dashoffset: 1600;
+}
+.geo__ray {
+  fill: none; stroke: rgba(138, 94, 43, .38); stroke-width: 1; stroke-linecap: round;
+  stroke-dasharray: 400; stroke-dashoffset: 400;
+}
+.geo__dot { fill: var(--brand); opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.4); }
+.geo__city--hub .geo__dot { fill: var(--accent-bright); }
+.geo__pulse { fill: none; stroke: var(--accent-bright); stroke-width: 1.4; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.geo__label {
+  font-family: var(--text); font-size: 12.5px; font-weight: 600; fill: var(--ink-2);
+  opacity: 0; paint-order: stroke; stroke: var(--page); stroke-width: 3.5px; stroke-linejoin: round;
+}
+.geo__caption { margin-top: 14px; font-size: 13px; color: var(--muted); max-width: 52ch; }
+
+/* запуск: класс is-in ставит наблюдатель появления блоков */
+.is-in .geo__outline { animation: geoDraw 1.6s var(--ease) .1s forwards; }
+.is-in .geo__ray { animation: geoDraw .9s var(--ease) calc(.5s + var(--i) * 55ms) forwards; }
+.is-in .geo__dot { animation: geoPop .5s var(--ease) calc(.7s + var(--i) * 55ms) forwards; }
+.is-in .geo__label { animation: geoFade .5s var(--ease) calc(.85s + var(--i) * 55ms) forwards; }
+.is-in .geo__pulse { animation: geoPulse 2.6s ease-out 1.6s infinite; }
+@keyframes geoDraw { to { stroke-dashoffset: 0; } }
+@keyframes geoPop { to { opacity: 1; transform: scale(1); } }
+@keyframes geoFade { to { opacity: 1; } }
+@keyframes geoPulse { 0% { opacity: .7; transform: scale(.7); } 70% { opacity: 0; transform: scale(2.4); } 100% { opacity: 0; transform: scale(2.4); } }
+
+.geo__city { transition: opacity .3s var(--ease); }
+.geo:hover .geo__city { opacity: .45; }
+.geo__city:hover { opacity: 1; }
+.geo__city:hover .geo__dot { r: 7; }
+
+@media (prefers-reduced-motion: reduce) {
+  .geo__outline, .geo__ray { stroke-dashoffset: 0; }
+  .geo__dot { opacity: 1; transform: none; }
+  .geo__label { opacity: 1; }
+  .is-in .geo__outline, .is-in .geo__ray, .is-in .geo__dot, .is-in .geo__label, .is-in .geo__pulse { animation: none; }
+}

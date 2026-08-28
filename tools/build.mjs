@@ -38,6 +38,7 @@ const cases = JSON.parse(read('src/data/cases.json'));
 const pricing = JSON.parse(read('src/data/pricing.json'));
 const reviews = JSON.parse(read('src/data/reviews.json'));
 const articles = JSON.parse(read('src/data/articles.json'));
+const geo = JSON.parse(read('src/data/geo.json'));
 
 const img = (f) => `/assets/img/photos/${f}`;
 /* Уменьшенный вариант кадра (…-800.jpg), если он подготовлен рядом с оригиналом.
@@ -64,6 +65,54 @@ const projectTile = (p) => `        <a class="tile" href="${projectUrl(p.slug)}"
             <p class="tile__price">${p.prices ? `${money(priceOf(p))} за тёплый контур` : `от ${money(priceOf(p))}`}</p>
           </div>
         </a>`;
+
+/* ---------- схема географии работ ----------
+   Контур области и точки городов считаются из координат в src/data/geo.json.
+   Это силуэт, а не топографическая карта: нужен масштаб охвата, а не границы.
+   Оживает при появлении в кадре: контур прочерчивается, лучи из Твери
+   разбегаются к городам, точки проявляются по очереди. */
+function geoMap() {
+  const W = 620, H = 440, PAD = 40;
+  const lons = geo.outline.map((c) => c[0]);
+  const lats = geo.outline.map((c) => c[1]);
+  const minLon = Math.min(...lons), maxLon = Math.max(...lons);
+  const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+  /* по долготе сжимаем на косинус широты, иначе область растянется вширь */
+  const k = Math.cos((minLat + maxLat) / 2 * Math.PI / 180);
+  const spanX = (maxLon - minLon) * k, spanY = maxLat - minLat;
+  const scale = Math.min((W - PAD * 2) / spanX, (H - PAD * 2) / spanY);
+  const ox = (W - spanX * scale) / 2, oy = (H - spanY * scale) / 2;
+  const X = (lon) => ox + (lon - minLon) * k * scale;
+  const Y = (lat) => oy + (maxLat - lat) * scale;
+
+  const path = geo.outline.map((c, i) => `${i ? 'L' : 'M'}${X(c[0]).toFixed(1)} ${Y(c[1]).toFixed(1)}`).join(' ') + ' Z';
+  const hub = geo.cities.find((c) => c.hub) || geo.cities[0];
+  const hx = X(hub.lon), hy = Y(hub.lat);
+
+  const rays = geo.cities.filter((c) => !c.hub).map((c, i) =>
+    `<path class="geo__ray" style="--i:${i}" d="M${hx.toFixed(1)} ${hy.toFixed(1)} L${X(c.lon).toFixed(1)} ${Y(c.lat).toFixed(1)}"/>`).join('\n      ');
+
+  const dots = geo.cities.map((c, i) => {
+    const x = X(c.lon), y = Y(c.lat);
+    const anchor = c.anchor || 'start';
+    const lx = x + (anchor === 'end' ? -12 : 12);
+    return `<g class="geo__city${c.hub ? ' geo__city--hub' : ''}" style="--i:${i}">
+        ${c.hub ? `<circle class="geo__pulse" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7"/>` : ''}
+        <circle class="geo__dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${c.hub ? 6 : 4}"/>
+        <text class="geo__label" x="${lx.toFixed(1)}" y="${(y + (c.dy || 4)).toFixed(1)}" text-anchor="${anchor}">${esc(c.name)}</text>
+      </g>`;
+  }).join('\n      ');
+
+  return `<figure class="geo">
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Схема Тверской области с городами, где мы строим: ${geo.cities.map((c) => c.name).join(', ')}">
+        <path class="geo__region" d="${path}"/>
+        <path class="geo__outline" d="${path}"/>
+        ${rays}
+        ${dots}
+      </svg>
+      <figcaption class="geo__caption">Схема охвата: выезд по области, точки — города, где уже строили. Гришкино, где стоит дом 8,45×10,5, рядом с Тверью.</figcaption>
+    </figure>`;
+}
 
 const articleUrl = (slug) => `/stati/${slug}/`;
 const ARTICLE_IMG = (a) => (a.cover ? `/assets/img/photos/${a.cover}` : '/assets/img/og.png');
@@ -299,6 +348,7 @@ for (const file of files) {
   let content = raw.slice(m[0].length);
   content = content.replace(/\{\{articles:(\d+)\}\}/g, (_, n) => articles.slice(0, Number(n)).map(articleCard).join('\n'));
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
+  content = content.replace(/\{\{geo\}\}/g, () => geoMap());
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
   content = content.replace(/\{\{showcase\}\}/g, () => [
