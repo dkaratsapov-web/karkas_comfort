@@ -269,7 +269,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .header__row {
   pointer-events: auto;
   display: flex; align-items: center; gap: clamp(12px, 1.6vw, 26px);
-  width: 100%; max-width: var(--container); margin: 0 auto;
+  width: 100%; max-width: 1760px; margin: 0 auto;
   min-height: var(--header-h); padding: 8px 8px 8px clamp(16px, 1.4vw, 24px);
   background: rgba(252, 250, 245, .96);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
@@ -318,8 +318,8 @@ section[id], div[id] { scroll-margin-top: 88px; }
   display: none; grid-template-rows: 20px 16px; align-content: center; justify-items: end;
   row-gap: 2px; text-align: right;
 }
-@media (min-width: 1200px) { .header__contacts { display: grid; } }
-@media (min-width: 1660px) { .header__aside { display: grid; } }
+@media (min-width: 1300px) { .header__contacts { display: grid; } }
+@media (min-width: 1800px) { .header__aside { display: grid; } }
 
 .header__phone {
   font-size: 16.5px; font-weight: 700; color: var(--ink); white-space: nowrap;
@@ -334,11 +334,11 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .header__hours { font-size: 12.5px; color: var(--muted); line-height: 16px; white-space: nowrap; }
 
 .header__rule { display: none; width: 1px; height: 34px; background: rgba(23, 21, 15, .1); }
-@media (min-width: 1660px) { .header__rule { display: block; } }
+@media (min-width: 1800px) { .header__rule { display: block; } }
 
 /* мессенджеры: одинаковая посадка, фирменный цвет только при наведении */
 .header__im { display: none; gap: 6px; }
-@media (min-width: 1540px) { .header__im { display: flex; } }
+@media (min-width: 1560px) { .header__im { display: flex; } }
 .im {
   width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
   color: var(--ink-2); background: transparent;
@@ -1126,7 +1126,9 @@ body::after {
 }
 .spec-card__grid dt { font-size: 14.5px; color: var(--muted); }
 .spec-card__grid dd { margin: 0; font-size: 14.5px; font-weight: 600; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
-@media (min-width: 720px) { .spec-card__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1120px) { .spec-card__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.spec-card__grid dt { min-width: 0; }
+.spec-card__grid > div { flex-wrap: wrap; }
 
 .project-aside { position: sticky; top: calc(var(--header-h) + 28px); }
 .checks--tight li { font-size: 14.5px; }
@@ -1409,7 +1411,7 @@ body::after {
 @media (min-width: 900px) {
   .calc__result { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: start; column-gap: clamp(24px, 3vw, 48px); }
   .calc__total { grid-column: 1; grid-row: 1; }
-  .calc__split { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .calc__stages { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
   .calc__foot { grid-column: 1; grid-row: 2; }
   .calc__small { grid-column: 1 / -1; }
 }
@@ -1422,28 +1424,25 @@ body::after {
 .calc__dash, .calc__cur { color: var(--on-dark-2); font-weight: 600; }
 .calc__note { margin-top: 6px; font-size: 13px; color: var(--on-dark-2); }
 
-/* этапы одной полосой с подписями */
-.calc__bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; background: rgba(244, 239, 231, .12); }
-.calc__bar i {
-  width: var(--w, 0%); height: 100%; display: block;
-  background: hsl(calc(148 - var(--n) * 13) calc(34% - var(--n) * 3%) calc(34% + var(--n) * 11%));
+/* этапы: строка на этап, полоса показывает долю */
+.calc__stages { display: grid; gap: 7px; }
+.calc__stage { display: grid; grid-template-columns: minmax(0, 1fr) 58px auto; align-items: center; gap: 12px; font-size: 13px; }
+.calc__stage__name { color: var(--on-dark-2); }
+.calc__stage__bar { height: 5px; border-radius: 3px; background: rgba(244, 239, 231, .13); overflow: hidden; }
+.calc__stage__bar i {
+  display: block; height: 100%; width: var(--w, 0%); border-radius: 3px;
+  background: hsl(calc(148 - var(--n) * 11) 30% calc(46% + var(--n) * 7%));
   animation: barGrow .6s var(--ease) both; transform-origin: left;
 }
 @keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.calc__legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: 12.5px; color: var(--on-dark-2); }
-.calc__legend__item { display: inline-flex; align-items: center; gap: 7px; }
-.calc__legend__item i {
-  width: 8px; height: 8px; border-radius: 3px; flex: none;
-  background: hsl(calc(148 - var(--n) * 13) calc(34% - var(--n) * 3%) calc(34% + var(--n) * 11%));
-}
-.calc__legend__item b { color: var(--on-dark); font-variant-numeric: tabular-nums; }
+.calc__stage__sum { text-align: right; font-weight: 600; color: var(--on-dark); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 .calc__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
 .calc__meta { display: flex; gap: 24px; margin: 0; }
 .calc__meta dt { font-size: 12px; color: var(--on-dark-2); }
 .calc__meta dd { margin: 3px 0 0; font-family: var(--display); font-size: 16px; font-weight: 700; color: var(--on-dark); }
 .calc__small { font-size: 12px; color: var(--on-dark-2); }
-@media (prefers-reduced-motion: reduce) { .calc__bar i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .calc__stage__bar i { animation: none; } }
 
 /* ---------- схема географии ----------
    Контур прочерчивается, лучи из Твери разбегаются к городам,

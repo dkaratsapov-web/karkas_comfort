@@ -347,8 +347,7 @@
         return { total, house, foundation, extras, tier, floor, found, term };
       };
 
-      const barHost = $('[data-calc-bar]', calc);
-      const legendHost = $('[data-calc-legend]', calc);
+      const stagesHost = $('[data-calc-stages]', calc);
       const update = () => {
         const r = compute();
         const low = r.total * (1 - P.spread);
@@ -371,11 +370,14 @@
           .map((st) => ({ name: st.name, share: st.share[r.tier.id] || 0 }))
           .filter((st) => st.share > 0);
         const sum = rows.reduce((a, b) => a + b.share, 0) || 1;
-        barHost.innerHTML = rows.map((st, i) =>
-          `<i style="--w:${(st.share / sum * 100).toFixed(1)}%;--n:${i}"></i>`).join('');
-        legendHost.innerHTML = rows.map((st, i) => {
+        const max = Math.max(...rows.map((st) => st.share));
+        stagesHost.innerHTML = rows.map((st, i) => {
           const value = r.total * (st.share / sum);
-          return `<span class="calc__legend__item"><i style="--n:${i}"></i>${st.name}<b>${nf.format(Math.round(value / 10000) * 10000)} ₽</b></span>`;
+          return `<div class="calc__stage">
+            <span class="calc__stage__name">${st.name}</span>
+            <span class="calc__stage__bar"><i style="--w:${Math.round(st.share / max * 100)}%;--n:${i}"></i></span>
+            <span class="calc__stage__sum">${nf.format(Math.round(value / 10000) * 10000)} ₽</span>
+          </div>`;
         }).join('');
 
         const cta = $('[data-calc-cta]', calc);

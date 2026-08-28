@@ -8,7 +8,9 @@ const chromium = mod.chromium || mod.default?.chromium;
 const { readdirSync, readFileSync } = await import('node:fs');
 
 const B = process.env.BASE || 'http://127.0.0.1:8080';
-const WIDTHS = [390, 1024, 1440, 1728];
+const WIDTHS = [390, 768, 1024, 1440, 1728];
+/* шапка и подвал одинаковые везде, поэтому их проверяем чаще, но на одной странице */
+const SWEEP = [1000, 1120, 1200, 1260, 1320, 1400, 1480, 1560, 1620, 1700, 1800, 1920, 2100, 2400];
 
 /* адреса берём из собранной карты сайта, чтобы не забыть новую страницу */
 const sitemap = readFileSync('dist/sitemap.xml', 'utf8');
@@ -67,9 +69,12 @@ const audit = () => {
       const overlap = w * h;
       const smaller = Math.min(a.width * a.height, b.width * b.height);
       /* абсолютно спозиционированные подписи поверх фото - это нормально */
-      const posA = getComputedStyle(leaves[i]).position;
-      const posB = getComputedStyle(leaves[j]).position;
-      if (posA === 'absolute' || posB === 'absolute' || posA === 'fixed' || posB === 'fixed') continue;
+      const csA = getComputedStyle(leaves[i]);
+      const csB = getComputedStyle(leaves[j]);
+      if (['absolute', 'fixed'].includes(csA.position) || ['absolute', 'fixed'].includes(csB.position)) continue;
+      /* строчные элементы (ссылка внутри абзаца) занимают прямоугольник в несколько
+         строк и «пересекаются» с соседями — это не дефект вёрстки */
+      if (csA.display === 'inline' || csB.display === 'inline') continue;
       if (overlap / smaller > 0.12) {
         add('наложение текста', leaves[i], `с «${leaves[j].textContent.trim().slice(0, 32)}», ${Math.round(overlap / smaller * 100)}%`);
       }
@@ -92,6 +97,16 @@ const audit = () => {
     if (cs.position === 'absolute' || cs.position === 'fixed') continue;
     if (el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0 && cs.whiteSpace !== 'nowrap') {
       add('текст шире ячейки', el, `${el.scrollWidth} > ${el.clientWidth}px: «${el.textContent.trim().slice(0, 28)}»`);
+    }
+  }
+
+  /* 2в. содержимое не влезает в блок: так кнопка вылезала из капсулы шапки */
+  for (const el of document.querySelectorAll('header *, main *, footer *')) {
+    if (!visible(el)) continue;
+    const cs = getComputedStyle(el);
+    if (cs.overflowX !== 'visible' || cs.display === 'inline') continue;
+    if (el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 40 && el.children.length) {
+      add('содержимое не влезает в блок', el, `${el.scrollWidth} > ${el.clientWidth}px`);
     }
   }
 
@@ -158,10 +173,35 @@ for (const url of pages) {
     await page.close();
   }
 }
+/* частая сетка ширин на главной: ловим переполнение шапки между брейкпоинтами */
+{
+  const page = await browser.newPage({ viewport: { width: 1200, height: 700 } });
+  await page.goto(`${B}/`, { waitUntil: 'networkidle', timeout: 30000 });
+  for (const width of SWEEP) {
+    await page.setViewportSize({ width, height: 700 });
+    await page.waitForTimeout(90);
+    const found = await page.evaluate(() => {
+      const out = [];
+      for (const el of document.querySelectorAll('header *, .actionbar *')) {
+        const cs = getComputedStyle(el);
+        if (cs.display === 'none' || cs.overflowX !== 'visible' || cs.display === 'inline') continue;
+        const r = el.getBoundingClientRect();
+        if (r.width < 40) continue;
+        if (el.scrollWidth > el.clientWidth + 1 && el.children.length) {
+          out.push({ where: el.className || el.tagName, detail: `${el.scrollWidth} > ${el.clientWidth}px` });
+        }
+      }
+      return out;
+    });
+    found.forEach((f) => problems.push({ url: '/ (шапка)', width, kind: 'содержимое не влезает в блок', ...f }));
+  }
+  await page.close();
+}
+
 await browser.close();
 
 if (!problems.length) {
-  console.log(`Визуальных дефектов нет: ${pages.length} страниц × ${WIDTHS.length} ширин`);
+  console.log(`Визуальных дефектов нет: ${pages.length} страниц × ${WIDTHS.length} ширин, шапка ещё на ${SWEEP.length} ширинах`);
 } else {
   const byPage = new Map();
   problems.forEach((p) => {
