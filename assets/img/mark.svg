@@ -1,16 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 110" width="300" height="110" role="img" aria-label="Каркас Комфорт">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Каркас Комфорт">
   <title>Каркас Комфорт</title>
-  <g fill="none" stroke="#F5A623" stroke-width="13" stroke-linecap="square">
-    <path d="M42 78 L150 12 L258 78"/>
-    <path d="M70 96 L70 30"/>
-    <path d="M230 96 L230 30"/>
-    <path d="M42 96 L42 60"/>
-    <path d="M258 96 L258 60"/>
+  <!-- тёмный квадрат со скруглением: знак читается и на светлой, и на тёмной вкладке -->
+  <rect width="512" height="512" rx="112" fill="#17150F"/>
+  <!-- каркас дома: скаты, стойки и стены, как в логотипе -->
+  <g fill="none" stroke="#F5A623" stroke-width="34" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M112 268 L256 118 L400 268"/>
+    <path d="M168 386 L168 214"/>
+    <path d="M344 386 L344 214"/>
+    <path d="M112 386 L112 300"/>
+    <path d="M400 386 L400 300"/>
   </g>
+  <!-- окно во фронтоне -->
   <g fill="#F5A623">
-    <rect x="136" y="52" width="12" height="12" rx="2"/>
-    <rect x="154" y="52" width="12" height="12" rx="2"/>
-    <rect x="136" y="70" width="12" height="12" rx="2"/>
-    <rect x="154" y="70" width="12" height="12" rx="2"/>
+    <rect x="222" y="216" width="30" height="30" rx="5"/>
+    <rect x="262" y="216" width="30" height="30" rx="5"/>
+    <rect x="222" y="256" width="30" height="30" rx="5"/>
+    <rect x="262" y="256" width="30" height="30" rx="5"/>
   </g>
 </svg>

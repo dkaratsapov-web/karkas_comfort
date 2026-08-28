@@ -250,45 +250,145 @@
     });
   });
 
-  /* ---------- квиз-расчёт ---------- */
-  const quiz = $('#quiz');
-  if (quiz) {
-    const steps = $$('.quiz__step', quiz);
-    const bars = $$('.quiz__bar i', quiz);
-    const stepLabel = $('#quiz-step', quiz);
-    const resultBox = $('#quiz-result', quiz);
-    const areaInput = $('#quiz-area', quiz);
-    const areaOut = $('#quiz-area-value', quiz);
-    const state = { step: 0, area: 100, tier: 'komfort', land: 'yes' };
+  /* ---------- калькулятор стоимости ----------
+     Всё считается из data-pricing на <body>: ставки, поправка на этажность,
+     фундамент по площади застройки, доплаты и доли этапов. Формулы здесь,
+     цифры — в src/data/pricing.json. */
+  const calc = $('#calc');
+  if (calc) {
+    let P = null;
+    try { P = JSON.parse(document.body.dataset.pricing); } catch { P = null; }
+    if (P) {
+      const state = {
+        area: 120,
+        floors: P.floors[0].id,
+        tier: 'komfort',
+        foundation: P.foundations[0].id,
+        extras: new Set()
+      };
 
-    const total = () => state.area * RATES[state.tier];
-    const range = () => `${(total() * .95 / 1e6).toFixed(1).replace('.', ',')} – ${(total() * 1.08 / 1e6).toFixed(1).replace('.', ',')} млн ₽`;
+      const nf = new Intl.NumberFormat('ru-RU');
+      const money0 = (n) => nf.format(Math.round(n / 1000) * 1000);
 
-    const render = () => {
-      steps.forEach((s, i) => s.classList.toggle('is-current', i === state.step));
-      bars.forEach((b, i) => b.classList.toggle('is-done', i <= state.step));
-      if (stepLabel) stepLabel.textContent = `Шаг ${state.step + 1} из ${steps.length}`;
-      if (areaOut) areaOut.textContent = `${state.area} м²`;
-      if (resultBox) resultBox.innerHTML = `<span class="muted">Предварительно для дома ${state.area} м², комплектация «${{ standart: 'Стандарт', komfort: 'Комфорт', pod_kluch: 'Под ключ' }[state.tier]}»</span><b>${range()}</b>`;
-      $$('.quiz__option', quiz).forEach((o) => o.setAttribute('aria-pressed', String(o.dataset.value === state[o.dataset.group])));
-      const projectInput = $('input[name="project"]', quiz);
-      if (projectInput) projectInput.value = `Квиз: ${state.area} м², ${state.tier}, участок: ${state.land === 'yes' ? 'есть' : 'нет'}, ориентир ${range()}`;
-    };
+      /* сегментированный переключатель */
+      const seg = (host, items, group, render) => {
+        host.innerHTML = items.map((it) => `<button class="seg__btn" type="button" data-value="${it.id}" aria-pressed="${state[group] === it.id}">${render(it)}</button>`).join('');
+        host.addEventListener('click', (e) => {
+          const btn = e.target.closest('.seg__btn');
+          if (!btn) return;
+          state[group] = btn.dataset.value;
+          $$('.seg__btn', host).forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+          update();
+        });
+      };
 
-    $$('.quiz__option', quiz).forEach((option) => {
-      option.addEventListener('click', () => {
-        state[option.dataset.group] = option.dataset.value;
-        render();
+      seg($('[data-group="floors"]', calc), P.floors, 'floors', (it) => it.name);
+      seg($('[data-group="foundation"]', calc), P.foundations, 'foundation',
+        (it) => `<b>${it.name}</b><span>${it.note}</span>`);
+      seg($('[data-group="tier"]', calc), P.tiers, 'tier',
+        (it) => `<b>${it.name}</b><span>${it.note}</span><em>${nf.format(P.ratePerM2[it.id])} ₽/м²</em>`);
+
+      /* доплаты */
+      const extrasHost = $('[data-group="extras"]', calc);
+      extrasHost.innerHTML = P.extras.map((it) => `<label class="calc__extra">
+        <input type="checkbox" value="${it.id}">
+        <span class="calc__extra__body"><b>${it.name}</b><span>${it.note}</span></span>
+        <em data-extra-sum="${it.id}"></em>
+      </label>`).join('');
+      extrasHost.addEventListener('change', (e) => {
+        const box = e.target.closest('input[type="checkbox"]');
+        if (!box) return;
+        if (box.checked) state.extras.add(box.value); else state.extras.delete(box.value);
+        update();
       });
-    });
-    if (areaInput) areaInput.addEventListener('input', () => { state.area = Number(areaInput.value); render(); });
-    $$('[data-quiz-next]', quiz).forEach((b) => b.addEventListener('click', () => {
-      state.step = Math.min(state.step + 1, steps.length - 1);
-      track('quiz_step', { step: state.step + 1 });
-      render();
-    }));
-    $$('[data-quiz-prev]', quiz).forEach((b) => b.addEventListener('click', () => { state.step = Math.max(state.step - 1, 0); render(); }));
-    render();
+
+      /* площадь: ползунок и поле связаны */
+      const range = $('#calc-area', calc);
+      const num = $('#calc-area-num', calc);
+      const setArea = (v, from) => {
+        const n = Math.min(300, Math.max(40, Math.round(Number(v) || 40)));
+        state.area = n;
+        if (from !== 'range') range.value = String(Math.round(n / 5) * 5);
+        if (from !== 'num') num.value = String(n);
+        update();
+      };
+      range.addEventListener('input', () => setArea(range.value, 'range'));
+      num.addEventListener('input', () => { if (num.value.length >= 2) setArea(num.value, 'num'); });
+      num.addEventListener('blur', () => setArea(num.value));
+
+      /* плавный счётчик: цифры не прыгают, а доезжают */
+      const spin = (el, to) => {
+        const from = Number(el.dataset.v || 0);
+        if (from === to) { el.textContent = money0(to); return; }
+        el.dataset.v = String(to);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = money0(to); return; }
+        const t0 = performance.now(), dur = 420;
+        const tick = (t) => {
+          const k = Math.min(1, (t - t0) / dur);
+          const e = 1 - Math.pow(1 - k, 3);
+          el.textContent = money0(from + (to - from) * e);
+          if (k < 1 && el.dataset.v === String(to)) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+
+      const extraSum = (it) => (it.fixed || 0) + (it.perM2 ? it.perM2 * state.area : 0);
+
+      const compute = () => {
+        const floor = P.floors.find((f) => f.id === state.floors) || P.floors[0];
+        const tier = P.tiers.find((t) => t.id === state.tier) || P.tiers[1];
+        const found = P.foundations.find((f) => f.id === state.foundation) || P.foundations[0];
+        const house = state.area * P.ratePerM2[tier.id] * floor.factor;
+        const footprint = state.area / Number(floor.id);
+        const foundation = footprint * found.perM2;
+        const extras = P.extras.filter((it) => state.extras.has(it.id)).reduce((sum, it) => sum + extraSum(it), 0);
+        const total = house + foundation + extras;
+        const term = (P.terms.find((t) => state.area <= t.maxArea) || P.terms[P.terms.length - 1]).text;
+        return { total, house, foundation, extras, tier, floor, found, term };
+      };
+
+      const stagesHost = $('[data-calc-stages]', calc);
+      const update = () => {
+        const r = compute();
+        const low = r.total * (1 - P.spread);
+        const high = r.total * (1 + P.spread);
+        spin($('[data-calc-low]', calc), low);
+        spin($('[data-calc-high]', calc), high);
+
+        $('[data-calc-note]', calc).textContent =
+          `Дом ${state.area} м², ${r.floor.name.toLowerCase()}, «${r.tier.name}», фундамент: ${r.found.name.toLowerCase()}`;
+        $('[data-calc-term]', calc).textContent = r.term;
+        $('[data-calc-perm2]', calc).textContent = `${nf.format(Math.round(r.total / state.area / 100) * 100)} ₽`;
+
+        P.extras.forEach((it) => {
+          const cell = $(`[data-extra-sum="${it.id}"]`, calc);
+          if (cell) cell.textContent = `+ ${nf.format(Math.round(extraSum(it) / 1000) * 1000)} ₽`;
+        });
+
+        /* этапы: доли зависят от комплектации, нулевые не показываем */
+        const rows = P.stages
+          .map((st) => ({ name: st.name, share: st.share[r.tier.id] || 0 }))
+          .filter((st) => st.share > 0);
+        const sum = rows.reduce((a, b) => a + b.share, 0) || 1;
+        const max = Math.max(...rows.map((st) => st.share));
+        stagesHost.innerHTML = rows.map((st) => {
+          const value = r.total * (st.share / sum);
+          return `<div class="calc__stage">
+            <span class="calc__stage__name">${st.name}</span>
+            <span class="calc__stage__bar"><i style="--w:${Math.round(st.share / max * 100)}%"></i></span>
+            <span class="calc__stage__sum">${nf.format(Math.round(value / 10000) * 10000)} ₽</span>
+          </div>`;
+        }).join('');
+
+        const cta = $('[data-calc-cta]', calc);
+        const picked = P.extras.filter((it) => state.extras.has(it.id)).map((it) => it.name.toLowerCase());
+        cta.dataset.project = `Расчёт: ${state.area} м², ${r.floor.name}, «${r.tier.name}», фундамент ${r.found.name.toLowerCase()}`
+          + (picked.length ? `, доп: ${picked.join(', ')}` : '')
+          + ` — ${money0(low)}–${money0(high)} ₽`;
+      };
+
+      update();
+    }
   }
 
   /* ---------- каталог: фильтры и сортировка ----------

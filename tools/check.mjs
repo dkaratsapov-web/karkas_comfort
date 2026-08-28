@@ -63,17 +63,29 @@ ok('старый адрес карточки не индексируется и 
 
 /* 4. Квиз на главной */
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
-const q0 = await p.textContent('#quiz-result');
-await p.fill('#quiz-area', '200');
-await p.dispatchEvent('#quiz-area', 'input');
-const q1 = await p.textContent('#quiz-result');
-ok('квиз пересчитывает вилку по площади', q0 !== q1 && /млн/.test(q1));
-await p.click('.quiz__step.is-current [data-quiz-next]');
-ok('квиз переключает шаги', await p.isVisible('.quiz__option[data-value="pod_kluch"]'));
-await p.click('.quiz__option[data-value="pod_kluch"]');
-ok('смена комплектации меняет вилку', (await p.textContent('#quiz-result')) !== q1);
-await p.click('.quiz__step.is-current [data-quiz-next]');
-ok('последний шаг — короткая форма с телефоном', await p.isVisible('.quiz__step.is-current form'));
+const sum = () => p.textContent('[data-calc-low]');
+const c0 = await sum();
+await p.fill('#calc-area-num', '220');
+await p.dispatchEvent('#calc-area-num', 'input');
+await p.waitForTimeout(600);
+ok('калькулятор пересчитывает сумму по площади', (await sum()) !== c0);
+const c1 = await sum();
+await p.click('.seg[data-group="tier"] .seg__btn[data-value="pod_kluch"]');
+await p.waitForTimeout(600);
+ok('смена комплектации меняет сумму', (await sum()) !== c1);
+ok('выбранная комплектация объявлена ассистивным технологиям',
+  (await p.getAttribute('.seg[data-group="tier"] .seg__btn[data-value="pod_kluch"]', 'aria-pressed')) === 'true');
+const c2 = await sum();
+await p.click('.seg[data-group="foundation"] .seg__btn[data-value="plita"]');
+await p.waitForTimeout(600);
+ok('смена фундамента меняет сумму', (await sum()) !== c2);
+const c3 = await sum();
+await p.check('.calc__extras input[value="terrace"]');
+await p.waitForTimeout(600);
+ok('доплата за террасу попадает в расчёт', (await sum()) !== c3);
+ok('разбивка по этапам показана', (await p.$$('.calc__stage')).length >= 4);
+ok('кнопка сметы несёт параметры расчёта',
+  /220 м²/.test(await p.getAttribute('[data-calc-cta]', 'data-project') || ''));
 
 /* 5. Формы: валидация и доступность ошибок */
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
@@ -123,7 +135,7 @@ await p.close();
 /* 7. Все страницы: битые ссылки, разметка, шрифты */
 p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
-const pages = ['', 'karkasnye-doma/', 'proekty/', 'obekty/', 'uslugi/', 'o-kompanii/', 'kontakty/', 'politika/', '404.html', 'proekty/kd-40/'];
+const pages = ['', 'proekty/', 'obekty/', 'uslugi/', 'o-kompanii/', 'kontakty/', 'politika/', '404.html', 'proekty/kd-40/'];
 const missing = [];
 for (const page of pages) {
   const resp = await p.goto(`${B}/${page}`, { waitUntil: 'networkidle' });

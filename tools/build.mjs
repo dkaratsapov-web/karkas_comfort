@@ -73,12 +73,17 @@ const dateRu = (iso) => {
   return `${Number(d)} ${m[Number(mo) - 1]} ${y}`;
 };
 
+/* Внутри абзацев разрешена одна разметка: [текст](/адрес/).
+   Экранируем сначала, ссылки собираем после — HTML из данных не проходит. */
+const inline = (text) => esc(text).replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g,
+  (_, label, href) => `<a href="${href}">${label}</a>`);
+
 function articleBody(blocks) {
   return blocks.map((b) => {
     if (b.h2) return `        <h2>${esc(b.h2)}</h2>`;
     if (b.h3) return `        <h3>${esc(b.h3)}</h3>`;
-    if (b.p) return `        <p>${esc(b.p)}</p>`;
-    if (b.ul) return `        <ul class="checks checks--tight">\n${b.ul.map((i) => `          <li>${esc(i)}</li>`).join('\n')}\n        </ul>`;
+    if (b.p) return `        <p>${inline(b.p)}</p>`;
+    if (b.ul) return `        <ul class="checks checks--tight">\n${b.ul.map((i) => `          <li>${inline(i)}</li>`).join('\n')}\n        </ul>`;
     if (b.table) return `        <div class="table-wrap"><table class="data-table">
           <thead><tr>${b.table[0].map((c) => `<th scope="col">${esc(c)}</th>`).join('')}</tr></thead>
           <tbody>${b.table.slice(1).map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${esc(c)}</th>` : `<td>${esc(c)}</td>`)).join('')}</tr>`).join('')}</tbody>
@@ -267,7 +272,7 @@ ${head
     .replace(/\{\{ogimage\}\}/g, ogimage)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
     .replace('</head>', `${extraLd ? extraLd + '\n' : ''}${PREVIEW ? '  <meta name="robots" content="noindex, nofollow">\n' : ''}${PREVIEW || !analytics ? '' : analytics + '\n'}</head>`)}
-<body data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
+<body data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
 ${previewBar}${header}
   <main id="main">
 ${content.trimEnd()}
@@ -379,7 +384,7 @@ function planBlock(p) {
                 </tfoot>` : '';
   const tep = (p.tep || []).map(([t, v]) => `                  <tr><th scope="row">${esc(t)}</th><td>${esc(v)}</td></tr>`).join('\n');
   return `
-    <section class="section section--paper" id="planirovka">
+    <section class="section section--paper section--tight" id="planirovka">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Планировка</p>
@@ -421,7 +426,7 @@ function photosBlock(p) {
   if (list.length < 3) return '';
   const cells = list.map((f, i) => `          <figure><img ${srcset(f, "(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw")} alt="${photoAlt(p, i)}" loading="lazy" width="900" height="675" data-zoom="${img(f)}" data-zoom-group="${p.slug}-all"></figure>`).join('\n');
   return `
-    <section class="section" id="foto">
+    <section class="section section--tight" id="foto">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Объект</p>
@@ -446,7 +451,7 @@ function pricesBlock(p) {
     ['Под ключ с отделкой', p.prices.pod_kluch, 'Полный цикл с чистовой отделкой, напольными покрытиями, санузлом и межкомнатными дверями. Заезжаете с мебелью.']
   ].filter(([, v]) => v);
   return `
-    <section class="section" id="ceny">
+    <section class="section section--tight" id="ceny">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Стоимость</p>
@@ -474,7 +479,7 @@ function vizBlock(p) {
   if (!list.length) return '';
   const cells = list.map((f, i) => `          <figure><img ${srcset(f, '(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw')} alt="Визуализация каркасного дома ${p.code}, кадр ${i + 1}" loading="lazy" width="900" height="506" data-zoom="${img(f)}" data-zoom-group="${p.slug}-viz"></figure>`).join('\n');
   return `
-    <section class="section" id="viz">
+    <section class="section section--tight" id="viz">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Как будет выглядеть</p>
@@ -499,7 +504,7 @@ ${l.items.map((i) => `              <li>${esc(i)}</li>`).join('\n')}
             </ul>
           </article>`).join('\n');
   return `
-    <section class="section" id="konstruktiv">
+    <section class="section section--tight" id="konstruktiv">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Конструктив</p>
@@ -523,7 +528,7 @@ function sheetsBlock(p) {
   if (!list.length) return '';
   const cells = list.map((d) => `          <figure><img ${srcset(d.file, "(min-width: 760px) 33vw, 100vw")} alt="${esc(d.title)} — проект ${p.code}" loading="lazy" width="900" height="675" data-zoom="${img(d.file)}" data-zoom-group="${p.slug}-sheets"><figcaption>${esc(d.title)}</figcaption></figure>`).join('\n');
   return `
-    <section class="section section--paper" id="chertezhi">
+    <section class="section section--paper section--tight" id="chertezhi">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Альбом проекта</p>
@@ -561,10 +566,10 @@ for (const p of projects) {
       <li>Дом ${p.size} (${p.code})</li>
     </ol>
 
-    <section class="section" style="padding-top:clamp(16px,2vw,28px)">
+    <section class="section section--tight" style="padding-top:clamp(12px,1.4vw,20px)">
       <div class="container">
         <div class="split split--narrow">
-          <div class="stack" style="gap:clamp(18px,2vw,28px)">
+          <div class="stack" style="gap:clamp(12px,1.4vw,18px)">
 ${galleryBlock(p)}
 
             <div class="card spec-card">
@@ -597,7 +602,7 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
     </section>
 
 ${pricesBlock(p)}${planBlock(p)}${vizBlock(p)}${photosBlock(p)}${structureBlock(p)}${sheetsBlock(p)}
-    <section class="section section--paper">
+    <section class="section section--paper section--tight">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Комплектация</p>
@@ -609,7 +614,7 @@ ${included.map(([t, d]) => `          <article class="card"><h3>${t}</h3><p>${d}
       </div>
     </section>
 
-    <section class="section">
+    <section class="section section--tight">
       <div class="container">
         <div class="section__head section__head--row">
           <div>
@@ -670,7 +675,7 @@ mkdirSync(`${OUT}/stati`, { recursive: true });
       <li>Статьи</li>
     </ol>
 
-    <section class="section" style="padding-top:clamp(16px,2vw,28px)">
+    <section class="section section--tight" style="padding-top:clamp(12px,1.4vw,20px)">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Полезное</p>
@@ -784,6 +789,17 @@ ${cta}`;
   mkdirSync(`${OUT}/stati/${a.slug}`, { recursive: true });
   writeFileSync(`${OUT}/stati/${a.slug}/index.html`, page({ file: `stati/${a.slug}/`, meta, content, extraLd: blocks.join('\n') }));
   built.push({ url: articleUrl(a.slug), priority: 0.7 });
+}
+
+/* ---------- страница «Каркасные дома» слита с главной ---------- */
+for (const legacy of ['karkasnye-doma']) {
+  const html = rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="robots" content="noindex"><link rel="canonical" href="${SITE}/">
+<meta http-equiv="refresh" content="0; url=/#tehnologiya"></head>
+<body><p>Раздел переехал на <a href="/#tehnologiya">главную страницу</a>.</p></body></html>\n`);
+  mkdirSync(`${OUT}/${legacy}`, { recursive: true });
+  writeFileSync(`${OUT}/${legacy}/index.html`, html);
+  writeFileSync(`${OUT}/${legacy}.html`, html);
 }
 
 /* ---------- старый адрес карточки: редирект на новую страницу ---------- */

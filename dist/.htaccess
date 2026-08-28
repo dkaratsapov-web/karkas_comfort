@@ -35,7 +35,9 @@ DirectoryIndex index.html index.php
 
   # --- 3. Редиректы со старых адресов сайта (301, чтобы не потерять позиции) ---
   #     Проверьте список по Яндекс.Вебмастеру и дополните своими адресами.
-  RewriteRule ^karkasnye-doma$              /karkasnye-doma/ [R=301,L]
+  # страница слита с главной: технология и материалы теперь там
+  RewriteRule ^karkasnye-doma/?$            / [R=301,L]
+  RewriteRule ^karkasnye-doma\.html$        / [R=301,L]
   #     Внимание: /proekty/<проект>/ — реальные страницы проектов,
   #     на каталог отправляем только адреса, которым не соответствует папка.
   RewriteCond %{REQUEST_FILENAME} !-d

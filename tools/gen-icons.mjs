@@ -3,11 +3,12 @@
    Результат: favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png */
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const { chromium } = await import('playwright')
+const mod = await import(process.env.PW_MODULE || 'playwright')
   .catch(() => import('/opt/node22/lib/node_modules/playwright/index.mjs'));
+const chromium = mod.chromium || mod.default?.chromium;
 
 const svg = readFileSync('assets/img/mark.svg', 'utf8');
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.PW_CHROME ? { executablePath: process.env.PW_CHROME } : {});
 
 async function png(size, radius) {
   const page = await browser.newPage({ viewport: { width: size, height: size }, deviceScaleFactor: 1 });

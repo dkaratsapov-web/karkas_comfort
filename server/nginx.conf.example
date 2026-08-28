@@ -36,7 +36,8 @@ server {
     # add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     # Редиректы со старых адресов
-    location = /karkasnye-doma/         { return 301 /karkasnye-doma.html; }
+    location = /karkasnye-doma/         { return 301 /; }
+    location = /karkasnye-doma.html     { return 301 /; }
     location ~ ^/proekty/([a-z0-9-]+)\.html$ { return 301 /proekty/$1/; }
     location ~ ^/([a-z0-9-]+)\.html$         { return 301 /$1/; }
     #  Внимание: /proekty/<проект>.html — реальные страницы проектов.
