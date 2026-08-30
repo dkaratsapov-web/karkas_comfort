@@ -21,7 +21,7 @@
     const groups = [
       ['.section__head', 0],
       ['.grid > *, .tiers > *, .bento > *, .shots > *, .steps > *, .timeline > *, .figures > *', 55],
-      ['.split > *, .card, .project, .tile', 45]
+      ['.split > *, .card, .project, .tile, .geo', 45]
     ];
     const seen = new Set();
     const io = new IntersectionObserver((entries) => {

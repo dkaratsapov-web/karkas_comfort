@@ -105,13 +105,14 @@ function geoMap() {
   }).join('\n      ');
 
   return `<figure class="geo">
+      <p class="geo__hint"><span></span>Наведите на точку — увидите город</p>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Схема Тверской области с городами, где мы строим: ${geo.cities.map((c) => c.name).join(', ')}">
         <path class="geo__region" d="${path}"/>
         <path class="geo__outline" d="${path}"/>
         ${rays}
         ${dots}
       </svg>
-      <figcaption class="geo__caption">Схема охвата: выезд по области, точки — города, где уже строили. Гришкино, где стоит дом 8,45×10,5, рядом с Тверью.</figcaption>
+      <figcaption class="geo__caption">Схема охвата, а не топографическая карта: точки стоят по координатам городов. Дом 8,45×10,5 стоит в Гришкино, рядом с Тверью.</figcaption>
     </figure>`;
 }
 
