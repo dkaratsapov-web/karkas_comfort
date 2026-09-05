@@ -405,6 +405,7 @@
     const state = {
       floors: params.get('floors') || 'all',
       size: params.get('size') || 'all',
+      beds: params.get('beds') || 'all',
       sort: params.get('sort') || 'area-asc'
     };
     const num = (card, key) => Number(card.dataset[key]);
@@ -422,6 +423,7 @@
       const q = new URLSearchParams();
       if (state.floors !== 'all') q.set('floors', state.floors);
       if (state.size !== 'all') q.set('size', state.size);
+      if (state.beds !== 'all') q.set('beds', state.beds);
       if (state.sort !== 'area-asc') q.set('sort', state.sort);
       history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : ''));
     };
@@ -429,7 +431,9 @@
     let empty = null;
     const render = () => {
       const shown = cards.filter((card) =>
-        (state.floors === 'all' || card.dataset.floors === state.floors) && inSize(card));
+        (state.floors === 'all' || card.dataset.floors === state.floors)
+        && (state.beds === 'all' || Number(card.dataset.beds) >= Number(state.beds))
+        && inSize(card));
       const [key, dir] = state.sort.split('-');
       const field = key === 'price' ? 'price' : 'area';
       shown.sort((a, b) => (num(a, field) - num(b, field)) * (dir === 'desc' ? -1 : 1));

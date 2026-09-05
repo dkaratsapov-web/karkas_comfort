@@ -206,7 +206,7 @@ function priceOf(p) { return p.prices?.kontur ?? p.price ?? Math.round(p.area * 
 function priceTop(p) { return p.prices?.pod_kluch ?? Math.round(p.area * pricing.ratePerM2.pod_kluch); }
 function projectUrl(slug) { return `/proekty/${slug}/`; }
 const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
-const priceNote = (p) => (p.prices ? 'тёплый контур, по смете' : p.price ? 'под ключ, по договору' : 'под ключ, ориентировочно');
+const priceNote = (p) => (p.prices ? 'тёплый контур, по смете' : p.price ? 'тёплый контур, по договору' : 'тёплый контур, ориентировочно');
 const termOf = (p) => p.term || (p.area <= 90 ? '1,5–2 месяца' : p.area <= 150 ? '2–3 месяца' : '3–4 месяца');
 const floorsLabel = (f) => (f === 1 ? '1 этаж' : f === 1.5 ? '1,5 этажа' : '2 этажа');
 const floorsWord = (f) => (f === 1 ? 'Одноэтажный' : f === 1.5 ? 'Полутораэтажный' : 'Двухэтажный');
@@ -303,7 +303,7 @@ const productLd = (p) => ld({
 });
 
 /* ---------- шаблоны блоков ---------- */
-const projectCard = (p) => `      <article class="project" data-floors="${p.floors}" data-area="${p.area}" data-price="${priceOf(p)}">
+const projectCard = (p) => `      <article class="project" data-floors="${p.floors}" data-area="${p.area}" data-beds="${p.bedrooms}" data-price="${priceOf(p)}">
         <div class="project__media">
           <img src="${photoOf(p)}" alt="Каркасный дом ${p.code}, ${p.size} м, ${p.area} м²" loading="lazy" width="900" height="600">
           <span class="project__code">${p.code}</span>
@@ -317,6 +317,50 @@ const projectCard = (p) => `      <article class="project" data-floors="${p.floo
           </div>
         </div>
       </article>`;
+
+/* Сравнение комплектаций: одна таблица вместо трёх списков —
+   видно за пять секунд, что входит в каждую, а что нет. */
+function compareTable() {
+  const rows = pricing.compare || [];
+  if (!rows.length) return '';
+  const cell = (on) => (on
+    ? '<td class="cmp__yes"><span class="sr-only">входит</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4 10-10"/></svg></td>'
+    : '<td class="cmp__no"><span class="sr-only">не входит</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg></td>');
+  return `        <div class="cmp-wrap" tabindex="0" role="region" aria-label="Сравнение комплектаций">
+          <table class="cmp">
+            <caption class="sr-only">Что входит в комплектации «Тёплый контур», «Комфорт» и «Под ключ»</caption>
+            <thead>
+              <tr>
+                <th scope="col">Что входит</th>
+${pricing.tiers.map((t) => `                <th scope="col"><span class="cmp__long">${esc(t.name)}</span><span class="cmp__short" aria-hidden="true">${esc(t.short || t.name)}</span><small>${money(pricing.ratePerM2[t.id])}/м²</small></th>`).join('\n')}
+              </tr>
+            </thead>
+            <tbody>
+${rows.map((r) => `              <tr><th scope="row">${esc(r.name)}</th>${pricing.tiers.map((t) => cell(r[t.id])).join('')}</tr>`).join('\n')}
+            </tbody>
+          </table>
+        </div>`;
+}
+
+/* Быстрый ценовой ориентир по площадям: человек с рекламы хочет
+   увидеть порядок суммы раньше, чем полезет в калькулятор. */
+function costsBlock() {
+  const areas = pricing.examples || [];
+  const mln = (n) => `${(Math.round(n / 1e5) / 10).toLocaleString('ru-RU')} млн ₽`;
+  return areas.map((a) => {
+    const near = projects
+      .filter((p) => Math.abs(p.area - a) <= 18)
+      .sort((x, y) => Math.abs(x.area - a) - Math.abs(y.area - a))[0];
+    const term = a <= 90 ? '1,5–2 месяца' : a <= 150 ? '2–3 месяца' : '3–4 месяца';
+    return `          <article class="cost">
+            <p class="cost__area">${a} м²</p>
+            <p class="cost__sum">от ${mln(a * pricing.ratePerM2.standart)}</p>
+            <p class="cost__note">тёплый контур · срок ${term}</p>
+            <p class="cost__full">под ключ с отделкой — от ${mln(a * pricing.ratePerM2.pod_kluch)}</p>
+            ${near ? `<a class="cost__link" href="${projectUrl(near.slug)}">Проект ${near.code} на ${near.area} м² →</a>` : ''}
+          </article>`;
+  }).join('\n');
+}
 
 const caseTile = (c) => `        <a class="tile" href="${projectUrl(c.slug)}">
           <div class="tile__media"><img src="${c.photos && c.photos.length ? `/assets/img/photos/${c.photos[0]}` : `/assets/img/projects/${c.slug}.svg`}" alt="${esc(c.title)}, ${c.area} м²" loading="lazy" width="900" height="600"></div>
@@ -382,6 +426,8 @@ for (const file of files) {
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{videos\}\}/g, () => videosBlock());
   content = content.replace(/\{\{geo\}\}/g, () => geoMap());
+  content = content.replace(/\{\{compare\}\}/g, () => compareTable());
+  content = content.replace(/\{\{costs\}\}/g, () => costsBlock());
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
   content = content.replace(/\{\{showcase\}\}/g, () => [
@@ -630,7 +676,7 @@ for (const p of projects) {
   const similar = projects.filter((x) => x.slug !== p.slug)
     .sort((a, b) => Math.abs(a.area - p.area) - Math.abs(b.area - p.area)).slice(0, 3);
   const title = `Каркасный дом ${p.size} (${p.code}) — ${p.area} м² под ключ | Каркас Комфорт`;
-  const description = `Проект каркасного дома ${p.size} площадью ${p.area} м²: ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))} под ключ с коммуникациями.`;
+  const description = `Проект каркасного дома ${p.size} площадью ${p.area} м²: ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))} за тёплый контур, под ключ с отделкой ${p.prices ? '' : 'от '}${money(priceTop(p))}.`;
 
   const specs = [
     ['Габариты', `${p.size} м`],

@@ -7,9 +7,9 @@
     "pod_kluch": 52000
   },
   "tiers": [
-    { "id": "standart", "name": "Тёплый контур", "note": "Каркас, кровля, утепление, окна" },
-    { "id": "komfort", "name": "Комфорт", "note": "Плюс коммуникации и черновая отделка" },
-    { "id": "pod_kluch", "name": "Под ключ", "note": "Отделка готова, заезжаете с мебелью" }
+    { "id": "standart", "name": "Тёплый контур", "short": "Контур", "note": "Каркас, кровля, утепление, окна" },
+    { "id": "komfort", "name": "Комфорт", "short": "Комфорт", "note": "Плюс коммуникации и черновая отделка" },
+    { "id": "pod_kluch", "name": "Под ключ", "short": "Под ключ", "note": "Отделка готова, заезжаете с мебелью" }
   ],
   "floors": [
     { "id": "1", "name": "1 этаж", "factor": 1 },
@@ -26,6 +26,21 @@
     { "id": "carport", "name": "Навес для машины", "note": "на один автомобиль", "fixed": 210000 },
     { "id": "bath2", "name": "Второй санузел", "note": "с разводкой воды", "fixed": 180000 },
     { "id": "warmfloor", "name": "Тёплый пол", "note": "по всей площади", "perM2": 2800 }
+  ],
+  "examples": [60, 90, 120, 150],
+  "compare": [
+    { "name": "Фундамент и обвязка", "standart": true, "komfort": true, "pod_kluch": true },
+    { "name": "Каркас, перекрытия, кровля", "standart": true, "komfort": true, "pod_kluch": true },
+    { "name": "Утепление 150 мм и мембраны", "standart": true, "komfort": true, "pod_kluch": true },
+    { "name": "Окна и входная дверь", "standart": true, "komfort": true, "pod_kluch": true },
+    { "name": "Наружная отделка фасада", "standart": true, "komfort": true, "pod_kluch": true },
+    { "name": "Электрика со щитом и розетками", "standart": false, "komfort": true, "pod_kluch": true },
+    { "name": "Водяное отопление и радиаторы", "standart": false, "komfort": true, "pod_kluch": true },
+    { "name": "Вода и канализация по дому", "standart": false, "komfort": true, "pod_kluch": true },
+    { "name": "Черновая отделка стен и полов", "standart": false, "komfort": true, "pod_kluch": true },
+    { "name": "Чистовая отделка стен и потолков", "standart": false, "komfort": false, "pod_kluch": true },
+    { "name": "Полы, плитка, сантехника, двери", "standart": false, "komfort": false, "pod_kluch": true },
+    { "name": "Уборка и вывоз строительного мусора", "standart": false, "komfort": false, "pod_kluch": true }
   ],
   "spread": 0.1,
   "stages": [

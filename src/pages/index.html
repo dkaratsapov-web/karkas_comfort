@@ -67,6 +67,38 @@
         },
         {
           "@type": "Question",
+          "name": "Что входит в цену за квадратный метр?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Работы и материалы по выбранной комплектации: фундамент, каркас, перекрытия, кровля, утепление, окна и наружная отделка — в «Тёплом контуре»; плюс электрика, отопление, вода и черновая отделка — в «Комфорте»; плюс чистовая отделка, полы, санузел и двери — «Под ключ». Точный состав виден в таблице сравнения выше. Всё, чего в ней нет — скважина, септик, забор, благоустройство — в ставку за м² не входит и выносится отдельными строками сметы, чтобы не всплыть в конце стройки."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько денег нужно на старте?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Предоплаты за весь дом мы не берём. Работы разбиты на этапы — фундамент, каркас, кровля, контур, инженерия, отделка — и каждый оплачивается по факту приёмки. Первый платёж закрывает этап фундамента и обвязки; в калькуляторе видно, какая доля сметы на него приходится при вашей площади и комплектации."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Кто закупает материалы?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Мы. Цена за квадратный метр включает и работы, и материалы, поэтому закупка, доставка и подъём на этаж — наша забота, а не отдельный счёт в конце. Марки, сечения и количество зафиксированы в смете-приложении к договору: видно, что именно приедет на участок."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Можно ли строить в ипотеку или с материнским капиталом?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да. Работаем с ипотекой на строительство и с материнским капиталом, помогаем собрать пакет документов для банка: договор подряда, смету и график работ. Условия и ставку определяет банк — мы готовим документы под его требования."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Можно ли переделать типовой проект?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -86,15 +118,16 @@
       <div class="container container--wide hero__inner">
         <div class="hero__content">
           <p class="hero__tag">Тверь и область · с 2009 года</p>
-          <h1>Каркасный дом под ключ <em>за два месяца</em></h1>
-          <p class="hero__lead">Фундамент, каркас, кровля, отопление и электрика — одна компания, один договор. Смета фиксируется до начала работ и не растёт в процессе стройки.</p>
+          <h1>Каркасный дом под ключ <em>с фиксированной сметой</em></h1>
+          <p class="hero__lead">Фундамент, каркас, кровля, отопление и электрика — одна компания и один договор. Стоимость становится приложением к договору до начала работ: от 1,4 млн ₽, срок 1,5–3 месяца.</p>
           <div class="hero__actions">
-            <a class="btn" href="#raschet">Рассчитать мой дом<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
-            <a class="btn btn--outline-light" href="proekty.html">{{projects:count}} готовых проектов</a>
+            <a class="btn" href="#raschet">Рассчитать стоимость дома<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+            <a class="hero__link" href="proekty.html">Смотреть {{projects:count}} проектов и цены<span aria-hidden="true"> →</span></a>
           </div>
+          <p class="hero__micro">Расчёт бесплатный, присылаем за один рабочий день</p>
         </div>
         <div class="hero__facts">
-          <div class="hero__fact"><b>от 32 000 ₽</b><span>за м² под ключ</span></div>
+          <div class="hero__fact"><b>от 32 000 ₽</b><span>за м², тёплый контур</span></div>
           <div class="hero__fact"><b>от 1,5 мес.</b><span>срок строительства</span></div>
           <div class="hero__fact"><b>5 лет</b><span>гарантия по договору</span></div>
           <div class="hero__fact"><b>300+</b><span>домов в Тверской области</span></div>
@@ -177,11 +210,28 @@
       </div>
     </section>
 
+    <section class="section reveal" id="skolko">
+      <div class="container">
+        <div class="section__head section__head--row">
+          <div>
+            <p class="eyebrow" data-num="03">Порядок цен</p>
+            <h2>Сколько стоит дом такой площади</h2>
+            <p class="lead">Ориентир до звонка и до калькулятора: сколько примерно стоит закрытый утеплённый дом и сколько — он же с отделкой.</p>
+          </div>
+          <a class="btn btn--ghost" href="#raschet">Посчитать свой <span class="btn__arrow" aria-hidden="true">→</span></a>
+        </div>
+        <div class="costs">
+{{costs}}
+        </div>
+        <p class="muted" style="margin-top:22px;font-size:15px;max-width:70ch">Суммы посчитаны по базовой ставке за квадратный метр и округлены. Точную стоимость считаем по вашему проекту и участку — бесплатно, за один рабочий день.</p>
+      </div>
+    </section>
+
     <section class="section reveal" id="proekty">
       <div class="container container--wide">
         <div class="section__head section__head--row">
           <div>
-            <p class="eyebrow" data-num="03">Каталог проектов</p>
+            <p class="eyebrow" data-num="04">Каталог проектов</p>
             <h2>{{projects:count}} готовых проектов от 44 до 200 м²</h2>
             <p class="lead">Любой проект адаптируем под ваш участок: перепланировка, терраса, гараж, второй санузел.</p>
           </div>
@@ -196,7 +246,7 @@
     <section class="section section--paper reveal" id="ceny">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="04">Прозрачная цена</p>
+          <p class="eyebrow" data-num="05">Прозрачная цена</p>
           <h2>Три комплектации — видно, что входит, а что нет</h2>
           <p class="lead">Цена за квадратный метр включает работы и материалы. Никаких «плюс фундамент, плюс доставка, плюс подъём на этаж» в конце.</p>
         </div>
@@ -205,54 +255,33 @@
             <div class="tier__head">
               <span class="tier__label">Базовая</span>
               <h3>Тёплый контур</h3>
-              <p class="tier__price">от 32 000 ₽<small>за м² под ключ</small></p>
+              <p class="tier__price">от 32 000 ₽<small>за м², без инженерии и отделки</small></p>
             </div>
-            <ul class="checks">
-              <li>Фундамент и обвязка</li>
-              <li>Каркас, перекрытия, кровля</li>
-              <li>Утепление 150 мм, мембраны</li>
-              <li>Окна и входная дверь</li>
-              <li>Наружная отделка фасада</li>
-              <li class="no">Инженерные сети</li>
-              <li class="no">Внутренняя отделка</li>
-            </ul>
+            <p class="tier__sum">Дом закрыт, утеплён и остеклён: можно въезжать после отделки своими силами.</p>
             <a class="btn btn--ghost btn--block" href="#raschet" data-project="Комплектация «Тёплый контур»">Рассчитать<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
           </article>
           <article class="card tier tier--featured">
             <div class="tier__head">
               <span class="tier__label">Выбирают чаще всего</span>
               <h3>Комфорт</h3>
-              <p class="tier__price">от 41 000 ₽<small>за м² под ключ</small></p>
+              <p class="tier__price">от 41 000 ₽<small>за м², с инженерией</small></p>
             </div>
-            <ul class="checks">
-              <li>Всё из «Тёплого контура»</li>
-              <li>Электрика со щитом и розетками</li>
-              <li>Водяное отопление и радиаторы</li>
-              <li>Вода и канализация по дому</li>
-              <li>Черновая отделка стен и полов</li>
-              <li class="no">Чистовая отделка</li>
-              <li class="no">Сантехника и двери</li>
-            </ul>
+            <p class="tier__sum">Свет, тепло и вода уже в доме, стены и полы готовы под чистовую отделку.</p>
             <a class="btn btn--block" href="#raschet" data-project="Комплектация «Комфорт»">Рассчитать<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
           </article>
           <article class="card tier">
             <div class="tier__head">
               <span class="tier__label">Максимальная</span>
               <h3>Под ключ с отделкой</h3>
-              <p class="tier__price">от 52 000 ₽<small>за м² под ключ</small></p>
+              <p class="tier__price">от 52 000 ₽<small>за м², заезжаете с мебелью</small></p>
             </div>
-            <ul class="checks">
-              <li>Всё из комплектации «Комфорт»</li>
-              <li>Чистовая отделка стен и потолков</li>
-              <li>Напольные покрытия и плитка</li>
-              <li>Санузел с сантехникой</li>
-              <li>Межкомнатные двери</li>
-              <li>Уборка и вывоз мусора</li>
-              <li>Заезжаете с мебелью</li>
-            </ul>
+            <p class="tier__sum">Отделка, полы, санузел и двери готовы — дом принимаете и живёте.</p>
             <a class="btn btn--ghost btn--block" href="#raschet" data-project="Комплектация «Под ключ с отделкой»">Рассчитать<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
           </article>
         </div>
+
+{{compare}}
+
         <p class="muted" style="margin-top:24px;font-size:15px;max-width:70ch">Цены ориентировочные и зависят от проекта, типа фундамента и удалённости участка. Точную смету считаем бесплатно за один день.</p>
       </div>
     </section>
@@ -260,9 +289,9 @@
     <section class="section reveal" id="raschet">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow">Калькулятор</p>
-          <h2>Соберите свой дом и посмотрите смету</h2>
-          <p class="lead">Двигайте площадь, выбирайте комплектацию и фундамент: сумма и разбивка по этапам пересчитываются сразу. Телефон спросим последним, уже после того как показали цифры.</p>
+          <p class="eyebrow" data-num="06">Калькулятор</p>
+          <h2>Узнайте стоимость без звонка</h2>
+          <p class="lead">Выберите площадь, этажность и комплектацию — сумма и разбивка по этапам пересчитываются сразу. Телефон спросим последним, уже после того как показали цифры.</p>
         </div>
 
         <div class="calc" id="calc">
@@ -321,7 +350,7 @@
     <section class="section section--dark reveal" id="tehnologiya">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="06">Технология</p>
+          <p class="eyebrow" data-num="07">Технология</p>
           <h2>Что скрыто за стеной вашего дома</h2>
           <p class="lead">Каркасный дом тёплый не сам по себе, а за счёт правильного порядка слоёв. Нажмите на слой, чтобы прочитать, зачем он нужен.</p>
         </div>
@@ -403,33 +432,33 @@
         <div class="mats">
           <article class="mat">
             <span class="mat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v10H4z"/><path d="M4 8l4-4h16l-4 4"/><path d="M20 8v10l4-4V4"/><path d="M7 12h6M7 15h4"/></svg></span>
-            <h3>Пиломатериал</h3>
-            <p>Доска камерной сушки влажностью до 18 %, строганая, обработанная антисептиком. Не ведёт при усадке — дом не «дышит» щелями через год.</p>
+            <h3>Через год не появятся щели</h3>
+            <p>Доска камерной сушки влажностью до 18 %, строганая, обработанная антисептиком: её не ведёт при усадке.</p>
           </article>
           <article class="mat">
             <span class="mat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M6 8c2 1.5 2 3.5 0 5s-2 3.5 0 5M12 8c2 1.5 2 3.5 0 5s-2 3.5 0 5M18 8c2 1.5 2 3.5 0 5s-2 3.5 0 5" transform="translate(-1.5 -2) scale(1.05)"/></svg></span>
-            <h3>Утеплитель</h3>
-            <p>Базальтовая вата плотностью 35–45 кг/м³ в стенах и перекрытиях. Не горит, не даёт усадки, держит форму в вертикальных конструкциях.</p>
+            <h3>Дом держит тепло зимой</h3>
+            <p>Базальтовая вата плотностью 35–45 кг/м³ в стенах и перекрытиях: не горит, не даёт усадки, не сползает вниз по стене.</p>
           </article>
           <article class="mat">
             <span class="mat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12 12 4l9 8"/><path d="M5 12v8h14v-8"/><path d="M9 20v-5h6v5"/></svg></span>
-            <h3>Кровля</h3>
+            <h3>Крыша не течёт и не «плачет»</h3>
             <p>Металлочерепица или гибкая черепица с полным пирогом: подкровельная мембрана, контробрешётка, вентиляция конька.</p>
           </article>
           <article class="mat">
             <span class="mat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M12 4v16M4 12h16"/></svg></span>
-            <h3>Окна</h3>
-            <p>Металлопластиковые профили с двухкамерным стеклопакетом, поворотно-откидные створки, монтаж по ГОСТ с паро- и гидроизоляцией шва.</p>
+            <h3>От окон не дует</h3>
+            <p>Двухкамерный стеклопакет, поворотно-откидные створки, монтаж по ГОСТ с паро- и гидроизоляцией монтажного шва.</p>
           </article>
           <article class="mat">
             <span class="mat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
-            <h3>Инженерия</h3>
+            <h3>Свет, тепло и вода — сразу</h3>
             <p>Скрытая электропроводка в гофре с автоматами и УЗО, водяное отопление с котлом, разводка воды и канализации.</p>
           </article>
           <article class="mat">
             <span class="mat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
-            <h3>Крепёж</h3>
-            <p>Оцинкованные пластины, уголки, анкеры и ершёные гвозди — узлы каркаса собираются по расчёту, а не «на глаз».</p>
+            <h3>Каркас не расшатается</h3>
+            <p>Оцинкованные пластины, уголки, анкеры и ершёные гвозди: узлы собираются по расчёту, а не «на глаз».</p>
           </article>
         </div>
       </div>
@@ -451,7 +480,7 @@
     <section class="section reveal" id="etapy">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="07">Как мы работаем</p>
+          <p class="eyebrow" data-num="08">Как мы работаем</p>
           <h2>Шесть шагов от звонка до ключей</h2>
         </div>
         <ol class="steps">
@@ -522,20 +551,19 @@
             </div>
           </li>
         </ol>
+
+        <div class="ribbon ribbon--cta">
+          <span class="ribbon__text">Первый шаг — расчёт: присылаем смету с разбивкой по этапам за один рабочий день, бесплатно и без выезда менеджера с договором.</span>
+          <a href="#zayavka" data-lead-modal>Получить смету →</a>
+        </div>
       </div>
     </section>
 
-    <section class="section section--paper reveal">
+    <section class="section section--white reveal">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="08">Доверие</p>
-          <h2>Что вы получаете на бумаге, а не на словах</h2>
-        </div>
-        <div class="grid grid--4" style="margin-bottom:clamp(36px,5vw,64px)">
-          <article class="card"><h3>Договор подряда</h3><p>Состав работ, сроки, стоимость, порядок оплаты и ответственность сторон.</p></article>
-          <article class="card"><h3>Смета-приложение</h3><p>Каждая позиция с количеством и ценой — видно, за что именно вы платите.</p></article>
-          <article class="card"><h3>Гарантия 5 лет</h3><p>На конструктив и выполненные работы. На оборудование — гарантия производителя.</p></article>
-          <article class="card"><h3>Акты по этапам</h3><p>Приёмка и фотоотчёт после каждого этапа, оплата — по факту выполненного.</p></article>
+          <p class="eyebrow">Отзывы</p>
+          <h2>Что говорят владельцы</h2>
         </div>
 {{reviews}}
       </div>
@@ -545,7 +573,7 @@
       <div class="container">
         <div class="section__head section__head--row">
           <div>
-            <p class="eyebrow">Доказательства</p>
+            <p class="eyebrow" data-num="09">Доказательства</p>
             <h2>Что вы получаете на бумаге, а не на словах</h2>
           </div>
           <p class="lead">Четыре документа, которые снимают главный вопрос: «а смета точно не вырастет?»</p>
@@ -613,7 +641,7 @@
     <section class="section reveal">
       <div class="container">
         <div class="section__head section__head--center">
-          <p class="eyebrow" data-num="09">Объекты на карте</p>
+          <p class="eyebrow" data-num="10">Объекты на карте</p>
           <h2>Строим по всей Тверской области</h2>
           <p class="lead">Выезд на замер по Твери и ближайшим районам — бесплатно. В отдалённые города считаем логистику отдельно и заранее, чтобы она не всплыла в конце сметы.</p>
         </div>
@@ -631,7 +659,7 @@
     <section class="section section--white reveal">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="10">Вопросы</p>
+          <p class="eyebrow" data-num="11">Вопросы</p>
           <h2>Что спрашивают чаще всего</h2>
         </div>
         <div class="faq">
@@ -654,6 +682,22 @@
           <details>
             <summary>Что с фундаментом на сложном грунте?</summary>
             <p>В Тверской области часто встречаются торфяники и высокая вода. На таких участках мы считаем сваи увеличенной длины или ленту с уширением. Тип фундамента определяем после выезда на участок, а не по телефону.</p>
+          </details>
+          <details>
+            <summary>Что входит в цену за квадратный метр?</summary>
+            <p>Работы и материалы по выбранной комплектации: фундамент, каркас, перекрытия, кровля, утепление, окна и наружная отделка — в «Тёплом контуре»; плюс электрика, отопление, вода и черновая отделка — в «Комфорте»; плюс чистовая отделка, полы, санузел и двери — «Под ключ». Точный состав виден в таблице сравнения выше. Всё, чего в ней нет — скважина, септик, забор, благоустройство — в ставку за м² не входит и выносится отдельными строками сметы, чтобы не всплыть в конце стройки.</p>
+          </details>
+          <details>
+            <summary>Сколько денег нужно на старте?</summary>
+            <p>Предоплаты за весь дом мы не берём. Работы разбиты на этапы — фундамент, каркас, кровля, контур, инженерия, отделка — и каждый оплачивается по факту приёмки. Первый платёж закрывает этап фундамента и обвязки; в калькуляторе видно, какая доля сметы на него приходится при вашей площади и комплектации.</p>
+          </details>
+          <details>
+            <summary>Кто закупает материалы?</summary>
+            <p>Мы. Цена за квадратный метр включает и работы, и материалы, поэтому закупка, доставка и подъём на этаж — наша забота, а не отдельный счёт в конце. Марки, сечения и количество зафиксированы в смете-приложении к договору: видно, что именно приедет на участок.</p>
+          </details>
+          <details>
+            <summary>Можно ли строить в ипотеку или с материнским капиталом?</summary>
+            <p>Да. Работаем с ипотекой на строительство и с материнским капиталом, помогаем собрать пакет документов для банка: договор подряда, смету и график работ. Условия и ставку определяет банк — мы готовим документы под его требования.</p>
           </details>
           <details>
             <summary>Можно ли переделать типовой проект?</summary>
