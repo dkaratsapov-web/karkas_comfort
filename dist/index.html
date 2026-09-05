@@ -23,7 +23,7 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-wght.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/golos-text-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=2731fec6">
+  <link rel="stylesheet" href="/assets/css/style.css?v=c07d722a">
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"GeneralContractor","name":"Каркас Комфорт","url":"https://karkascomfort.ru/","telephone":"+7-920-171-69-69","email":"karkascomfort@yandex.ru","address":{"@type":"PostalAddress","streetAddress":"ул. Серебряная, 12, офис 31","addressLocality":"Тверь","postalCode":"170100","addressCountry":"RU"},"areaServed":"Тверская область","openingHours":"Mo-Su 08:00-20:00","priceRange":"от 32 000 ₽/м²"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Можно ли жить в каркасном доме круглый год?","acceptedAnswer":{"@type":"Answer","text":"Да, все наши дома рассчитаны на постоянное проживание: 150 мм утеплителя в стенах, 200 мм в перекрытии, отсутствие мостиков холода и водяное отопление. Сезонный вариант отличается только толщиной утепления и составом коммуникаций."}},{"@type":"Question","name":"Сколько времени занимает строительство?","acceptedAnswer":{"@type":"Answer","text":"Дом до 90 м² — полтора-два месяца, до 150 м² — два-три месяца, больше 150 м² — три-четыре месяца. Сроки прописываются в договоре, работы идут поэтапно с приёмкой каждого этапа."}},{"@type":"Question","name":"Может ли смета вырасти в процессе?","acceptedAnswer":{"@type":"Answer","text":"Нет, если проект не меняется. Стоимость согласовывается до начала работ и фиксируется в договоре. Изменение цены возможно только по вашей инициативе — например, если вы решили добавить террасу или сменить отделку."}},{"@type":"Question","name":"Работаете зимой?","acceptedAnswer":{"@type":"Answer","text":"Да. Каркасная технология не требует «мокрых» процессов, поэтому зимой мы ставим свайно-винтовой фундамент и продолжаем сборку. Зимой обычно свободнее график и короче срок ожидания бригады."}},{"@type":"Question","name":"Что с фундаментом на сложном грунте?","acceptedAnswer":{"@type":"Answer","text":"В Тверской области часто встречаются торфяники и высокая вода. На таких участках мы считаем сваи увеличенной длины или ленту с уширением. Тип фундамента определяем после выезда на участок, а не по телефону."}},{"@type":"Question","name":"Что входит в цену за квадратный метр?","acceptedAnswer":{"@type":"Answer","text":"Работы и материалы по выбранной комплектации: фундамент, каркас, перекрытия, кровля, утепление, окна и наружная отделка — в «Тёплом контуре»; плюс электрика, отопление, вода и черновая отделка — в «Комфорте»; плюс чистовая отделка, полы, санузел и двери — «Под ключ». Точный состав виден в таблице сравнения выше. Всё, чего в ней нет — скважина, септик, забор, благоустройство — в ставку за м² не входит и выносится отдельными строками сметы, чтобы не всплыть в конце стройки."}},{"@type":"Question","name":"Сколько денег нужно на старте?","acceptedAnswer":{"@type":"Answer","text":"Предоплаты за весь дом мы не берём. Работы разбиты на этапы — фундамент, каркас, кровля, контур, инженерия, отделка — и каждый оплачивается по факту приёмки. Первый платёж закрывает этап фундамента и обвязки; в калькуляторе видно, какая доля сметы на него приходится при вашей площади и комплектации."}},{"@type":"Question","name":"Кто закупает материалы?","acceptedAnswer":{"@type":"Answer","text":"Мы. Цена за квадратный метр включает и работы, и материалы, поэтому закупка, доставка и подъём на этаж — наша забота, а не отдельный счёт в конце. Марки, сечения и количество зафиксированы в смете-приложении к договору: видно, что именно приедет на участок."}},{"@type":"Question","name":"Можно ли строить в ипотеку или с материнским капиталом?","acceptedAnswer":{"@type":"Answer","text":"Да. Работаем с ипотекой на строительство и с материнским капиталом, помогаем собрать пакет документов для банка: договор подряда, смету и график работ. Условия и ставку определяет банк — мы готовим документы под его требования."}},{"@type":"Question","name":"Можно ли переделать типовой проект?","acceptedAnswer":{"@type":"Answer","text":"Можно. Перепланировка, добавление террасы, гаража, второго санузла, перенос окон — обычная практика. Также строим полностью по индивидуальному проекту, в том числе по вашим чертежам."}}]}]</script>
 </head>
 
@@ -134,6 +134,34 @@
           </div>
           <p class="hero__micro">Расчёт бесплатный, присылаем за один рабочий день</p>
         </div>
+        <aside class="hero__form">
+          <form class="form form--hero" novalidate>
+            <div class="form__body">
+              <p class="hero__form-title">Расчёт вашего дома</p>
+              <p class="hero__form-sub">Пришлём смету с ценой каждого этапа за один рабочий день</p>
+              <div class="field">
+                <label for="hero-name">Как к вам обращаться</label>
+                <input type="text" id="hero-name" name="name" required autocomplete="name" placeholder="Имя">
+                <span class="field__error" id="hero-name-error">Пожалуйста, укажите имя</span>
+              </div>
+              <div class="field">
+                <label for="hero-phone">Телефон</label>
+                <input type="tel" id="hero-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
+                <span class="field__error" id="hero-phone-error">Введите номер полностью</span>
+              </div>
+              <input type="hidden" name="project" value="Первый экран">
+              <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <label class="consent">
+                <input type="checkbox" name="consent" required>
+                <span>Согласен на обработку персональных данных в соответствии с <a href="/politika/">политикой конфиденциальности</a></span>
+              </label>
+              <button class="btn btn--accent btn--block" type="submit">Получить смету</button>
+              <p class="hero__form-note">Без навязчивых звонков: перезваниваем один раз в рабочее время</p>
+            </div>
+            <p class="form__error" role="alert"></p>
+            <p class="form__ok" role="status">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
+          </form>
+        </aside>
         <div class="hero__facts">
           <div class="hero__fact"><b>от 32 000 ₽</b><span>за м², тёплый контур</span></div>
           <div class="hero__fact"><b>от 1,5 мес.</b><span>срок строительства</span></div>
@@ -143,6 +171,48 @@
       </div>
     </section>
 
+
+    <section class="section section--paper reveal" id="obekty">
+      <div class="container container--wide">
+        <div class="section__head section__head--row">
+          <div>
+            <p class="eyebrow" data-num="01">Наши проекты</p>
+            <h2>Дома, которые мы построили</h2>
+            <p class="lead">Дом в Гришкино снят на площадке. Рядом — проекты, по которым уже посчитаны сметы к договору: альбом чертежей и итоговая сумма, а не расчёт по средней ставке. Блок пополняется по мере сдачи домов.</p>
+          </div>
+          <a class="btn btn--ghost" href="/obekty/">Все объекты <span class="btn__arrow" aria-hidden="true">→</span></a>
+        </div>
+        <div class="bento">
+        <a class="tile" href="/proekty/kd-117/">
+          <div class="tile__media"><img src="/assets/img/photos/kd-117-foto-07.jpg" alt="Дом с террасой 8,45×10,5, 117 м²" loading="lazy" width="900" height="600"></div>
+          <div class="tile__body">
+            <p class="tile__badge">Объект, есть съёмка</p>
+            <h3>Дом с террасой 8,45×10,5</h3>
+            <p class="tile__meta"><span>8,45×10,5 м · 117 м²</span><span>2,5 месяца</span><span>Тёплый контур</span></p>
+            <p class="tile__place">Гришкино, Тверская область</p>
+          </div>
+        </a>
+        <a class="tile" href="/proekty/kd-152/">
+          <div class="tile__media"><img src="/assets/img/photos/kd-152-vid-1-800.jpg" srcset="/assets/img/photos/kd-152-vid-1-800.jpg 800w, /assets/img/photos/kd-152-vid-1.jpg 1700w" sizes="(min-width: 1100px) 33vw, 100vw" alt="Каркасный дом КД-152, 9,6×14,2 м" loading="lazy" width="900" height="600"></div>
+          <div class="tile__body">
+            <p class="tile__badge tile__badge--plan">Проект, альбом и смета</p>
+            <h3>Дом 9,6×14,2 (КД-152)</h3>
+            <p class="tile__meta"><span>152 м²</span><span>1 этаж</span><span>3 спальни</span></p>
+            <p class="tile__price">6 028 257 ₽ за тёплый контур</p>
+          </div>
+        </a>
+        <a class="tile" href="/proekty/kd-100/">
+          <div class="tile__media"><img src="/assets/img/photos/kd-100-viz-01-800.jpg" srcset="/assets/img/photos/kd-100-viz-01-800.jpg 800w, /assets/img/photos/kd-100-viz-01.jpg 1700w" sizes="(min-width: 1100px) 33vw, 100vw" alt="Каркасный дом КД-100, 8,5×10,0 м" loading="lazy" width="900" height="600"></div>
+          <div class="tile__body">
+            <p class="tile__badge tile__badge--plan">Проект, альбом и смета</p>
+            <h3>Дом 8,5×10,0 (КД-100)</h3>
+            <p class="tile__meta"><span>100 м²</span><span>1 этаж</span><span>3 спальни</span></p>
+            <p class="tile__price">4 452 858 ₽ за тёплый контур</p>
+          </div>
+        </a>
+        </div>
+      </div>
+    </section>
 
     <section class="section reveal">
       <div class="container">
@@ -202,53 +272,11 @@
       </div>
     </section>
 
-    <section class="section section--paper reveal" id="obekty">
-      <div class="container container--wide">
-        <div class="section__head section__head--row">
-          <div>
-            <p class="eyebrow" data-num="02">Построенные объекты</p>
-            <h2>Объект на площадке и свежие проекты</h2>
-            <p class="lead">Дом в Гришкино снят на площадке. По двум проектам показываем альбомы и суммы из смет к договору, а не расчёт по средней ставке.</p>
-          </div>
-          <a class="btn btn--ghost" href="/obekty/">Все объекты <span class="btn__arrow" aria-hidden="true">→</span></a>
-        </div>
-        <div class="bento">
-        <a class="tile" href="/proekty/kd-117/">
-          <div class="tile__media"><img src="/assets/img/photos/kd-117-foto-07.jpg" alt="Дом с террасой 8,45×10,5, 117 м²" loading="lazy" width="900" height="600"></div>
-          <div class="tile__body">
-            <p class="tile__badge">Объект, есть съёмка</p>
-            <h3>Дом с террасой 8,45×10,5</h3>
-            <p class="tile__meta"><span>8,45×10,5 м · 117 м²</span><span>2,5 месяца</span><span>Тёплый контур</span></p>
-            <p class="tile__place">Гришкино, Тверская область</p>
-          </div>
-        </a>
-        <a class="tile" href="/proekty/kd-152/">
-          <div class="tile__media"><img src="/assets/img/photos/kd-152-vid-1-800.jpg" srcset="/assets/img/photos/kd-152-vid-1-800.jpg 800w, /assets/img/photos/kd-152-vid-1.jpg 1700w" sizes="(min-width: 1100px) 33vw, 100vw" alt="Каркасный дом КД-152, 9,6×14,2 м" loading="lazy" width="900" height="600"></div>
-          <div class="tile__body">
-            <p class="tile__badge tile__badge--plan">Проект, альбом и смета</p>
-            <h3>Дом 9,6×14,2 (КД-152)</h3>
-            <p class="tile__meta"><span>152 м²</span><span>1 этаж</span><span>3 спальни</span></p>
-            <p class="tile__price">6 028 257 ₽ за тёплый контур</p>
-          </div>
-        </a>
-        <a class="tile" href="/proekty/kd-100/">
-          <div class="tile__media"><img src="/assets/img/photos/kd-100-viz-01-800.jpg" srcset="/assets/img/photos/kd-100-viz-01-800.jpg 800w, /assets/img/photos/kd-100-viz-01.jpg 1700w" sizes="(min-width: 1100px) 33vw, 100vw" alt="Каркасный дом КД-100, 8,5×10,0 м" loading="lazy" width="900" height="600"></div>
-          <div class="tile__body">
-            <p class="tile__badge tile__badge--plan">Проект, альбом и смета</p>
-            <h3>Дом 8,5×10,0 (КД-100)</h3>
-            <p class="tile__meta"><span>100 м²</span><span>1 этаж</span><span>3 спальни</span></p>
-            <p class="tile__price">4 452 858 ₽ за тёплый контур</p>
-          </div>
-        </a>
-        </div>
-      </div>
-    </section>
-
     <section class="section reveal" id="skolko">
       <div class="container">
         <div class="section__head section__head--row">
           <div>
-            <p class="eyebrow" data-num="03">Порядок цен</p>
+            <p class="eyebrow" data-num="02">Порядок цен</p>
             <h2>Сколько стоит дом такой площади</h2>
             <p class="lead">Ориентир до звонка и до калькулятора: сколько примерно стоит закрытый утеплённый дом и сколько — он же с отделкой.</p>
           </div>
@@ -292,7 +320,7 @@
       <div class="container container--wide">
         <div class="section__head section__head--row">
           <div>
-            <p class="eyebrow" data-num="04">Каталог проектов</p>
+            <p class="eyebrow" data-num="03">Каталог проектов</p>
             <h2>18 готовых проектов от 44 до 200 м²</h2>
             <p class="lead">Любой проект адаптируем под ваш участок: перепланировка, терраса, гараж, второй санузел.</p>
           </div>
@@ -390,7 +418,7 @@
     <section class="section section--paper reveal" id="ceny">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="05">Прозрачная цена</p>
+          <p class="eyebrow" data-num="04">Прозрачная цена</p>
           <h2>Три комплектации — видно, что входит, а что нет</h2>
           <p class="lead">Цена за квадратный метр включает работы и материалы. Никаких «плюс фундамент, плюс доставка, плюс подъём на этаж» в конце.</p>
         </div>
@@ -459,7 +487,7 @@
     <section class="section reveal" id="raschet">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="06">Калькулятор</p>
+          <p class="eyebrow" data-num="05">Калькулятор</p>
           <h2>Узнайте стоимость без звонка</h2>
           <p class="lead">Выберите площадь, этажность и комплектацию — сумма и разбивка по этапам пересчитываются сразу. Телефон спросим последним, уже после того как показали цифры.</p>
         </div>
@@ -520,7 +548,7 @@
     <section class="section section--dark reveal" id="tehnologiya">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="07">Технология</p>
+          <p class="eyebrow" data-num="06">Технология</p>
           <h2>Что скрыто за стеной вашего дома</h2>
           <p class="lead">Каркасный дом тёплый не сам по себе, а за счёт правильного порядка слоёв. Нажмите на слой, чтобы прочитать, зачем он нужен.</p>
         </div>
@@ -650,7 +678,7 @@
     <section class="section reveal" id="etapy">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="08">Как мы работаем</p>
+          <p class="eyebrow" data-num="07">Как мы работаем</p>
           <h2>Шесть шагов от звонка до ключей</h2>
         </div>
         <ol class="steps">
@@ -734,7 +762,7 @@
       <div class="container">
         <div class="section__head section__head--row">
           <div>
-            <p class="eyebrow" data-num="09">Доказательства</p>
+            <p class="eyebrow" data-num="08">Доказательства</p>
             <h2>Что вы получаете на бумаге, а не на словах</h2>
           </div>
           <p class="lead">Четыре документа, которые снимают главный вопрос: «а смета точно не вырастет?»</p>
@@ -802,7 +830,7 @@
     <section class="section reveal">
       <div class="container">
         <div class="section__head section__head--center">
-          <p class="eyebrow" data-num="10">Объекты на карте</p>
+          <p class="eyebrow" data-num="09">Объекты на карте</p>
           <h2>Строим по всей Тверской области</h2>
           <p class="lead">Выезд на замер по Твери и ближайшим районам — бесплатно. В отдалённые города считаем логистику отдельно и заранее, чтобы она не всплыла в конце сметы.</p>
         </div>
@@ -910,7 +938,7 @@
     <section class="section section--white reveal">
       <div class="container">
         <div class="section__head">
-          <p class="eyebrow" data-num="11">Вопросы</p>
+          <p class="eyebrow" data-num="10">Вопросы</p>
           <h2>Что спрашивают чаще всего</h2>
         </div>
         <div class="faq">
