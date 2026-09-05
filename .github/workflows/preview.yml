@@ -20,6 +20,8 @@ on:
     paths-ignore:
       - 'README.md'
       - 'DEPLOY.md'
+      # Сырьё от заказчика: в сборку не входит, пересобирать демо незачем.
+      - 'materials/**'
   workflow_dispatch:
 
 permissions:
