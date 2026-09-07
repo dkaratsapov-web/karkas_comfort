@@ -74,31 +74,34 @@ async function probe(raw) {
   const html = await res.text();
   console.log(`ответ ${res.status}, ${html.length} знаков`);
 
-  const ids = [...html.matchAll(/<script[^>]*id="([^"]+)"/g)].map((m) => m[1]);
-  console.log(`script id: ${ids.join(', ') || '—'}`);
-
-  for (const [name, re] of [
-    ['storage.yandex.net', /storage\.yandex\.net/g],
-    ['downloader.disk', /downloader\.disk\.yandex/g],
-    ['"file":', /"file":/g],
-    ['"sizes"', /"sizes"/g],
-    ['"resource_id"', /"resource_id"/g],
-    ['"public_key"', /"public_key"/g],
-    ['"sk"', /"sk"\s*:/g],
-    ['"hash"', /"hash"\s*:/g],
-    ['"name":', /"name":/g],
-    ['"media_type"', /"media_type"/g],
-  ]) {
-    console.log(`  ${name}: ${(html.match(re) || []).length}`);
+  const box = html.match(/<script[^>]*id="store-prefetch"[^>]*>([\s\S]*?)<\/script>/);
+  if (!box) {
+    console.log('store-prefetch на странице нет');
+  } else {
+    const text = box[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+    console.log(`store-prefetch: ${text.length} знаков`);
+    let data = null;
+    try { data = JSON.parse(text); } catch (e) { console.log(`не разобрался как JSON: ${e.message}`); }
+    if (data) {
+      const walkKeys = (obj, path = '', depth = 0) => {
+        if (depth > 3 || !obj || typeof obj !== 'object') return;
+        for (const [k, v] of Object.entries(obj)) {
+          const here = path ? `${path}.${k}` : k;
+          const kind = Array.isArray(v) ? `массив[${v.length}]` : typeof v;
+          console.log(`  ${here}: ${kind}`);
+          if (!Array.isArray(v)) walkKeys(v, here, depth + 1);
+          else if (v.length && typeof v[0] === 'object') {
+            console.log(`    первый элемент: ${JSON.stringify(v[0]).slice(0, 600)}`);
+          }
+        }
+      };
+      walkKeys(data);
+    }
   }
 
-  /* показываем окрестности первых интересных мест */
-  for (const re of [/"sizes"\s*:/, /"file"\s*:\s*"https/, /"media_type"\s*:/]) {
-    const m = html.match(re);
-    if (m) {
-      const i = Math.max(0, m.index - 700);
-      console.log(`\n--- около ${re.source} ---\n${html.slice(i, m.index + 900)}`);
-    }
+  const i = html.indexOf('downloader.disk');
+  if (i !== -1) {
+    console.log(`\n--- около первой ссылки на скачивание ---\n${html.slice(Math.max(0, i - 900), i + 600)}`);
   }
 }
 
