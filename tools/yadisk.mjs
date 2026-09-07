@@ -67,6 +67,41 @@ function candidates(raw) {
   return [...new Set(list)];
 }
 
+/* Разведка страницы: печатает, во что упакованы данные альбома.
+   Нужна один раз, чтобы написать разбор не наугад. Включается --probe. */
+async function probe(raw) {
+  const res = await fetch(raw, { headers: { 'user-agent': 'Mozilla/5.0', 'accept-language': 'ru' } });
+  const html = await res.text();
+  console.log(`ответ ${res.status}, ${html.length} знаков`);
+
+  const ids = [...html.matchAll(/<script[^>]*id="([^"]+)"/g)].map((m) => m[1]);
+  console.log(`script id: ${ids.join(', ') || '—'}`);
+
+  for (const [name, re] of [
+    ['storage.yandex.net', /storage\.yandex\.net/g],
+    ['downloader.disk', /downloader\.disk\.yandex/g],
+    ['"file":', /"file":/g],
+    ['"sizes"', /"sizes"/g],
+    ['"resource_id"', /"resource_id"/g],
+    ['"public_key"', /"public_key"/g],
+    ['"sk"', /"sk"\s*:/g],
+    ['"hash"', /"hash"\s*:/g],
+    ['"name":', /"name":/g],
+    ['"media_type"', /"media_type"/g],
+  ]) {
+    console.log(`  ${name}: ${(html.match(re) || []).length}`);
+  }
+
+  /* показываем окрестности первых интересных мест */
+  for (const re of [/"sizes"\s*:/, /"file"\s*:\s*"https/, /"media_type"\s*:/]) {
+    const m = html.match(re);
+    if (m) {
+      const i = Math.max(0, m.index - 700);
+      console.log(`\n--- около ${re.source} ---\n${html.slice(i, m.index + 900)}`);
+    }
+  }
+}
+
 async function diagnose(raw) {
   console.error('\nСмотрю саму страницу, чтобы понять, что это за ссылка…');
   try {
@@ -184,6 +219,7 @@ const mb = (n) => `${(n / 1024 / 1024).toFixed(1)} МБ`;
 let key = link;                         // рабочая форма ссылки, найденная подбором
 
 async function main() {
+  if (args.includes('--probe')) { await probe(link); return; }
   let root = null;
   const tried = [];
   for (const candidate of candidates(link)) {

@@ -26,6 +26,11 @@ on:
         description: "Подпапка внутри публичной ссылки, например /видео (пусто — вся папка)"
         required: false
         type: string
+      probe:
+        description: "Разведка: не качать, а показать, как устроена страница"
+        required: false
+        default: false
+        type: boolean
       video:
         description: "Что делать с видео"
         required: false
@@ -75,8 +80,13 @@ jobs:
           VIDEO: ${{ inputs.video }}
           MAX_MB: ${{ inputs.max_mb }}
           TOTAL_MB: ${{ inputs.total_mb }}
+          PROBE: ${{ inputs.probe }}
         run: |
           set -eu
+          if [ "${PROBE:-false}" = "true" ]; then
+            node tools/yadisk.mjs --link "$LINK" --probe
+            exit 0
+          fi
           node tools/yadisk.mjs \
             --link "$LINK" \
             --path "${SUBPATH:-/}" \
