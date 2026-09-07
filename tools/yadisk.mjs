@@ -105,6 +105,69 @@ async function probe(raw) {
   }
 }
 
+/* Разбор альбома. Публичный API альбомы не отдаёт, но на самой странице
+   лежат адреса вида downloader.disk.yandex.ru/preview/…?filename=…&size=…
+   Забираем их, просим кадр покрупнее и сохраняем под исходным именем.
+   Это запасной путь: с обычной публичной папкой работает надёжный API. */
+async function albumFiles(raw) {
+  const res = await fetch(raw, { headers: { 'user-agent': 'Mozilla/5.0', 'accept-language': 'ru' } });
+  if (!res.ok) throw new Error(`страница альбома ответила ${res.status}`);
+  const html = (await res.text()).replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/\\u002F/gi, '/');
+
+  const seen = new Map();
+  for (const m of html.matchAll(/https:\/\/downloader\.disk\.yandex\.[a-z]+\/preview\/[^"'\\\s<>)]+/g)) {
+    let url;
+    try { url = new URL(m[0]); } catch { continue; }
+    const name = url.searchParams.get('filename');
+    if (!name) continue;
+    /* у одного файла несколько превью разного размера — держим по одному на имя */
+    if (!seen.has(name)) seen.set(name, url);
+  }
+
+  return [...seen.entries()].map(([name, url]) => {
+    const big = new URL(url);
+    big.searchParams.set('size', 'XXXL');
+    big.searchParams.set('crop', '0');
+    return { name, url: big.toString(), fallback: url.toString() };
+  });
+}
+
+async function fetchAlbum(dir) {
+  const items = await albumFiles(link);
+  if (!items.length) throw new Error('на странице альбома не нашлось ни одного файла');
+  console.log(`Альбом: нашлось файлов ${items.length}. Кладу в ${dir}/`);
+
+  const taken = [];
+  const skipped = [];
+  for (const item of items) {
+    /* превью всегда приезжает картинкой, поэтому расширение приводим к .jpg,
+       а исходное имя оставляем в названии — по нему видно, что это было */
+    const stem = safe(basename(item.name, extname(item.name)));
+    const wasVideo = VIDEO.has(extname(item.name).toLowerCase());
+    const file = join(dir, wasVideo ? `_видео/${stem}-кадр.jpg` : `${stem}.jpg`);
+    let ok = false;
+    for (const url of [item.url, item.fallback]) {
+      try {
+        const r = await fetch(url);
+        if (!r.ok) continue;
+        const buf = Buffer.from(await r.arrayBuffer());
+        if (buf.length < 1024) continue;                 // заглушка вместо кадра
+        mkdirSync(dirname(file), { recursive: true });
+        writeFileSync(file, buf);
+        taken.push({ rel: file.replace(`${dir}/`, ''), size: buf.length, from: item.name, kind: wasVideo ? 'кадр из видео' : 'снимок' });
+        console.log(`  ✓ ${item.name} → ${basename(file)}, ${mb(buf.length)}`);
+        ok = true;
+        break;
+      } catch { /* пробуем следующий адрес */ }
+    }
+    if (!ok) {
+      skipped.push({ rel: item.name, size: 0, why: 'превью не отдалось' });
+      console.log(`  ✗ ${item.name}`);
+    }
+  }
+  return { taken, skipped, album: true };
+}
+
 async function diagnose(raw) {
   console.error('\nСмотрю саму страницу, чтобы понять, что это за ссылка…');
   try {
@@ -216,6 +279,37 @@ function grabFrames(file, outDir, seconds) {
   return made;
 }
 
+/* Опись партии: что взято, что пропущено и почему. Читается человеком
+   и служит подсказкой при разборе — потом папка удаляется целиком. */
+function writeReport(dir, taken, skipped, isAlbum) {
+  const lines = [
+    `Партия с Яндекс.Диска, ${today}`,
+    `Ссылка: ${link}`,
+    isAlbum ? 'Источник: альбом — забраны кадры со страницы, не исходные файлы' : '',
+    subPath !== '/' ? `Подпапка: ${subPath}` : '',
+    isAlbum ? '' : `Режим для видео: ${videoMode}`,
+    '',
+    `Взято: ${taken.length}`,
+    ...taken.map((t) => {
+      const info = t.info
+        ? `, ${Math.round(t.info.seconds)} с, ${t.info.width}×${t.info.height}, ${t.info.codec}`
+        : '';
+      const frames = t.kind === 'видео' ? `, кадров: ${t.frames}, сам ролик не сохранён` : '';
+      const from = t.from && t.from !== t.rel ? ` (из ${t.from})` : '';
+      return `  ${t.rel}${from} — ${mb(Number(t.size || 0))}${info}${frames}`;
+    }),
+  ];
+  if (skipped.length) {
+    lines.push('', `Пропущено: ${skipped.length}`,
+      ...skipped.map((t) => `  ${t.rel} — ${mb(Number(t.size || 0))} — ${t.why}`));
+  }
+  lines.push('', 'Что дальше: нужное переносится в assets/img/… и src/data/…,',
+    'разобранная папка удаляется целиком. Правила — в materials/README.md.', '');
+
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, '_опись.txt'), lines.filter((l) => l !== '').join('\n'), 'utf8');
+}
+
 /* ---------- разбор ---------- */
 const mb = (n) => `${(n / 1024 / 1024).toFixed(1)} МБ`;
 
@@ -236,12 +330,26 @@ async function main() {
     }
   }
   if (!root) {
-    console.error('Ни одна форма ссылки не открылась:');
-    tried.forEach((t) => console.error(`  ${t}`));
-    await diagnose(link);
-    console.error('\nНужна ссылка на папку вида https://disk.yandex.ru/d/…');
-    console.error('На Диске: выбрать папку → «Поделиться» → «Скопировать ссылку».');
-    process.exit(1);
+    /* Папкой ссылка не открылась. Возможно, это альбом — у него данные
+       лежат на самой странице, забираем оттуда. */
+    console.log('Публичным API ссылка не открылась:');
+    tried.forEach((t) => console.log(`  ${t}`));
+    console.log('Пробую разобрать как альбом.');
+    const dirA = join('materials', safe(arg('folder', `${today}-albom`)));
+    let result;
+    try {
+      result = await fetchAlbum(dirA);
+    } catch (e) {
+      console.error(`Альбом тоже не разобрался: ${e.message}`);
+      await diagnose(link);
+      console.error('\nНужна ссылка на папку вида https://disk.yandex.ru/d/…');
+      console.error('На Диске: выбрать папку → «Поделиться» → «Скопировать ссылку».');
+      process.exit(1);
+    }
+    writeReport(dirA, result.taken, result.skipped, true);
+    console.log(`\nГотово. Взято ${result.taken.length}, пропущено ${result.skipped.length}.`);
+    if (!result.taken.length) process.exit(1);
+    return;
   }
   const folder = safe(arg('folder', `${today}-${root.name || 'yadisk'}`));
   const dir = join('materials', folder);
@@ -303,31 +411,7 @@ async function main() {
 
   rmSync(temp, { recursive: true, force: true });
 
-  /* ---------- опись партии ---------- */
-  const lines = [
-    `Партия с Яндекс.Диска, ${today}`,
-    `Ссылка: ${link}`,
-    subPath !== '/' ? `Подпапка: ${subPath}` : '',
-    `Режим для видео: ${videoMode}`,
-    '',
-    `Взято: ${taken.length}`,
-    ...taken.map((t) => {
-      const info = t.info
-        ? `, ${Math.round(t.info.seconds)} с, ${t.info.width}×${t.info.height}, ${t.info.codec}`
-        : '';
-      const frames = t.kind === 'видео' ? `, кадров: ${t.frames}, сам ролик не сохранён` : '';
-      return `  ${t.rel} — ${mb(Number(t.size || 0))}${info}${frames}`;
-    }),
-  ];
-  if (skipped.length) {
-    lines.push('', `Пропущено: ${skipped.length}`,
-      ...skipped.map((t) => `  ${t.rel} — ${mb(Number(t.size || 0))} — ${t.why}`));
-  }
-  lines.push('', 'Что дальше: нужное переносится в assets/img/… и src/data/…,',
-    'разобранная папка удаляется целиком. Правила — в materials/README.md.', '');
-
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, '_опись.txt'), lines.filter((l) => l !== null).join('\n'), 'utf8');
+  writeReport(dir, taken, skipped, false);
 
   console.log(`\nГотово. Взято ${taken.length}, пропущено ${skipped.length}. Опись: ${join(dir, '_опись.txt')}`);
   if (!taken.length) process.exit(1);
