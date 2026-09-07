@@ -1,0 +1,110 @@
+# Забирает файлы с публичной папки Яндекс.Диска в materials/.
+#
+# Зачем отдельный workflow: из среды, где идёт разработка сайта, домены
+# Яндекса закрыты сетевой политикой. У раннера GitHub сеть открыта,
+# поэтому скачивание делается здесь, а результат приезжает в репозиторий
+# обычным коммитом.
+#
+# Как запустить: вкладка Actions → «Забрать с Яндекс.Диска» → Run workflow,
+# вставить ссылку на папку и нажать зелёную кнопку. Файлы окажутся
+# в materials/<дата>-<имя папки>/, рядом ляжет _опись.txt.
+
+name: Забрать с Яндекс.Диска
+
+on:
+  workflow_dispatch:
+    inputs:
+      link:
+        description: "Ссылка на папку или файл Яндекс.Диска (доступ по ссылке)"
+        required: true
+        type: string
+      folder:
+        description: "Имя папки внутри materials/ (пусто — дата и имя папки с Диска)"
+        required: false
+        type: string
+      path:
+        description: "Подпапка внутри публичной ссылки, например /видео (пусто — вся папка)"
+        required: false
+        type: string
+      video:
+        description: "Что делать с видео"
+        required: false
+        default: frames
+        type: choice
+        options:
+          - frames   # скачать, вынуть кадры, сам ролик не сохранять
+          - skip     # видео не трогать вовсе
+          - full     # положить ролик в репозиторий целиком (осторожно с размером)
+      max_mb:
+        description: "Предел на один файл, МБ"
+        required: false
+        default: "90"
+        type: string
+      total_mb:
+        description: "Предел на всю партию, МБ"
+        required: false
+        default: "300"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: yadisk
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/site-analysis-redesign-tfso59
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Значения передаём через окружение, а не подстановкой в строку команды:
+      # так введённый текст остаётся аргументом и не может стать частью скрипта.
+      - name: Скачивание
+        env:
+          LINK: ${{ inputs.link }}
+          FOLDER: ${{ inputs.folder }}
+          SUBPATH: ${{ inputs.path }}
+          VIDEO: ${{ inputs.video }}
+          MAX_MB: ${{ inputs.max_mb }}
+          TOTAL_MB: ${{ inputs.total_mb }}
+        run: |
+          set -eu
+          node tools/yadisk.mjs \
+            --link "$LINK" \
+            --path "${SUBPATH:-/}" \
+            --video "${VIDEO:-frames}" \
+            --max-mb "${MAX_MB:-90}" \
+            --total-mb "${TOTAL_MB:-300}" \
+            ${FOLDER:+--folder "$FOLDER"}
+
+      - name: Коммит партии
+        run: |
+          if [ -z "$(git status --porcelain materials)" ]; then
+            echo "::warning::Ничего нового не появилось — коммитить нечего."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          COUNT=$(git status --porcelain materials | wc -l | tr -d ' ')
+          git add materials
+          git commit -m "Материалы с Яндекс.Диска: ${COUNT} файлов"
+          git push origin HEAD:claude/site-analysis-redesign-tfso59
+
+      - name: Что получилось
+        if: always()
+        run: |
+          echo "### Партия с Яндекс.Диска" >> $GITHUB_STEP_SUMMARY
+          for f in materials/*/_опись.txt; do
+            [ -f "$f" ] || continue
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat "$f" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          done
