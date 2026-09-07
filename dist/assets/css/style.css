@@ -791,6 +791,17 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .shots img:hover { transform: translateY(-3px) scale(1.004); box-shadow: var(--sh-2); }
 .shots--photos > *:first-child { grid-column: span 2; }
 .shots--photos > *:first-child img { aspect-ratio: 16 / 9; }
+/* Неровная сетка кадров: каждая фотография занимает свою настоящую высоту,
+   вертикальные не обрезаются. Раскладка колонками — высоты выравниваются сами,
+   ряды получаются со сдвигом, а не под линейку. */
+.shots--free { display: block; column-count: 2; column-gap: clamp(10px, 1vw, 16px); }
+.shots--free figure { break-inside: avoid; margin: 0 0 clamp(10px, 1vw, 16px); }
+.shots--free img { aspect-ratio: auto; height: auto; }
+.shots--free > *:first-child { grid-column: auto; }
+@media (max-width: 559px) { .shots--free { column-count: 1; } }
+@media (min-width: 1000px) { .shots--free { column-count: 3; } }
+@media (min-width: 1400px) { .shots--free { column-count: 4; } }
+
 .shots--sheets img { aspect-ratio: 3 / 2; object-fit: contain; background: var(--surface); padding: clamp(8px, 1vw, 14px); }
 .shots figcaption { margin-top: 9px; font-size: 13.5px; color: var(--muted); }
 @media (min-width: 760px) { .shots { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

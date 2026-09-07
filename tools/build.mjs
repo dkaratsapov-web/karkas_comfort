@@ -52,6 +52,29 @@ const srcset = (f, sizes) => {
   const alt = small(f);
   return alt === f ? `src="${img(f)}"` : `src="${img(alt)}" srcset="${img(alt)} 800w, ${img(f)} 1700w" sizes="${sizes}"`;
 };
+/* Настоящие размеры кадра: нужны, чтобы в неровной сетке кадр занимал
+   ровно свою высоту и страница не дёргалась при загрузке. Читаем заголовок
+   JPEG — SOF-маркер несёт высоту и ширину. */
+const sizeCache = new Map();
+function imgSize(file) {
+  if (sizeCache.has(file)) return sizeCache.get(file);
+  let out = { w: 1200, h: 900 };
+  try {
+    const buf = readFileSync(`assets/img/photos/${file}`);
+    for (let i = 2; i + 9 < buf.length;) {
+      if (buf[i] !== 0xff) { i++; continue; }
+      const marker = buf[i + 1];
+      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+        out = { h: buf.readUInt16BE(i + 5), w: buf.readUInt16BE(i + 7) };
+        break;
+      }
+      i += 2 + buf.readUInt16BE(i + 2);
+    }
+  } catch { /* нет файла — останутся значения по умолчанию */ }
+  sizeCache.set(file, out);
+  return out;
+}
+
 const photoAlt = (p, i) => `Каркасный дом ${p.code} ${p.size} м, ${p.photos && p.photos.length ? 'фото' : 'кадр'} ${i + 1}`;
 
 
@@ -973,7 +996,10 @@ for (const c of cases) {
   if (!list.length) continue;
 
   const alt = (i) => `${esc(c.title)}, фото ${i + 1}`;
-  const shots = list.map((f, i) => `          <figure><img ${srcset(f, "(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw")} alt="${alt(i)}" loading="lazy" width="900" height="675" data-zoom="${img(f)}" data-zoom-group="${c.slug}-all"></figure>`).join('\n');
+  const shots = list.map((f, i) => {
+    const { w, h } = imgSize(f);
+    return `          <figure><img ${srcset(f, "(min-width: 1400px) 24vw, (min-width: 1000px) 32vw, (min-width: 560px) 48vw, 92vw")} alt="${alt(i)}" loading="${i < 2 ? 'eager' : 'lazy'}" width="${w}" height="${h}" data-zoom="${img(f)}" data-zoom-group="${c.slug}-all"></figure>`;
+  }).join('\n');
 
   const facts = caseMeta(c);
   const meta = {
@@ -1003,7 +1029,7 @@ for (const c of cases) {
     <section class="section section--tight">
       <div class="container">
         <h2 class="sr-only">Съёмка объекта</h2>
-        <div class="shots shots--photos">
+        <div class="shots shots--free">
 ${shots}
         </div>
       </div>
