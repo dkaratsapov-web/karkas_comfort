@@ -119,60 +119,95 @@ async function probe(raw) {
 async function albumFiles(raw) {
   const res = await fetch(raw, { headers: { 'user-agent': 'Mozilla/5.0', 'accept-language': 'ru' } });
   if (!res.ok) throw new Error(`страница альбома ответила ${res.status}`);
-  const html = (await res.text()).replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/\\u002F/gi, '/');
+  const html = await res.text();
 
-  const seen = new Map();
-  for (const m of html.matchAll(/https:\/\/downloader\.disk\.yandex\.[a-z]+\/preview\/[^"'\\\s<>)]+/g)) {
-    let url;
-    try { url = new URL(m[0]); } catch { continue; }
-    const name = url.searchParams.get('filename');
-    if (!name) continue;
-    /* у одного файла несколько превью разного размера — держим по одному на имя */
-    if (!seen.has(name)) seen.set(name, url);
-  }
+  const box = html.match(/<script[^>]*id="store-prefetch"[^>]*>([\s\S]*?)<\/script>/);
+  if (!box) throw new Error('на странице альбома нет store-prefetch — разбирать нечего');
+  const text = box[1]
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');                       // амперсанд разэкранируем последним
+  const store = JSON.parse(text);
 
-  return [...seen.entries()].map(([name, url]) => {
-    const big = new URL(url);
-    big.searchParams.set('size', 'XXXL');
-    big.searchParams.set('crop', '0');
-    return { name, url: big.toString(), fallback: url.toString() };
-  });
+  const items = Object.values(store.resources || {}).filter((r) => r.type === 'file');
+  if (!items.length) throw new Error('в альбоме не нашлось файлов');
+
+  /* Имя партии берём из пути на Диске: «кк_павлинов_сдача» говорит больше,
+     чем дата альбома. */
+  const source = (items[0].path || '').split('/').slice(0, -1).pop() || 'albom';
+
+  return {
+    source,
+    items: items.map((r) => {
+      const meta = r.meta || {};
+      /* HEIC и прочее, чего браузер не покажет, берём готовым кадром JPEG —
+         на сайт всё равно идёт пережатая картинка. Остальное — оригиналом. */
+      const webReady = /\.(jpe?g|png|webp|gif|mp4|pdf)$/i.test(r.name);
+      const asPreview = !webReady;
+      const url = asPreview
+        ? (meta.xxxlPreview || meta.defaultPreview || meta.original)
+        : (meta.original || meta.xxxlPreview || meta.defaultPreview);
+      const stem = safe(basename(r.name, extname(r.name)));
+      return {
+        name: r.name,
+        url,
+        fallback: meta.defaultPreview || meta.original || meta.xxxlPreview,
+        outName: asPreview ? `${stem}.jpg` : safe(r.name),
+        size: Number(meta.size || 0),
+        mediatype: meta.mediatype || '',
+        asPreview,
+      };
+    }),
+  };
 }
 
-async function fetchAlbum(dir) {
-  const items = await albumFiles(link);
-  if (!items.length) throw new Error('на странице альбома не нашлось ни одного файла');
-  console.log(`Альбом: нашлось файлов ${items.length}. Кладу в ${dir}/`);
+async function fetchAlbum(folderArg) {
+  const { source, items } = await albumFiles(link);
+  const dir = join('materials', safe(folderArg || `${today}-${source}`));
+  console.log(`Альбом «${source}»: файлов ${items.length}. Кладу в ${dir}/`);
 
   const taken = [];
   const skipped = [];
+  let used = 0;
+
   for (const item of items) {
-    /* превью всегда приезжает картинкой, поэтому расширение приводим к .jpg,
-       а исходное имя оставляем в названии — по нему видно, что это было */
-    const stem = safe(basename(item.name, extname(item.name)));
-    const wasVideo = VIDEO.has(extname(item.name).toLowerCase());
-    const file = join(dir, wasVideo ? `_видео/${stem}-кадр.jpg` : `${stem}.jpg`);
+    if (item.mediatype === 'video' && videoMode === 'skip') {
+      skipped.push({ rel: item.name, size: item.size, why: 'видео пропущено по настройке' });
+      continue;
+    }
+    if (used > totalBytes) {
+      skipped.push({ rel: item.name, size: item.size, why: 'исчерпан общий лимит партии' });
+      continue;
+    }
+
     let ok = false;
-    for (const url of [item.url, item.fallback]) {
+    for (const url of [item.url, item.fallback].filter(Boolean)) {
       try {
         const r = await fetch(url);
         if (!r.ok) continue;
         const buf = Buffer.from(await r.arrayBuffer());
-        if (buf.length < 1024) continue;                 // заглушка вместо кадра
+        if (buf.length < 2048) continue;              // заглушка вместо снимка
+        const file = join(dir, item.outName);
         mkdirSync(dirname(file), { recursive: true });
         writeFileSync(file, buf);
-        taken.push({ rel: file.replace(`${dir}/`, ''), size: buf.length, from: item.name, kind: wasVideo ? 'кадр из видео' : 'снимок' });
-        console.log(`  ✓ ${item.name} → ${basename(file)}, ${mb(buf.length)}`);
+        used += buf.length;
+        taken.push({
+          rel: item.outName,
+          size: buf.length,
+          from: item.asPreview ? `${item.name}, ${mb(item.size)}` : '',
+          kind: item.asPreview ? 'кадр XXXL' : 'оригинал',
+        });
+        console.log(`  ✓ ${item.name} → ${item.outName}, ${mb(buf.length)}${item.asPreview ? ' (кадр XXXL)' : ''}`);
         ok = true;
         break;
-      } catch { /* пробуем следующий адрес */ }
+      } catch { /* пробуем запасной адрес */ }
     }
     if (!ok) {
-      skipped.push({ rel: item.name, size: 0, why: 'превью не отдалось' });
+      skipped.push({ rel: item.name, size: item.size, why: 'файл не отдался' });
       console.log(`  ✗ ${item.name}`);
     }
   }
-  return { taken, skipped, album: true };
+  return { taken, skipped, dir };
 }
 
 async function diagnose(raw) {
@@ -342,10 +377,9 @@ async function main() {
     console.log('Публичным API ссылка не открылась:');
     tried.forEach((t) => console.log(`  ${t}`));
     console.log('Пробую разобрать как альбом.');
-    const dirA = join('materials', safe(arg('folder', `${today}-albom`)));
     let result;
     try {
-      result = await fetchAlbum(dirA);
+      result = await fetchAlbum(arg('folder'));
     } catch (e) {
       console.error(`Альбом тоже не разобрался: ${e.message}`);
       await diagnose(link);
@@ -353,7 +387,7 @@ async function main() {
       console.error('На Диске: выбрать папку → «Поделиться» → «Скопировать ссылку».');
       process.exit(1);
     }
-    writeReport(dirA, result.taken, result.skipped, true);
+    writeReport(result.dir, result.taken, result.skipped, true);
     console.log(`\nГотово. Взято ${result.taken.length}, пропущено ${result.skipped.length}.`);
     if (!result.taken.length) process.exit(1);
     return;

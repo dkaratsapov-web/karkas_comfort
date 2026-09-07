@@ -362,15 +362,28 @@ function costsBlock() {
   }).join('\n');
 }
 
-const caseTile = (c) => `        <a class="tile" href="${projectUrl(c.slug)}">
-          <div class="tile__media"><img src="${c.photos && c.photos.length ? `/assets/img/photos/${c.photos[0]}` : `/assets/img/projects/${c.slug}.svg`}" alt="${esc(c.title)}, ${c.area} м²" loading="lazy" width="900" height="600"></div>
+/* Кейс ведёт на страницу проекта, если такая есть, иначе — на свою
+   страницу объекта /obekty/<slug>/. Характеристики выводим только те,
+   что известны: у свежего объекта их может не быть вовсе. */
+const caseUrl = (c) => (projects.some((p) => p.slug === c.slug) ? projectUrl(c.slug) : `/obekty/${c.slug}/`);
+const caseMeta = (c) => [
+  c.size && c.area ? `${c.size} м · ${c.area} м²` : c.area ? `${c.area} м²` : '',
+  c.term || '',
+  c.tier ? esc(c.tier) : '',
+].filter(Boolean);
+
+const caseTile = (c) => {
+  const meta = caseMeta(c);
+  return `        <a class="tile" href="${caseUrl(c)}">
+          <div class="tile__media"><img src="${c.photos && c.photos.length ? `/assets/img/photos/${c.photos[0]}` : `/assets/img/projects/${c.slug}.svg`}" alt="${esc(c.title)}${c.area ? `, ${c.area} м²` : ''}" loading="lazy" width="900" height="600"></div>
           <div class="tile__body">
-            <p class="tile__badge">Объект, есть съёмка</p>
+            <p class="tile__badge">${esc(c.badge || 'Объект, есть съёмка')}</p>
             <h3>${esc(c.title)}</h3>
-            <p class="tile__meta"><span>${c.size} м · ${c.area} м²</span><span>${c.term}</span><span>${esc(c.tier)}</span></p>
+            ${meta.length ? `<p class="tile__meta">${meta.map((x) => `<span>${x}</span>`).join('')}</p>` : ''}
             ${c.place ? `<p class="tile__place">${esc(c.place)}</p>` : ''}
           </div>
         </a>`;
+};
 
 /* Отзывы: пока реальных нет, блок не выводится вовсе — выдуманные отзывы
    с сайта сняты, вёрстка ждёт настоящих (см. src/data/README.md). */
@@ -949,6 +962,75 @@ writeFileSync(`${OUT}/proekt.html`, rebase(`<!doctype html>
 <body><p>Страница переехала: <a href="/proekty/">каталог проектов</a>.</p></body>
 </html>
 `));
+
+/* ---------- страницы объектов ---------- */
+/* Объект, у которого ещё нет проекта в каталоге, получает свою страницу
+   со съёмкой. Характеристики публикуются только известные — числа
+   и сроки не додумываем. */
+for (const c of cases) {
+  if (projects.some((p) => p.slug === c.slug)) continue;    // такой уже описан как проект
+  const list = c.photos || [];
+  if (!list.length) continue;
+
+  const alt = (i) => `${esc(c.title)}, фото ${i + 1}`;
+  const shots = list.map((f, i) => `          <figure><img ${srcset(f, "(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw")} alt="${alt(i)}" loading="lazy" width="900" height="675" data-zoom="${img(f)}" data-zoom-group="${c.slug}-all"></figure>`).join('\n');
+
+  const facts = caseMeta(c);
+  const meta = {
+    title: `${c.title} — построенный каркасный дом | Каркас Комфорт`,
+    description: `${c.title}: ${list.length} фотографий с объекта${c.place ? `, ${c.place}` : ''}. ${c.lead || 'Съёмка с площадки после сдачи дома.'}`.slice(0, 300),
+    priority: 0.7,
+    breadcrumb: [
+      { name: 'Главная', url: '/' },
+      { name: 'Построенные объекты', url: '/obekty.html' },
+      { name: c.title, url: `/obekty/${c.slug}/` },
+    ],
+  };
+
+  const content = `    <div class="page-head">
+      <div class="container container--wide">
+        <nav class="crumbs" aria-label="Хлебные крошки">
+          <ol><li><a href="/">Главная</a></li><li><a href="/obekty.html">Построенные объекты</a></li><li>${esc(c.title)}</li></ol>
+        </nav>
+        <p class="eyebrow" data-num="—" style="margin-top:22px">${esc(c.badge || 'Объект, есть съёмка')}</p>
+        <h1>${esc(c.title)}</h1>
+        ${c.lead ? `<p class="lead">${esc(c.lead)}</p>` : ''}
+        ${facts.length ? `<ul class="specs">${facts.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
+        ${c.place ? `<p class="muted" style="margin-top:14px">${esc(c.place)}</p>` : ''}
+      </div>
+    </div>
+
+    <section class="section section--tight">
+      <div class="container">
+        <h2 class="sr-only">Съёмка объекта</h2>
+        <div class="shots shots--photos">
+${shots}
+        </div>
+      </div>
+    </section>
+${c.seen && c.seen.length ? `
+    <section class="section section--paper">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Что видно на съёмке</p>
+          <h2>Как дом сдан заказчику</h2>
+        </div>
+        <ul class="checks checks--wide">${c.seen.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+      </div>
+    </section>` : ''}
+
+${cta}
+`;
+
+  mkdirSync(`${OUT}/obekty/${c.slug}`, { recursive: true });
+  const blocks = [breadcrumbLd(meta.breadcrumb)];
+  writeFileSync(`${OUT}/obekty/${c.slug}/index.html`,
+    page({ file: `obekty/${c.slug}/`, meta, content, extraLd: blocks.join('\n') }));
+  if (PREVIEW) writeFileSync(`${OUT}/obekty/${c.slug}.html`, rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url=/obekty/${c.slug}/"><link rel="canonical" href="/obekty/${c.slug}/"></head>
+<body><a href="/obekty/${c.slug}/">${esc(c.title)}</a></body></html>`));
+  built.push({ url: `/obekty/${c.slug}/`, priority: 0.7 });
+}
 
 /* ---------- sitemap ---------- */
 const today = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);

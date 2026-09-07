@@ -876,6 +876,10 @@ section[id], div[id] { scroll-margin-top: 88px; }
 }
 /* блок «не входит» отделяем от списка включённого */
 .checks li:not(.no) + .no { margin-top: 10px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+/* перечень «что видно на съёмке»: в две колонки на широком экране */
+.checks--wide { gap: 12px; }
+@media (min-width: 760px) { .checks--wide { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 3vw, 48px); } }
+
 .switch { display: inline-flex; align-items: center; gap: 10px; min-height: var(--tap); font-size: 15px; }
 .switch input { width: 22px; height: 22px; accent-color: var(--brand); }
 
