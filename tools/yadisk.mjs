@@ -49,6 +49,41 @@ const safe = (s) => String(s)
   .replace(/^[.\s]+|[.\s]+$/g, '')
   .slice(0, 80) || 'file';
 
+/* Ссылка на альбом (disk.yandex.ru/a/…) публичным API не отдаётся: он знает
+   только папки и файлы. Иногда за альбомом стоит та же публичная папка, просто
+   с другим видом адреса, поэтому перед тем как сдаться, пробуем родственные
+   формы. Если не вышло ни одной — заглядываем на саму страницу и рассказываем,
+   что там лежит, чтобы не гадать вслепую. */
+function candidates(raw) {
+  const list = [raw];
+  const m = raw.match(/^https?:\/\/(disk\.yandex\.[a-z.]+|yadi\.sk)\/([adi])\/([^/?#]+)/i);
+  if (m) {
+    const [, host, kind, hash] = m;
+    for (const k of ['d', 'i', 'a']) {
+      if (k !== kind) list.push(`https://${host}/${k}/${hash}`);
+    }
+    if (host !== 'disk.yandex.ru') list.push(`https://disk.yandex.ru/d/${hash}`);
+  }
+  return [...new Set(list)];
+}
+
+async function diagnose(raw) {
+  console.error('\nСмотрю саму страницу, чтобы понять, что это за ссылка…');
+  try {
+    const res = await fetch(raw, { headers: { 'user-agent': 'Mozilla/5.0', 'accept-language': 'ru' } });
+    const html = await res.text();
+    console.error(`  ответ страницы: ${res.status}, размер ${html.length} знаков`);
+    const title = html.match(/<title[^>]*>([^<]{0,160})/i);
+    if (title) console.error(`  заголовок: ${title[1].trim()}`);
+    const keys = [...new Set([...html.matchAll(/"public_key"\s*:\s*"([^"]{6,120})"/g)].map((x) => x[1]))];
+    if (keys.length) console.error(`  public_key на странице: ${keys.slice(0, 5).join(', ')}`);
+    const albums = /album|Альбом/i.test(html);
+    console.error(`  похоже на альбом: ${albums ? 'да' : 'нет'}`);
+  } catch (e) {
+    console.error(`  страницу тоже не удалось открыть: ${e.message}`);
+  }
+}
+
 /* ---------- обращения к API ---------- */
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -69,7 +104,7 @@ async function api(params, tries = 4) {
 async function listDir(path) {
   const items = [];
   for (let offset = 0; ; offset += 200) {
-    const data = await api({ query: { public_key: link, path, limit: 200, offset, sort: 'name' } });
+    const data = await api({ query: { public_key: key, path, limit: 200, offset, sort: 'name' } });
     const box = data._embedded;
     if (!box) {                                   // одиночный файл, а не папка
       return [data];
@@ -95,7 +130,7 @@ async function walk(path, rel = '') {
 
 async function hrefOf(item) {
   if (item.file) return item.file;
-  const data = await api({ endpoint: '/download', query: { public_key: link, path: item.path } });
+  const data = await api({ endpoint: '/download', query: { public_key: key, path: item.path } });
   return data.href;
 }
 
@@ -146,8 +181,29 @@ function grabFrames(file, outDir, seconds) {
 /* ---------- разбор ---------- */
 const mb = (n) => `${(n / 1024 / 1024).toFixed(1)} МБ`;
 
+let key = link;                         // рабочая форма ссылки, найденная подбором
+
 async function main() {
-  const root = await api({ query: { public_key: link, path: subPath, limit: 1 } });
+  let root = null;
+  const tried = [];
+  for (const candidate of candidates(link)) {
+    try {
+      root = await api({ query: { public_key: candidate, path: subPath, limit: 1 } });
+      key = candidate;
+      if (candidate !== link) console.log(`Ссылка подобрана: ${candidate}`);
+      break;
+    } catch (e) {
+      tried.push(`${candidate} — ${e.message.split('\n')[0]}`);
+    }
+  }
+  if (!root) {
+    console.error('Ни одна форма ссылки не открылась:');
+    tried.forEach((t) => console.error(`  ${t}`));
+    await diagnose(link);
+    console.error('\nНужна ссылка на папку вида https://disk.yandex.ru/d/…');
+    console.error('На Диске: выбрать папку → «Поделиться» → «Скопировать ссылку».');
+    process.exit(1);
+  }
   const folder = safe(arg('folder', `${today}-${root.name || 'yadisk'}`));
   const dir = join('materials', folder);
 
