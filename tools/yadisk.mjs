@@ -74,6 +74,13 @@ async function probe(raw) {
   const html = await res.text();
   console.log(`ответ ${res.status}, ${html.length} знаков`);
 
+  /* саму страницу кладём в репозиторий: разбирать её удобнее у себя,
+     чем вычитывать по кускам из журнала прогона. Папка временная. */
+  const spy = join('materials', '_разведка');
+  mkdirSync(spy, { recursive: true });
+  writeFileSync(join(spy, 'stranica.html'), html, 'utf8');
+  console.log(`страница сохранена: ${join(spy, 'stranica.html')}`);
+
   const box = html.match(/<script[^>]*id="store-prefetch"[^>]*>([\s\S]*?)<\/script>/);
   if (!box) {
     console.log('store-prefetch на странице нет');
