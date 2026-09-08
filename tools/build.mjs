@@ -995,9 +995,45 @@ for (const c of cases) {
   if (!list.length) continue;
 
   const alt = (i) => `${esc(c.title)}, фото ${i + 1}`;
-  const cell = (f, i) => {
-    const { w, h } = imgSize(f);
-    return `          <figure><img ${srcset(f, "(min-width: 1400px) 24vw, (min-width: 1000px) 32vw, (min-width: 560px) 48vw, 92vw")} alt="${alt(i)}" loading="${i < 2 ? 'eager' : 'lazy'}" width="${w}" height="${h}" data-zoom="${img(f)}" data-zoom-group="${c.slug}-all"></figure>`;
+  /* Раскладка рядами разной плотности. Ряд набирается по сумме пропорций:
+     широкий кадр «съедает» больше места, вертикальный — меньше, поэтому ряды
+     получаются с разным числом кадров. Внутри ряда ширина каждого кадра
+     пропорциональна его собственной пропорции, высота у всех одна —
+     значит ничего не обрезается и сетка не выглядит расчерченной. */
+  const RHYTHM = [2.3, 3.5, 2.9, 3.9, 3.1, 2.6];
+
+  function rows(files, offset) {
+    const items = files.map((f, i) => {
+      const { w, h } = imgSize(f);
+      return { f, i: offset + i, a: Math.max(0.5, Math.min(2.6, w / h)) };
+    });
+    const out = [];
+    let row = [], sum = 0, r = 0;
+    for (const it of items) {
+      row.push(it); sum += it.a;
+      if (sum >= RHYTHM[r % RHYTHM.length]) { out.push(row); row = []; sum = 0; r++; }
+    }
+    if (row.length) {
+      /* одинокий кадр в хвосте растянулся бы во всю ширину — подклеиваем к прошлому ряду */
+      const tail = row.reduce((n, it) => n + it.a, 0);
+      if (out.length && tail < 1.7) out[out.length - 1].push(...row);
+      else out.push(row);
+    }
+    return out;
+  }
+
+  const cell = (it) => `            <figure style="--a:${it.a.toFixed(3)}"><img ${srcset(it.f, "(min-width: 1000px) 40vw, 92vw")} alt="${alt(it.i)}" loading="${it.i < 2 ? 'eager' : 'lazy'}" width="${imgSize(it.f).w}" height="${imgSize(it.f).h}" data-zoom="${img(it.f)}" data-zoom-group="${c.slug}-all"></figure>`;
+
+  const grid = (files, offset) => {
+    const rs = rows(files, offset);
+    /* группа из одного ряда, который не дотягивает до полной ширины,
+       ставится по центру — иначе кадр выглядит брошенным у левого края */
+    const solo = rs.length === 1 && rs[0].reduce((n, it) => n + it.a, 0) < 2.6;
+    return `          <div class="shots shots--rows">
+${rs.map((row) => `            <div class="shots__row${solo ? ' shots__row--solo' : ''}" style="--sum:${row.reduce((n, it) => n + it.a, 0).toFixed(2)}">
+${row.map(cell).join('\n')}
+            </div>`).join('\n')}
+          </div>`;
   };
 
   /* Съёмка разложена по типам помещений: снаружи, комнаты, санузел и так далее.
@@ -1012,9 +1048,7 @@ for (const c of cases) {
       if (!slice.length) continue;
       parts.push(`        <section class="shots-group">
           <h2 class="shots-group__title">${esc(g.title)}<span>${slice.length}</span></h2>
-          <div class="shots shots--free">
-${slice.map((f, i) => cell(f, at + i)).join('\n')}
-          </div>
+${grid(slice, at)}
         </section>`);
       at += g.count;
     }
@@ -1022,16 +1056,12 @@ ${slice.map((f, i) => cell(f, at + i)).join('\n')}
     if (rest.length) {
       parts.push(`        <section class="shots-group">
           <h2 class="shots-group__title">Ещё кадры<span>${rest.length}</span></h2>
-          <div class="shots shots--free">
-${rest.map((f, i) => cell(f, at + i)).join('\n')}
-          </div>
+${grid(rest, at)}
         </section>`);
     }
     gallery = parts.join('\n');
   } else {
-    gallery = `        <div class="shots shots--free">
-${list.map(cell).join('\n')}
-        </div>`;
+    gallery = grid(list, 0);
   }
 
   const facts = caseMeta(c);

@@ -808,16 +808,29 @@ section[id], div[id] { scroll-margin-top: 88px; }
   content: ""; order: 2; flex: 1; height: 1px; background: var(--line);
 }
 
-/* Неровная сетка кадров: каждая фотография занимает свою настоящую высоту,
-   вертикальные не обрезаются. Раскладка колонками — высоты выравниваются сами,
-   ряды получаются со сдвигом, а не под линейку. */
-.shots--free { display: block; column-count: 2; column-gap: clamp(10px, 1vw, 16px); }
-.shots--free figure { break-inside: avoid; margin: 0 0 clamp(10px, 1vw, 16px); }
-.shots--free img { aspect-ratio: auto; height: auto; }
-.shots--free > *:first-child { grid-column: auto; }
-@media (max-width: 559px) { .shots--free { column-count: 1; } }
-@media (min-width: 1000px) { .shots--free { column-count: 3; } }
-@media (min-width: 1400px) { .shots--free { column-count: 4; } }
+/* Съёмка рядами разной плотности: ширина кадра пропорциональна его
+   собственной пропорции, высота внутри ряда общая. Ничего не обрезается,
+   и ряды не выстраиваются под одну линейку. */
+.shots--rows { display: flex; flex-direction: column; gap: clamp(8px, .9vw, 14px); }
+/* Ряд из одного-двух кадров не растягиваем во всю ширину: иначе одинокая
+   фотография вырастает на целый экран. Предел ширины считается из суммы
+   пропорций ряда — так высота ряда остаётся соразмерной соседним. */
+.shots__row { display: flex; flex-wrap: wrap; gap: clamp(8px, .9vw, 14px); max-width: calc(var(--sum, 3) * 460px); }
+.shots__row--solo { margin-inline: auto; }
+.shots__row figure {
+  margin: 0;
+  flex: var(--a, 1.4) 1 calc(var(--a, 1.4) * 130px);
+  min-width: min(100%, 210px);
+}
+.shots__row img {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: var(--a, 1.4); object-fit: cover;
+  border-radius: var(--r); background: var(--page-2);
+}
+@media (hover: hover) {
+  .shots__row figure { transition: transform .4s var(--ease); }
+  .shots__row figure:hover { transform: translateY(-3px); }
+}
 
 .shots--sheets img { aspect-ratio: 3 / 2; object-fit: contain; background: var(--surface); padding: clamp(8px, 1vw, 14px); }
 .shots figcaption { margin-top: 9px; font-size: 13.5px; color: var(--muted); }
