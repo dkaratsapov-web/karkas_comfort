@@ -54,7 +54,7 @@
   --section-y: clamp(44px, 4.6vw, 76px);
   --tap: 48px;                      /* минимальная тач-цель */
   --actionbar: 76px;
-  --header-h: 84px;                  /* высота капсулы шапки: под вертикальный логотип */                /* высота мобильной панели действий */
+  --header-h: 70px;                  /* высота капсулы шапки */                /* высота мобильной панели действий */
 
   --display: "Nunito", "Segoe UI", system-ui, sans-serif;
   --text: "Golos Text", "Segoe UI", system-ui, sans-serif;
@@ -262,48 +262,58 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .topbar { display: none; }
 
 .header {
-  position: sticky; top: 14px; z-index: 50;
-  padding: 14px var(--gutter) 0;
+  position: sticky; top: 10px; z-index: 50;
+  padding: 10px var(--gutter) 0;
   pointer-events: none;
 }
 .header__row {
   pointer-events: auto;
   display: flex; align-items: center; gap: clamp(12px, 1.6vw, 26px);
   width: 100%; max-width: 1760px; margin: 0 auto;
-  min-height: var(--header-h); padding: 8px 8px 8px clamp(16px, 1.4vw, 24px);
-  background: rgba(252, 250, 245, .96);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  backdrop-filter: blur(16px) saturate(1.2);
-  border-radius: 26px;
-  box-shadow: 0 0 0 1px rgba(23, 21, 15, .06), 0 14px 38px -18px rgba(38, 30, 20, .5);
+  min-height: var(--header-h); padding: 6px 6px 6px clamp(14px, 1.2vw, 20px);
+  background: rgba(252, 250, 245, .94);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  backdrop-filter: blur(20px) saturate(1.3);
+  border-radius: 18px;
+  box-shadow: 0 0 0 1px rgba(23, 21, 15, .07), 0 10px 28px -16px rgba(38, 30, 20, .38);
   transition: box-shadow .5s var(--ease), background .5s var(--ease);
 }
 .header.is-stuck .header__row {
-  background: rgba(252, 250, 245, .99);
-  box-shadow: 0 0 0 1px rgba(23, 21, 15, .07), 0 20px 44px -20px rgba(38, 30, 20, .55);
+  background: rgba(252, 250, 245, .985);
+  box-shadow: 0 0 0 1px rgba(23, 21, 15, .09), 0 16px 36px -18px rgba(38, 30, 20, .45);
 }
 
 .logo { display: inline-flex; align-items: center; flex-shrink: 0; }
-.logo img { width: auto; height: 52px; }
-@media (min-width: 900px) { .logo img { height: 60px; } }
+.logo img { width: auto; height: 44px; }
+@media (min-width: 900px) { .logo img { height: 50px; } }
 
 /* меню: цель клика во всю высоту, активный пункт подсвечен плашкой */
-.nav { display: none; align-items: center; gap: 2px; min-width: 0; flex-shrink: 1; }
+.nav { display: none; align-items: center; gap: clamp(2px, .5vw, 10px); min-width: 0; flex-shrink: 1; margin-inline: auto; }
 .nav a {
-  padding: 9px 14px; border-radius: var(--r-pill);
-  font-size: 14.5px; font-weight: 500; color: var(--ink-2); white-space: nowrap;
-  transition: color .35s var(--ease), background .35s var(--ease);
+  position: relative; display: inline-flex; align-items: center;
+  min-height: 40px; padding: 0 clamp(6px, .7vw, 12px);
+  font-size: 15px; font-weight: 500; color: var(--ink-2); white-space: nowrap;
+  transition: color .35s var(--ease);
 }
-.nav a:hover { color: var(--ink); background: rgba(23, 21, 15, .045); }
-.nav a[aria-current="page"] { color: var(--brand); background: var(--brand-tint); font-weight: 600; }
+/* черта растёт из центра — тише плашки и не спорит с кнопкой справа */
+.nav a::after {
+  content: ""; position: absolute; left: clamp(6px, .7vw, 12px); right: clamp(6px, .7vw, 12px); bottom: 8px;
+  height: 1.5px; background: currentColor; border-radius: 2px;
+  transform: scaleX(0); transform-origin: center;
+  transition: transform .4s var(--ease);
+}
+.nav a:hover { color: var(--ink); }
+.nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); }
+.nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+.nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--brand); }
 @media (min-width: 1160px) { .nav { display: flex; } }
 
 /* «Статьи» стоят особняком: контурная кнопка, отделённая от меню */
 .nav-solo {
   display: none; align-items: center; gap: 8px;
-  min-height: 40px; padding: 9px 18px; margin-right: clamp(4px, .6vw, 10px);
-  font-size: 14.5px; font-weight: 600; color: var(--ink);
-  border: 1px solid rgba(23, 21, 15, .16); border-radius: var(--r-pill);
+  min-height: 38px; padding: 8px 16px; margin-right: clamp(2px, .4vw, 8px);
+  font-size: 14px; font-weight: 600; color: var(--ink-2);
+  border: 1px solid rgba(23, 21, 15, .13); border-radius: var(--r-pill);
   white-space: nowrap;
   transition: color .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease);
 }
@@ -311,7 +321,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .nav-solo[aria-current="page"] { color: var(--brand); border-color: var(--brand); background: var(--brand-tint); }
 @media (min-width: 1160px) { .nav-solo { display: inline-flex; } }
 
-.header__side { display: flex; align-items: center; gap: clamp(10px, 1.1vw, 18px); margin-left: auto; min-width: 0; }
+.header__side { display: flex; align-items: center; gap: clamp(8px, .9vw, 14px); min-width: 0; }
 
 /* обе колонки живут на одной сетке строк: верхняя строка 20px, нижняя 16px */
 .header__contacts, .header__aside {
@@ -340,13 +350,13 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .header__im { display: none; gap: 6px; }
 @media (min-width: 1560px) { .header__im { display: flex; } }
 .im {
-  width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
   color: var(--ink-2); background: transparent;
   border: 1px solid rgba(23, 21, 15, .12); border-radius: var(--r-pill);
   transition: color .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease);
 }
-.im svg { width: 21px; height: 21px; fill: currentColor; }
-.im--max span { font-family: var(--display); font-size: 12.5px; font-weight: 800; letter-spacing: .04em; }
+.im svg { width: 19px; height: 19px; fill: currentColor; }
+.im--max span { font-family: var(--display); font-size: 11.5px; font-weight: 800; letter-spacing: .04em; }
 .im:hover { border-color: transparent; background: rgba(23, 21, 15, .06); color: var(--ink); }
 .im--tg:hover { color: #2AABEE; background: rgba(42, 171, 238, .1); }
 .im--max:hover { color: #7A5CFF; background: rgba(122, 92, 255, .1); }
