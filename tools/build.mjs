@@ -368,7 +368,7 @@ ${rows.map((r) => `              <tr><th scope="row">${esc(r.name)}</th>${pricin
 /* Кейс ведёт на страницу проекта, если такая есть, иначе — на свою
    страницу объекта /obekty/<slug>/. Характеристики выводим только те,
    что известны: у свежего объекта их может не быть вовсе. */
-const caseUrl = (c) => (projects.some((p) => p.slug === c.slug) ? projectUrl(c.slug) : `/obekty/${c.slug}/`);
+const caseUrl = (c) => `/obekty/${c.slug}/`;
 const caseMeta = (c) => [
   c.size && c.area ? `${c.size} м · ${c.area} м²` : c.area ? `${c.area} м²` : '',
   c.term || '',
@@ -627,6 +627,20 @@ ${photoGrid(slice, offset, altOf, zoomGroup)}
 function photosBlock(p) {
   const list = p.photos || [];
   if (list.length < 3) return '';
+  /* если у дома есть страница объекта, съёмка живёт там — здесь только переход,
+     чтобы одни и те же кадры не лежали на двух страницах */
+  if (cases.some((c) => c.slug === p.slug)) {
+    return `
+    <section class="section section--tight" id="foto">
+      <div class="container">
+        <a class="ribbon ribbon--link" href="/obekty/${p.slug}/">
+          <span class="ribbon__text">${list.length} фотографий этого дома с площадки — на странице объекта</span>
+          <span>Смотреть съёмку →</span>
+        </a>
+      </div>
+    </section>
+`;
+  }
   const lead = p.photosLead
     || `${list.length} фотографий с площадки. Живая съёмка — без визуализаций и стоковых картинок.`;
   return `
@@ -1029,7 +1043,6 @@ writeFileSync(`${OUT}/proekt.html`, rebase(`<!doctype html>
    со съёмкой. Характеристики публикуются только известные — числа
    и сроки не додумываем. */
 for (const c of cases) {
-  if (projects.some((p) => p.slug === c.slug)) continue;    // такой уже описан как проект
   const list = c.photos || [];
   if (!list.length) continue;
 
@@ -1067,6 +1080,15 @@ for (const c of cases) {
 ${gallery}
       </div>
     </section>
+${projects.some((x) => x.slug === c.slug) ? `
+    <section class="section section--tight">
+      <div class="container">
+        <a class="ribbon ribbon--link" href="${projectUrl(c.slug)}">
+          <span class="ribbon__text">Планировка, разрезы, альбом фасадов и смета этого дома — в карточке проекта</span>
+          <span>Открыть проект →</span>
+        </a>
+      </div>
+    </section>` : ''}
 ${c.seen && c.seen.length ? `
     <section class="section section--paper">
       <div class="container">
