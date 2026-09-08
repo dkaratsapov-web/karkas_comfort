@@ -193,6 +193,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://karkascomfort.ru/obekty/proekt-10/</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://karkascomfort.ru/obekty/proekt-9/</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://karkascomfort.ru/obekty/proekt-8/</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
@@ -206,6 +218,12 @@
   </url>
   <url>
     <loc>https://karkascomfort.ru/obekty/proekt-6/</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://karkascomfort.ru/obekty/kd-117/</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -230,12 +248,6 @@
   </url>
   <url>
     <loc>https://karkascomfort.ru/obekty/proekt-1/</loc>
-    <lastmod>2026-09-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://karkascomfort.ru/obekty/kd-117/</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

@@ -1234,7 +1234,13 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .crumbs li + li::before { content: "→"; }
 .crumbs a { color: var(--muted); }
 .crumbs a:hover { color: var(--brand); }
-.page-head { padding: clamp(16px, 2.4vw, 40px) 0 clamp(20px, 2.8vw, 44px); }
+.page-head { padding: clamp(14px, 1.8vw, 28px) 0 clamp(16px, 2vw, 30px); }
+/* заголовок и пояснение в одну строку: страница начинается с карточек,
+   а не с пустого поля под текстом */
+.page-head__row { display: grid; gap: 10px clamp(24px, 3vw, 56px); align-items: end; }
+@media (min-width: 1000px) { .page-head__row { grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); } }
+.page-head__row .lead { margin: 0; max-width: 56ch; }
+.page-head__row .eyebrow { margin-bottom: 6px; }
 .page-head h1 { font-size: clamp(28px, 4.6vw, 54px); }
 .page-head .lead { font-size: clamp(15.5px, 1.4vw, 19px); max-width: 68ch; }
 
@@ -1761,6 +1767,8 @@ body::after {
 /* шапка страницы каталога: короче, чтобы карточки начинались выше */
 #catalog { padding-bottom: clamp(30px, 3.4vw, 52px); }
 .page-head--tight { padding-bottom: clamp(14px, 1.6vw, 22px); }
+/* карточки идут сразу за шапкой страницы, без лишнего воздуха */
+.page-head + .section { padding-top: clamp(10px, 1.2vw, 20px); }
 .page-head--tight h1 { font-size: clamp(28px, 3.4vw, 44px); }
 .page-head--tight .lead { margin-top: 10px; max-width: 74ch; font-size: clamp(15px, 1.2vw, 17px); }
 .page-head--tight .eyebrow { margin-top: 12px !important; }
