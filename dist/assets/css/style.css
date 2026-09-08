@@ -791,6 +791,23 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .shots img:hover { transform: translateY(-3px) scale(1.004); box-shadow: var(--sh-2); }
 .shots--photos > *:first-child { grid-column: span 2; }
 .shots--photos > *:first-child img { aspect-ratio: 16 / 9; }
+/* Съёмка объекта, разложенная по типам помещений: заголовок группы
+   с числом кадров, под ним — своя неровная сетка. */
+.shots-group + .shots-group { margin-top: clamp(30px, 3.4vw, 56px); }
+.shots-group__title {
+  display: flex; align-items: baseline; gap: 10px;
+  margin: 0 0 clamp(12px, 1.2vw, 18px);
+  font-family: var(--text); font-size: 13px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.shots-group__title span {
+  order: 1; font-weight: 600; letter-spacing: 0; font-size: 12.5px;
+  color: var(--muted); text-transform: none;
+}
+.shots-group__title::after {
+  content: ""; order: 2; flex: 1; height: 1px; background: var(--line);
+}
+
 /* Неровная сетка кадров: каждая фотография занимает свою настоящую высоту,
    вертикальные не обрезаются. Раскладка колонками — высоты выравниваются сами,
    ряды получаются со сдвигом, а не под линейку. */

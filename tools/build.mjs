@@ -995,10 +995,44 @@ for (const c of cases) {
   if (!list.length) continue;
 
   const alt = (i) => `${esc(c.title)}, фото ${i + 1}`;
-  const shots = list.map((f, i) => {
+  const cell = (f, i) => {
     const { w, h } = imgSize(f);
     return `          <figure><img ${srcset(f, "(min-width: 1400px) 24vw, (min-width: 1000px) 32vw, (min-width: 560px) 48vw, 92vw")} alt="${alt(i)}" loading="${i < 2 ? 'eager' : 'lazy'}" width="${w}" height="${h}" data-zoom="${img(f)}" data-zoom-group="${c.slug}-all"></figure>`;
-  }).join('\n');
+  };
+
+  /* Съёмка разложена по типам помещений: снаружи, комнаты, санузел и так далее.
+     Разбивка живёт в cases.json — счётчик кадров на группу по порядку списка.
+     Если групп нет, выводим всё одной лентой. */
+  let gallery;
+  if (c.groups && c.groups.length) {
+    let at = 0;
+    const parts = [];
+    for (const g of c.groups) {
+      const slice = list.slice(at, at + g.count);
+      if (!slice.length) continue;
+      parts.push(`        <section class="shots-group">
+          <h2 class="shots-group__title">${esc(g.title)}<span>${slice.length}</span></h2>
+          <div class="shots shots--free">
+${slice.map((f, i) => cell(f, at + i)).join('\n')}
+          </div>
+        </section>`);
+      at += g.count;
+    }
+    const rest = list.slice(at);
+    if (rest.length) {
+      parts.push(`        <section class="shots-group">
+          <h2 class="shots-group__title">Ещё кадры<span>${rest.length}</span></h2>
+          <div class="shots shots--free">
+${rest.map((f, i) => cell(f, at + i)).join('\n')}
+          </div>
+        </section>`);
+    }
+    gallery = parts.join('\n');
+  } else {
+    gallery = `        <div class="shots shots--free">
+${list.map(cell).join('\n')}
+        </div>`;
+  }
 
   const facts = caseMeta(c);
   const meta = {
@@ -1028,9 +1062,7 @@ for (const c of cases) {
     <section class="section section--tight">
       <div class="container">
         <h2 class="sr-only">Съёмка объекта</h2>
-        <div class="shots shots--free">
-${shots}
-        </div>
+${gallery}
       </div>
     </section>
 ${c.seen && c.seen.length ? `
