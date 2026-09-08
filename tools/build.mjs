@@ -466,10 +466,9 @@ for (const file of files) {
   content = content.replace(/\{\{costs\}\}/g, () => costsBlock());
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
-  content = content.replace(/\{\{showcase\}\}/g, () => [
-    ...cases.map(caseTile),
-    ...projects.filter((p) => p.prices).slice(0, 2).map(projectTile)
-  ].join('\n'));
+  /* В «Наших проектах» показываем только построенные объекты со съёмкой:
+     проекты с альбомами и сметами живут в каталоге, здесь они путали. */
+  content = content.replace(/\{\{showcase\}\}/g, () => cases.map(caseTile).join('\n'));
   content = content.replace(/\{\{projects:(\d+)\}\}/g, (_, n) => projects.slice(0, Number(n)).map(projectCard).join('\n'));
   content = content.replace(/\{\{projects:all\}\}/g, () => projects.map(projectCard).join('\n'));
   /* пока отзывов нет, секция с ними не выводится вовсе — не оставляем пустую рамку */
