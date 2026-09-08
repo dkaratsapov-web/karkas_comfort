@@ -101,28 +101,7 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---------- технология: слои стены ---------- */
-  const wall = $('#wall');
-  if (wall) {
-    const note = $('#wall-note', wall);
-    const cut = $('.wall__cut', wall);
-    const layers = $$('.layer', wall);
-    layers.forEach((layer, index) => {
-      layer.setAttribute('aria-pressed', 'false');
-      const show = () => {
-        layers.forEach((l) => { const on = l === layer; l.classList.toggle('is-active', on); l.setAttribute('aria-pressed', String(on)); });
-        if (note) note.textContent = layer.dataset.note;
-        if (cut) {
-          cut.classList.add('has-active');
-          cut.classList.toggle('lit-frame', index === 2);
-          $$('rect[data-cut]', cut).forEach((r) => r.classList.toggle('is-lit', Number(r.dataset.cut) === index));
-        }
-      };
-      layer.addEventListener('click', show);
-      layer.addEventListener('focus', show);
-    });
-  }
-
+  
   /* ---------- появление блоков при скролле ---------- */
   const reveals = $$('.reveal');
   if (reveals.length && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {

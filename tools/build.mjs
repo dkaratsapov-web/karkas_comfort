@@ -365,26 +365,6 @@ ${rows.map((r) => `              <tr><th scope="row">${esc(r.name)}</th>${pricin
         </div>`;
 }
 
-/* Быстрый ценовой ориентир по площадям: человек с рекламы хочет
-   увидеть порядок суммы раньше, чем полезет в калькулятор. */
-function costsBlock() {
-  const areas = pricing.examples || [];
-  const mln = (n) => `${(Math.round(n / 1e5) / 10).toLocaleString('ru-RU')} млн ₽`;
-  return areas.map((a) => {
-    const near = projects
-      .filter((p) => Math.abs(p.area - a) <= 18)
-      .sort((x, y) => Math.abs(x.area - a) - Math.abs(y.area - a))[0];
-    const term = a <= 90 ? '1,5–2 месяца' : a <= 150 ? '2–3 месяца' : '3–4 месяца';
-    return `          <article class="cost">
-            <p class="cost__area">${a} м²</p>
-            <p class="cost__sum">от ${mln(a * pricing.ratePerM2.standart)}</p>
-            <p class="cost__note">тёплый контур · срок ${term}</p>
-            <p class="cost__full">под ключ с отделкой — от ${mln(a * pricing.ratePerM2.pod_kluch)}</p>
-            ${near ? `<a class="cost__link" href="${projectUrl(near.slug)}">Проект ${near.code} на ${near.area} м² →</a>` : ''}
-          </article>`;
-  }).join('\n');
-}
-
 /* Кейс ведёт на страницу проекта, если такая есть, иначе — на свою
    страницу объекта /obekty/<slug>/. Характеристики выводим только те,
    что известны: у свежего объекта их может не быть вовсе. */
@@ -463,7 +443,6 @@ for (const file of files) {
   content = content.replace(/\{\{videos\}\}/g, () => videosBlock());
   content = content.replace(/\{\{geo\}\}/g, () => geoMap());
   content = content.replace(/\{\{compare\}\}/g, () => compareTable());
-  content = content.replace(/\{\{costs\}\}/g, () => costsBlock());
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
   /* В «Наших проектах» показываем только построенные объекты со съёмкой:

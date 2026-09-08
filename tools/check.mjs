@@ -152,11 +152,6 @@ const sitemap = await (await p.request.get(`${B}/sitemap.xml`)).text();
 ok(`в sitemap есть страницы проектов (${(sitemap.match(/\/proekty\/kd-/g) || []).length} шт.)`, (sitemap.match(/\/proekty\/kd-/g) || []).length === N);
 
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
-await p.click('#wall .layer:nth-child(3)');
-ok('слой стены переключается', (await p.textContent('#wall-note')).includes('Стойки 150×50'));
-ok('выбранный слой объявлен ассистивным технологиям',
-  (await p.getAttribute('#wall .layer:nth-child(3)', 'aria-pressed')) === 'true');
-ok('разрез подсвечивает выбранный слой', await p.isVisible('.wall__cut rect[data-cut="2"].is-lit'));
 ok('шрифты подгружены', await p.evaluate(() => document.fonts.check('16px Nunito') && document.fonts.check('16px "Golos Text"')));
 ok('на семейство приходится по одному файлу шрифта',
   await p.evaluate(() => performance.getEntriesByType('resource').filter((r) => r.name.endsWith('.woff2')).length <= 2));
