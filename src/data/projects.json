@@ -15,19 +15,25 @@
     "price": null,
     "term": "2,5 месяца",
     "photos": [
-      "kd-117-foto-07.jpg",
-      "kd-117-foto-12.jpg",
-      "kd-117-foto-11.jpg",
-      "kd-117-foto-03.jpg",
-      "kd-117-foto-02.jpg",
       "kd-117-foto-01.jpg",
+      "kd-117-foto-02.jpg",
+      "kd-117-foto-03.jpg",
       "kd-117-foto-04.jpg",
-      "kd-117-foto-09.jpg",
-      "kd-117-foto-08.jpg",
-      "kd-117-foto-13.jpg",
       "kd-117-foto-05.jpg",
       "kd-117-foto-06.jpg",
-      "kd-117-foto-10.jpg"
+      "kd-117-foto-07.jpg",
+      "kd-117-foto-08.jpg",
+      "kd-117-foto-09.jpg",
+      "kd-117-foto-10.jpg",
+      "kd-117-foto-11.jpg",
+      "kd-117-foto-12.jpg",
+      "kd-117-foto-13.jpg",
+      "kd-117-foto-14.jpg",
+      "kd-117-foto-15.jpg",
+      "kd-117-foto-16.jpg",
+      "kd-117-foto-17.jpg",
+      "kd-117-foto-18.jpg",
+      "kd-117-foto-19.jpg"
     ],
     "plan": "kd-117-plan-1.jpg",
     "drawings": [
@@ -205,7 +211,30 @@
           "Черепной брусок 40×40 мм"
         ]
       }
-    ]
+    ],
+    "photoGroups": [
+      {
+        "title": "Снаружи",
+        "count": 8
+      },
+      {
+        "title": "Гостиная",
+        "count": 3
+      },
+      {
+        "title": "Комнаты",
+        "count": 6
+      },
+      {
+        "title": "Коридор",
+        "count": 1
+      },
+      {
+        "title": "Котельная",
+        "count": 1
+      }
+    ],
+    "photosLead": "19 кадров с площадки: дом снаружи, гостиная с панорамным остеклением и вторым светом, комнаты, коридор и котельная. Дом снят в черновой отделке — стены и потолок обшиты вагонкой, идут отделочные работы."
   },
   {
     "code": "КД-152",

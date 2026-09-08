@@ -585,25 +585,85 @@ ${tep}
 }
 
 /* Полный набор фотографий объекта. */
+/* Раскладка кадров рядами разной плотности. Ряд набирается по сумме пропорций:
+   широкий кадр «съедает» больше места, вертикальный — меньше, поэтому в рядах
+   разное число кадров. Внутри ряда ширина каждого кадра пропорциональна его
+   собственной пропорции, высота у всех общая — ничего не обрезается.
+   Одной функцией пользуются и страницы объектов, и страницы проектов. */
+const RHYTHM = [2.3, 3.5, 2.9, 3.9, 3.1, 2.6];
+
+function photoRows(files, offset) {
+  const items = files.map((f, i) => {
+    const { w, h } = imgSize(f);
+    return { f, i: offset + i, a: Math.max(0.5, Math.min(2.6, w / h)) };
+  });
+  const out = [];
+  let row = [], sum = 0, r = 0;
+  for (const it of items) {
+    row.push(it); sum += it.a;
+    if (sum >= RHYTHM[r % RHYTHM.length]) { out.push(row); row = []; sum = 0; r++; }
+  }
+  if (row.length) {
+    /* одинокий кадр в хвосте растянулся бы во всю ширину — подклеиваем к прошлому ряду */
+    const tail = row.reduce((n, it) => n + it.a, 0);
+    if (out.length && tail < 1.7) out[out.length - 1].push(...row);
+    else out.push(row);
+  }
+  return out;
+}
+
+function photoGrid(files, offset, altOf, zoomGroup) {
+  const rs = photoRows(files, offset);
+  /* группа из одного короткого ряда ставится по центру — иначе кадр
+     выглядит брошенным у левого края */
+  const solo = rs.length === 1 && rs[0].reduce((n, it) => n + it.a, 0) < 2.6;
+  const cell = (it) => `            <figure style="--a:${it.a.toFixed(3)}"><img ${srcset(it.f, "(min-width: 1000px) 40vw, 92vw")} alt="${altOf(it.i)}" loading="${it.i < 2 ? 'eager' : 'lazy'}" width="${imgSize(it.f).w}" height="${imgSize(it.f).h}" data-zoom="${img(it.f)}" data-zoom-group="${zoomGroup}"></figure>`;
+  return `          <div class="shots shots--rows">
+${rs.map((row) => `            <div class="shots__row${solo ? ' shots__row--solo' : ''}" style="--sum:${row.reduce((n, it) => n + it.a, 0).toFixed(2)}">
+${row.map(cell).join('\n')}
+            </div>`).join('\n')}
+          </div>`;
+}
+
+/* Съёмка, разложенная по типам помещений. Разбивка живёт в данных: на каждую
+   группу указано, сколько кадров подряд она берёт. Без групп — одна лента. */
+function photoGallery(list, groups, altOf, zoomGroup) {
+  if (!groups || !groups.length) return photoGrid(list, 0, altOf, zoomGroup);
+  let at = 0;
+  const parts = [];
+  const block = (title, slice, offset) => `        <section class="shots-group">
+          <h2 class="shots-group__title">${esc(title)}<span>${slice.length}</span></h2>
+${photoGrid(slice, offset, altOf, zoomGroup)}
+        </section>`;
+  for (const g of groups) {
+    const slice = list.slice(at, at + g.count);
+    if (slice.length) parts.push(block(g.title, slice, at));
+    at += g.count;
+  }
+  const rest = list.slice(at);
+  if (rest.length) parts.push(block('Ещё кадры', rest, at));
+  return parts.join('\n');
+}
+
 function photosBlock(p) {
   const list = p.photos || [];
   if (list.length < 3) return '';
-  const cells = list.map((f, i) => `          <figure><img ${srcset(f, "(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw")} alt="${photoAlt(p, i)}" loading="lazy" width="900" height="675" data-zoom="${img(f)}" data-zoom-group="${p.slug}-all"></figure>`).join('\n');
+  const lead = p.photosLead
+    || `${list.length} фотографий с площадки. Живая съёмка — без визуализаций и стоковых картинок.`;
   return `
     <section class="section section--tight" id="foto">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Объект</p>
           <h2>Как этот дом выглядит вживую</h2>
-          <p class="lead">${list.length} фотографий с площадки: каркас, фасад из вертикальной доски, тёмные примыкания и терраса под общей кровлей. Живая съёмка — без визуализаций и стоковых картинок.</p>
+          <p class="lead">${esc(lead)}</p>
         </div>
-        <div class="shots shots--photos">
-${cells}
-        </div>
+${photoGallery(list, p.photoGroups, (i) => photoAlt(p, i), `${p.slug}-all`)}
       </div>
     </section>
 `;
 }
+
 
 /* Цены по комплектациям из сметы к договору. Показываем только итоги:
    состав материалов и закупочные цены на сайт не выносим. */
@@ -995,74 +1055,7 @@ for (const c of cases) {
   if (!list.length) continue;
 
   const alt = (i) => `${esc(c.title)}, фото ${i + 1}`;
-  /* Раскладка рядами разной плотности. Ряд набирается по сумме пропорций:
-     широкий кадр «съедает» больше места, вертикальный — меньше, поэтому ряды
-     получаются с разным числом кадров. Внутри ряда ширина каждого кадра
-     пропорциональна его собственной пропорции, высота у всех одна —
-     значит ничего не обрезается и сетка не выглядит расчерченной. */
-  const RHYTHM = [2.3, 3.5, 2.9, 3.9, 3.1, 2.6];
-
-  function rows(files, offset) {
-    const items = files.map((f, i) => {
-      const { w, h } = imgSize(f);
-      return { f, i: offset + i, a: Math.max(0.5, Math.min(2.6, w / h)) };
-    });
-    const out = [];
-    let row = [], sum = 0, r = 0;
-    for (const it of items) {
-      row.push(it); sum += it.a;
-      if (sum >= RHYTHM[r % RHYTHM.length]) { out.push(row); row = []; sum = 0; r++; }
-    }
-    if (row.length) {
-      /* одинокий кадр в хвосте растянулся бы во всю ширину — подклеиваем к прошлому ряду */
-      const tail = row.reduce((n, it) => n + it.a, 0);
-      if (out.length && tail < 1.7) out[out.length - 1].push(...row);
-      else out.push(row);
-    }
-    return out;
-  }
-
-  const cell = (it) => `            <figure style="--a:${it.a.toFixed(3)}"><img ${srcset(it.f, "(min-width: 1000px) 40vw, 92vw")} alt="${alt(it.i)}" loading="${it.i < 2 ? 'eager' : 'lazy'}" width="${imgSize(it.f).w}" height="${imgSize(it.f).h}" data-zoom="${img(it.f)}" data-zoom-group="${c.slug}-all"></figure>`;
-
-  const grid = (files, offset) => {
-    const rs = rows(files, offset);
-    /* группа из одного ряда, который не дотягивает до полной ширины,
-       ставится по центру — иначе кадр выглядит брошенным у левого края */
-    const solo = rs.length === 1 && rs[0].reduce((n, it) => n + it.a, 0) < 2.6;
-    return `          <div class="shots shots--rows">
-${rs.map((row) => `            <div class="shots__row${solo ? ' shots__row--solo' : ''}" style="--sum:${row.reduce((n, it) => n + it.a, 0).toFixed(2)}">
-${row.map(cell).join('\n')}
-            </div>`).join('\n')}
-          </div>`;
-  };
-
-  /* Съёмка разложена по типам помещений: снаружи, комнаты, санузел и так далее.
-     Разбивка живёт в cases.json — счётчик кадров на группу по порядку списка.
-     Если групп нет, выводим всё одной лентой. */
-  let gallery;
-  if (c.groups && c.groups.length) {
-    let at = 0;
-    const parts = [];
-    for (const g of c.groups) {
-      const slice = list.slice(at, at + g.count);
-      if (!slice.length) continue;
-      parts.push(`        <section class="shots-group">
-          <h2 class="shots-group__title">${esc(g.title)}<span>${slice.length}</span></h2>
-${grid(slice, at)}
-        </section>`);
-      at += g.count;
-    }
-    const rest = list.slice(at);
-    if (rest.length) {
-      parts.push(`        <section class="shots-group">
-          <h2 class="shots-group__title">Ещё кадры<span>${rest.length}</span></h2>
-${grid(rest, at)}
-        </section>`);
-    }
-    gallery = parts.join('\n');
-  } else {
-    gallery = grid(list, 0);
-  }
+  const gallery = photoGallery(list, c.groups, alt, `${c.slug}-all`);
 
   const facts = caseMeta(c);
   const meta = {
