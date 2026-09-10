@@ -7,7 +7,7 @@
   const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
   const RATES = (() => {
     try { return JSON.parse(document.body.dataset.rates); }
-    catch { return { standart: 32000, komfort: 41000, pod_kluch: 52000 }; }
+    catch { return { standart: 57000, komfort: 68000, pod_kluch: 80000 }; }
   })();
 
   document.documentElement.classList.add('js');

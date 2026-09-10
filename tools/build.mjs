@@ -351,7 +351,7 @@ function compareTable() {
     : '<td class="cmp__no"><span class="sr-only">не входит</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg></td>');
   return `        <div class="cmp-wrap" tabindex="0" role="region" aria-label="Сравнение комплектаций">
           <table class="cmp">
-            <caption class="sr-only">Что входит в комплектации «Тёплый контур», «Комфорт» и «Под ключ»</caption>
+            <caption class="sr-only">Что входит в комплектации «Тёплый контур», «Вайт бокс» и «Под ключ»</caption>
             <thead>
               <tr>
                 <th scope="col">Что входит</th>
@@ -419,7 +419,7 @@ ${previewBar}${header}
 ${content.trimEnd()}
   </main>
 ${footer}
-${hasLeadForm ? actionbar : actionbar.replace('href="#zayavka"', 'href="/index.html#raschet"')}
+${hasLeadForm ? actionbar : actionbar.replace('href="#zayavka"', 'href="/index.html#zayavka"')}
 ${modal}
   <script src="assets/js/main.js" defer></script>
 </body>
@@ -446,8 +446,9 @@ for (const file of files) {
   content = content.replace(/\{\{cta\}\}/g, () => cta);
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
   /* В «Наших проектах» показываем только построенные объекты со съёмкой:
-     проекты с альбомами и сметами живут в каталоге, здесь они путали. */
-  content = content.replace(/\{\{showcase\}\}/g, () => cases.map(caseTile).join('\n'));
+     проекты с альбомами и сметами живут в каталоге, здесь они путали.
+     Ровно десять плиток — две строки по пять, остальное в разделе «Объекты». */
+  content = content.replace(/\{\{showcase\}\}/g, () => cases.slice(0, 10).map(caseTile).join('\n'));
   content = content.replace(/\{\{projects:(\d+)\}\}/g, (_, n) => projects.slice(0, Number(n)).map(projectCard).join('\n'));
   content = content.replace(/\{\{projects:all\}\}/g, () => projects.map(projectCard).join('\n'));
   /* пока отзывов нет, секция с ними не выводится вовсе — не оставляем пустую рамку */

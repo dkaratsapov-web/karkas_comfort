@@ -61,33 +61,7 @@ await p.waitForTimeout(500);
 const oldPage = await (await p.request.get(`${B}/proekt.html?id=kd-29`)).text();
 ok('старый адрес карточки не индексируется и ведёт в каталог', /noindex/.test(oldPage) && /proekty/.test(oldPage));
 
-/* 4. Квиз на главной */
-await p.goto(`${B}/`, { waitUntil: 'networkidle' });
-const sum = () => p.textContent('[data-calc-low]');
-const c0 = await sum();
-await p.fill('#calc-area-num', '220');
-await p.dispatchEvent('#calc-area-num', 'input');
-await p.waitForTimeout(600);
-ok('калькулятор пересчитывает сумму по площади', (await sum()) !== c0);
-const c1 = await sum();
-await p.click('.seg[data-group="tier"] .seg__btn[data-value="pod_kluch"]');
-await p.waitForTimeout(600);
-ok('смена комплектации меняет сумму', (await sum()) !== c1);
-ok('выбранная комплектация объявлена ассистивным технологиям',
-  (await p.getAttribute('.seg[data-group="tier"] .seg__btn[data-value="pod_kluch"]', 'aria-pressed')) === 'true');
-const c2 = await sum();
-await p.click('.seg[data-group="foundation"] .seg__btn[data-value="plita"]');
-await p.waitForTimeout(600);
-ok('смена фундамента меняет сумму', (await sum()) !== c2);
-const c3 = await sum();
-await p.click('label.calc__extra:has(input[value="terrace"])');
-await p.waitForTimeout(600);
-ok('доплата за террасу попадает в расчёт', (await sum()) !== c3);
-ok('разбивка по этапам показана', (await p.$$('.calc__stage')).length >= 4);
-ok('кнопка сметы несёт параметры расчёта',
-  /220 м²/.test(await p.getAttribute('[data-calc-cta]', 'data-project') || ''));
-
-/* 5. Формы: валидация и доступность ошибок */
+/* 4. Формы: валидация и доступность ошибок */
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 await p.$eval('#zayavka', (el) => el.scrollIntoView());
 await p.click('#zayavka button[type="submit"]');
@@ -110,7 +84,7 @@ ok('после отправки пользователь видит однозн
   (await p.isVisible('#zayavka .form__ok')) !== (await p.isVisible('#zayavka .form__error')));
 await p.close();
 
-/* 6. Мобильная версия */
+/* 5. Мобильная версия */
 p = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 p.on('pageerror', (e) => errs.push(e.message));
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
@@ -132,7 +106,7 @@ await p.goto(`${B}/proekty/`, { waitUntil: 'networkidle' });
 await p.screenshot({ path: 'mob-catalog.png' });
 await p.close();
 
-/* 7. Все страницы: битые ссылки, разметка, шрифты */
+/* 6. Все страницы: битые ссылки, разметка, шрифты */
 p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
 const pages = ['', 'proekty/', 'obekty/', 'uslugi/', 'o-kompanii/', 'kontakty/', 'politika/', '404.html', 'proekty/kd-40/'];
@@ -156,7 +130,7 @@ ok('шрифты подгружены', await p.evaluate(() => document.fonts.ch
 ok('на семейство приходится по одному файлу шрифта',
   await p.evaluate(() => performance.getEntriesByType('resource').filter((r) => r.name.endsWith('.woff2')).length <= 2));
 
-/* 8. Заявка реально уходит на сервер (только там, где есть PHP) */
+/* 7. Заявка реально уходит на сервер (только там, где есть PHP) */
 if (hasPhp) {
   const req = p.waitForResponse((r) => r.url().includes('/api/lead.php'), { timeout: 15000 });
   await p.goto(`${B}/kontakty/`, { waitUntil: 'networkidle' });
