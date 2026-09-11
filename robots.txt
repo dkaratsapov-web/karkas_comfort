@@ -3,4 +3,4 @@ Allow: /
 Disallow: /src/
 Disallow: /tools/
 
-Sitemap: https://karkascomfort.ru/sitemap.xml
+Sitemap: {{site}}/sitemap.xml

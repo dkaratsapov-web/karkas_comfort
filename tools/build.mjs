@@ -11,9 +11,12 @@ import { createHash } from 'node:crypto';
      PHP-файлы не попадают в сборку (Pages их не исполняет). */
 const PREVIEW = process.env.PREVIEW === '1';
 const BASE = PREVIEW ? (process.env.BASE_PATH || '/karkas_comfort') : '';
+/* Домен живёт в src/data/site.json: переезд на другой адрес — одна строка там.
+   SITE_URL в окружении перебивает настройку (нужно демо-сборке). */
+const site = JSON.parse(readFileSync('src/data/site.json', 'utf8'));
 const SITE = process.env.SITE_URL || (PREVIEW
   ? `https://dkaratsapov-web.github.io${BASE}`
-  : 'https://karkascomfort.ru');
+  : `https://${(site.domain || 'karkascomfort.ru').replace(/^https?:\/\//, '').replace(/\/$/, '')}`);
 const OUT = process.env.OUT_DIR || 'dist';
 const LEAD_ENDPOINT = PREVIEW ? '' : '/api/lead.php';   // на Pages нет PHP — формы работают в демо-режиме
 
@@ -208,8 +211,6 @@ const articleCard = (a) => `        <article class="post">
           </div>
         </article>`;
 
-const site = JSON.parse(read('src/data/site.json'));
-
 /* Счётчики подключаются, только если в src/data/site.json указан номер.
    Цели на заявку, звонок и клик по мессенджеру шлёт assets/js/main.js. */
 const analytics = [
@@ -256,7 +257,7 @@ if (PREVIEW) {
   writeFileSync(`${OUT}/robots.txt`, 'User-agent: *\nDisallow: /\n');   // превью не должно попасть в поиск
   writeFileSync(`${OUT}/.nojekyll`, '');                                 // Pages не должен обрабатывать сборку Jekyll
 } else {
-  if (existsSync('robots.txt')) cpSync('robots.txt', `${OUT}/robots.txt`);
+  if (existsSync('robots.txt')) writeFileSync(`${OUT}/robots.txt`, read('robots.txt').split('{{site}}').join(SITE));
   if (existsSync('server/.htaccess')) cpSync('server/.htaccess', `${OUT}/.htaccess`);
   if (existsSync('server/api')) cpSync('server/api', `${OUT}/api`, { recursive: true });
 }
@@ -436,7 +437,7 @@ for (const file of files) {
   const raw = read(`src/pages/${file}`);
   const m = raw.match(/^<!--meta\s+([\s\S]*?)-->\s*/);
   if (!m) throw new Error(`Нет блока <!--meta --> в ${file}`);
-  const meta = JSON.parse(m[1]);
+  const meta = JSON.parse(m[1].split('{{site}}').join(SITE));
   let content = raw.slice(m[0].length);
   content = content.replace(/\{\{articles:(\d+)\}\}/g, (_, n) => articles.slice(0, Number(n)).map(articleCard).join('\n'));
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
