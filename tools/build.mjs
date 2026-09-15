@@ -381,7 +381,6 @@ const caseTile = (c) => {
   return `        <a class="tile" href="${caseUrl(c)}">
           <div class="tile__media"><img src="${c.photos && c.photos.length ? `/assets/img/photos/${c.photos[0]}` : `/assets/img/projects/${c.slug}.svg`}" alt="${esc(c.title)}${c.area ? `, ${c.area} м²` : ''}" loading="lazy" width="900" height="600"></div>
           <div class="tile__body">
-            <p class="tile__badge">${esc(c.badge || 'Объект, есть съёмка')}</p>
             <h3>${esc(c.title)}</h3>
             ${meta.length ? `<p class="tile__meta">${meta.map((x) => `<span>${x}</span>`).join('')}</p>` : ''}
             ${c.place ? `<p class="tile__place">${esc(c.place)}</p>` : ''}
@@ -1068,8 +1067,7 @@ for (const c of cases) {
         <nav class="crumbs" aria-label="Хлебные крошки">
           <ol><li><a href="/">Главная</a></li><li><a href="/obekty.html">Построенные объекты</a></li><li>${esc(c.title)}</li></ol>
         </nav>
-        <p class="eyebrow" data-num="—" style="margin-top:22px">${esc(c.badge || 'Объект, есть съёмка')}</p>
-        <h1>${esc(c.title)}</h1>
+        <h1 style="margin-top:18px">${esc(c.title)}</h1>
         ${c.lead ? `<p class="lead">${esc(c.lead)}</p>` : ''}
         ${facts.length ? `<ul class="specs">${facts.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
         ${c.place ? `<p class="muted" style="margin-top:14px">${esc(c.place)}</p>` : ''}
