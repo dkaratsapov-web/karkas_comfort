@@ -78,6 +78,12 @@ function imgSize(file) {
   return out;
 }
 
+/* Имя проекта задаёт заказчик в projects.json (поле name) — так подписаны
+   папки с материалами. Если имени нет, подписываем по габаритам, как раньше.
+   Код КД-NN остаётся внутренним: он идёт в sku и в заявку, но не в заголовки. */
+const projectName = (p) => p.name || `Каркасный дом ${p.size}`;
+const projectShort = (p) => p.name || `Дом ${p.size} (${p.code})`;
+
 const photoAlt = (p, i) => `Каркасный дом ${p.code} ${p.size} м, ${p.photos && p.photos.length ? 'фото' : 'кадр'} ${i + 1}`;
 
 
@@ -87,7 +93,7 @@ const projectTile = (p) => `        <a class="tile" href="${projectUrl(p.slug)}"
           <div class="tile__media"><img ${srcset(shotsOf(p)[0] || '', '(min-width: 1100px) 33vw, 100vw')} alt="Каркасный дом ${p.code}, ${p.size} м" loading="lazy" width="900" height="600"></div>
           <div class="tile__body">
             <p class="tile__badge tile__badge--plan">Проект, альбом и смета</p>
-            <h3>Дом ${p.size} (${p.code})</h3>
+            <h3>${esc(projectShort(p))}</h3>
             <p class="tile__meta"><span>${p.area} м²</span><span>${floorsLabel(p.floors)}</span><span>${bedroomsWord(p.bedrooms)}</span></p>
             <p class="tile__price">${p.prices ? `${money(priceOf(p))} за тёплый контур` : `от ${money(priceOf(p))}`}</p>
           </div>
@@ -309,7 +315,7 @@ const breadcrumbLd = (items) => ld({
 });
 const productLd = (p) => ld({
   '@context': 'https://schema.org', '@type': 'Product',
-  name: `Каркасный дом ${p.size} (${p.code})`,
+  name: projectName(p),
   description: p.note,
   sku: p.code,
   image: `${SITE}${photoOf(p)}`,
@@ -330,10 +336,10 @@ const productLd = (p) => ld({
 const projectCard = (p) => `      <article class="project" data-floors="${p.floors}" data-area="${p.area}" data-beds="${p.bedrooms}" data-price="${priceOf(p)}">
         <div class="project__media">
           <img src="${photoOf(p)}" alt="Каркасный дом ${p.code}, ${p.size} м, ${p.area} м²" loading="lazy" width="900" height="600">
-          <span class="project__code">${p.code}</span>
+          <span class="project__code">${p.size} м</span>
         </div>
         <div class="project__body">
-          <h3 class="project__title"><a href="${projectUrl(p.slug)}">Каркасный дом ${p.size}</a></h3>
+          <h3 class="project__title"><a href="${projectUrl(p.slug)}">${esc(projectName(p))}</a></h3>
           <ul class="specs"><li>${p.area} м²</li><li>${floorsLabel(p.floors)}</li><li>${bedroomsWord(p.bedrooms)}</li>${p.terrace ? '<li>терраса</li>' : ''}</ul>
           <div class="project__foot">
             <span class="price">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>${priceNote(p)} · ${termOf(p)}</small></span>
@@ -462,7 +468,7 @@ for (const file of files) {
   if (meta.jsonld) blocks.push(ld(meta.jsonld));
   if (file === 'proekty.html') blocks.push(ld({
     '@context': 'https://schema.org', '@type': 'ItemList',
-    itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}${projectUrl(p.slug)}`, name: `Каркасный дом ${p.size} (${p.code})` }))
+    itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}${projectUrl(p.slug)}`, name: projectName(p) }))
   }));
 
   const out = outPath(file);
@@ -630,11 +636,12 @@ function photosBlock(p) {
   if (list.length < 3) return '';
   /* если у дома есть страница объекта, съёмка живёт там — здесь только переход,
      чтобы одни и те же кадры не лежали на двух страницах */
-  if (cases.some((c) => c.slug === p.slug)) {
+  const twin = cases.find((c) => (c.project || c.slug) === p.slug);
+  if (twin) {
     return `
     <section class="section section--tight" id="foto">
       <div class="container">
-        <a class="ribbon ribbon--link" href="/obekty/${p.slug}/">
+        <a class="ribbon ribbon--link" href="${caseUrl(twin)}">
           <span class="ribbon__text">${list.length} фотографий этого дома с площадки — на странице объекта</span>
           <span>Смотреть съёмку →</span>
         </a>
@@ -764,8 +771,8 @@ ${cells}
 for (const p of projects) {
   const similar = projects.filter((x) => x.slug !== p.slug)
     .sort((a, b) => Math.abs(a.area - p.area) - Math.abs(b.area - p.area)).slice(0, 3);
-  const title = `Каркасный дом ${p.size} (${p.code}) — ${p.area} м² под ключ | Каркас Комфорт`;
-  const description = `Проект каркасного дома ${p.size} площадью ${p.area} м²: ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))} за тёплый контур, под ключ с отделкой ${p.prices ? '' : 'от '}${money(priceTop(p))}.`;
+  const title = `${projectName(p)}: каркасный дом ${p.size}, ${p.area} м² | Каркас Комфорт`;
+  const description = `Проект «${projectName(p)}»: каркасный дом ${p.size}, ${p.area} м², ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))} за тёплый контур, под ключ с отделкой ${p.prices ? '' : 'от '}${money(priceTop(p))}.`;
 
   const specs = [
     ['Габариты', `${p.size} м`],
@@ -781,7 +788,7 @@ for (const p of projects) {
   const content = `    <ol class="crumbs container">
       <li><a href="/index.html">Главная</a></li>
       <li><a href="/proekty.html">Проекты</a></li>
-      <li>Дом ${p.size} (${p.code})</li>
+      <li>${esc(projectShort(p))}</li>
     </ol>
 
     <section class="section section--tight" style="padding-top:clamp(12px,1.4vw,20px)">
@@ -801,7 +808,7 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
           <aside class="project-aside">
             <div class="card">
               <p class="eyebrow">Проект дома</p>
-              <h1 style="font-size:clamp(25px,2.8vw,34px)">Каркасный дом ${p.size}<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">проект ${p.code}</span></h1>
+              <h1 style="font-size:clamp(25px,2.8vw,34px)">${esc(projectName(p))}<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">каркасный дом ${p.size} м · ${p.area} м²</span></h1>
               <p class="muted" style="margin-top:10px">${esc(p.note)}</p>
               <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>тёплый контур${p.prices ? ' по смете' : p.price ? '' : ', ориентировочно'} · под ключ с отделкой ${p.prices ? '' : '— от '}${money(priceTop(p))} · срок ${termOf(p)}</small></p>
               <div class="stack" style="margin-top:20px">
@@ -860,7 +867,7 @@ ${cta}`;
     breadcrumbLd([
       { name: 'Главная', url: '/' },
       { name: 'Проекты', url: '/proekty.html' },
-      { name: `Дом ${p.size} (${p.code})`, url: projectUrl(p.slug) }
+      { name: projectShort(p), url: projectUrl(p.slug) }
     ])
   ];
   mkdirSync(`${OUT}/proekty/${p.slug}`, { recursive: true });
@@ -1080,10 +1087,10 @@ for (const c of cases) {
 ${gallery}
       </div>
     </section>
-${projects.some((x) => x.slug === c.slug) ? `
+${projects.some((x) => x.slug === (c.project || c.slug)) ? `
     <section class="section section--tight">
       <div class="container">
-        <a class="ribbon ribbon--link" href="${projectUrl(c.slug)}">
+        <a class="ribbon ribbon--link" href="${projectUrl(c.project || c.slug)}">
           <span class="ribbon__text">Планировка, разрезы, альбом фасадов и смета этого дома — в карточке проекта</span>
           <span>Открыть проект →</span>
         </a>

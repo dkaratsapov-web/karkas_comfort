@@ -129,6 +129,51 @@ const audit = () => {
     }
   }
 
+  /* 4a. контраст текста: тёмная подпись на тёмной плашке — самый частый брак.
+     Берём цвет текста и первый непрозрачный фон над ним; блоки поверх
+     фотографий пропускаем — там фон не вычислить по стилям. */
+  const rgb = (v) => {
+    const m = String(v).match(/[\d.]+/g);
+    return m ? { r: +m[0], g: +m[1], b: +m[2], a: m[3] === undefined ? 1 : +m[3] } : null;
+  };
+  const lum = (c) => {
+    const f = (x) => { x /= 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; };
+    return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
+  };
+  const mix = (top, bottom) => ({
+    r: top.r * top.a + bottom.r * (1 - top.a),
+    g: top.g * top.a + bottom.g * (1 - top.a),
+    b: top.b * top.a + bottom.b * (1 - top.a),
+    a: 1,
+  });
+  const ratio = (a, b) => {
+    const [l1, l2] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (l1 + 0.05) / (l2 + 0.05);
+  };
+  const hasText = (el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 1);
+  for (const el of document.querySelectorAll('body *')) {
+    if (!hasText(el) || !visible(el)) continue;
+    const cs = getComputedStyle(el);
+    const fg = rgb(cs.color);
+    if (!fg || fg.a < 0.1) continue;
+    let bg = null, overImage = false;
+    for (let e = el; e; e = e.parentElement) {
+      const s2 = getComputedStyle(e);
+      if (s2.backgroundImage !== 'none') { overImage = true; break; }
+      const c = rgb(s2.backgroundColor);
+      if (c && c.a > 0) { bg = bg ? mix(bg, c) : c; if (bg.a >= 0.99) break; }
+    }
+    if (overImage || !bg || bg.a < 0.99) continue;
+    const size = parseFloat(cs.fontSize);
+    const bold = Number(cs.fontWeight) >= 700;
+    const large = size >= 24 || (size >= 18.66 && bold);
+    const need = large ? 3 : 4.5;
+    const got = ratio(fg.a < 1 ? mix(fg, bg) : fg, bg);
+    if (got < need - 0.01) {
+      add('низкий контраст текста', el, `${got.toFixed(2)} при норме ${need} (${cs.color} на ${cs.backgroundColor === 'rgba(0, 0, 0, 0)' ? 'фоне родителя' : cs.backgroundColor})`);
+    }
+  }
+
   /* 5. горизонтальная прокрутка страницы */
   const de = document.documentElement;
   if (de.scrollWidth > de.clientWidth + 1) {

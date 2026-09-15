@@ -17,7 +17,7 @@
         "postalCode": "170100",
         "addressCountry": "RU"
       },
-      "areaServed": "Тверская область",
+      "areaServed": ["Тверская область", "Московская область"],
       "openingHours": "Mo-Su 08:00-20:00",
       "priceRange": "от 57 000 ₽/м²"
     },
@@ -119,9 +119,26 @@
         <div class="hero__content">
           <h1>Строим каркасные дома под ключ в Твери</h1>
           <p class="hero__lead">Фиксированная смета в договоре, выезд и расчёт — бесплатно</p>
-          <div class="hero__cta">
-            <a class="btn btn--light" href="proekty.html">Выбрать проект<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
-          </div>
+          <form class="form hero-form" novalidate>
+            <div class="hero-form__row">
+              <div class="field">
+                <label class="sr-only" for="hero-name">Ваше имя</label>
+                <input type="text" id="hero-name" name="name" required autocomplete="name" placeholder="Имя">
+                <span class="field__error" id="hero-name-error">Укажите имя</span>
+              </div>
+              <div class="field">
+                <label class="sr-only" for="hero-phone">Телефон</label>
+                <input type="tel" id="hero-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
+                <span class="field__error" id="hero-phone-error">Введите номер полностью</span>
+              </div>
+              <input type="hidden" name="project" value="Первый экран">
+              <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <button class="btn btn--light" type="submit">Получить расчёт<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></button>
+            </div>
+            <p class="hero-form__note">Нажимая кнопку, вы соглашаетесь с <a href="politika.html">политикой конфиденциальности</a></p>
+            <p class="form__error" role="alert"></p>
+            <p class="form__ok" role="status">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
+          </form>
         </div>
         <div class="hero__facts">
           <div class="hero__fact"><b>от 57 000 ₽</b><span>за м², тёплый контур</span></div>
@@ -139,7 +156,6 @@
           <div>
             <p class="eyebrow" data-num="01">Наши объекты</p>
             <h2>Дома, которые мы построили</h2>
-            <p class="lead">Съёмка с наших площадок: сданные дома и объекты в работе. У каждого — фотографии по комнатам, площадь и место строительства. Блок пополняется по мере сдачи домов.</p>
           </div>
           <a class="btn btn--ghost" href="obekty.html">Все объекты <span class="btn__arrow" aria-hidden="true">→</span></a>
         </div>
@@ -434,8 +450,8 @@
       <div class="container">
         <div class="section__head section__head--center">
           <p class="eyebrow" data-num="05">Объекты на карте</p>
-          <h2>Строим по всей Тверской области</h2>
-          <p class="lead">Выезд на замер по Твери и ближайшим районам — бесплатно. В отдалённые города считаем логистику отдельно и заранее, чтобы она не всплыла в конце сметы.</p>
+          <h2>Строим по всей Тверской и Московской областям</h2>
+          <p class="lead">Работаем по Тверской и Московской областям. Выезд на замер по Твери и ближайшим районам — бесплатно, в отдалённые города логистику считаем отдельно и заранее, чтобы она не всплыла в конце сметы.</p>
         </div>
 
         <div class="figures figures--tiles">
