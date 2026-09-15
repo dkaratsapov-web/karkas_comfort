@@ -653,43 +653,6 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .section--dark .card__num { color: var(--accent-bright); }
 
 /* ---------- каталог проектов ---------- */
-.filters {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-  padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-l);
-}
-.filters__label { font-size: 14px; color: var(--muted); padding: 0 4px; }
-.filters__count { margin-left: auto; font-size: 14px; font-weight: 600; }
-.filters__sep { width: 1px; align-self: stretch; background: var(--line); margin: 0 6px; display: none; }
-@media (min-width: 900px) { .filters__sep { display: block; } }
-
-.chip {
-  min-height: 44px; padding: 10px 18px;
-  font-family: var(--text); font-size: 14.5px; color: var(--ink);
-  background: transparent; border: 1px solid var(--line); border-radius: var(--r-pill);
-  cursor: pointer; transition: background .16s var(--ease), color .16s var(--ease), border-color .16s var(--ease);
-}
-.chip { transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease); }
-.chip:hover { border-color: var(--ink-2); background: var(--surface); }
-.chip[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--on-brand); font-weight: 600; }
-
-.control {
-  min-height: 44px; padding: 10px 18px; font-family: var(--text); font-size: 14.5px; color: var(--ink);
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-pill);
-}
-
-/* раскрывающийся фильтр на телефоне */
-.filters__toggle { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; }
-@media (max-width: 899px) {
-  .filters { flex-direction: column; align-items: stretch; }
-  .filters__group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .filters.is-collapsed .filters__body { display: none; }
-  .filters__count { margin-left: 0; }
-}
-@media (min-width: 900px) {
-  .filters__toggle { display: none; }
-  .filters__body { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; width: 100%; }
-  .filters__group { display: flex; gap: 8px; }
-}
 
 .project {
   position: relative; display: flex; flex-direction: column;

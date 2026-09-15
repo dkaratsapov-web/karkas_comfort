@@ -9,11 +9,8 @@ const B = process.env.BASE || 'http://127.0.0.1:8080';
 const { readFileSync } = await import('node:fs');
 const PROJECTS = JSON.parse(readFileSync('src/data/projects.json', 'utf8'));
 const N = PROJECTS.length;                                   /* сколько проектов в данных */
-/* Проверки идут по тому, что лежит в данных: каталог меняется, сценарии — нет.
-   Берём первый проект и любую этажность, которая в каталоге вообще есть. */
+/* Проверки идут по тому, что лежит в данных: каталог меняется, сценарии — нет. */
 const FIRST = PROJECTS[0];
-const FLOORS = String(FIRST.floors);
-const FLOORS_LABEL = FIRST.floors === 1 ? '1 этаж' : FIRST.floors === 1.5 ? '1,5 этажа' : '2 этажа';
 const b = await chromium.launch(process.env.PW_CHROME ? { executablePath: process.env.PW_CHROME } : {});
 const out = [];
 const ok = (n, c) => out.push(`${c ? '✓' : '✗ ПРОВАЛ'} ${n}`);
@@ -34,18 +31,6 @@ const catalogHtml = await (await p.request.get(`${B}/proekty/`)).text();
 ok('каталог отдаётся сервером со всеми карточками (без JS)', (catalogHtml.split('class="project"').length - 1) === N);
 await p.goto(`${B}/proekty/`, { waitUntil: 'networkidle' });
 ok(`каталог отрисован (${N} карточек)`, (await p.$$('#catalog-list .project:not([hidden])')).length === N);
-await p.click(`.chip[data-group="floors"][data-value="${FLOORS}"]`);
-const byFloors = await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.map((e) => e.textContent));
-ok(`фильтр «${FLOORS_LABEL}» оставил только подходящие дома`,
-  byFloors.length > 0 && byFloors.every((t) => t.includes(FLOORS_LABEL)));
-ok('фильтр сохраняется в адресе страницы', new URL(p.url()).searchParams.get('floors') === FLOORS);
-await p.goto(`${B}/proekty/?floors=${FLOORS}`, { waitUntil: 'networkidle' });
-ok('ссылка с фильтром открывает готовую подборку', (await p.$$('#catalog-list .project:not([hidden])')).length > 0
-  && (await p.$$eval('#catalog-list .project:not([hidden]) .specs',
-    (els, label) => els.every((e) => e.textContent.includes(label)), FLOORS_LABEL)));
-await p.selectOption('#catalog-sort', 'area-desc');
-ok('сортировка по площади переставляет карточки',
-  (await p.textContent('#catalog-list .project:not([hidden]) .specs li')).trim().endsWith('м²'));
 
 /* 2. Страница проекта — отдельный статический адрес с разметкой товара */
 const projHtml = await (await p.request.get(`${B}/proekty/${FIRST.slug}/`)).text();
