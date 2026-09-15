@@ -7,7 +7,13 @@
 const { chromium } = await import(process.env.PW_MODULE || 'playwright');
 const B = process.env.BASE || 'http://127.0.0.1:8080';
 const { readFileSync } = await import('node:fs');
-const N = JSON.parse(readFileSync('src/data/projects.json', 'utf8')).length;   /* сколько проектов в данных */
+const PROJECTS = JSON.parse(readFileSync('src/data/projects.json', 'utf8'));
+const N = PROJECTS.length;                                   /* сколько проектов в данных */
+/* Проверки идут по тому, что лежит в данных: каталог меняется, сценарии — нет.
+   Берём первый проект и любую этажность, которая в каталоге вообще есть. */
+const FIRST = PROJECTS[0];
+const FLOORS = String(FIRST.floors);
+const FLOORS_LABEL = FIRST.floors === 1 ? '1 этаж' : FIRST.floors === 1.5 ? '1,5 этажа' : '2 этажа';
 const b = await chromium.launch(process.env.PW_CHROME ? { executablePath: process.env.PW_CHROME } : {});
 const out = [];
 const ok = (n, c) => out.push(`${c ? '✓' : '✗ ПРОВАЛ'} ${n}`);
@@ -28,37 +34,39 @@ const catalogHtml = await (await p.request.get(`${B}/proekty/`)).text();
 ok('каталог отдаётся сервером со всеми карточками (без JS)', (catalogHtml.split('class="project"').length - 1) === N);
 await p.goto(`${B}/proekty/`, { waitUntil: 'networkidle' });
 ok(`каталог отрисован (${N} карточек)`, (await p.$$('#catalog-list .project:not([hidden])')).length === N);
-await p.click('.chip[data-group="floors"][data-value="2"]');
-const twoFloors = await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.map((e) => e.textContent));
-ok('фильтр «2 этажа» оставил только двухэтажные', twoFloors.length > 0 && twoFloors.every((t) => t.includes('2 этажа')));
-ok('фильтр сохраняется в адресе страницы', new URL(p.url()).searchParams.get('floors') === '2');
-await p.goto(`${B}/proekty/?floors=1&size=s`, { waitUntil: 'networkidle' });
+await p.click(`.chip[data-group="floors"][data-value="${FLOORS}"]`);
+const byFloors = await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.map((e) => e.textContent));
+ok(`фильтр «${FLOORS_LABEL}» оставил только подходящие дома`,
+  byFloors.length > 0 && byFloors.every((t) => t.includes(FLOORS_LABEL)));
+ok('фильтр сохраняется в адресе страницы', new URL(p.url()).searchParams.get('floors') === FLOORS);
+await p.goto(`${B}/proekty/?floors=${FLOORS}`, { waitUntil: 'networkidle' });
 ok('ссылка с фильтром открывает готовую подборку', (await p.$$('#catalog-list .project:not([hidden])')).length > 0
-  && (await p.$$eval('#catalog-list .project:not([hidden]) .specs', (els) => els.every((e) => e.textContent.includes('1 этаж')))));
+  && (await p.$$eval('#catalog-list .project:not([hidden]) .specs',
+    (els, label) => els.every((e) => e.textContent.includes(label)), FLOORS_LABEL)));
 await p.selectOption('#catalog-sort', 'area-desc');
 ok('сортировка по площади переставляет карточки',
   (await p.textContent('#catalog-list .project:not([hidden]) .specs li')).trim().endsWith('м²'));
 
 /* 2. Страница проекта — отдельный статический адрес с разметкой товара */
-const projHtml = await (await p.request.get(`${B}/proekty/kd-29/`)).text();
+const projHtml = await (await p.request.get(`${B}/proekty/${FIRST.slug}/`)).text();
 const projNoJs = projHtml.replace(/<script[\s\S]*?<\/script>/g, '');
-ok('страница проекта существует отдельным адресом', /9×12/.test(projNoJs));
+ok('страница проекта существует отдельным адресом', projNoJs.includes(FIRST.size));
 ok('цена и характеристики есть в HTML без скриптов', /₽/.test(projNoJs) && /Полутораэтажный|Двухэтажный|Одноэтажный/.test(projNoJs));
 ok('разметка Product + Offer', /"@type":"Product"/.test(projHtml) && /"@type":"Offer"/.test(projHtml));
 ok('хлебные крошки в разметке', /"@type":"BreadcrumbList"/.test(projHtml));
-ok('свой canonical у страницы проекта', /rel="canonical" href="[^"]*\/proekty\/kd-29\/"/.test(projHtml));
-await p.goto(`${B}/proekty/kd-29/`, { waitUntil: 'networkidle' });
+ok('свой canonical у страницы проекта', projHtml.includes(`/proekty/${FIRST.slug}/"`));
+await p.goto(`${B}/proekty/${FIRST.slug}/`, { waitUntil: 'networkidle' });
 ok('характеристики проекта заполнены', (await p.$$('.spec-card__grid > div')).length >= 8);
-ok('похожие проекты подобраны', (await p.$$('.grid--3 .project')).length === 3);
+ok('похожие проекты подобраны', (await p.$$('.grid--3 .project')).length === Math.min(3, N - 1));
 await p.click('a[href="#zayavka"][data-project]');
 await p.waitForSelector('#lead-modal:not([hidden])');
 ok('кнопка проекта открывает окно заявки', await p.isVisible('#lead-modal .modal__card'));
-ok('в форму подставлен код проекта', (await p.inputValue('#lead-modal [data-modal-project-input]')).includes('КД-29'));
+ok('в форму подставлен код проекта', (await p.inputValue('#lead-modal [data-modal-project-input]')).includes(FIRST.code));
 await p.keyboard.press('Escape');
 await p.waitForTimeout(500);
 
 /* 3. Старый адрес карточки ведёт на новый */
-const oldPage = await (await p.request.get(`${B}/proekt.html?id=kd-29`)).text();
+const oldPage = await (await p.request.get(`${B}/proekt.html?id=${FIRST.slug}`)).text();
 ok('старый адрес карточки не индексируется и ведёт в каталог', /noindex/.test(oldPage) && /proekty/.test(oldPage));
 
 /* 4. Формы: валидация и доступность ошибок */
@@ -109,7 +117,7 @@ await p.close();
 /* 6. Все страницы: битые ссылки, разметка, шрифты */
 p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
-const pages = ['', 'proekty/', 'obekty/', 'uslugi/', 'o-kompanii/', 'kontakty/', 'politika/', '404.html', 'proekty/kd-40/'];
+const pages = ['', 'proekty/', 'obekty/', 'uslugi/', 'o-kompanii/', 'kontakty/', 'politika/', '404.html', `proekty/${PROJECTS[PROJECTS.length - 1].slug}/`];
 const missing = [];
 for (const page of pages) {
   const resp = await p.goto(`${B}/${page}`, { waitUntil: 'networkidle' });

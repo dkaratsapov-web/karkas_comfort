@@ -1058,7 +1058,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .review__author span { display: block; color: var(--muted); font-size: 13px; }
 
 /* ---------- портфолио: текст под фотографией, а не поверх ---------- */
-.bento { display: grid; gap: clamp(12px, 1.2vw, 18px); grid-template-columns: 1fr; align-items: start; }
+.bento { display: grid; gap: clamp(12px, 1.2vw, 18px); grid-template-columns: 1fr; }
 @media (min-width: 700px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .bento { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1300px) { .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
