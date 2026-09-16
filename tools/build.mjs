@@ -845,7 +845,9 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
             <div class="card">
               <p class="eyebrow">Проект дома</p>
               <h1 style="font-size:clamp(25px,2.8vw,34px)">${esc(projectName(p))}<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">каркасный дом ${p.size} м · ${areaLabel(p)} м²</span></h1>
-              <p class="muted" style="margin-top:10px">${esc(p.note)}</p>
+              ${p.points && p.points.length
+                ? `<ul class="dots">${p.points.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`
+                : `<p class="muted" style="margin-top:10px">${esc(p.note)}</p>`}
               <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${(p.price || p.prices) && !(p.packages && p.packages.length) ? '' : 'от '}${money(priceOf(p))}<small>${p.priceNote ? `${esc(p.priceNote)} · срок ${termOf(p)}` : `тёплый контур${p.prices ? ' по смете' : p.price ? '' : ', ориентировочно'} · под ключ с отделкой ${p.prices ? '' : '— от '}${money(priceTop(p))} · срок ${termOf(p)}`}</small></p>
 ${p.variants && p.variants.length ? `
               <ul class="variants">
