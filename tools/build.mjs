@@ -344,7 +344,7 @@ const projectCard = (p) => `      <article class="project" data-floors="${p.floo
           <h3 class="project__title"><a href="${projectUrl(p.slug)}">${esc(projectName(p))}</a></h3>
           <ul class="specs"><li>${areaLabel(p)} м²</li><li>${floorsLabel(p.floors)}</li><li>${bedroomsWord(p.bedrooms)}</li>${p.terrace ? '<li>терраса</li>' : ''}</ul>
           <div class="project__foot">
-            <span class="price">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>${priceNote(p)} · ${termOf(p)}</small></span>
+            <span class="price">${(p.price || p.prices) && !(p.packages && p.packages.length) ? '' : 'от '}${money(priceOf(p))}<small>${priceNote(p)} · ${termOf(p)}</small></span>
             <span class="project__more">Подробнее →</span>
           </div>
         </div>
@@ -671,7 +671,40 @@ ${photoGallery(list, p.photoGroups, (i) => photoAlt(p, i), `${p.slug}-all`)}
 
 /* Цены по комплектациям из сметы к договору. Показываем только итоги:
    состав материалов и закупочные цены на сайт не выносим. */
+/* Комплектации конкретного дома: заказчик присылает их отдельными сметами,
+   поэтому цена, планировка и состав у каждой свои. */
+function packagesBlock(p) {
+  const list = p.packages || [];
+  if (!list.length) return '';
+  return `
+    <section class="section section--tight" id="komplektacii">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Стоимость</p>
+          <h2>Комплектации этого дома</h2>
+          <p class="lead">Суммы из смет на этот проект, а не расчёт по средней ставке за метр. Планировка и состав работ у каждой комплектации свои — итог зависит от участка, грунта и удалённости.</p>
+        </div>
+        <div class="packs">
+${list.map((k) => `          <article class="card pack">
+            ${k.plan ? `<a class="pack__plan" href="${img(k.plan)}" data-zoom="${img(k.plan)}" data-zoom-group="${p.slug}-packs"><img ${srcset(k.plan, '(min-width: 1000px) 30vw, 100vw')} alt="Планировка: ${esc(k.name)}" loading="lazy" width="1400" height="991"></a>` : ''}
+            <div class="pack__body">
+              <div class="pack__head">
+                <h3>${esc(k.name)}</h3>
+                <p class="pack__sum">${money(k.price)}</p>
+              </div>
+              <p class="pack__meta">${esc(k.size)} м${k.note ? ` · ${esc(k.note)}` : ''}</p>
+              ${k.includes && k.includes.length ? `<ul class="checks checks--tight pack__list">${k.includes.map((it) => `<li>${esc(it)}</li>`).join('')}</ul>` : ''}
+              <a class="btn btn--ghost btn--block btn--sm" href="#zayavka" data-project="${esc(projectName(p))}, ${esc(k.name)}">Запросить смету</a>
+            </div>
+          </article>`).join('\n')}
+        </div>
+      </div>
+    </section>
+`;
+}
+
 function pricesBlock(p) {
+  if (p.packages && p.packages.length) return packagesBlock(p);
   if (!p.prices) return '';
   const rows = [
     ['Тёплый контур', p.prices.kontur, 'Фундамент, каркас, перекрытия, кровля, утепление, мембраны, окна, входная дверь и наружная отделка. Инженерии и внутренней отделки нет.'],
@@ -813,7 +846,7 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
               <p class="eyebrow">Проект дома</p>
               <h1 style="font-size:clamp(25px,2.8vw,34px)">${esc(projectName(p))}<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">каркасный дом ${p.size} м · ${areaLabel(p)} м²</span></h1>
               <p class="muted" style="margin-top:10px">${esc(p.note)}</p>
-              <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>${p.priceNote ? `${esc(p.priceNote)} · срок ${termOf(p)}` : `тёплый контур${p.prices ? ' по смете' : p.price ? '' : ', ориентировочно'} · под ключ с отделкой ${p.prices ? '' : '— от '}${money(priceTop(p))} · срок ${termOf(p)}`}</small></p>
+              <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${(p.price || p.prices) && !(p.packages && p.packages.length) ? '' : 'от '}${money(priceOf(p))}<small>${p.priceNote ? `${esc(p.priceNote)} · срок ${termOf(p)}` : `тёплый контур${p.prices ? ' по смете' : p.price ? '' : ', ориентировочно'} · под ключ с отделкой ${p.prices ? '' : '— от '}${money(priceTop(p))} · срок ${termOf(p)}`}</small></p>
 ${p.variants && p.variants.length ? `
               <ul class="variants">
 ${p.variants.map((v) => `                <li><span>${esc(v.name)}${v.note ? `<small>${esc(v.note)}</small>` : ''}</span><b>${money(v.price)}</b></li>`).join('\n')}
