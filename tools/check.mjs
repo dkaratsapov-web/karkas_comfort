@@ -116,7 +116,8 @@ for (const page of pages) {
 ok('все страницы и внутренние ссылки открываются' + (missing.length ? ': ' + missing.join(', ') : ''), missing.length === 0);
 
 const sitemap = await (await p.request.get(`${B}/sitemap.xml`)).text();
-ok(`в sitemap есть страницы проектов (${(sitemap.match(/\/proekty\/kd-/g) || []).length} шт.)`, (sitemap.match(/\/proekty\/kd-/g) || []).length === N);
+const inMap = PROJECTS.filter((x) => sitemap.includes(`/proekty/${x.slug}/`)).length;
+ok(`в sitemap есть страницы проектов (${inMap} шт.)`, inMap === N);
 
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 ok('шрифты подгружены', await p.evaluate(() => document.fonts.check('16px Nunito') && document.fonts.check('16px "Golos Text"')));

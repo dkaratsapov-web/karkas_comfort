@@ -81,6 +81,7 @@ function imgSize(file) {
 /* Имя проекта задаёт заказчик в projects.json (поле name) — так подписаны
    папки с материалами. Если имени нет, подписываем по габаритам, как раньше.
    Код КД-NN остаётся внутренним: он идёт в sku и в заявку, но не в заголовки. */
+const areaLabel = (p) => String(p.area).replace('.', ',');
 const projectName = (p) => p.name || `Каркасный дом ${p.size}`;
 const projectShort = (p) => p.name || `Дом ${p.size} (${p.code})`;
 
@@ -94,7 +95,7 @@ const projectTile = (p) => `        <a class="tile" href="${projectUrl(p.slug)}"
           <div class="tile__body">
             <p class="tile__badge tile__badge--plan">Проект, альбом и смета</p>
             <h3>${esc(projectShort(p))}</h3>
-            <p class="tile__meta"><span>${p.area} м²</span><span>${floorsLabel(p.floors)}</span><span>${bedroomsWord(p.bedrooms)}</span></p>
+            <p class="tile__meta"><span>${areaLabel(p)} м²</span><span>${floorsLabel(p.floors)}</span><span>${bedroomsWord(p.bedrooms)}</span></p>
             <p class="tile__price">${p.prices ? `${money(priceOf(p))} за тёплый контур` : `от ${money(priceOf(p))}`}</p>
           </div>
         </a>`;
@@ -236,7 +237,8 @@ function priceOf(p) { return p.prices?.kontur ?? p.price ?? Math.round(p.area * 
 function priceTop(p) { return p.prices?.pod_kluch ?? Math.round(p.area * pricing.ratePerM2.pod_kluch); }
 function projectUrl(slug) { return `/proekty/${slug}/`; }
 const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
-const priceNote = (p) => (p.prices ? 'тёплый контур, по смете' : p.price ? 'тёплый контур, по договору' : 'тёплый контур, ориентировочно');
+const priceNote = (p) => p.priceNote
+  || (p.prices ? 'тёплый контур, по смете' : p.price ? 'тёплый контур, по договору' : 'тёплый контур, ориентировочно');
 const termOf = (p) => p.term || (p.area <= 90 ? '1,5–2 месяца' : p.area <= 150 ? '2–3 месяца' : '3–4 месяца');
 const floorsLabel = (f) => (f === 1 ? '1 этаж' : f === 1.5 ? '1,5 этажа' : '2 этажа');
 const floorsWord = (f) => (f === 1 ? 'Одноэтажный' : f === 1.5 ? 'Полутораэтажный' : 'Двухэтажный');
@@ -326,7 +328,7 @@ const productLd = (p) => ld({
     seller: { '@type': 'Organization', name: 'ООО «Каркас Комфорт»' }
   },
   additionalProperty: [
-    { '@type': 'PropertyValue', name: 'Площадь', value: `${p.area} м²` },
+    { '@type': 'PropertyValue', name: 'Площадь', value: `${areaLabel(p)} м²` },
     { '@type': 'PropertyValue', name: 'Этажность', value: floorsLabel(p.floors) },
     { '@type': 'PropertyValue', name: 'Спальни', value: String(p.bedrooms) }
   ]
@@ -335,12 +337,12 @@ const productLd = (p) => ld({
 /* ---------- шаблоны блоков ---------- */
 const projectCard = (p) => `      <article class="project" data-floors="${p.floors}" data-area="${p.area}" data-beds="${p.bedrooms}" data-price="${priceOf(p)}">
         <div class="project__media">
-          <img src="${photoOf(p)}" alt="Каркасный дом ${p.code}, ${p.size} м, ${p.area} м²" loading="lazy" width="900" height="600">
+          <img src="${photoOf(p)}" alt="Каркасный дом ${p.code}, ${p.size} м, ${areaLabel(p)} м²" loading="lazy" width="900" height="600">
           <span class="project__code">${p.size} м</span>
         </div>
         <div class="project__body">
           <h3 class="project__title"><a href="${projectUrl(p.slug)}">${esc(projectName(p))}</a></h3>
-          <ul class="specs"><li>${p.area} м²</li><li>${floorsLabel(p.floors)}</li><li>${bedroomsWord(p.bedrooms)}</li>${p.terrace ? '<li>терраса</li>' : ''}</ul>
+          <ul class="specs"><li>${areaLabel(p)} м²</li><li>${floorsLabel(p.floors)}</li><li>${bedroomsWord(p.bedrooms)}</li>${p.terrace ? '<li>терраса</li>' : ''}</ul>
           <div class="project__foot">
             <span class="price">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>${priceNote(p)} · ${termOf(p)}</small></span>
             <span class="project__more">Подробнее →</span>
@@ -633,22 +635,23 @@ ${photoGrid(slice, offset, altOf, zoomGroup)}
 
 function photosBlock(p) {
   const list = p.photos || [];
-  if (list.length < 3) return '';
   /* если у дома есть страница объекта, съёмка живёт там — здесь только переход,
      чтобы одни и те же кадры не лежали на двух страницах */
   const twin = cases.find((c) => (c.project || c.slug) === p.slug);
   if (twin) {
+    const shots = (twin.photos || []).length;
     return `
     <section class="section section--tight" id="foto">
       <div class="container">
         <a class="ribbon ribbon--link" href="${caseUrl(twin)}">
-          <span class="ribbon__text">${list.length} фотографий этого дома с площадки — на странице объекта</span>
+          <span class="ribbon__text">${shots ? `${shots} фотографий этого дома с площадки` : 'Этот дом уже построен — съёмка с площадки'} — на странице объекта</span>
           <span>Смотреть съёмку →</span>
         </a>
       </div>
     </section>
 `;
   }
+  if (list.length < 3) return '';
   const lead = p.photosLead
     || `${list.length} фотографий с площадки. Живая съёмка — без визуализаций и стоковых картинок.`;
   return `
@@ -771,12 +774,12 @@ ${cells}
 for (const p of projects) {
   const similar = projects.filter((x) => x.slug !== p.slug)
     .sort((a, b) => Math.abs(a.area - p.area) - Math.abs(b.area - p.area)).slice(0, 3);
-  const title = `${projectName(p)}: каркасный дом ${p.size}, ${p.area} м² | Каркас Комфорт`;
-  const description = `Проект «${projectName(p)}»: каркасный дом ${p.size}, ${p.area} м², ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))} за тёплый контур, под ключ с отделкой ${p.prices ? '' : 'от '}${money(priceTop(p))}.`;
+  const title = `${projectName(p)}: каркасный дом ${p.size}, ${areaLabel(p)} м² | Каркас Комфорт`;
+  const description = `Проект «${projectName(p)}»: каркасный дом ${p.size}, ${areaLabel(p)} м², ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))}${p.priceNote ? `, ${p.priceNote}` : ` за тёплый контур, под ключ с отделкой ${p.prices ? '' : 'от '}${money(priceTop(p))}`}.`;
 
   const specs = [
     ['Габариты', `${p.size} м`],
-    ['Площадь', `${p.area} м²`],
+    ['Площадь', `${areaLabel(p)} м²`],
     ['Этажность', floorsWord(p.floors)],
     ['Спальни', String(p.bedrooms)],
     ['Терраса', p.terrace ? 'есть' : 'нет'],
@@ -808,11 +811,11 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
           <aside class="project-aside">
             <div class="card">
               <p class="eyebrow">Проект дома</p>
-              <h1 style="font-size:clamp(25px,2.8vw,34px)">${esc(projectName(p))}<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">каркасный дом ${p.size} м · ${p.area} м²</span></h1>
+              <h1 style="font-size:clamp(25px,2.8vw,34px)">${esc(projectName(p))}<span class="muted" style="display:block;font-size:.56em;font-weight:600;margin-top:6px">каркасный дом ${p.size} м · ${areaLabel(p)} м²</span></h1>
               <p class="muted" style="margin-top:10px">${esc(p.note)}</p>
-              <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>тёплый контур${p.prices ? ' по смете' : p.price ? '' : ', ориентировочно'} · под ключ с отделкой ${p.prices ? '' : '— от '}${money(priceTop(p))} · срок ${termOf(p)}</small></p>
+              <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${p.price || p.prices ? '' : 'от '}${money(priceOf(p))}<small>${p.priceNote ? `${esc(p.priceNote)} · срок ${termOf(p)}` : `тёплый контур${p.prices ? ' по смете' : p.price ? '' : ', ориентировочно'} · под ключ с отделкой ${p.prices ? '' : '— от '}${money(priceTop(p))} · срок ${termOf(p)}`}</small></p>
               <div class="stack" style="margin-top:20px">
-                <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${p.area} м²)">Рассчитать этот проект</a>
+                <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${areaLabel(p)} м²)">Рассчитать этот проект</a>
                 <a class="btn btn--ghost btn--block" href="#" data-lead-messenger>Написать в Telegram</a>
               </div>
               <ul class="checks checks--tight" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft)">
