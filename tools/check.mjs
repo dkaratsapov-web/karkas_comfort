@@ -120,9 +120,9 @@ const inMap = PROJECTS.filter((x) => sitemap.includes(`/proekty/${x.slug}/`)).le
 ok(`в sitemap есть страницы проектов (${inMap} шт.)`, inMap === N);
 
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
-ok('шрифты подгружены', await p.evaluate(() => document.fonts.check('16px Nunito') && document.fonts.check('16px "Golos Text"')));
+ok('шрифты подгружены', await p.evaluate(() => document.fonts.check('16px Onest')));
 ok('на семейство приходится по одному файлу шрифта',
-  await p.evaluate(() => performance.getEntriesByType('resource').filter((r) => r.name.endsWith('.woff2')).length <= 2));
+  await p.evaluate(() => performance.getEntriesByType('resource').filter((r) => r.name.endsWith('.woff2')).length <= 1));
 
 /* 7. Заявка реально уходит на сервер (только там, где есть PHP) */
 if (hasPhp) {
