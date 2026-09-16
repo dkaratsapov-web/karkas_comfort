@@ -1485,7 +1485,7 @@ body::after {
 .dots li::before { content: "•"; position: absolute; left: 3px; top: -1px; color: var(--accent); font-size: 17px; line-height: 1.35; }
 
 /* комплектации одного дома: планировка, цена и состав рядом */
-.packs { display: grid; gap: clamp(12px, 1.4vw, 18px); grid-template-columns: 1fr; align-items: start; }
+.packs { display: grid; gap: clamp(12px, 1.4vw, 18px); grid-template-columns: 1fr; align-items: stretch; }
 @media (min-width: 900px) { .packs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .pack { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
 /* планировки приходят в разных пропорциях — ставим их в одну рамку,
@@ -1498,7 +1498,7 @@ body::after {
 .pack__sum { font-family: var(--display); font-size: clamp(19px, 1.9vw, 23px); font-weight: 700; letter-spacing: -.02em; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink); }
 .pack__meta { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
 .pack__list { font-size: 14px; }
-.pack .btn { margin-top: 4px; }
+.pack .btn { margin-top: auto; }
 
 .price-rows { display: grid; gap: 12px; }
 .price-row {
