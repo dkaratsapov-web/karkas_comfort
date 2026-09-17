@@ -370,7 +370,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .header__im { display: none; gap: 5px; }
 @media (min-width: 1560px) { .header__im { display: flex; } }
 .im {
-  width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; padding: 0; font: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
   color: var(--ink-2); background: transparent;
   border: 1px solid rgba(23, 21, 15, .12); border-radius: var(--r-pill);
   transition: color .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease);
@@ -587,7 +587,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
   background: var(--surface);
   box-shadow: 0 -10px 32px rgba(38, 30, 20, .1);
 }
-.actionbar a {
+.actionbar :where(a, button) { font: inherit; background: none; border: 0; cursor: pointer;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
   height: 100%; border-radius: var(--r); color: var(--ink); font-size: 11.5px; font-weight: 600;
 }
@@ -609,7 +609,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .bento-feature p { margin-top: 10px; color: var(--ink-2); font-size: 15px; }
 
 .tilecard { transition: transform .32s var(--ease), box-shadow .32s var(--ease); display: flex; flex-direction: column; gap: 11px; padding: clamp(18px, 1.6vw, 24px); background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-l); box-shadow: var(--sh-1); }
-.tilecard__icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--brand-tint); color: var(--brand); }
+.tilecard__icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: var(--r-s); background: transparent; border: 1px solid var(--line); color: var(--accent); }
 .tilecard__icon svg { width: 23px; height: 23px; }
 .tilecard h3 { font-size: 18px; }
 .tilecard p { font-size: 14.5px; line-height: 1.5; color: var(--ink-2); }
@@ -668,17 +668,16 @@ section[id], div[id] { scroll-margin-top: 88px; }
   padding: clamp(19px, 2vw, 26px);
   background: var(--surface);
   border-radius: var(--r-l);
-  box-shadow: 0 0 0 1px rgba(23, 21, 15, .055),
-              0 1px 2px rgba(58, 44, 28, .04),
-              0 18px 40px -26px rgba(58, 44, 28, .5);
+  border: 1px solid var(--line-soft);
+  box-shadow: none;
 }
 .card--hover { transition: transform .55s var(--ease), box-shadow .55s var(--ease); }
 .card--hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 0 1px rgba(23, 21, 15, .085),
-              0 28px 60px -30px rgba(58, 44, 28, .75);
+  transform: translateY(-3px);
+  border-color: var(--line);
+  box-shadow: 0 22px 44px -32px rgba(20, 23, 26, .75);
 }
-.card__num { display: block; font-family: var(--text); font-size: 13px; font-weight: 700; letter-spacing: .1em; color: var(--accent); margin-bottom: 12px; }
+.card__num { display: block; font-family: var(--display); font-size: clamp(26px, 2.4vw, 32px); font-weight: 800; letter-spacing: -.03em; color: var(--ink); font-variant-numeric: tabular-nums; margin-bottom: 8px; }
 .card h3 { margin-bottom: 10px; }
 .card p { color: var(--ink-2); font-size: 15.5px; }
 .card :where(h3, p, li) { overflow-wrap: break-word; }
@@ -1475,8 +1474,8 @@ body::after {
 }
 .step__tile {
   display: grid; place-items: center; width: 46px; height: 46px; flex: none;
-  color: var(--brand); background: var(--surface); border-radius: 14px;
-  box-shadow: 0 0 0 1px rgba(23, 21, 15, .06), 0 10px 24px -14px rgba(58, 44, 28, .7);
+  color: var(--accent); background: var(--surface); border-radius: var(--r-s);
+  box-shadow: 0 0 0 1px var(--line);
   transition: transform .55s var(--ease), color .45s var(--ease), background .45s var(--ease);
 }
 .step__tile svg { width: 21px; height: 21px; }
@@ -1484,7 +1483,7 @@ body::after {
 .step__text h3 { font-size: clamp(18px, 1.8vw, 21px); }
 .step__text p { margin-top: 6px; color: var(--ink-2); font-size: 14.5px; max-width: 52ch; }
 
-.step:hover .step__tile { transform: translateY(-2px); color: var(--on-brand); background: var(--brand); }
+.step:hover .step__tile { color: var(--on-brand); background: var(--brand); box-shadow: 0 0 0 1px var(--brand); }
 .step:hover .step__mark { background: var(--brand); box-shadow: 0 0 0 2px var(--brand); }
 
 @media (min-width: 900px) {
@@ -1504,11 +1503,27 @@ body::after {
 }
 .section--dark .steps::before { background: linear-gradient(180deg, transparent, rgba(244,239,231,.2) 6%, rgba(244,239,231,.2) 94%, transparent); }
 .section--dark .step__mark { background: var(--dark); box-shadow: 0 0 0 2px rgba(244, 239, 231, .28); }
-.section--dark .step__tile { background: var(--dark-2); color: #8FC3A4; box-shadow: 0 0 0 1px rgba(244, 239, 231, .14); }
+.section--dark .step__tile { background: var(--dark-2); color: var(--accent-bright); box-shadow: 0 0 0 1px rgba(232, 234, 230, .16); }
 .section--dark .step__text p { color: var(--on-dark-2); }
 .section--dark .step__num { color: var(--on-dark-2); }
 
 /* ---------- цены по комплектациям на странице проекта ---------- */
+/* Карточка статьи кликается целиком: ссылка заголовка растянута на неё,
+   а картинка больше не дублирует ту же ссылку для скринридера. */
+.post { position: relative; }
+.post__title a.stretch::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.post a:not(.stretch) { position: relative; z-index: 2; }
+
+/* Кнопка, которая ведёт себя как ссылка: мессенджеры открывают форму,
+   а не переходят по адресу, поэтому это button, но выглядит как пункт списка. */
+.linklike {
+  display: inline-flex; align-items: center; min-height: 32px; padding: 0;
+  font: inherit; color: inherit; background: none; border: 0; cursor: pointer;
+  text-align: left; transition: color .3s var(--ease);
+}
+.footer .linklike { color: var(--on-dark-2); font-size: 14.5px; }
+.footer .linklike:hover { color: var(--on-dark); }
+
 /* реквизиты: пары «название — значение», номера моноширинно и с переносом */
 .req { margin: 14px 0 0; display: grid; gap: 10px; }
 .req > div { display: grid; gap: 2px; padding-bottom: 10px; border-bottom: 1px solid var(--line-soft); }

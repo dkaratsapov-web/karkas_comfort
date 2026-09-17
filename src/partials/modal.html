@@ -21,15 +21,15 @@
             <span class="field__error" id="m-phone-error">Введите номер полностью</span>
           </div>
           <input type="hidden" name="project" data-modal-project-input value="">
-          <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="sr-only" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-label="Оставьте поле пустым"></div>
           <label class="consent">
             <input type="checkbox" name="consent" required>
             <span>Согласен на обработку персональных данных в соответствии с <a href="politika.html">политикой конфиденциальности</a></span>
           </label>
           <button class="btn btn--accent btn--block" type="submit">Получить смету</button>
         </div>
-        <p class="form__error" role="alert"></p>
-        <p class="form__ok" role="status">Спасибо! Заявка принята, перезвоним в рабочее время с 8:00 до 20:00.</p>
+        <p class="form__error" role="alert" aria-live="assertive"></p>
+        <p class="form__ok" role="status" aria-live="polite">Спасибо! Заявка принята, перезвоним в рабочее время с 8:00 до 20:00.</p>
       </form>
       <p class="modal__call">Или позвоните сразу: <a href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a></p>
     </div>

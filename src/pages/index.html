@@ -132,12 +132,12 @@
                 <span class="field__error" id="hero-phone-error">Введите номер полностью</span>
               </div>
               <input type="hidden" name="project" value="Первый экран">
-              <input type="text" name="website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <div class="sr-only" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-label="Оставьте поле пустым"></div>
               <button class="btn btn--light" type="submit">Получить расчёт<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></button>
             </div>
             <p class="hero-form__note">Нажимая кнопку, вы соглашаетесь с <a href="politika.html">политикой конфиденциальности</a></p>
-            <p class="form__error" role="alert"></p>
-            <p class="form__ok" role="status">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
+            <p class="form__error" role="alert" aria-live="assertive"></p>
+            <p class="form__ok" role="status" aria-live="polite">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
           </form>
         </div>
         <div class="hero__facts">

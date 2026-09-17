@@ -207,12 +207,12 @@ function articleBody(blocks) {
 }
 
 const articleCard = (a) => `        <article class="post">
-          <a class="post__media${/razrez|fasad|vid-|plan|3d/.test(a.cover || '') ? ' post__media--sheet' : ''}" href="${articleUrl(a.slug)}" tabindex="-1" aria-hidden="true">
+          <div class="post__media${/razrez|fasad|vid-|plan|3d/.test(a.cover || '') ? ' post__media--sheet' : ''}">
             <img ${srcset(a.cover, '(min-width: 900px) 33vw, 100vw')} alt="" loading="lazy" width="900" height="600">
-          </a>
+          </div>
           <div class="post__body">
             <p class="post__tag">${esc(a.tag)}</p>
-            <h3 class="post__title"><a href="${articleUrl(a.slug)}">${esc(a.h1 || a.title)}</a></h3>
+            <h3 class="post__title"><a class="stretch" href="${articleUrl(a.slug)}">${esc(a.h1 || a.title)}</a></h3>
             <p class="post__lead">${esc(a.lead)}</p>
             <p class="post__meta"><time datetime="${a.updated || a.date}">${dateRu(a.updated || a.date)}</time><span>${a.read} мин чтения</span></p>
           </div>
@@ -483,7 +483,7 @@ for (const file of files) {
     writeFileSync(`${OUT}/${file}`, rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="robots" content="noindex"><link rel="canonical" href="${SITE}${pageUrl(file)}">
 <meta http-equiv="refresh" content="0; url=${pageUrl(file)}"></head>
-<body><p>Страница переехала: <a href="${pageUrl(file)}">${pageUrl(file)}</a></p></body></html>\n`));
+<body><main><p>Страница переехала: <a href="${pageUrl(file)}">${pageUrl(file)}</a></p></main></body></html>\n`));
   }
 }
 
@@ -549,7 +549,7 @@ function planBlock(p) {
           </figure>
           <div class="stack">
             <div class="card">
-              <table class="rooms-table">
+              <table class="rooms-table"><caption class="sr-only">Площади помещений по проекту</caption>
                 <thead><tr><th scope="col">Помещение</th><th scope="col">Площадь, м²</th></tr></thead>
                 <tbody>
 ${rows}
@@ -559,7 +559,7 @@ ${total}
             </div>
 ${tep ? `            <div class="card">
               <h3 style="font-size:17px;margin-bottom:8px">Технико-экономические показатели</h3>
-              <table class="specs-table">
+              <table class="specs-table"><caption class="sr-only">Технико-экономические показатели проекта</caption>
                 <tbody>
 ${tep}
                 </tbody>
@@ -694,7 +694,7 @@ ${list.map((k, ki) => `          <article class="card pack">
               const rest = shots.length ? shots.slice(1) : [];
               const zoom = `${p.slug}-pack-${ki}`;
               return `${cover ? `<a class="pack__shot${shots.length ? '' : ' pack__shot--plan'}" href="${img(cover)}" data-zoom="${img(cover)}" data-zoom-group="${zoom}"><img ${srcset(cover, '(min-width: 1000px) 30vw, 100vw')} alt="${esc(k.name)}: ${shots.length ? 'визуализация' : 'планировка'}" loading="lazy" width="1700" height="956"></a>` : ''}
-            ${rest.map((f) => `<a hidden href="${img(f)}" data-zoom="${img(f)}" data-zoom-group="${zoom}"></a>`).join('')}
+            ${rest.map((f) => `<span hidden data-zoom="${img(f)}" data-zoom-group="${zoom}"></span>`).join('')}
             ${k.plan && shots.length ? `<a class="pack__plan" href="${img(k.plan)}" data-zoom="${img(k.plan)}" data-zoom-group="${zoom}"><img ${srcset(k.plan, '(min-width: 1000px) 30vw, 100vw')} alt="Планировка: ${esc(k.name)}" loading="lazy" width="1400" height="991"></a>` : ''}`;
             })()}
             <div class="pack__body">
@@ -869,7 +869,7 @@ ${p.packages.map((k) => `                <li><a href="#komplektacii"><span>${esc
               </ul>` : ''}
               <div class="stack" style="margin-top:20px">
                 <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${areaLabel(p)} м²)">Рассчитать этот проект</a>
-                <a class="btn btn--ghost btn--block" href="#" data-lead-messenger>Написать в Telegram</a>
+                <button class="btn btn--ghost btn--block" type="button" data-lead-messenger>Написать в Telegram</button>
               </div>
               <ul class="checks checks--tight" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft)">
                 <li>Смета с ценами до подписания договора</li>
@@ -931,7 +931,7 @@ ${cta}`;
   if (PREVIEW) writeFileSync(`${OUT}/proekty/${p.slug}.html`, rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="robots" content="noindex"><link rel="canonical" href="${SITE}${projectUrl(p.slug)}">
 <meta http-equiv="refresh" content="0; url=${projectUrl(p.slug)}"></head>
-<body><p>Страница переехала: <a href="${projectUrl(p.slug)}">${projectUrl(p.slug)}</a></p></body></html>\n`));
+<body><main><p>Страница переехала: <a href="${projectUrl(p.slug)}">${projectUrl(p.slug)}</a></p></main></body></html>\n`));
   built.push({ url: projectUrl(p.slug), priority: 0.8 });
 }
 
@@ -963,6 +963,7 @@ mkdirSync(`${OUT}/stati`, { recursive: true });
           <h1>Статьи о строительстве каркасных домов</h1>
           <p class="lead">Разбираем то, о чём чаще всего спрашивают на первом звонке: из чего складывается цена, какой фундамент выбрать, что внутри стены и на что смотреть в договоре.</p>
         </div>
+        <h2 class="sr-only">Все статьи</h2>
         <div class="posts">
 ${articles.map(articleCard).join('\n')}
         </div>
@@ -1077,7 +1078,7 @@ for (const legacy of ['karkasnye-doma']) {
   const html = rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="robots" content="noindex"><link rel="canonical" href="${SITE}/">
 <meta http-equiv="refresh" content="0; url=/#tehnologiya"></head>
-<body><p>Раздел переехал на <a href="/#tehnologiya">главную страницу</a>.</p></body></html>\n`);
+<body><main><p>Раздел переехал на <a href="/#tehnologiya">главную страницу</a>.</p></main></body></html>\n`);
   mkdirSync(`${OUT}/${legacy}`, { recursive: true });
   writeFileSync(`${OUT}/${legacy}/index.html`, html);
   writeFileSync(`${OUT}/${legacy}.html`, html);
