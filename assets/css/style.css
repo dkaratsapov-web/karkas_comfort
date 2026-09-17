@@ -48,7 +48,7 @@
   --sh-2: 0 24px 60px -34px rgba(20, 23, 26, .6);
 
   /* --- Ритм --- */
-  --container: 1560px;
+  --container: 1780px;
   --gutter: clamp(20px, 4vw, 64px);
   --section-y: clamp(44px, 4.6vw, 76px);
   --tap: 48px;                      /* минимальная тач-цель */
@@ -63,6 +63,7 @@
 
 /* ---------- база ---------- */
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 28px); -webkit-text-size-adjust: 100%; }
 
@@ -128,7 +129,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 
 /* ---------- сетка ---------- */
 .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
-.container--wide { max-width: 1760px; }
+.container--wide { max-width: 1920px; }
 
 .section { padding: var(--section-y) 0; }
 /* страницы проектов: блоков много, поэтому шаг между ними короче */
@@ -1521,13 +1522,32 @@ body::after {
 .dots li { position: relative; padding-left: 18px; font-size: 15px; line-height: 1.45; color: var(--ink-2); }
 .dots li::before { content: "•"; position: absolute; left: 3px; top: -1px; color: var(--accent); font-size: 17px; line-height: 1.35; }
 
+/* Комплектации перечислены сразу под ценой: с первого экрана видно,
+   что вариантов несколько, и сколько стоит каждый. */
+.aside-packs { list-style: none; margin: 16px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line-soft); display: grid; gap: 2px; }
+.aside-packs a {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+  padding: 8px 0; border-radius: var(--r-s);
+  font-size: 14.5px; color: var(--ink-2); text-decoration: none;
+  transition: background .25s var(--ease), color .25s var(--ease);
+}
+.aside-packs a:hover { color: var(--ink); }
+.aside-packs a:hover b { color: var(--brand); }
+.aside-packs b { font-family: var(--display); font-weight: 700; font-size: 15px; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
 /* комплектации одного дома: планировка, цена и состав рядом */
 .packs { display: grid; gap: clamp(12px, 1.4vw, 18px); grid-template-columns: 1fr; align-items: stretch; }
 @media (min-width: 900px) { .packs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .pack { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
 /* планировки приходят в разных пропорциях — ставим их в одну рамку,
    иначе карточки комплектаций разъезжаются по высоте */
-.pack__plan { display: grid; place-items: center; aspect-ratio: 3 / 2; padding: 12px; background: var(--surface); border-bottom: 1px solid var(--line-soft); cursor: zoom-in; }
+.pack__shot { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--page-2); cursor: zoom-in; }
+.pack__shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s var(--ease); }
+.pack__shot:hover img { transform: scale(1.02); }
+.pack__shot--plan { background: var(--surface); }
+.pack__shot--plan img { object-fit: contain; padding: 10px; }
+.pack__shot--plan:hover img { transform: none; }
+.pack__plan { display: grid; place-items: center; aspect-ratio: 3 / 2; padding: 12px; background: var(--surface); border-block: 1px solid var(--line-soft); cursor: zoom-in; }
 .pack__plan img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
 .pack__body { padding: clamp(16px, 1.6vw, 22px); display: flex; flex-direction: column; gap: 12px; flex-grow: 1; }
 .pack__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }

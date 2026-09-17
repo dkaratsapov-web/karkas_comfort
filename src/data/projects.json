@@ -101,15 +101,7 @@
       "pavlinov-bez-viz-01.jpg",
       "pavlinov-bez-viz-02.jpg",
       "pavlinov-bez-viz-03.jpg",
-      "pavlinov-bez-viz-04.jpg",
-      "khodakova-plus-viz-01.jpg",
-      "khodakova-plus-viz-02.jpg",
-      "khodakova-plus-viz-03.jpg",
-      "khodakova-plus-viz-04.jpg",
-      "khodakova-std-viz-01.jpg",
-      "khodakova-std-viz-02.jpg",
-      "khodakova-std-viz-03.jpg",
-      "khodakova-std-viz-04.jpg"
+      "pavlinov-bez-viz-04.jpg"
     ],
     "plan": "pavlinov-bez-plan.jpg",
     "drawings": [
@@ -228,11 +220,17 @@
           "Отделка: влагостойкий гипсокартон в два слоя, натяжные потолки, ламинат 33 класса, плитка в санузле",
           "Электрика, водяное отопление с тёплым полом, электрокотёл 7 кВт и бойлер",
           "Скважина с кессоном и гидробаком, канализация СБО, вентиляция"
+        ],
+        "viz": [
+          "pavlinov-bez-viz-01.jpg",
+          "pavlinov-bez-viz-02.jpg",
+          "pavlinov-bez-viz-03.jpg",
+          "pavlinov-bez-viz-04.jpg"
         ]
       },
       {
         "name": "Стандарт, с террасой",
-        "size": "7,7×10 + терраса",
+        "size": "7,7×10",
         "price": 7260000,
         "note": "Большая кухня-гостиная 29,88 м² и терраса 15,68 м² вдоль фасада",
         "plan": "khodakova-std-plan.jpg",
@@ -241,11 +239,17 @@
           "Две спальни по 10,25 м²",
           "Терраса 15,68 м² под общей кровлей, крыльцо 3 м²",
           "Котельная, санузел и отсечённая входная зона"
+        ],
+        "viz": [
+          "khodakova-std-viz-01.jpg",
+          "khodakova-std-viz-02.jpg",
+          "khodakova-std-viz-03.jpg",
+          "khodakova-std-viz-04.jpg"
         ]
       },
       {
         "name": "Расширенный, с кабинетом",
-        "size": "7,7×10 + терраса",
+        "size": "7,7×10",
         "price": 7460000,
         "note": "Отдельные кухня и гостиная, кабинет, терраса 7,7 м²",
         "plan": "khodakova-plus-plan.jpg",
@@ -254,6 +258,12 @@
           "Две спальни по 10,4 м² и кабинет 5,4 м²",
           "Терраса 7,7 м² с выходом из кухни, крыльцо 3 м²",
           "Котельная, санузел и отсечённая входная зона"
+        ],
+        "viz": [
+          "khodakova-plus-viz-01.jpg",
+          "khodakova-plus-viz-02.jpg",
+          "khodakova-plus-viz-03.jpg",
+          "khodakova-plus-viz-04.jpg"
         ]
       }
     ],
@@ -607,11 +617,7 @@
       "pavlinov-viz-01.jpg",
       "pavlinov-viz-02.jpg",
       "pavlinov-viz-03.jpg",
-      "pavlinov-viz-04.jpg",
-      "pavlinov-bez-viz-01.jpg",
-      "pavlinov-bez-viz-02.jpg",
-      "pavlinov-bez-viz-03.jpg",
-      "pavlinov-bez-viz-04.jpg"
+      "pavlinov-viz-04.jpg"
     ],
     "plan": "pavlinov-plan-1.jpg",
     "drawings": [
@@ -727,6 +733,12 @@
           "Отделка: влагостойкий гипсокартон в два слоя, натяжные потолки со светильниками, ламинат 33 класса, плитка в санузле, межкомнатные двери",
           "Электрика скрытая с вводом от столба, водяное отопление с тёплым полом, электрокотёл 7 кВт и бойлер",
           "Скважина с кессоном и гидробаком, канализация СБО, вентиляция"
+        ],
+        "viz": [
+          "pavlinov-bez-viz-01.jpg",
+          "pavlinov-bez-viz-02.jpg",
+          "pavlinov-bez-viz-03.jpg",
+          "pavlinov-bez-viz-04.jpg"
         ]
       },
       {
@@ -741,6 +753,12 @@
           "Котельная под ключ с подготовкой под газификацию, электрокотёл 9 кВт, бойлер 100 л, фильтрация, гидробак, насосная станция",
           "Скважина до 40 м, биостанция, тёплые полы по стяжке 70 мм",
           "Утепление: стены 150 мм (общая толщина 270 мм), пол 200 мм, кровля 200 мм с закрытым чердаком"
+        ],
+        "viz": [
+          "pavlinov-viz-01.jpg",
+          "pavlinov-viz-02.jpg",
+          "pavlinov-viz-03.jpg",
+          "pavlinov-viz-04.jpg"
         ]
       },
       {
@@ -753,7 +771,8 @@
           "Планировка с раздельными кухней и гостиной, три спальни (12,76 / 10,8 / 10,8 м²)",
           "Отделка и инженерия — как в базовой комплектации с ремонтом под ключ",
           "Терраса 8 м² и крыльцо 3 м² под общей кровлей"
-        ]
+        ],
+        "viz": []
       }
     ],
     "points": [

@@ -685,8 +685,18 @@ function packagesBlock(p) {
           <p class="lead">Суммы из смет на этот проект, а не расчёт по средней ставке за метр. Планировка и состав работ у каждой комплектации свои — итог зависит от участка, грунта и удалённости.</p>
         </div>
         <div class="packs">
-${list.map((k) => `          <article class="card pack">
-            ${k.plan ? `<a class="pack__plan" href="${img(k.plan)}" data-zoom="${img(k.plan)}" data-zoom-group="${p.slug}-packs"><img ${srcset(k.plan, '(min-width: 1000px) 30vw, 100vw')} alt="Планировка: ${esc(k.name)}" loading="lazy" width="1400" height="991"></a>` : ''}
+${list.map((k, ki) => `          <article class="card pack">
+            ${(() => {
+              /* Обложкой идёт визуализация комплектации; если её не прислали —
+                 планировка, чтобы карточки начинались с одной линии. */
+              const shots = k.viz || [];
+              const cover = shots[0] || k.plan;
+              const rest = shots.length ? shots.slice(1) : [];
+              const zoom = `${p.slug}-pack-${ki}`;
+              return `${cover ? `<a class="pack__shot${shots.length ? '' : ' pack__shot--plan'}" href="${img(cover)}" data-zoom="${img(cover)}" data-zoom-group="${zoom}"><img ${srcset(cover, '(min-width: 1000px) 30vw, 100vw')} alt="${esc(k.name)}: ${shots.length ? 'визуализация' : 'планировка'}" loading="lazy" width="1700" height="956"></a>` : ''}
+            ${rest.map((f) => `<a hidden href="${img(f)}" data-zoom="${img(f)}" data-zoom-group="${zoom}"></a>`).join('')}
+            ${k.plan && shots.length ? `<a class="pack__plan" href="${img(k.plan)}" data-zoom="${img(k.plan)}" data-zoom-group="${zoom}"><img ${srcset(k.plan, '(min-width: 1000px) 30vw, 100vw')} alt="Планировка: ${esc(k.name)}" loading="lazy" width="1400" height="991"></a>` : ''}`;
+            })()}
             <div class="pack__body">
               <div class="pack__head">
                 <h3>${esc(k.name)}</h3>
@@ -852,6 +862,10 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
 ${p.variants && p.variants.length ? `
               <ul class="variants">
 ${p.variants.map((v) => `                <li><span>${esc(v.name)}${v.note ? `<small>${esc(v.note)}</small>` : ''}</span><b>${money(v.price)}</b></li>`).join('\n')}
+              </ul>` : ''}
+${p.packages && p.packages.length ? `
+              <ul class="aside-packs">
+${p.packages.map((k) => `                <li><a href="#komplektacii"><span>${esc(k.name)}</span><b>${money(k.price)}</b></a></li>`).join('\n')}
               </ul>` : ''}
               <div class="stack" style="margin-top:20px">
                 <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${areaLabel(p)} м²)">Рассчитать этот проект</a>
