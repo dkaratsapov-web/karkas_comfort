@@ -1537,6 +1537,10 @@ body::after {
 .dots li { position: relative; padding-left: 18px; font-size: 15px; line-height: 1.45; color: var(--ink-2); }
 .dots li::before { content: "•"; position: absolute; left: 3px; top: -1px; color: var(--accent); font-size: 17px; line-height: 1.35; }
 
+/* Между группами по комплектациям нужен воздух больше обычного,
+   иначе три набора кадров читаются как один. */
+.stack--groups { display: grid; gap: clamp(28px, 3.4vw, 48px); }
+
 /* Комплектации перечислены сразу под ценой: с первого экрана видно,
    что вариантов несколько, и сколько стоит каждый. */
 .aside-packs { list-style: none; margin: 16px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line-soft); display: grid; gap: 2px; }

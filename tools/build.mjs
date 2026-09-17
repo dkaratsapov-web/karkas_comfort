@@ -745,21 +745,38 @@ ${rows.map(([name, sum, what], i) => `          <article class="price-row${i ===
 }
 
 /* Визуализации проекта. Подписаны честно: это не фотографии объекта. */
+/* Кадры и листы, разложенные по комплектациям: у каждой свои файлы,
+   поэтому в одну сетку они не сваливаются — у каждой свой заголовок. */
+function packGroups(p, key, render, grid = 'shots--photos') {
+  const packs = (p.packages || []).filter((k) => (k[key] || []).length);
+  if (!packs.length) return '';
+  return packs.map((k, ki) => `        <div class="shots-group">
+          <h3 class="shots-group__title"><span>${esc(k.name)}</span><small>${(k[key] || []).length}</small></h3>
+          <div class="shots ${grid}">
+${(k[key] || []).map((item, i) => render(item, i, k, ki)).join('\n')}
+          </div>
+        </div>`).join('\n');
+}
+
 function vizBlock(p) {
+  const grouped = packGroups(p, 'viz', (f, i, k, ki) =>
+    `            <figure><img ${srcset(f, '(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw')} alt="${esc(k.name)}: визуализация ${i + 1}" loading="lazy" width="900" height="506" data-zoom="${img(f)}" data-zoom-group="${p.slug}-pack-${ki}"></figure>`);
   const list = p.viz || [];
-  if (!list.length) return '';
-  const cells = list.map((f, i) => `          <figure><img ${srcset(f, '(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw')} alt="Визуализация каркасного дома ${p.code}, кадр ${i + 1}" loading="lazy" width="900" height="506" data-zoom="${img(f)}" data-zoom-group="${p.slug}-viz"></figure>`).join('\n');
+  if (!grouped && !list.length) return '';
+  const cells = grouped || list.map((f, i) => `          <figure><img ${srcset(f, '(min-width: 1200px) 25vw, (min-width: 760px) 33vw, 50vw')} alt="Визуализация каркасного дома ${p.code}, кадр ${i + 1}" loading="lazy" width="900" height="506" data-zoom="${img(f)}" data-zoom-group="${p.slug}-viz"></figure>`).join('\n');
   return `
     <section class="section section--tight" id="viz">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Как будет выглядеть</p>
-          <h2>Визуализации проекта</h2>
+          <h2>Визуализации ${p.packages && p.packages.length ? 'по комплектациям' : 'проекта'}</h2>
           <p class="lead">Компьютерные визуализации по рабочему проекту: материалы фасада, цвет кровли и посадка дома на участке. Это не фотографии построенного объекта.</p>
         </div>
-        <div class="shots shots--photos">
+        ${grouped ? `<div class="stack stack--groups">
 ${cells}
-        </div>
+        </div>` : `<div class="shots shots--photos">
+${cells}
+        </div>`}
       </div>
     </section>
 `;
@@ -795,20 +812,24 @@ ${cols}
 
 /* Листы альбома: объёмные виды и фасады. */
 function sheetsBlock(p) {
+  const grouped = packGroups(p, 'drawings', (d, i, k, ki) =>
+    `            <figure><img ${srcset(d.file, "(min-width: 760px) 33vw, 100vw")} alt="${esc(k.name)}: ${esc(d.title)}" loading="lazy" width="900" height="675" data-zoom="${img(d.file)}" data-zoom-group="${p.slug}-sheets-${ki}"><figcaption>${esc(d.title)}</figcaption></figure>`, 'shots--sheets');
   const list = p.drawings || [];
-  if (!list.length) return '';
-  const cells = list.map((d) => `          <figure><img ${srcset(d.file, "(min-width: 760px) 33vw, 100vw")} alt="${esc(d.title)} — проект ${p.code}" loading="lazy" width="900" height="675" data-zoom="${img(d.file)}" data-zoom-group="${p.slug}-sheets"><figcaption>${esc(d.title)}</figcaption></figure>`).join('\n');
+  if (!grouped && !list.length) return '';
+  const cells = grouped || list.map((d) => `          <figure><img ${srcset(d.file, "(min-width: 760px) 33vw, 100vw")} alt="${esc(d.title)} — проект ${p.code}" loading="lazy" width="900" height="675" data-zoom="${img(d.file)}" data-zoom-group="${p.slug}-sheets"><figcaption>${esc(d.title)}</figcaption></figure>`).join('\n');
   return `
     <section class="section section--paper section--tight" id="chertezhi">
       <div class="container">
         <div class="section__head">
           <p class="eyebrow">Альбом проекта</p>
-          <h2>Виды и фасады из эскизного проекта</h2>
+          <h2>Фасады ${p.packages && p.packages.length ? 'по комплектациям' : 'из эскизного проекта'}</h2>
           <p class="lead">Листы альбома: объёмные виды и фасады. Полный комплект передаём заказчику вместе с договором.</p>
         </div>
-        <div class="shots shots--sheets">
+        ${grouped ? `<div class="stack stack--groups">
 ${cells}
-        </div>
+        </div>` : `<div class="shots shots--sheets">
+${cells}
+        </div>`}
       </div>
     </section>
 `;

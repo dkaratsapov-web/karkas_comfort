@@ -104,56 +104,6 @@
       "pavlinov-bez-viz-04.jpg"
     ],
     "plan": "pavlinov-bez-plan.jpg",
-    "drawings": [
-      {
-        "file": "pavlinov-bez-fasad-1.jpg",
-        "title": "Фасад 1"
-      },
-      {
-        "file": "pavlinov-bez-fasad-2.jpg",
-        "title": "Фасад 2"
-      },
-      {
-        "file": "pavlinov-bez-fasad-3.jpg",
-        "title": "Фасад 3"
-      },
-      {
-        "file": "pavlinov-bez-fasad-4.jpg",
-        "title": "Фасад 4"
-      },
-      {
-        "file": "khodakova-plus-fasad-1.jpg",
-        "title": "Фасад 1 — расширенная комплектация"
-      },
-      {
-        "file": "khodakova-plus-fasad-2.jpg",
-        "title": "Фасад 2 — расширенная комплектация"
-      },
-      {
-        "file": "khodakova-plus-fasad-3.jpg",
-        "title": "Фасад 3 — расширенная комплектация"
-      },
-      {
-        "file": "khodakova-plus-fasad-4.jpg",
-        "title": "Фасад 4 — расширенная комплектация"
-      },
-      {
-        "file": "khodakova-std-fasad-1.jpg",
-        "title": "Фасад 1 — стандарт с террасой"
-      },
-      {
-        "file": "khodakova-std-fasad-2.jpg",
-        "title": "Фасад 2 — стандарт с террасой"
-      },
-      {
-        "file": "khodakova-std-fasad-3.jpg",
-        "title": "Фасад 3 — стандарт с террасой"
-      },
-      {
-        "file": "khodakova-std-fasad-4.jpg",
-        "title": "Фасад 4 — стандарт с террасой"
-      }
-    ],
     "rooms": [
       {
         "name": "Кухня-гостиная",
@@ -226,6 +176,24 @@
           "pavlinov-bez-viz-02.jpg",
           "pavlinov-bez-viz-03.jpg",
           "pavlinov-bez-viz-04.jpg"
+        ],
+        "drawings": [
+          {
+            "file": "pavlinov-bez-fasad-1.jpg",
+            "title": "Фасад 1"
+          },
+          {
+            "file": "pavlinov-bez-fasad-2.jpg",
+            "title": "Фасад 2"
+          },
+          {
+            "file": "pavlinov-bez-fasad-3.jpg",
+            "title": "Фасад 3"
+          },
+          {
+            "file": "pavlinov-bez-fasad-4.jpg",
+            "title": "Фасад 4"
+          }
         ]
       },
       {
@@ -245,6 +213,24 @@
           "khodakova-std-viz-02.jpg",
           "khodakova-std-viz-03.jpg",
           "khodakova-std-viz-04.jpg"
+        ],
+        "drawings": [
+          {
+            "file": "khodakova-std-fasad-1.jpg",
+            "title": "Фасад 1"
+          },
+          {
+            "file": "khodakova-std-fasad-2.jpg",
+            "title": "Фасад 2"
+          },
+          {
+            "file": "khodakova-std-fasad-3.jpg",
+            "title": "Фасад 3"
+          },
+          {
+            "file": "khodakova-std-fasad-4.jpg",
+            "title": "Фасад 4"
+          }
         ]
       },
       {
@@ -264,6 +250,24 @@
           "khodakova-plus-viz-02.jpg",
           "khodakova-plus-viz-03.jpg",
           "khodakova-plus-viz-04.jpg"
+        ],
+        "drawings": [
+          {
+            "file": "khodakova-plus-fasad-1.jpg",
+            "title": "Фасад 1"
+          },
+          {
+            "file": "khodakova-plus-fasad-2.jpg",
+            "title": "Фасад 2"
+          },
+          {
+            "file": "khodakova-plus-fasad-3.jpg",
+            "title": "Фасад 3"
+          },
+          {
+            "file": "khodakova-plus-fasad-4.jpg",
+            "title": "Фасад 4"
+          }
         ]
       }
     ],
@@ -598,7 +602,7 @@
   {
     "code": "КД-105",
     "slug": "pavlinov",
-    "name": "Павлинов — База",
+    "name": "Павлинов",
     "size": "7,5×13,5",
     "floors": 1,
     "area": 105,
@@ -620,40 +624,6 @@
       "pavlinov-viz-04.jpg"
     ],
     "plan": "pavlinov-plan-1.jpg",
-    "drawings": [
-      {
-        "file": "pavlinov-fasad-1.jpg",
-        "title": "Фасад 1"
-      },
-      {
-        "file": "pavlinov-fasad-2.jpg",
-        "title": "Фасад 2"
-      },
-      {
-        "file": "pavlinov-fasad-3.jpg",
-        "title": "Фасад 3"
-      },
-      {
-        "file": "pavlinov-fasad-4.jpg",
-        "title": "Фасад 4"
-      },
-      {
-        "file": "pavlinov-bez-fasad-1.jpg",
-        "title": "Фасад 1 — вариант без террасы"
-      },
-      {
-        "file": "pavlinov-bez-fasad-2.jpg",
-        "title": "Фасад 2 — вариант без террасы"
-      },
-      {
-        "file": "pavlinov-bez-fasad-3.jpg",
-        "title": "Фасад 3 — вариант без террасы"
-      },
-      {
-        "file": "pavlinov-bez-fasad-4.jpg",
-        "title": "Фасад 4 — вариант без террасы"
-      }
-    ],
     "rooms": [
       {
         "name": "Кухня-гостиная",
@@ -739,6 +709,24 @@
           "pavlinov-bez-viz-02.jpg",
           "pavlinov-bez-viz-03.jpg",
           "pavlinov-bez-viz-04.jpg"
+        ],
+        "drawings": [
+          {
+            "file": "pavlinov-bez-fasad-1.jpg",
+            "title": "Фасад 1"
+          },
+          {
+            "file": "pavlinov-bez-fasad-2.jpg",
+            "title": "Фасад 2"
+          },
+          {
+            "file": "pavlinov-bez-fasad-3.jpg",
+            "title": "Фасад 3"
+          },
+          {
+            "file": "pavlinov-bez-fasad-4.jpg",
+            "title": "Фасад 4"
+          }
         ]
       },
       {
@@ -759,6 +747,24 @@
           "pavlinov-viz-02.jpg",
           "pavlinov-viz-03.jpg",
           "pavlinov-viz-04.jpg"
+        ],
+        "drawings": [
+          {
+            "file": "pavlinov-fasad-1.jpg",
+            "title": "Фасад 1"
+          },
+          {
+            "file": "pavlinov-fasad-2.jpg",
+            "title": "Фасад 2"
+          },
+          {
+            "file": "pavlinov-fasad-3.jpg",
+            "title": "Фасад 3"
+          },
+          {
+            "file": "pavlinov-fasad-4.jpg",
+            "title": "Фасад 4"
+          }
         ]
       },
       {
@@ -772,7 +778,8 @@
           "Отделка и инженерия — как в базовой комплектации с ремонтом под ключ",
           "Терраса 8 м² и крыльцо 3 м² под общей кровлей"
         ],
-        "viz": []
+        "viz": [],
+        "drawings": []
       }
     ],
     "points": [
