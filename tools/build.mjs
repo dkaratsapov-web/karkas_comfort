@@ -1174,16 +1174,6 @@ ${projects.some((x) => x.slug === (c.project || c.slug)) ? `
         </a>
       </div>
     </section>` : ''}
-${c.seen && c.seen.length ? `
-    <section class="section section--paper">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Что видно на съёмке</p>
-          <h2>Как дом сдан заказчику</h2>
-        </div>
-        <ul class="checks checks--wide">${c.seen.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-      </div>
-    </section>` : ''}
 
 ${cta}
 `;
