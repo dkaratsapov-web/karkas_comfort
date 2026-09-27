@@ -937,6 +937,14 @@ section[id], div[id] { scroll-margin-top: 88px; }
    право растянуть блок шире экрана — на телефоне это ловила проверка */
 .chero--video .chero__inner { grid-template-columns: minmax(0, 1fr); }
 .chero__inner > * { min-width: 0; }
+/* на широком экране текст уходит в узкую колонку слева, а ролики
+   занимают всё оставшееся место и начинаются на уровне заголовка:
+   пустое поле справа от лида пропадает, кадры становятся крупнее */
+@media (min-width: 1200px) {
+  .chero--video .chero__inner { grid-template-columns: minmax(300px, 24%) minmax(0, 1fr); align-items: start; }
+  .chero--video .videos { margin-top: 0; }
+  .chero--video .videos--portrait { max-width: none; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 .chero--video .chero__info { max-width: 74ch; }
 .chero--video .videos { margin-top: clamp(20px, 2.4vw, 34px); }
 .chero--video .video {
