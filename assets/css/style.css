@@ -933,7 +933,10 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* «Видео» — тот же приём, что на контактах: одна тёмная секция на весь
    экран, заголовок и три ролика, дальше сразу подвал. Кадр вертикальный,
    поэтому карточки узкие и стоят втроём в ряд. */
-.chero--video .chero__inner { grid-template-columns: 1fr; }
+/* колонка должна уметь сжиматься: auto-минимум даёт сетке роликов
+   право растянуть блок шире экрана — на телефоне это ловила проверка */
+.chero--video .chero__inner { grid-template-columns: minmax(0, 1fr); }
+.chero__inner > * { min-width: 0; }
 .chero--video .chero__info { max-width: 74ch; }
 .chero--video .videos { margin-top: clamp(20px, 2.4vw, 34px); }
 .chero--video .video {
