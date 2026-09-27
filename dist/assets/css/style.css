@@ -685,8 +685,10 @@ section[id], div[id] { scroll-margin-top: 88px; }
   .chero__inner { grid-template-columns: minmax(0, 1fr) minmax(400px, 560px); }
 }
 .chero .crumbs { padding: 0; margin: 0 0 clamp(16px, 2vw, 26px); }
-.crumbs--light, .crumbs--light a { color: var(--on-dark-2); }
-.crumbs--light a:hover { color: var(--on-dark); }
+/* крошки на тёмном: правила .crumbs идут ниже по файлу, поэтому
+   перебиваем их адресно через родителя, а не одним классом */
+.chero .crumbs, .chero .crumbs li, .chero .crumbs a { color: var(--on-dark-2); }
+.chero .crumbs a:hover { color: var(--on-dark); }
 .eyebrow--light { color: var(--on-dark-2); }
 .chero h1 {
   color: var(--on-dark); text-transform: uppercase;
