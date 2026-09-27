@@ -181,6 +181,26 @@ ${videos.map((v) => {
         </div>`;
 }
 
+/* Один ролик врезкой: тот же кадр, что на странице «Видео», но
+   с ссылкой на раздел. Номер в токене — порядковый в videos.json. */
+function videoCard(n) {
+  const v = videos[n - 1];
+  if (!v) return '';
+  const frame = v.youtube
+    ? `<iframe src="https://www.youtube.com/embed/${esc(v.youtube)}" title="${esc(v.title)}" loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>`
+    : v.vk
+      ? `<iframe src="${esc(v.vk)}" title="${esc(v.title)}" loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>`
+      : `<video controls playsinline preload="none"${v.poster ? ` poster="/assets/img/photos/${esc(v.poster)}"` : ''}><source src="/assets/video/${esc(v.src)}" type="video/mp4">Ваш браузер не проигрывает это видео.</video>`;
+  return `          <figure class="video${v.portrait ? ' video--portrait' : ''} video--inset">
+            <div class="video__frame">${frame}${v.length ? `<span class="video__time">${esc(v.length)}</span>` : ''}</div>
+            <figcaption>
+              <h3>${esc(v.title)}</h3>
+              ${v.note ? `<p>${esc(v.note)}</p>` : ''}
+              <a class="linklike" href="/video/">Все видео со строек</a>
+            </figcaption>
+          </figure>`;
+}
+
 const articleUrl = (slug) => `/stati/${slug}/`;
 const ARTICLE_IMG = (a) => (a.cover ? `/assets/img/photos/${a.cover}` : '/assets/img/og.png');
 const dateRu = (iso) => {
@@ -454,6 +474,7 @@ for (const file of files) {
   content = content.replace(/\{\{articles:(\d+)\}\}/g, (_, n) => articles.slice(0, Number(n)).map(articleCard).join('\n'));
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{videos\}\}/g, () => videosBlock());
+  content = content.replace(/\{\{video:(\d+)\}\}/g, (_, n) => videoCard(Number(n)));
   content = content.replace(/\{\{geo\}\}/g, () => geoMap());
   content = content.replace(/\{\{compare\}\}/g, () => compareTable());
   content = content.replace(/\{\{cta\}\}/g, () => cta);

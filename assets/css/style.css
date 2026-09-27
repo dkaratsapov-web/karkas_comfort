@@ -530,17 +530,19 @@ section[id], div[id] { scroll-margin-top: 88px; }
    снизу — под заголовок и цифры. Середина остаётся светлой, дом виден. */
 .hero__scrim {
   position: absolute; inset: 0; z-index: -1;
+  /* затемнение прижато к низу: середина кадра остаётся открытой,
+     дом читается целиком, а текст держится на плотной подложке снизу */
   background:
-    radial-gradient(78% 46% at 50% 74%, rgba(12, 10, 7, .46) 0%, rgba(12, 10, 7, .2) 55%, rgba(12, 10, 7, 0) 78%),
+    radial-gradient(62% 34% at 50% 84%, rgba(12, 10, 7, .42) 0%, rgba(12, 10, 7, .16) 58%, rgba(12, 10, 7, 0) 80%),
     linear-gradient(180deg,
-      rgba(12, 10, 7, .5) 0%, rgba(12, 10, 7, .18) 17%, rgba(12, 10, 7, .05) 34%,
-      rgba(12, 10, 7, .3) 56%, rgba(12, 10, 7, .6) 76%, rgba(12, 10, 7, .8) 100%);
+      rgba(12, 10, 7, .42) 0%, rgba(12, 10, 7, .1) 14%, rgba(12, 10, 7, 0) 30%,
+      rgba(12, 10, 7, .14) 54%, rgba(12, 10, 7, .5) 74%, rgba(12, 10, 7, .82) 100%);
 }
 .hero__inner {
   position: relative; display: flex; flex-direction: column;
   justify-content: flex-end; align-items: center; text-align: center;
   padding-top: calc(var(--header-h) + 44px);
-  padding-bottom: clamp(24px, 3vw, 46px);
+  padding-bottom: clamp(18px, 2vw, 30px);
 }
 .hero__content { width: 100%; max-width: 940px; }
 .hero h1 {
@@ -549,12 +551,12 @@ section[id], div[id] { scroll-margin-top: 88px; }
   text-shadow: 0 2px 30px rgba(8, 6, 4, .55);
 }
 .hero__lead {
-  margin: clamp(12px, 1.4vw, 18px) auto 0; max-width: 62ch;
+  margin: clamp(8px, 1vw, 13px) auto 0; max-width: 62ch;
   font-size: clamp(15px, 1.25vw, 19px); line-height: 1.5; color: rgba(244, 239, 231, .93);
   text-shadow: 0 1px 16px rgba(8, 6, 4, .6);
 }
 /* открытая форма на первом экране: имя, телефон и кнопка в одну строку */
-.hero-form { width: 100%; max-width: 780px; margin: clamp(20px, 2.4vw, 34px) auto 0; text-align: left; }
+.hero-form { width: 100%; max-width: 760px; margin: clamp(14px, 1.6vw, 22px) auto 0; text-align: left; }
 .hero-form__row { display: grid; gap: 10px; }
 @media (min-width: 760px) { .hero-form__row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) auto; align-items: start; } }
 .hero-form .field input {
@@ -566,7 +568,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .hero-form .btn { min-height: 54px; white-space: nowrap; }
 .hero-form .field__error { color: #FFD9D2; text-shadow: 0 1px 10px rgba(8, 6, 4, .8); }
 .hero-form__note {
-  margin-top: 12px; font-size: 12.5px; line-height: 1.4; color: rgba(244, 239, 231, .86);
+  margin-top: 8px; font-size: 12.5px; line-height: 1.4; color: rgba(244, 239, 231, .86);
   text-shadow: 0 1px 12px rgba(8, 6, 4, .75);
 }
 .hero-form__note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
@@ -603,7 +605,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* четыре факта: цена, срок, гарантия, опыт — видны до сгиба на телефоне */
 .hero__facts {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
-  width: 100%; max-width: 1180px; margin-top: clamp(26px, 3.5vw, 52px);
+  width: 100%; max-width: 1180px; margin-top: clamp(16px, 1.8vw, 26px);
 }
 .hero__fact {
   padding: 13px 15px 15px; border-radius: var(--r); text-align: left;
@@ -1322,7 +1324,14 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* Раньше это были два раздела подряд, каждый в полный рост. Свели в один:
    слева перечень материалов, справа — карточка с фундаментами. */
 .stuff { display: grid; gap: clamp(18px, 2vw, 34px); align-items: start; }
-@media (min-width: 1100px) { .stuff { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); } }
+@media (min-width: 1100px) {
+  .stuff { grid-template-columns: minmax(0, 1fr) auto; }
+  /* рядом с вертикальным роликом список идёт в одну колонку:
+     так высоты сходятся и под списком не остаётся пустого поля */
+  /* список не растягиваем по высоте ролика — центрируем, иначе между
+     пунктами появляются провалы */
+  .stuff:has(.video--inset) .stuff__list { align-self: center; }
+}
 
 .stuff__list { display: grid; gap: clamp(10px, 1vw, 14px); margin: 0; padding: 0; list-style: none; }
 @media (min-width: 640px) { .stuff__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -1354,6 +1363,13 @@ section[id], div[id] { scroll-margin-top: 88px; }
   margin: 0; flex: none; font-family: var(--display); font-size: 15px; font-weight: 700;
   color: var(--on-dark); white-space: nowrap;
 }
+
+/* врезка с роликом вместо карточки фундамента: вертикальный кадр
+   в колонке шириной в пол-экрана выглядел бы башней, поэтому ширину
+   ограничиваем и держим карточку у левого края колонки */
+.video--inset { max-width: 300px; }
+.video--inset figcaption a { display: inline-flex; align-items: center; min-height: 40px; margin-top: 8px; }
+@media (max-width: 1099px) { .video--inset { margin-inline: auto; } }
 
 /* ---------- формы ---------- */
 .form { display: block; }
