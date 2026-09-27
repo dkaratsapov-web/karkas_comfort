@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "title": "Обзор готового дома с отделкой",
+    "note": "Обход сданного дома: терраса, вход, комнаты, санузел и разводка тёплого пола. Показывает Анна Голубкова, эксперт по недвижимости.",
+    "length": "1:29",
+    "poster": "video-obzor-poster.jpg",
+    "src": "obzor-doma-s-otdelkoy.mp4",
+    "portrait": true
+  },
+  {
+    "title": "Дом изнутри: разводка и планировка",
+    "note": "Что внутри дома до чистовой отделки — инженерные разводки и планировка комнат. Показывает Анастасия Калитова, менеджер по загородной недвижимости.",
+    "length": "1:20",
+    "poster": "video-iznutri-poster.jpg",
+    "src": "dom-iznutri-razvodka-i-planirovka.mp4",
+    "portrait": true
+  },
+  {
+    "title": "Каркасный дом в отделке white box",
+    "note": "Короткий обход дома в комплектации white box: стены и потолки выведены под чистовую отделку.",
+    "length": "0:34",
+    "poster": "video-white-box-poster.jpg",
+    "src": "karkasnyy-dom-white-box.mp4",
+    "portrait": true
+  }
+]

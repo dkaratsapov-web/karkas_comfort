@@ -161,15 +161,17 @@ function videosBlock() {
           <a class="btn btn--ghost btn--sm" href="/proekty/">Смотреть проекты<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
         </div>`;
   }
-  return `        <div class="videos">
+  /* Съёмка с площадок вертикальная — кадр 9:16, поэтому и сетка другая. */
+  const allPortrait = videos.every((v) => v.portrait);
+  return `        <div class="videos${allPortrait ? ' videos--portrait' : ''}">
 ${videos.map((v) => {
     const frame = v.youtube
       ? `<iframe src="https://www.youtube.com/embed/${esc(v.youtube)}" title="${esc(v.title)}" loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>`
       : v.vk
         ? `<iframe src="${esc(v.vk)}" title="${esc(v.title)}" loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>`
-        : `<video controls preload="none"${v.poster ? ` poster="/assets/img/photos/${esc(v.poster)}"` : ''}><source src="/assets/video/${esc(v.src)}" type="video/mp4">Ваш браузер не проигрывает это видео.</video>`;
-    return `          <figure class="video">
-            <div class="video__frame">${frame}</div>
+        : `<video controls playsinline preload="none"${v.poster ? ` poster="/assets/img/photos/${esc(v.poster)}"` : ''}><source src="/assets/video/${esc(v.src)}" type="video/mp4">Ваш браузер не проигрывает это видео.</video>`;
+    return `          <figure class="video${v.portrait ? ' video--portrait' : ''}">
+            <div class="video__frame">${frame}${v.length ? `<span class="video__time">${esc(v.length)}</span>` : ''}</div>
             <figcaption>
               <h3>${esc(v.title)}</h3>
               ${v.note ? `<p>${esc(v.note)}</p>` : ''}
