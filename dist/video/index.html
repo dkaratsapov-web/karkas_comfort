@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=5c9e7ec0">
+  <link rel="stylesheet" href="/assets/css/style.css?v=752f0130">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://karkascomfort.ru/"},{"@type":"ListItem","position":2,"name":"Видео","item":"https://karkascomfort.ru/video/"}]}</script>
 </head>
 
@@ -116,18 +116,19 @@
   </header>
 
   <main id="main">
-<ol class="crumbs container">
-      <li><a href="/">Главная</a></li>
-      <li>Видео</li>
-    </ol>
+<section class="chero chero--video">
+      <div class="chero__scrim" aria-hidden="true"></div>
 
-    <section class="section" style="padding-top:clamp(16px,2vw,28px)">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Видео</p>
-          <h1>Стройка на видео</h1>
-          <p class="lead">Съёмка на объектах: обход готового дома с отделкой, разводка и планировка изнутри, дом в комплектации white box. Снято на площадках, без монтажных приукрашиваний.</p>
+      <div class="container chero__inner">
+        <div class="chero__info">
+          <nav class="crumbs crumbs--light" aria-label="Хлебные крошки">
+            <ol><li><a href="/">Главная</a></li><li>Видео</li></ol>
+          </nav>
+          <p class="eyebrow eyebrow--light">Видео</p>
+          <h1>Наши видео</h1>
+          <p class="chero__lead">Съёмка на объектах: обход готового дома с отделкой, разводка и планировка изнутри, дом в комплектации white box. Снято на площадках, без монтажных приукрашиваний.</p>
         </div>
+
         <div class="videos videos--portrait">
           <figure class="video video--portrait">
             <div class="video__frame"><video controls playsinline preload="none" poster="/assets/img/photos/video-obzor-poster.jpg"><source src="/assets/video/obzor-doma-s-otdelkoy.mp4" type="video/mp4">Ваш браузер не проигрывает это видео.</video><span class="video__time">1:29</span></div>
@@ -150,44 +151,6 @@
               <p>Короткий обход дома в комплектации white box: стены и потолки выведены под чистовую отделку.</p>
             </figcaption>
           </figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="zayavka">
-      <div class="container">
-        <div class="cta">
-          <div class="split split--narrow">
-            <div>
-              <p class="eyebrow">Расчёт стоимости</p>
-              <h2>Смета с разбивкой по этапам — за один рабочий день</h2>
-              <p class="lead">Оставьте номер: уточним участок и проект, посчитаем и пришлём смету, где видно цену каждого этапа. Без навязчивых звонков.</p>
-              <p class="cta__phone">Или позвоните сразу: <a href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a></p>
-            </div>
-            <form class="form" novalidate>
-              <div class="form__body">
-                <div class="field">
-                  <label for="cta-name">Как к вам обращаться</label>
-                  <input type="text" id="cta-name" name="name" required autocomplete="name" placeholder="Имя">
-                  <span class="field__error" id="cta-name-error">Пожалуйста, укажите имя</span>
-                </div>
-                <div class="field">
-                  <label for="cta-phone">Телефон</label>
-                  <input type="tel" id="cta-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
-                  <span class="field__error" id="cta-phone-error">Введите номер полностью</span>
-                </div>
-                <input type="hidden" name="project" id="p-project-input" value="">
-                <div class="sr-only" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-label="Оставьте поле пустым"></div>
-                <label class="consent">
-                  <input type="checkbox" name="consent" required>
-                  <span>Согласен на обработку персональных данных в соответствии с <a href="/politika/">политикой конфиденциальности</a></span>
-                </label>
-                <button class="btn btn--accent btn--block" type="submit">Получить смету</button>
-              </div>
-              <p class="form__error" role="alert" aria-live="assertive"></p>
-              <p class="form__ok" role="status" aria-live="polite">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
-            </form>
-          </div>
         </div>
       </div>
     </section>
@@ -241,7 +204,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
         Написать
       </button>
-      <a href="#zayavka">
+      <a href="/#zayavka">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 12h3"/><path d="M8 16h3"/></svg>
         Рассчитать
       </a>

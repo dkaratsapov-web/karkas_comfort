@@ -171,6 +171,46 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .section--dark h2, .section--dark h3 { color: var(--on-dark); }
 .section--dark .muted, .section--dark .lead { color: var(--on-dark-2); }
 
+/* ---------- подложка секций: чертёжная сетка ----------
+   Ровная заливка выглядит пусто, поэтому под каждой цветной секцией
+   лежит сетка по шагу стоек — тот же модуль, что у каркаса. Контраст
+   сетки на грани заметности: она читается как бумага, а не как узор.
+   Чистые секции остаются без неё — чередование и создаёт ритм. */
+.section { position: relative; isolation: isolate; }
+.section--paper, .section--white, .section--dark, .chero { --net: rgba(22, 26, 24, .05); }
+.section--white { --net: rgba(22, 26, 24, .04); }
+.section--dark, .chero { --net: rgba(232, 234, 230, .07); }
+.section--paper::before, .section--white::before, .section--dark::before, .chero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--net) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--net) 1px, transparent 1px);
+  background-size: var(--stud) var(--stud);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+}
+/* на тёмном добавляется штриховка разреза — она медленно плывёт,
+   как будто лист двигают под рукой. Движение почти незаметное:
+   один проход занимает полторы минуты. */
+.section--dark { overflow: hidden; }
+.section--dark::after, .chero::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: repeating-linear-gradient(135deg,
+    rgba(232, 234, 230, .05) 0 1px, transparent 1px 16px);
+  -webkit-mask-image: radial-gradient(120% 90% at 80% 10%, #000 0%, transparent 70%);
+  mask-image: radial-gradient(120% 90% at 80% 10%, #000 0%, transparent 70%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .section--dark::after, .chero::after { animation: hatchDrift 96s linear infinite; }
+}
+@keyframes hatchDrift { to { background-position: 0 -226px; } }
+
+/* размерная линия у подзаголовка прочерчивается, когда блок появляется */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] .eyebrow::before { width: 0; transition: width .75s var(--ease) .12s; }
+  .js [data-reveal].is-in .eyebrow::before { width: 46px; }
+}
+
 .section__head { max-width: 760px; margin-bottom: clamp(22px, 2.6vw, 36px); }
 .section__head--row { max-width: none; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px 40px; flex-wrap: wrap; }
 .section__head--row > :first-child { flex: 1 1 460px; }
@@ -876,7 +916,9 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .page-dense .shots img { border-radius: var(--r); }
 .page-dense .shots figcaption { margin-top: 6px; font-size: 12.5px; }
 .page-dense .shots-group + .shots-group { margin-top: clamp(18px, 2vw, 28px); }
-.page-dense .shots__row { gap: clamp(7px, .7vw, 11px); max-width: calc(var(--sum, 3) * 235px); }
+/* потолок ширины считается из суммы пропорций ряда: полный ряд (сумма ~6)
+   перекрывает контейнер и заполняет строку, короткий хвост остаётся узким */
+.page-dense .shots__row { gap: clamp(7px, .7vw, 11px); max-width: calc(var(--sum, 3) * 300px); }
 .page-dense .shots--rows { gap: clamp(7px, .7vw, 11px); }
 .page-dense .shots__row figure { flex: var(--a, 1.4) 1 calc(var(--a, 1.4) * 100px); min-width: min(100%, 170px); }
 .page-dense .gallery__main { aspect-ratio: 16 / 9; }
@@ -887,6 +929,20 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .page-dense .pack__body { padding: clamp(14px, 1.3vw, 18px); gap: 10px; }
 .page-dense .grid { gap: clamp(10px, 1vw, 16px); }
 .page-dense .stack--groups { gap: clamp(20px, 2.2vw, 32px); }
+
+/* «Видео» — тот же приём, что на контактах: одна тёмная секция на весь
+   экран, заголовок и три ролика, дальше сразу подвал. Кадр вертикальный,
+   поэтому карточки узкие и стоят втроём в ряд. */
+.chero--video .chero__inner { grid-template-columns: 1fr; }
+.chero--video .chero__info { max-width: 74ch; }
+.chero--video .videos { margin-top: clamp(20px, 2.4vw, 34px); }
+.chero--video .video {
+  background: rgba(248, 249, 246, .07); border-color: rgba(232, 234, 230, .2); color: var(--on-dark);
+}
+.chero--video .video figcaption { border-top-color: rgba(232, 234, 230, .16); }
+.chero--video .video h3 { color: var(--on-dark); }
+.chero--video .video figcaption p { color: var(--on-dark-2); }
+.chero--video .chero__scrim { background: linear-gradient(180deg, var(--dark) 0%, #171B1E 100%); }
 
 /* ---------- вкладки комплектаций ----------
    У дома несколько комплектаций, у каждой свои визуализации и фасады.
@@ -922,6 +978,8 @@ section[id], div[id] { scroll-margin-top: 88px; }
    пропорций ряда — так высота ряда остаётся соразмерной соседним. */
 .shots__row { display: flex; flex-wrap: wrap; gap: clamp(8px, .9vw, 14px); max-width: calc(var(--sum, 3) * 460px); }
 .shots__row--solo { margin-inline: auto; }
+/* ряд из поделённой поровну группы занимает всю строку — без пустоты справа */
+.shots__row--fill, .page-dense .shots__row--fill { max-width: none; }
 .shots__row figure {
   margin: 0;
   flex: var(--a, 1.4) 1 calc(var(--a, 1.4) * 130px);

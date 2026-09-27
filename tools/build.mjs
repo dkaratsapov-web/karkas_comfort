@@ -583,27 +583,30 @@ ${tep}
    разное число кадров. Внутри ряда ширина каждого кадра пропорциональна его
    собственной пропорции, высота у всех общая — ничего не обрезается.
    Одной функцией пользуются и страницы объектов, и страницы проектов. */
-/* Плотнее, чем было: ряд набирается до суммы 4–6 пропорций, то есть
-   4–5 кадров в ряд вместо двух. Кадры мельче, на экран влезает больше. */
-const RHYTHM = [4.4, 5.8, 4.9, 6.2, 5.2, 4.6];
+/* Раскладка «в подбор»: кадры режутся на ряды с примерно равной суммой
+   пропорций, поэтому каждый ряд доходит до правого края, а высоты рядов
+   получаются соразмерными. Цель — ряд около шести пропорций (4–6 кадров,
+   высота примерно 280 px на широком экране). Группа, которой на ряд не
+   хватает, остаётся одна и ограничивается по ширине в CSS — иначе пара
+   кадров растянулась бы на весь экран. */
+const ROW_TARGET = 6;
 
 function photoRows(files, offset) {
   const items = files.map((f, i) => {
     const { w, h } = imgSize(f);
     return { f, i: offset + i, a: Math.max(0.5, Math.min(2.6, w / h)) };
   });
+  const total = items.reduce((n, it) => n + it.a, 0);
+  const rows = Math.max(1, Math.round(total / ROW_TARGET));
+  const per = total / rows;
   const out = [];
-  let row = [], sum = 0, r = 0;
+  let row = [], sum = 0;
   for (const it of items) {
     row.push(it); sum += it.a;
-    if (sum >= RHYTHM[r % RHYTHM.length]) { out.push(row); row = []; sum = 0; r++; }
+    /* ряд закрываем, когда он ближе к цели, чем будет со следующим кадром */
+    if (out.length < rows - 1 && sum >= per - it.a / 2) { out.push(row); row = []; sum = 0; }
   }
-  if (row.length) {
-    /* одинокий кадр в хвосте растянулся бы во всю ширину — подклеиваем к прошлому ряду */
-    const tail = row.reduce((n, it) => n + it.a, 0);
-    if (out.length && tail < 1.7) out[out.length - 1].push(...row);
-    else out.push(row);
-  }
+  if (row.length) out.push(row);
   return out;
 }
 
@@ -612,9 +615,12 @@ function photoGrid(files, offset, altOf, zoomGroup) {
   /* группа из одного короткого ряда ставится по центру — иначе кадр
      выглядит брошенным у левого края */
   const solo = rs.length === 1 && rs[0].reduce((n, it) => n + it.a, 0) < 2.6;
+  /* если рядов несколько, они уже поделены поровну — пусть занимают всю ширину;
+     одинокому ряду ширину ограничиваем, иначе пара кадров растянется на экран */
+  const fill = rs.length > 1 ? ' shots__row--fill' : '';
   const cell = (it) => `            <figure style="--a:${it.a.toFixed(3)}"><img ${srcset(it.f, "(min-width: 1000px) 40vw, 92vw")} alt="${altOf(it.i)}" loading="${it.i < 2 ? 'eager' : 'lazy'}" width="${imgSize(it.f).w}" height="${imgSize(it.f).h}" data-zoom="${img(it.f)}" data-zoom-group="${zoomGroup}"></figure>`;
   return `          <div class="shots shots--rows">
-${rs.map((row) => `            <div class="shots__row${solo ? ' shots__row--solo' : ''}" style="--sum:${row.reduce((n, it) => n + it.a, 0).toFixed(2)}">
+${rs.map((row) => `            <div class="shots__row${solo ? ' shots__row--solo' : ''}${fill}" style="--sum:${row.reduce((n, it) => n + it.a, 0).toFixed(2)}">
 ${row.map(cell).join('\n')}
             </div>`).join('\n')}
           </div>`;
