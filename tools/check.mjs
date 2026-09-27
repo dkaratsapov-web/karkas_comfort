@@ -50,6 +50,28 @@ ok('в форму подставлен код проекта', (await p.inputVal
 await p.keyboard.press('Escape');
 await p.waitForTimeout(500);
 
+/* 2б. Вкладки комплектаций: переключаются, и кадры внутри действительно грузятся.
+   Закрытые панели браузер не рисует, поэтому визуальная проверка их не видит —
+   поломанный файл фасада нашёлся бы только здесь. */
+const TABBED = PROJECTS.find((x) => (x.packages || []).filter((k) => (k.drawings || []).length).length > 1);
+if (TABBED) {
+  await p.goto(`${B}/proekty/${TABBED.slug}/`, { waitUntil: 'networkidle' });
+  const tabs = await p.$$('#chertezhi [role="tab"]');
+  ok('у проекта с несколькими комплектациями есть вкладки', tabs.length > 1);
+  let switched = true, loaded = true;
+  for (let i = 0; i < tabs.length; i++) {
+    await tabs[i].click();
+    await p.waitForTimeout(700);
+    const open = await p.$$eval('#chertezhi .tabs__panel', (ps) => ps.map((x) => x.classList.contains('is-active')));
+    if (open.filter(Boolean).length !== 1 || !open[i]) switched = false;
+    const bad = await p.$$eval('#chertezhi .tabs__panel.is-active img',
+      (imgs) => imgs.filter((im) => !im.complete || im.naturalWidth === 0).map((im) => im.currentSrc || im.src));
+    if (bad.length) { loaded = false; errs.push(`не загрузились кадры вкладки: ${bad.join(', ')}`); }
+  }
+  ok('вкладка открывает только свою комплектацию', switched);
+  ok('кадры во всех вкладках загружаются', loaded);
+}
+
 /* 3. Старый адрес карточки ведёт на новый */
 const oldPage = await (await p.request.get(`${B}/proekt.html?id=${FIRST.slug}`)).text();
 ok('старый адрес карточки не индексируется и ведёт в каталог', /noindex/.test(oldPage) && /proekty/.test(oldPage));

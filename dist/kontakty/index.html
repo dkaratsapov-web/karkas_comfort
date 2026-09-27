@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=12c44213">
+  <link rel="stylesheet" href="/assets/css/style.css?v=2cc6b8a9">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://karkascomfort.ru/"},{"@type":"ListItem","position":2,"name":"Контакты","item":"https://karkascomfort.ru/kontakty.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Каркас Комфорт","image":"https://karkascomfort.ru/assets/img/og.png","url":"https://karkascomfort.ru/kontakty.html","telephone":"+7-920-171-69-69","email":"karkascomfort@yandex.ru","address":{"@type":"PostalAddress","streetAddress":"ул. Серебряная, 12, офис 31","addressLocality":"Тверь","postalCode":"170100","addressCountry":"RU"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"08:00","closes":"20:00"}],"areaServed":["Тверская область","Московская область"],"priceRange":"от 57 000 ₽/м²"}</script>
 </head>
@@ -117,55 +117,49 @@
   </header>
 
   <main id="main">
-<div class="page-head">
-      <div class="container">
-        <nav class="crumbs" aria-label="Хлебные крошки">
-          <ol><li><a href="/">Главная</a></li><li>Контакты</li></ol>
-        </nav>
-        <p class="eyebrow" data-num="01" style="margin-top:18px">Контакты</p>
-        <h1>Свяжитесь с нами</h1>
-        <p class="lead">Ответим на вопросы по проекту, срокам и стоимости, а при необходимости бесплатно выедем на участок.</p>
-      </div>
-    </div>
+<section class="chero">
+      <picture class="chero__pic">
+        <source media="(max-width: 899px)" srcset="/assets/img/photos/hero-mob.jpg">
+        <img src="/assets/img/photos/hero.jpg" srcset="/assets/img/photos/hero-800.jpg 1100w, /assets/img/photos/hero.jpg 2200w" sizes="100vw" alt="" width="2200" height="1100" fetchpriority="high">
+      </picture>
+      <div class="chero__scrim" aria-hidden="true"></div>
 
-    <section class="section">
-      <div class="container">
-        <h2 class="sr-only">Как с нами связаться</h2>
-        <div class="grid grid--3">
-          <article class="card">
-            <h3>Телефоны</h3>
-            <p style="font-size:20px;font-weight:700"><a href="tel:+79201716969" style="text-decoration:none">8 (920) 171-69-69</a></p>
-            <p style="font-size:20px;font-weight:700"><a href="tel:+74822752505" style="text-decoration:none">8 (4822) 75-25-05</a></p>
-            <p class="muted">Ежедневно с 8:00 до 20:00, без выходных</p>
-          </article>
-          <article class="card">
-            <h3>Почта</h3>
-            <p style="font-size:19px;font-weight:600"><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></p>
-            <p class="muted">Пришлите эскиз или пожелания — ответим со сметой в течение рабочего дня.</p>
-          </article>
-          <article class="card">
-            <h3>Офис</h3>
-            <p style="font-size:18px">г. Тверь, ул. Серебряная, 12, офис 31</p>
-            <p class="muted">Встречи по договорённости — позвоните заранее, мы часто на объектах.</p>
-            <p style="margin-top:12px"><a class="maplink" href="https://yandex.ru/maps/-/CTdpRX~g" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>Открыть на Яндекс.Картах</a></p>
-          </article>
-        </div>
-      </div>
-    </section>
+      <div class="container chero__inner">
+        <div class="chero__info">
+          <nav class="crumbs crumbs--light" aria-label="Хлебные крошки">
+            <ol><li><a href="/">Главная</a></li><li>Контакты</li></ol>
+          </nav>
+          <p class="eyebrow eyebrow--light">Контакты</p>
+          <h1>Свяжитесь с нами</h1>
+          <p class="chero__lead">Ответим на вопросы по проекту, срокам и стоимости, а при необходимости бесплатно выедем на участок. Работаем по всей Тверской и Московской областям.</p>
 
-    <section class="section section--paper">
-      <div class="container split">
-        <div>
-          <h2>Напишите нам</h2>
-          <p class="lead">Опишите задачу своими словами: размер дома, участок, сроки и примерный бюджет. Этого достаточно, чтобы дать первый расчёт.</p>
-          <ul class="checks" style="margin-top:24px">
-            <li>Бесплатный расчёт стоимости за один день</li>
-            <li>Выезд на участок по Твери и ближайшим районам — бесплатно</li>
-            <li>Работаем по всей Тверской и Московской областям</li>
-          </ul>
+          <div class="chero__lines">
+            <div class="chero__line">
+              <span class="chero__label">Телефоны</span>
+              <a class="chero__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+              <a class="chero__phone" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+              <span class="chero__note">Ежедневно с 8:00 до 20:00, без выходных</span>
+            </div>
+            <div class="chero__line">
+              <span class="chero__label">Почта</span>
+              <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+              <span class="chero__note">Пришлите эскиз или пожелания — ответим со сметой в течение рабочего дня</span>
+            </div>
+            <div class="chero__line">
+              <span class="chero__label">Офис</span>
+              <p>г. Тверь, ул. Серебряная, 12, офис 31</p>
+              <a class="maplink maplink--light" href="https://yandex.ru/maps/-/CTdpRX~g" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>Открыть на Яндекс.Картах</a>
+              <span class="chero__note">Встречи по договорённости — позвоните заранее, мы часто на объектах</span>
+            </div>
+          </div>
         </div>
-        <form class="form card" novalidate>
+
+        <form class="form card chero__form" novalidate>
           <div class="form__body stack">
+            <div>
+              <h2 class="chero__formtitle">Написать нам</h2>
+              <p class="chero__formnote">Опишите задачу своими словами: размер дома, участок, сроки и примерный бюджет. Этого достаточно для первого расчёта.</p>
+            </div>
             <div class="field">
               <label for="k-name">Ваше имя</label>
               <input type="text" id="k-name" name="name" required autocomplete="name" placeholder="Имя">
@@ -190,140 +184,6 @@
           <p class="form__error" role="alert" aria-live="assertive"></p>
           <p class="form__ok" role="status" aria-live="polite">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
         </form>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section__head section__head--center">
-          <p class="eyebrow" data-num="02">География</p>
-          <h2>Куда выезжаем</h2>
-          <p class="lead">Работаем по Тверской и Московской областям. Выезд на замер по Твери и ближайшим районам — бесплатно, в отдалённые города логистику считаем отдельно и заранее.</p>
-        </div>
-<figure class="geo">
-      <p class="geo__hint"><span></span>Наведите на точку — увидите город</p>
-      <svg viewBox="0 0 620 440" role="img" aria-label="Схема Тверской области с городами, где мы строим: Тверь, Ржев, Бежецк, Бологое, Вышний Волочёк, Калязин, Кашин, Кимры, Конаково, Лихославль, Осташков, Нелидово, Торжок, Удомля">
-        <path class="geo__region" d="M72.9 360.4 L63.1 292.0 L108.6 216.4 L134.6 138.4 L193.1 90.4 L261.3 54.4 L326.2 40.0 L391.2 56.8 L436.7 90.4 L482.2 126.4 L524.4 174.4 L556.9 234.4 L540.6 294.4 L495.2 330.4 L436.7 354.4 L378.2 380.8 L313.2 392.8 L241.8 400.0 L170.3 400.0 L111.8 384.4 Z"/>
-        <path class="geo__outline" d="M72.9 360.4 L63.1 292.0 L108.6 216.4 L134.6 138.4 L193.1 90.4 L261.3 54.4 L326.2 40.0 L391.2 56.8 L436.7 90.4 L482.2 126.4 L524.4 174.4 L556.9 234.4 L540.6 294.4 L495.2 330.4 L436.7 354.4 L378.2 380.8 L313.2 392.8 L241.8 400.0 L170.3 400.0 L111.8 384.4 Z"/>
-        <path class="geo__ray" style="--i:0" d="M392.0 263.3 L289.1 334.8"/>
-      <path class="geo__ray" style="--i:1" d="M392.0 263.3 L442.7 152.3"/>
-      <path class="geo__ray" style="--i:2" d="M392.0 263.3 L271.2 140.2"/>
-      <path class="geo__ray" style="--i:3" d="M392.0 263.3 L304.2 175.5"/>
-      <path class="geo__ray" style="--i:4" d="M392.0 263.3 L518.1 217.4"/>
-      <path class="geo__ray" style="--i:5" d="M392.0 263.3 L502.2 203.3"/>
-      <path class="geo__ray" style="--i:6" d="M392.0 263.3 L485.6 261.8"/>
-      <path class="geo__ray" style="--i:7" d="M392.0 263.3 L447.2 282.2"/>
-      <path class="geo__ray" style="--i:8" d="M392.0 263.3 L363.1 231.6"/>
-      <path class="geo__ray" style="--i:9" d="M392.0 263.3 L209.8 229.0"/>
-      <path class="geo__ray" style="--i:10" d="M392.0 263.3 L188.3 339.8"/>
-      <path class="geo__ray" style="--i:11" d="M392.0 263.3 L330.2 241.5"/>
-      <path class="geo__ray" style="--i:12" d="M392.0 263.3 L333.4 141.0"/>
-        <g class="geo__city geo__city--hub" style="--i:0">
-        <circle class="geo__pulse" cx="392.0" cy="263.3" r="7"/>
-        <circle class="geo__dot" cx="392.0" cy="263.3" r="6"/>
-        <text class="geo__label" x="404.0" y="267.3" text-anchor="start">Тверь</text>
-      </g>
-      <g class="geo__city" style="--i:1">
-        
-        <circle class="geo__dot" cx="289.1" cy="334.8" r="4"/>
-        <text class="geo__label" x="277.1" y="338.8" text-anchor="end">Ржев</text>
-      </g>
-      <g class="geo__city" style="--i:2">
-        
-        <circle class="geo__dot" cx="442.7" cy="152.3" r="4"/>
-        <text class="geo__label" x="454.7" y="150.3" text-anchor="start">Бежецк</text>
-      </g>
-      <g class="geo__city" style="--i:3">
-        
-        <circle class="geo__dot" cx="271.2" cy="140.2" r="4"/>
-        <text class="geo__label" x="259.2" y="138.2" text-anchor="end">Бологое</text>
-      </g>
-      <g class="geo__city" style="--i:4">
-        
-        <circle class="geo__dot" cx="304.2" cy="175.5" r="4"/>
-        <text class="geo__label" x="292.2" y="179.5" text-anchor="end">Вышний Волочёк</text>
-      </g>
-      <g class="geo__city" style="--i:5">
-        
-        <circle class="geo__dot" cx="518.1" cy="217.4" r="4"/>
-        <text class="geo__label" x="530.1" y="221.4" text-anchor="start">Калязин</text>
-      </g>
-      <g class="geo__city" style="--i:6">
-        
-        <circle class="geo__dot" cx="502.2" cy="203.3" r="4"/>
-        <text class="geo__label" x="514.2" y="197.3" text-anchor="start">Кашин</text>
-      </g>
-      <g class="geo__city" style="--i:7">
-        
-        <circle class="geo__dot" cx="485.6" cy="261.8" r="4"/>
-        <text class="geo__label" x="497.6" y="265.8" text-anchor="start">Кимры</text>
-      </g>
-      <g class="geo__city" style="--i:8">
-        
-        <circle class="geo__dot" cx="447.2" cy="282.2" r="4"/>
-        <text class="geo__label" x="459.2" y="294.2" text-anchor="start">Конаково</text>
-      </g>
-      <g class="geo__city" style="--i:9">
-        
-        <circle class="geo__dot" cx="363.1" cy="231.6" r="4"/>
-        <text class="geo__label" x="351.1" y="227.6" text-anchor="end">Лихославль</text>
-      </g>
-      <g class="geo__city" style="--i:10">
-        
-        <circle class="geo__dot" cx="209.8" cy="229.0" r="4"/>
-        <text class="geo__label" x="197.8" y="233.0" text-anchor="end">Осташков</text>
-      </g>
-      <g class="geo__city" style="--i:11">
-        
-        <circle class="geo__dot" cx="188.3" cy="339.8" r="4"/>
-        <text class="geo__label" x="176.3" y="343.8" text-anchor="end">Нелидово</text>
-      </g>
-      <g class="geo__city" style="--i:12">
-        
-        <circle class="geo__dot" cx="330.2" cy="241.5" r="4"/>
-        <text class="geo__label" x="342.2" y="253.5" text-anchor="start">Торжок</text>
-      </g>
-      <g class="geo__city" style="--i:13">
-        
-        <circle class="geo__dot" cx="333.4" cy="141.0" r="4"/>
-        <text class="geo__label" x="345.4" y="139.0" text-anchor="start">Удомля</text>
-      </g>
-      </svg>
-      <figcaption class="geo__caption">Схема охвата, а не топографическая карта: точки стоят по координатам городов. Дом 8,45×10,5 стоит в Гришкино, рядом с Тверью.</figcaption>
-    </figure>
-      </div>
-    </section>
-
-    <section class="section section--paper">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow" data-num="03">Реквизиты</p>
-          <h2>Реквизиты для договора и оплаты</h2>
-          <p class="lead">Работаем по договору подряда с фиксированной сметой. Оплата — на расчётный счёт компании, без переводов на карты частных лиц.</p>
-        </div>
-        <div class="grid grid--2">
-          <article class="card">
-            <h3>Организация</h3>
-            <dl class="req">
-              <div><dt>Наименование</dt><dd>ООО «КАРКАС КОМФОРТ»</dd></div>
-              <div><dt>ИНН</dt><dd>6950240202</dd></div>
-              <div><dt>КПП</dt><dd>695001001</dd></div>
-              <div><dt>ОГРН</dt><dd>1206900005894</dd></div>
-              <div><dt>Адрес</dt><dd>170100, г. Тверь, ул. Серебряная, д. 12, офис 31</dd></div>
-            </dl>
-          </article>
-          <article class="card">
-            <h3>Банковские реквизиты</h3>
-            <dl class="req">
-              <div><dt>Расчётный счёт</dt><dd>40702810363000011408</dd></div>
-              <div><dt>Банк</dt><dd>ПАО Сбербанк</dd></div>
-              <div><dt>БИК</dt><dd>042809679</dd></div>
-              <div><dt>Корр. счёт</dt><dd>30101810700000000679</dd></div>
-              <div><dt>ИНН банка</dt><dd>7707083893</dd></div>
-              <div><dt>КПП банка</dt><dd>695202001</dd></div>
-            </dl>
-          </article>
-        </div>
       </div>
     </section>
   </main>
@@ -419,6 +279,6 @@
     </div>
   </div>
 
-  <script src="/assets/js/main.js?v=58502c46" defer></script>
+  <script src="/assets/js/main.js?v=740d108e" defer></script>
 </body>
 </html>

@@ -659,6 +659,69 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .note-line { display: flex; align-items: center; gap: 12px; margin-top: clamp(16px, 1.6vw, 24px); font-size: 15px; color: var(--ink-2); }
 .note-line svg { flex: none; color: var(--accent); }
 
+/* ---------- контакты: страница в один экран ----------
+   Вместо четырёх секций — один блок: слева способы связи,
+   справа форма. Фон тот же кадр, что на главной, под плотной
+   заливкой: страница читается как продолжение первого экрана. */
+.chero {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: var(--dark); color: var(--on-dark);
+  margin-top: calc(-1 * (var(--header-h) + 14px));
+}
+.chero__pic { position: absolute; inset: 0; z-index: -2; display: block; }
+.chero__pic img { width: 100%; height: 100%; object-fit: cover; }
+.chero__scrim {
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(103deg,
+    rgba(16, 19, 21, .93) 0%, rgba(16, 19, 21, .86) 34%,
+    rgba(16, 19, 21, .58) 62%, rgba(16, 19, 21, .34) 100%);
+}
+.chero__inner {
+  position: relative; display: grid; gap: clamp(26px, 3vw, 56px); align-items: start;
+  padding-top: calc(var(--header-h) + clamp(28px, 3.4vw, 58px));
+  padding-bottom: clamp(34px, 4.2vw, 74px);
+}
+@media (min-width: 1000px) {
+  .chero__inner { grid-template-columns: minmax(0, 1fr) minmax(400px, 560px); }
+}
+.chero .crumbs { padding: 0; margin: 0 0 clamp(16px, 2vw, 26px); }
+.crumbs--light, .crumbs--light a { color: var(--on-dark-2); }
+.crumbs--light a:hover { color: var(--on-dark); }
+.eyebrow--light { color: var(--on-dark-2); }
+.chero h1 {
+  color: var(--on-dark); text-transform: uppercase;
+  font-size: clamp(30px, 3.4vw, 54px); line-height: 1.06; letter-spacing: .01em;
+}
+.chero__lead {
+  margin-top: clamp(12px, 1.4vw, 18px); max-width: 56ch;
+  font-size: clamp(16px, 1.2vw, 19px); line-height: 1.55; color: rgba(232, 234, 230, .9);
+}
+/* способы связи идут списком на размерных линиях, а не карточками */
+.chero__lines { display: grid; gap: clamp(16px, 1.8vw, 24px); margin-top: clamp(26px, 3vw, 42px); max-width: 640px; }
+.chero__line { display: grid; gap: 2px; padding-top: clamp(14px, 1.6vw, 20px); border-top: 1px solid rgba(232, 234, 230, .22); }
+.chero__label { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark-2); }
+.chero__line p { margin: 4px 0 0; font-size: 17px; color: var(--on-dark); }
+.chero__note { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--on-dark-2); }
+.chero__line a {
+  display: inline-flex; align-items: center; min-height: var(--tap);
+  color: var(--on-dark); font-size: 17px; font-weight: 600; text-decoration: none;
+}
+.chero__line a:hover { color: var(--accent-bright); }
+.chero__phone {
+  font-family: var(--display); font-size: clamp(22px, 2.1vw, 30px); font-weight: 700;
+  letter-spacing: -.01em; width: fit-content;
+}
+.maplink--light { color: var(--accent-bright); font-weight: 600; }
+.maplink--light:hover { color: var(--on-dark); }
+/* форма — светлый лист поверх кадра */
+/* внутри светлого листа цвет текста свой: секция задаёт светлый, карточка возвращает тёмный */
+.chero__form { padding: clamp(20px, 2.2vw, 32px); color: var(--ink); }
+.chero__formtitle { font-size: clamp(20px, 1.8vw, 26px); }
+.chero__formnote { margin-top: 8px; font-size: 14.5px; line-height: 1.5; color: var(--ink-2); }
+@media (max-width: 999px) {
+  .chero__scrim { background: linear-gradient(180deg, rgba(16, 19, 21, .72) 0%, rgba(16, 19, 21, .9) 42%, rgba(16, 19, 21, .95) 100%); }
+}
+
 /* ---------- карточки ----------
    Вложенная форма: внешняя оболочка с волосяной рамкой и своим фоном,
    внутри — плотное ядро. Радиусы концентрические: внутренний меньше
@@ -772,8 +835,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
   cursor: zoom-in; transition: transform .5s var(--ease), box-shadow .4s var(--ease);
 }
 .shots img:hover { transform: translateY(-3px) scale(1.004); box-shadow: var(--sh-2); }
-.shots--photos > *:first-child { grid-column: span 2; }
-.shots--photos > *:first-child img { aspect-ratio: 16 / 9; }
+/* первый кадр больше не растягивается на пол-экрана: сетка ровная и плотная */
 /* Съёмка объекта, разложенная по типам помещений: заголовок группы
    с числом кадров, под ним — своя неровная сетка. */
 .shots-group + .shots-group { margin-top: clamp(30px, 3.4vw, 56px); }
@@ -790,6 +852,64 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .shots-group__title::after {
   content: ""; order: 2; flex: 1; height: 1px; background: var(--line);
 }
+
+/* ---------- плотная вёрстка страниц проектов и объектов ----------
+   Заказчик: «слишком большие фото и много отступов». Здесь страница —
+   это каталожный лист, а не презентация: воздух убран, кадры мельче,
+   на экран влезает больше. Класс ставится сборкой только этим страницам. */
+.page-dense { --section-y: clamp(28px, 2.8vw, 48px); }
+.page-dense .section--tight { padding: clamp(18px, 1.9vw, 30px) 0; }
+.page-dense .section__head { margin-bottom: clamp(12px, 1.3vw, 18px); max-width: 700px; }
+.page-dense .section--tight .section__head { margin-bottom: clamp(10px, 1.1vw, 16px); }
+.page-dense .section__head h2 { font-size: clamp(21px, 2.1vw, 30px); }
+.page-dense .section__head .lead { margin-top: 8px; font-size: clamp(14.5px, 1.05vw, 16.5px); }
+.page-dense .eyebrow { margin-bottom: 10px; }
+.page-head__title { margin-top: 18px; }
+.page-dense .page-head { padding: clamp(10px, 1.2vw, 18px) 0 clamp(12px, 1.4vw, 20px); }
+.page-dense .page-head__title { margin-top: 12px; }
+.page-dense .page-head h1, .page-dense main > .section:first-of-type h1 { font-size: clamp(26px, 3.2vw, 44px); }
+.page-dense .page-head .lead, .page-dense .obj-head .lead { font-size: clamp(15px, 1.15vw, 17.5px); margin-top: 10px; }
+.page-dense .crumbs { padding-top: clamp(16px, 2vw, 26px); }
+.page-dense .shots { gap: clamp(8px, .8vw, 12px); }
+.page-dense .shots img { border-radius: var(--r); }
+.page-dense .shots figcaption { margin-top: 6px; font-size: 12.5px; }
+.page-dense .shots-group + .shots-group { margin-top: clamp(18px, 2vw, 28px); }
+.page-dense .shots__row { gap: clamp(7px, .7vw, 11px); max-width: calc(var(--sum, 3) * 235px); }
+.page-dense .shots--rows { gap: clamp(7px, .7vw, 11px); }
+.page-dense .shots__row figure { flex: var(--a, 1.4) 1 calc(var(--a, 1.4) * 100px); min-width: min(100%, 170px); }
+.page-dense .gallery__main { aspect-ratio: 16 / 9; }
+.page-dense .gallery { gap: 9px; }
+.page-dense .gallery__thumbs { gap: 8px; }
+.page-dense .plan-sheet img { max-height: 54vh; }
+.page-dense .card { padding: clamp(16px, 1.5vw, 21px); }
+.page-dense .pack__body { padding: clamp(14px, 1.3vw, 18px); gap: 10px; }
+.page-dense .grid { gap: clamp(10px, 1vw, 16px); }
+.page-dense .stack--groups { gap: clamp(20px, 2.2vw, 32px); }
+
+/* ---------- вкладки комплектаций ----------
+   У дома несколько комплектаций, у каждой свои визуализации и фасады.
+   Раньше они шли подряд одной простынёй — теперь переключаются.
+   Без JS видны все панели: контент доступен всегда. */
+.tabs__bar {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: clamp(14px, 1.4vw, 20px);
+  padding-bottom: 10px; border-bottom: 1px solid var(--line);
+}
+.tabs__tab {
+  display: inline-flex; align-items: center; gap: 8px; min-height: var(--tap);
+  padding: 9px 16px; border-radius: var(--r); cursor: pointer;
+  background: transparent; border: 1px solid var(--line);
+  font-family: var(--text); font-size: 14.5px; font-weight: 600; color: var(--ink-2);
+  transition: background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+.tabs__tab small { font-size: 12px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tabs__tab:hover { border-color: var(--brand); color: var(--brand); }
+.tabs__tab[aria-selected="true"] { background: var(--dark); border-color: var(--dark); color: var(--on-dark); }
+.tabs__tab[aria-selected="true"] small { color: var(--on-dark-2); }
+.tabs__panel:focus-visible { outline: 2px solid var(--brand); outline-offset: 6px; }
+.js .tabs[data-tabs] .tabs__panel:not(.is-active) { display: none; }
+.tabs__panel + .tabs__panel { margin-top: clamp(18px, 2vw, 28px); }
+.js .tabs__panel + .tabs__panel { margin-top: 0; }
 
 /* Съёмка рядами разной плотности: ширина кадра пропорциональна его
    собственной пропорции, высота внутри ряда общая. Ничего не обрезается,
@@ -820,9 +940,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 @media (min-width: 760px) { .shots { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1200px) {
   .shots--photos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .shots--photos > *:first-child { grid-column: span 2; grid-row: span 2; }
-  .shots--photos > *:first-child img { aspect-ratio: auto; height: 100%; }
-  .shots--photos > *:first-child { display: flex; }
+  .shots--sheets { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 /* полноэкранный просмотр */

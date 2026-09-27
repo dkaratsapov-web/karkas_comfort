@@ -47,55 +47,49 @@
     "priceRange": "от 57 000 ₽/м²"
   }
 } -->
-    <div class="page-head">
-      <div class="container">
-        <nav class="crumbs" aria-label="Хлебные крошки">
-          <ol><li><a href="index.html">Главная</a></li><li>Контакты</li></ol>
-        </nav>
-        <p class="eyebrow" data-num="01" style="margin-top:18px">Контакты</p>
-        <h1>Свяжитесь с нами</h1>
-        <p class="lead">Ответим на вопросы по проекту, срокам и стоимости, а при необходимости бесплатно выедем на участок.</p>
-      </div>
-    </div>
+    <section class="chero">
+      <picture class="chero__pic">
+        <source media="(max-width: 899px)" srcset="assets/img/photos/hero-mob.jpg">
+        <img src="assets/img/photos/hero.jpg" srcset="assets/img/photos/hero-800.jpg 1100w, assets/img/photos/hero.jpg 2200w" sizes="100vw" alt="" width="2200" height="1100" fetchpriority="high">
+      </picture>
+      <div class="chero__scrim" aria-hidden="true"></div>
 
-    <section class="section">
-      <div class="container">
-        <h2 class="sr-only">Как с нами связаться</h2>
-        <div class="grid grid--3">
-          <article class="card">
-            <h3>Телефоны</h3>
-            <p style="font-size:20px;font-weight:700"><a href="tel:+79201716969" style="text-decoration:none">8 (920) 171-69-69</a></p>
-            <p style="font-size:20px;font-weight:700"><a href="tel:+74822752505" style="text-decoration:none">8 (4822) 75-25-05</a></p>
-            <p class="muted">Ежедневно с 8:00 до 20:00, без выходных</p>
-          </article>
-          <article class="card">
-            <h3>Почта</h3>
-            <p style="font-size:19px;font-weight:600"><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></p>
-            <p class="muted">Пришлите эскиз или пожелания — ответим со сметой в течение рабочего дня.</p>
-          </article>
-          <article class="card">
-            <h3>Офис</h3>
-            <p style="font-size:18px">г. Тверь, ул. Серебряная, 12, офис 31</p>
-            <p class="muted">Встречи по договорённости — позвоните заранее, мы часто на объектах.</p>
-            <p style="margin-top:12px"><a class="maplink" href="https://yandex.ru/maps/-/CTdpRX~g" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>Открыть на Яндекс.Картах</a></p>
-          </article>
-        </div>
-      </div>
-    </section>
+      <div class="container chero__inner">
+        <div class="chero__info">
+          <nav class="crumbs crumbs--light" aria-label="Хлебные крошки">
+            <ol><li><a href="index.html">Главная</a></li><li>Контакты</li></ol>
+          </nav>
+          <p class="eyebrow eyebrow--light">Контакты</p>
+          <h1>Свяжитесь с нами</h1>
+          <p class="chero__lead">Ответим на вопросы по проекту, срокам и стоимости, а при необходимости бесплатно выедем на участок. Работаем по всей Тверской и Московской областям.</p>
 
-    <section class="section section--paper">
-      <div class="container split">
-        <div>
-          <h2>Напишите нам</h2>
-          <p class="lead">Опишите задачу своими словами: размер дома, участок, сроки и примерный бюджет. Этого достаточно, чтобы дать первый расчёт.</p>
-          <ul class="checks" style="margin-top:24px">
-            <li>Бесплатный расчёт стоимости за один день</li>
-            <li>Выезд на участок по Твери и ближайшим районам — бесплатно</li>
-            <li>Работаем по всей Тверской и Московской областям</li>
-          </ul>
+          <div class="chero__lines">
+            <div class="chero__line">
+              <span class="chero__label">Телефоны</span>
+              <a class="chero__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
+              <a class="chero__phone" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+              <span class="chero__note">Ежедневно с 8:00 до 20:00, без выходных</span>
+            </div>
+            <div class="chero__line">
+              <span class="chero__label">Почта</span>
+              <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
+              <span class="chero__note">Пришлите эскиз или пожелания — ответим со сметой в течение рабочего дня</span>
+            </div>
+            <div class="chero__line">
+              <span class="chero__label">Офис</span>
+              <p>г. Тверь, ул. Серебряная, 12, офис 31</p>
+              <a class="maplink maplink--light" href="https://yandex.ru/maps/-/CTdpRX~g" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>Открыть на Яндекс.Картах</a>
+              <span class="chero__note">Встречи по договорённости — позвоните заранее, мы часто на объектах</span>
+            </div>
+          </div>
         </div>
-        <form class="form card" novalidate>
+
+        <form class="form card chero__form" novalidate>
           <div class="form__body stack">
+            <div>
+              <h2 class="chero__formtitle">Написать нам</h2>
+              <p class="chero__formnote">Опишите задачу своими словами: размер дома, участок, сроки и примерный бюджет. Этого достаточно для первого расчёта.</p>
+            </div>
             <div class="field">
               <label for="k-name">Ваше имя</label>
               <input type="text" id="k-name" name="name" required autocomplete="name" placeholder="Имя">
@@ -120,49 +114,5 @@
           <p class="form__error" role="alert" aria-live="assertive"></p>
           <p class="form__ok" role="status" aria-live="polite">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
         </form>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section__head section__head--center">
-          <p class="eyebrow" data-num="02">География</p>
-          <h2>Куда выезжаем</h2>
-          <p class="lead">Работаем по Тверской и Московской областям. Выезд на замер по Твери и ближайшим районам — бесплатно, в отдалённые города логистику считаем отдельно и заранее.</p>
-        </div>
-{{geo}}
-      </div>
-    </section>
-
-    <section class="section section--paper">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow" data-num="03">Реквизиты</p>
-          <h2>Реквизиты для договора и оплаты</h2>
-          <p class="lead">Работаем по договору подряда с фиксированной сметой. Оплата — на расчётный счёт компании, без переводов на карты частных лиц.</p>
-        </div>
-        <div class="grid grid--2">
-          <article class="card">
-            <h3>Организация</h3>
-            <dl class="req">
-              <div><dt>Наименование</dt><dd>ООО «КАРКАС КОМФОРТ»</dd></div>
-              <div><dt>ИНН</dt><dd>6950240202</dd></div>
-              <div><dt>КПП</dt><dd>695001001</dd></div>
-              <div><dt>ОГРН</dt><dd>1206900005894</dd></div>
-              <div><dt>Адрес</dt><dd>170100, г. Тверь, ул. Серебряная, д. 12, офис 31</dd></div>
-            </dl>
-          </article>
-          <article class="card">
-            <h3>Банковские реквизиты</h3>
-            <dl class="req">
-              <div><dt>Расчётный счёт</dt><dd>40702810363000011408</dd></div>
-              <div><dt>Банк</dt><dd>ПАО Сбербанк</dd></div>
-              <div><dt>БИК</dt><dd>042809679</dd></div>
-              <div><dt>Корр. счёт</dt><dd>30101810700000000679</dd></div>
-              <div><dt>ИНН банка</dt><dd>7707083893</dd></div>
-              <div><dt>КПП банка</dt><dd>695202001</dd></div>
-            </dl>
-          </article>
-        </div>
       </div>
     </section>

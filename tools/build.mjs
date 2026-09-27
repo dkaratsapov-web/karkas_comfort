@@ -285,7 +285,7 @@ const previewBar = '';   // плашку демо-версии заказчик 
 /* в превью сайт лежит в подпапке — правим корневые ссылки и закрываем от индексации */
 const rebase = (html) => (BASE
   ? html
-    .replace(/(href|src|data-zoom|data-full)="\/(?!\/)/g, `$1="${BASE}/`)
+    .replace(/(href|src|poster|data-zoom|data-full)="\/(?!\/)/g, `$1="${BASE}/`)
     /* srcset — это список «путь ширина, путь ширина», его тоже надо переписать */
     .replace(/srcset="([^"]+)"/g, (_, list) => `srcset="${list.replace(/(^|,\s*)\/(?!\/)/g, `$1${BASE}/`)}"`)
   : html);
@@ -305,7 +305,10 @@ const linkify = (html) => html
       ? `href="/${name === 'index' ? '' : '404.html'}${query}${hash}"`
       : `href="/${name}/${query}${hash}"`))
   /* остальные относительные пути (стили, шрифты, картинки) — от корня */
-  .replace(/(href|src)="(?!https?:|\/\/|\/|#|tel:|mailto:|data:)/g, '$1="/');
+  .replace(/(href|src|poster)="(?!https?:|\/\/|\/|#|tel:|mailto:|data:)/g, '$1="/')
+  /* srcset — список «путь ширина, путь ширина»: корневым делаем каждый путь,
+     иначе на вложенной странице (/kontakty/) картинка ищется рядом с ней */
+  .replace(/srcset="([^"]+)"/g, (_, list) => `srcset="${list.split(',').map((item) => item.trim().replace(/^(?!https?:|\/\/|\/|data:)/, '/')).join(', ')}"`);
 
 const version = (html) => html
   .replace(/assets\/css\/style\.css(?!\?)/g, `assets/css/style.css?v=${V.css}`)
@@ -409,7 +412,7 @@ ${reviews.map((r) => `          <article class="card review">
         </div>` : '');
 
 /* ---------- сборка одной страницы ---------- */
-function page({ file, meta, content, extraLd = '' }) {
+function page({ file, meta, content, extraLd = '', bodyClass = '' }) {
   /* на странице без блока заявки кнопка панели действий ведёт на расчёт с главной */
   const hasLeadForm = content.includes('id="zayavka"');
   const canonical = meta.canonical || `${SITE}${pageUrl(file)}`;
@@ -423,7 +426,7 @@ ${head
     .replace(/\{\{ogimage\}\}/g, ogimage)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
     .replace('</head>', `${extraLd ? extraLd + '\n' : ''}${PREVIEW ? '  <meta name="robots" content="noindex, nofollow">\n' : ''}${PREVIEW || !analytics ? '' : analytics + '\n'}</head>`)}
-<body data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
+<body${bodyClass ? ` class="${bodyClass}"` : ''} data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
 ${previewBar}${header}
   <main id="main">
 ${content.trimEnd()}
@@ -580,7 +583,9 @@ ${tep}
    разное число кадров. Внутри ряда ширина каждого кадра пропорциональна его
    собственной пропорции, высота у всех общая — ничего не обрезается.
    Одной функцией пользуются и страницы объектов, и страницы проектов. */
-const RHYTHM = [2.3, 3.5, 2.9, 3.9, 3.1, 2.6];
+/* Плотнее, чем было: ряд набирается до суммы 4–6 пропорций, то есть
+   4–5 кадров в ряд вместо двух. Кадры мельче, на экран влезает больше. */
+const RHYTHM = [4.4, 5.8, 4.9, 6.2, 5.2, 4.6];
 
 function photoRows(files, offset) {
   const items = files.map((f, i) => {
@@ -749,15 +754,32 @@ ${rows.map(([name, sum, what], i) => `          <article class="price-row${i ===
 /* Визуализации проекта. Подписаны честно: это не фотографии объекта. */
 /* Кадры и листы, разложенные по комплектациям: у каждой свои файлы,
    поэтому в одну сетку они не сваливаются — у каждой свой заголовок. */
+/* Комплектации переключаются вкладками: у каждой свои визуализации и фасады,
+   и листать их подряд неудобно. Без JS видны все панели — контент не теряется. */
 function packGroups(p, key, render, grid = 'shots--photos') {
   const packs = (p.packages || []).filter((k) => (k[key] || []).length);
   if (!packs.length) return '';
-  return packs.map((k, ki) => `        <div class="shots-group">
-          <h3 class="shots-group__title"><span>${esc(k.name)}</span><small>${(k[key] || []).length}</small></h3>
-          <div class="shots ${grid}">
-${(k[key] || []).map((item, i) => render(item, i, k, ki)).join('\n')}
+  if (packs.length === 1) {
+    return `        <div class="shots ${grid}">
+${(packs[0][key] || []).map((item, i) => render(item, i, packs[0], (p.packages || []).indexOf(packs[0]))).join('\n')}
+        </div>`;
+  }
+  const id = `${p.slug}-${key}`;
+  const tabs = packs.map((k, i) => `            <button class="tabs__tab" type="button" role="tab" id="${id}-tab-${i}" aria-controls="${id}-panel-${i}" aria-selected="${i === 0 ? 'true' : 'false'}" tabindex="${i === 0 ? '0' : '-1'}">${esc(k.name)}<small>${(k[key] || []).length}</small></button>`).join('\n');
+  const panels = packs.map((k, i) => {
+    const ki = (p.packages || []).indexOf(k);
+    return `          <div class="tabs__panel${i === 0 ? ' is-active' : ''}" role="tabpanel" id="${id}-panel-${i}" aria-labelledby="${id}-tab-${i}"${i === 0 ? '' : ' tabindex="-1"'}>
+            <div class="shots ${grid}">
+${(k[key] || []).map((item, j) => render(item, j, k, ki)).join('\n')}
+            </div>
+          </div>`;
+  }).join('\n');
+  return `        <div class="tabs" data-tabs>
+          <div class="tabs__bar" role="tablist" aria-label="Комплектации">
+${tabs}
           </div>
-        </div>`).join('\n');
+${panels}
+        </div>`;
 }
 
 function vizBlock(p) {
@@ -774,9 +796,7 @@ function vizBlock(p) {
           <h2>Визуализации ${p.packages && p.packages.length ? 'по комплектациям' : 'проекта'}</h2>
           <p class="lead">Компьютерные визуализации по рабочему проекту: материалы фасада, цвет кровли и посадка дома на участке. Это не фотографии построенного объекта.</p>
         </div>
-        ${grouped ? `<div class="stack stack--groups">
-${cells}
-        </div>` : `<div class="shots shots--photos">
+        ${grouped || `<div class="shots shots--photos">
 ${cells}
         </div>`}
       </div>
@@ -827,9 +847,7 @@ function sheetsBlock(p) {
           <h2>Фасады ${p.packages && p.packages.length ? 'по комплектациям' : 'из эскизного проекта'}</h2>
           <p class="lead">Листы альбома: объёмные виды и фасады. Полный комплект передаём заказчику вместе с договором.</p>
         </div>
-        ${grouped ? `<div class="stack stack--groups">
-${cells}
-        </div>` : `<div class="shots shots--sheets">
+        ${grouped || `<div class="shots shots--sheets">
 ${cells}
         </div>`}
       </div>
@@ -950,7 +968,7 @@ ${cta}`;
     ])
   ];
   mkdirSync(`${OUT}/proekty/${p.slug}`, { recursive: true });
-  writeFileSync(`${OUT}/proekty/${p.slug}/index.html`, page({ file: `proekty/${p.slug}/`, meta, content, extraLd: blocks.join('\n') }));
+  writeFileSync(`${OUT}/proekty/${p.slug}/index.html`, page({ file: `proekty/${p.slug}/`, meta, content, extraLd: blocks.join('\n'), bodyClass: 'page-dense' }));
   if (PREVIEW) writeFileSync(`${OUT}/proekty/${p.slug}.html`, rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="robots" content="noindex"><link rel="canonical" href="${SITE}${projectUrl(p.slug)}">
 <meta http-equiv="refresh" content="0; url=${projectUrl(p.slug)}"></head>
@@ -1154,7 +1172,7 @@ for (const c of cases) {
         <nav class="crumbs" aria-label="Хлебные крошки">
           <ol><li><a href="/">Главная</a></li><li><a href="/obekty.html">Построенные объекты</a></li><li>${esc(c.title)}</li></ol>
         </nav>
-        <h1 style="margin-top:18px">${esc(c.title)}</h1>
+        <h1 class="page-head__title">${esc(c.title)}</h1>
         ${c.lead ? `<p class="lead">${esc(c.lead)}</p>` : ''}
         ${facts.length ? `<ul class="specs">${facts.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
         ${c.place ? `<p class="muted" style="margin-top:14px">${esc(c.place)}</p>` : ''}
@@ -1183,7 +1201,7 @@ ${cta}
   mkdirSync(`${OUT}/obekty/${c.slug}`, { recursive: true });
   const blocks = [breadcrumbLd(meta.breadcrumb)];
   writeFileSync(`${OUT}/obekty/${c.slug}/index.html`,
-    page({ file: `obekty/${c.slug}/`, meta, content, extraLd: blocks.join('\n') }));
+    page({ file: `obekty/${c.slug}/`, meta, content, extraLd: blocks.join('\n'), bodyClass: 'page-dense' }));
   if (PREVIEW) writeFileSync(`${OUT}/obekty/${c.slug}.html`, rebase(`<!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta http-equiv="refresh" content="0; url=/obekty/${c.slug}/"><link rel="canonical" href="/obekty/${c.slug}/"></head>
 <body><a href="/obekty/${c.slug}/">${esc(c.title)}</a></body></html>`));

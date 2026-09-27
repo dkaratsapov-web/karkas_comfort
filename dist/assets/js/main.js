@@ -34,7 +34,7 @@
 
     groups.forEach(([sel, step]) => {
       $$(sel).forEach((el) => {
-        if (seen.has(el) || el.closest('.header, .mobile-nav, .hero')) return;
+        if (seen.has(el) || el.closest('.header, .mobile-nav, .hero, .chero')) return;
         seen.add(el);
         const sibs = el.parentElement ? Array.from(el.parentElement.children).indexOf(el) : 0;
         el.dataset.reveal = '';
@@ -44,6 +44,46 @@
     });
   };
   reveal();
+
+  /* ---------- вкладки комплектаций ----------
+     Переключение панелей с клавиатурой: стрелки, Home и End.
+     Без скрипта видны все панели, поэтому прятать умеет только он. */
+  const tabs = () => {
+    $$('[data-tabs]').forEach((box) => {
+      const list = box.querySelector('[role="tablist"]');
+      if (!list) return;
+      const buttons = Array.from(list.querySelectorAll('[role="tab"]'));
+      const panels = buttons.map((b) => document.getElementById(b.getAttribute('aria-controls'))).filter(Boolean);
+      if (buttons.length !== panels.length || !buttons.length) return;
+
+      const select = (i, focus) => {
+        buttons.forEach((b, n) => {
+          const on = n === i;
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+          b.tabIndex = on ? 0 : -1;
+          panels[n].classList.toggle('is-active', on);
+        });
+        if (focus) buttons[i].focus();
+      };
+
+      select(Math.max(0, buttons.findIndex((b) => b.getAttribute('aria-selected') === 'true')), false);
+
+      buttons.forEach((b, i) => {
+        b.addEventListener('click', () => select(i, false));
+        b.addEventListener('keydown', (e) => {
+          const last = buttons.length - 1;
+          const to = e.key === 'ArrowRight' ? (i === last ? 0 : i + 1)
+            : e.key === 'ArrowLeft' ? (i === 0 ? last : i - 1)
+              : e.key === 'Home' ? 0
+                : e.key === 'End' ? last : null;
+          if (to === null) return;
+          e.preventDefault();
+          select(to, true);
+        });
+      });
+    });
+  };
+  tabs();
 
   /* ---------- события аналитики ----------
      Работает и с Яндекс.Метрикой, и с Google Analytics, и без них.

@@ -185,8 +185,11 @@ const audit = () => {
     if (!wide.length) out.push({ kind: 'горизонтальная прокрутка', where: 'документ', detail: `${de.scrollWidth} > ${de.clientWidth}` });
   }
 
-  /* 6. картинки не загрузились */
+  /* 6. картинки не загрузились.
+     Кадры в закрытых вкладках браузер не грузит вовсе — это не поломка,
+     их проверяет сценарий с переключением вкладок в check.mjs. */
   for (const img of document.images) {
+    if (!img.complete && !visible(img)) continue;
     if (!img.complete || img.naturalWidth === 0) add('картинка не загрузилась', img, img.getAttribute('src') || '');
   }
 
