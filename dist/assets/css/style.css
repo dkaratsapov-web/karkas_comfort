@@ -524,12 +524,16 @@ section[id], div[id] { scroll-margin-top: 88px; }
   margin-top: calc(-1 * (var(--header-h) + 14px));
   margin-bottom: calc(-1 * clamp(18px, 2vw, 34px));
 }
-.hero__pic { position: absolute; inset: 0; z-index: -2; display: block; }
+/* шапка занимает место в потоке, поэтому кадр начинается на несколько
+   пикселей выше окна и снизу оставался светлый просвет: выпускаем
+   фотографию и затемнение чуть ниже блока — просвета нет, контент
+   при этом не двигается */
+.hero__pic { position: absolute; inset: 0 0 -12px; z-index: -2; display: block; }
 .hero__bg { width: 100%; height: 100%; object-fit: cover; }
 /* затемнение только по краям кадра: сверху — чтобы читалась шапка,
    снизу — под заголовок и цифры. Середина остаётся светлой, дом виден. */
 .hero__scrim {
-  position: absolute; inset: 0; z-index: -1;
+  position: absolute; inset: 0 0 -12px; z-index: -1;
   /* затемнение прижато к низу: середина кадра остаётся открытой,
      дом читается целиком, а текст держится на плотной подложке снизу */
   background:
@@ -1333,9 +1337,13 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .stuff { display: grid; gap: clamp(18px, 2vw, 34px); align-items: start; }
 @media (min-width: 1100px) {
   .stuff { grid-template-columns: minmax(0, 1fr) auto; }
-  /* список держим вверху: центрирование отрывало его от заголовка
-     и оставляло пустоту сверху и снизу */
-  .stuff:has(.video--inset) .stuff__list { align-self: start; }
+  /* Рядом с роликом блок строится как разворот: слева преимущества
+     одной колонкой друг за другом, справа ровно половина ширины —
+     кадр во всю высоту этой колонки. Блок укладывается в один экран. */
+  .stuff:has(.video--inset) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
+  .stuff:has(.video--inset) .stuff__list { grid-template-columns: minmax(0, 1fr); align-content: start; gap: clamp(10px, 1.1vw, 16px); }
+  .stuff .video--inset { max-width: none; height: 100%; }
+  .stuff .video--inset .video__frame { aspect-ratio: auto; flex: 1; min-height: 0; }
 }
 
 .stuff__list { display: grid; gap: clamp(10px, 1vw, 14px); margin: 0; padding: 0; list-style: none; }
@@ -1372,9 +1380,9 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* врезка с роликом вместо карточки фундамента: вертикальный кадр
    целиком вытянул бы блок в башню, поэтому в тизере он подрезан
    до 4:5, карточка узкая, а описание живёт на странице «Видео» */
-.video--inset { max-width: 220px; }
+.video--inset { max-width: 260px; display: flex; flex-direction: column; }
 .video--inset .video__frame { aspect-ratio: 4 / 5; }
-.video--inset .video__frame :where(iframe, video) { object-fit: cover; }
+.video--inset .video__frame :where(iframe, video) { object-fit: cover; object-position: 50% 32%; }
 .video--inset figcaption { padding: 11px 13px 12px; }
 .video--inset figcaption p { display: none; }
 .video--inset h3 { font-size: 15.5px; }
