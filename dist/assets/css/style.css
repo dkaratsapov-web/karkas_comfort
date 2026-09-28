@@ -1342,8 +1342,22 @@ section[id], div[id] { scroll-margin-top: 88px; }
      кадр во всю высоту этой колонки. Блок укладывается в один экран. */
   .stuff:has(.video--inset) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
   .stuff:has(.video--inset) .stuff__list { grid-template-columns: minmax(0, 1fr); align-content: start; gap: clamp(10px, 1.1vw, 16px); }
-  .stuff .video--inset { max-width: none; height: 100%; }
-  .stuff .video--inset .video__frame { aspect-ratio: auto; flex: 1; min-height: 0; }
+  /* кадр остаётся вертикальным: он занимает всю высоту колонки,
+     ширина считается из пропорции 9:16, а подпись встаёт справа —
+     вдвоём они закрывают правую половину без обрезки кадра */
+  .stuff .video--inset {
+    max-width: none; height: 100%;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: stretch;
+  }
+  .stuff .video--inset .video__frame { aspect-ratio: 9 / 16; height: 100%; width: auto; }
+  .stuff .video--inset .video__frame :where(iframe, video) { object-fit: contain; object-position: center; }
+  .stuff .video--inset figcaption {
+    display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    padding: clamp(16px, 1.6vw, 26px);
+    border-top: 0; border-left: 1px solid var(--line-soft);
+  }
+  .stuff .video--inset figcaption p { display: block; }
+  .stuff .video--inset h3 { font-size: clamp(17px, 1.5vw, 21px); }
 }
 
 .stuff__list { display: grid; gap: clamp(10px, 1vw, 14px); margin: 0; padding: 0; list-style: none; }
