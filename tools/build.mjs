@@ -14,9 +14,12 @@ const BASE = PREVIEW ? (process.env.BASE_PATH || '/karkas_comfort') : '';
 /* Домен живёт в src/data/site.json: переезд на другой адрес — одна строка там.
    SITE_URL в окружении перебивает настройку (нужно демо-сборке). */
 const site = JSON.parse(readFileSync('src/data/site.json', 'utf8'));
+/* домен можно писать кириллицей: в адресах он должен быть punycode,
+   иначе sitemap и canonical получаются невалидными — переводим сами */
+const host = (site.domain || 'каркаскомфорт.рф').replace(/^https?:\/\//, '').replace(/\/$/, '');
 const SITE = process.env.SITE_URL || (PREVIEW
   ? `https://dkaratsapov-web.github.io${BASE}`
-  : `https://${(site.domain || 'karkascomfort.ru').replace(/^https?:\/\//, '').replace(/\/$/, '')}`);
+  : new URL(`https://${host}`).origin);
 const OUT = process.env.OUT_DIR || 'dist';
 const LEAD_ENDPOINT = PREVIEW ? '' : '/api/lead.php';   // на Pages нет PHP — формы работают в демо-режиме
 

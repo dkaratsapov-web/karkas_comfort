@@ -8,10 +8,10 @@ return [
 
     // Адрес отправителя. ВАЖНО: домен должен совпадать с сайтом,
     // иначе почта Яндекса и Mail.ru отправит письма в спам.
-    'from'          => 'site@karkascomfort.ru',
+    'from'          => 'site@xn--80aa2abbmnbmggrx.xn--p1ai',
     'from_name'     => 'Сайт Каркас Комфорт',
 
-    'subject'       => 'Заявка с сайта karkascomfort.ru',
+    'subject'       => 'Заявка с сайта каркаскомфорт.рф',
 
     // Дублировать заявки в Telegram — необязательно.
     // Токен получить у @BotFather, chat_id — у @userinfobot.

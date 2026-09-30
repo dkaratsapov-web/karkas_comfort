@@ -1,29 +1,30 @@
 # Каркас Комфорт — пример конфигурации nginx.
+# Домен каркаскомфорт.рф записан в punycode (xn--80aa2abbmnbmggrx.xn--p1ai) — nginx понимает только его.
 # Подставьте свои пути к сертификатам и корню сайта.
 
 server {
     listen 80;
-    server_name karkascomfort.ru www.karkascomfort.ru;
-    return 301 https://karkascomfort.ru$request_uri;
+    server_name xn--80aa2abbmnbmggrx.xn--p1ai www.xn--80aa2abbmnbmggrx.xn--p1ai;
+    return 301 https://xn--80aa2abbmnbmggrx.xn--p1ai$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name www.karkascomfort.ru;
-    ssl_certificate     /etc/letsencrypt/live/karkascomfort.ru/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/karkascomfort.ru/privkey.pem;
-    return 301 https://karkascomfort.ru$request_uri;
+    server_name www.xn--80aa2abbmnbmggrx.xn--p1ai;
+    ssl_certificate     /etc/letsencrypt/live/xn--80aa2abbmnbmggrx.xn--p1ai/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/xn--80aa2abbmnbmggrx.xn--p1ai/privkey.pem;
+    return 301 https://xn--80aa2abbmnbmggrx.xn--p1ai$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name karkascomfort.ru;
+    server_name xn--80aa2abbmnbmggrx.xn--p1ai;
     root /var/www/karkascomfort/dist;
     index index.html;
     charset utf-8;
 
-    ssl_certificate     /etc/letsencrypt/live/karkascomfort.ru/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/karkascomfort.ru/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/xn--80aa2abbmnbmggrx.xn--p1ai/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/xn--80aa2abbmnbmggrx.xn--p1ai/privkey.pem;
 
     gzip on;
     gzip_comp_level 6;

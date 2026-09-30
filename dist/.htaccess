@@ -15,6 +15,12 @@ DirectoryIndex index.html index.php
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
+  # --- 1б. Старый домен уводим на новый ---
+  #     Срабатывает, только если karkascomfort.ru привязан к этой же папке.
+  #     Убирает раздвоение сайта в поиске: весь трафик идёт на каркаскомфорт.рф.
+  RewriteCond %{HTTP_HOST} ^(www\.)?karkascomfort\.ru$ [NC]
+  RewriteRule ^(.*)$ https://xn--80aa2abbmnbmggrx.xn--p1ai/$1 [R=301,L]
+
   # --- 2. Один канонический адрес: без www ---
   #     Если основным нужен www — закомментируйте этот блок и раскомментируйте следующий.
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
