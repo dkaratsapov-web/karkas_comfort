@@ -1,42 +1,108 @@
-# Выгрузка сайта на хостинг по FTP.
-# Запускается вручную: вкладка Actions → Deploy site → Run workflow.
-# Перед первым запуском добавьте секреты в Settings → Secrets and variables → Actions:
-#   FTP_HOST, FTP_USER, FTP_PASSWORD, FTP_REMOTE_DIR (например /public_html)
+# Выгрузка сайта на хостинг рег.ру по FTPS.
+#
+# Работает сама: как только «Preview site» успешно собрал демо (то есть
+# правка проверена и опубликована), этот workflow выкладывает ту же
+# версию на боевой домен каркаскомфорт.рф. Руками ничего запускать не
+# нужно — ручной запуск оставлен на случай, когда надо перезалить
+# сайт без новой правки.
+#
+# ОДИН РАЗ перед первым запуском добавьте доступы:
+#   Settings → Secrets and variables → Actions → New repository secret
+#     FTP_HOST        ftp.каркаскомфорт.рф или адрес сервера из письма рег.ру
+#     FTP_USER        логин FTP
+#     FTP_PASSWORD    пароль FTP
+#     FTP_REMOTE_DIR  папка сайта, у рег.ру обычно /public_html
+#                     (необязательно: без неё берётся /public_html)
+# Пока секретов нет, workflow не падает — он сообщает, чего не хватает,
+# и завершается успехом.
 
 name: Deploy site
 
 on:
+  workflow_run:
+    workflows: ["Preview site"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       dry_run:
         description: "Только показать список файлов, ничего не загружать"
         type: boolean
         default: false
+      force:
+        description: "Перезалить всё, включая фотографии и видео"
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-ftp
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # автозапуск — только после удачной сборки демо; ручной — всегда
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+
+      - name: Проверка доступов
+        id: gate
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          if [ -z "$FTP_HOST" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASSWORD" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Доступы к хостингу не заданы — выгрузка пропущена. Добавьте секреты FTP_HOST, FTP_USER, FTP_PASSWORD (и при необходимости FTP_REMOTE_DIR) в Settings → Secrets and variables → Actions."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - uses: actions/setup-node@v4
+        if: steps.gate.outputs.ready == 'true'
         with:
           node-version: 22
           cache: npm
 
       - name: Установка зависимостей
+        if: steps.gate.outputs.ready == 'true'
         run: npm ci
 
-      - name: Сборка dist
+      - name: Сборка боевой версии
+        if: steps.gate.outputs.ready == 'true'
         run: npm run build
 
       - name: Проверка, что сборка не пустая
-        run: test -s dist/index.html && test -s dist/assets/css/style.css
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          test -s dist/index.html
+          test -s dist/assets/css/style.css
+          test -s dist/.htaccess
+          test -s dist/sitemap.xml
+          grep -q "xn--80aa2abbmnbmggrx.xn--p1ai" dist/sitemap.xml
 
       - name: Выгрузка на хостинг
+        if: steps.gate.outputs.ready == 'true'
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR }}
-        run: node tools/deploy-ftp.mjs ${{ inputs.dry_run && '--dry' || '' }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+          FTP_SECURE: ${{ secrets.FTP_SECURE }}
+        run: node tools/deploy-ftp.mjs ${{ inputs.dry_run && '--dry' || '' }} ${{ inputs.force && '--force' || '' }}
+
+      - name: Сайт открывается
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        run: |
+          code=$(curl -s -o /tmp/page.html -w '%{http_code}' --max-time 25 -L https://xn--80aa2abbmnbmggrx.xn--p1ai/ || true)
+          echo "Ответ сайта: $code"
+          if [ "$code" != "200" ]; then
+            echo "::warning::Домен ещё не отвечает 200 — проверьте привязку домена и SSL в панели рег.ру. Файлы при этом уже выгружены."
+            exit 0
+          fi
+          grep -q "Каркас Комфорт" /tmp/page.html && echo "Главная отдаётся и содержит название компании."
