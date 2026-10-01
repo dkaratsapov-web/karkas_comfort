@@ -69,6 +69,11 @@ fi
 
 echo "==> 2/8 Пакеты"
 export DEBIAN_FRONTEND=noninteractive
+# На Ubuntu 22.04 после установки пакетов needrestart показывает диалог
+# «какие службы перезапустить» и ждёт ответа. В неинтерактивном запуске
+# это выглядит как зависание, поэтому отвечаем за него заранее.
+export NEEDRESTART_MODE=a
+export NEEDRESTART_SUSPEND=1
 
 # Сразу после создания сервера система ставит обновления сама и держит
 # блокировку apt. Молча ждать её — выглядит как зависший скрипт,
@@ -100,7 +105,7 @@ if [ "$SHARED" = "0" ]; then
 fi
 if [ -n "$PKGS" ]; then
   echo "    ставим:$PKGS (на слабом сервере это 2–5 минут)"
-  apt-get install -y -o Dpkg::Use-Pty=0 $PKGS 2>&1 | grep -E "^(Setting up|Unpacking|Получено|Настраивается)" | tail -5 || true
+  apt-get install -y -o Dpkg::Use-Pty=0 -o Dpkg::Options::=--force-confold $PKGS 2>&1 | grep -E "^(Setting up|Unpacking|Получено|Настраивается)" | tail -5 || true
 else
   echo "    всё нужное уже стоит"
 fi
