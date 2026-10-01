@@ -12,6 +12,15 @@
 # брандмауэр и автообновления, разворачивает конфиг nginx из шаблона
 # и выпускает сертификат Let's Encrypt с автопродлением.
 #
+# ПОДСЕЛЕНИЕ НА ЗАНЯТЫЙ СЕРВЕР. Скрипт сам распознаёт, что сервер уже
+# обжит, и ведёт себя осторожно: не трогает чужие конфиги nginx, не
+# удаляет сайт по умолчанию, не переключает брандмауэр и ничего не
+# переустанавливает. Наш сайт добавляется отдельным server-блоком
+# в своём каталоге — так на одном nginx живёт сколько угодно сайтов.
+# Если на сервере панель управления (ISPmanager, FastPanel, HestiaCP)
+# или Apache, скрипт остановится и скажет об этом: там сайты заводят
+# через панель, иначе она перезапишет конфиги.
+#
 # Скрипт идемпотентный: повторный запуск ничего не ломает.
 set -euo pipefail
 
@@ -34,17 +43,50 @@ REPO_RAW="https://raw.githubusercontent.com/dkaratsapov-web/karkas_comfort/claud
 ROOT="/var/www/$DOMAIN"
 PUBLIC="$ROOT/public"
 
-echo "==> 1/8 Пакеты"
+echo "==> 1/8 Осмотр сервера"
+SHARED=0
+for panel in ispmanager fastpanel2 hestia vesta cpanel plesk; do
+  if systemctl list-unit-files 2>/dev/null | grep -qi "^$panel" || [ -d "/usr/local/$panel" ]; then
+    echo "!! На сервере найдена панель управления ($panel)."
+    echo "   Заводите сайт через неё: создайте домен $DOMAIN, укажите корень каталога"
+    echo "   и выпустите сертификат. Выгрузка по SSH после этого работает так же."
+    exit 1
+  fi
+done
+if systemctl is-active --quiet apache2 2>/dev/null; then
+  echo "!! На сервере работает Apache, а конфигурация в репозитории написана под nginx."
+  echo "   Либо добавьте VirtualHost вручную (правила возьмите из server/.htaccess),"
+  echo "   либо напишите — подготовлю конфигурацию под Apache."
+  exit 1
+fi
+if systemctl is-active --quiet nginx 2>/dev/null; then
+  SHARED=1
+  SITES=$(ls /etc/nginx/sites-enabled/ 2>/dev/null | grep -v "^default$" | wc -l)
+  echo "    nginx уже работает, сайтов включено: $SITES — подселяемся, чужое не трогаем"
+else
+  echo "    чистый сервер — настраиваем с нуля"
+fi
+
+echo "==> 2/8 Пакеты"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
-apt-get install -y -qq nginx php-fpm certbot python3-certbot-nginx ufw fail2ban \
-                       unattended-upgrades rsync curl ca-certificates >/dev/null
+PKGS=""
+for pkg in nginx certbot python3-certbot-nginx rsync curl ca-certificates; do
+  dpkg -s "$pkg" >/dev/null 2>&1 || PKGS="$PKGS $pkg"
+done
+ls /run/php/php*-fpm.sock >/dev/null 2>&1 || PKGS="$PKGS php-fpm"
+if [ "$SHARED" = "0" ]; then
+  for pkg in ufw fail2ban unattended-upgrades; do
+    dpkg -s "$pkg" >/dev/null 2>&1 || PKGS="$PKGS $pkg"
+  done
+fi
+if [ -n "$PKGS" ]; then apt-get install -y -qq $PKGS >/dev/null; else echo "    всё нужное уже стоит"; fi
 
 PHP_SOCK="$(ls /run/php/php*-fpm.sock 2>/dev/null | head -1 || true)"
 [ -n "$PHP_SOCK" ] || { echo "PHP-FPM не поднялся — проверьте: systemctl status php*-fpm"; exit 1; }
 echo "    PHP-FPM: $PHP_SOCK"
 
-echo "==> 2/8 Пользователь $DEPLOY_USER"
+echo "==> 3/8 Пользователь $DEPLOY_USER"
 id -u "$DEPLOY_USER" >/dev/null 2>&1 || adduser --disabled-password --gecos "" "$DEPLOY_USER"
 usermod -aG www-data "$DEPLOY_USER"
 install -d -m 700 -o "$DEPLOY_USER" -g "$DEPLOY_USER" "/home/$DEPLOY_USER/.ssh"
@@ -66,13 +108,13 @@ grep -qxF "$PUBKEY" "/home/$DEPLOY_USER/.ssh/authorized_keys" || echo "$PUBKEY" 
 chown "$DEPLOY_USER:$DEPLOY_USER" "/home/$DEPLOY_USER/.ssh/authorized_keys"
 chmod 600 "/home/$DEPLOY_USER/.ssh/authorized_keys"
 
-echo "==> 3/8 Каталоги сайта"
+echo "==> 4/8 Каталоги сайта"
 install -d -o "$DEPLOY_USER" -g www-data -m 2755 "$ROOT" "$PUBLIC" "$PUBLIC/api"
 # Заглушка, чтобы сайт отвечал ещё до первой выгрузки
 [ -f "$PUBLIC/index.html" ] || printf '<!doctype html><meta charset="utf-8"><title>Каркас Комфорт</title><p>Сервер готов, ждём выгрузку сайта.</p>\n' > "$PUBLIC/index.html"
 chown -R "$DEPLOY_USER:www-data" "$PUBLIC"
 
-echo "==> 4/8 Приём заявок"
+echo "==> 5/8 Приём заявок"
 # config.php хранит почту и токены: создаётся один раз и выгрузкой не перезаписывается
 if [ ! -f "$PUBLIC/api/config.php" ]; then
   curl -fsSL "$REPO_RAW/server/api/config.php" -o "$PUBLIC/api/config.php" || true
@@ -83,11 +125,13 @@ fi
 touch "$PUBLIC/api/leads.csv"
 chown www-data:www-data "$PUBLIC/api/leads.csv"; chmod 660 "$PUBLIC/api/leads.csv"
 
-echo "==> 5/8 Конфигурация nginx"
+echo "==> 6/8 Конфигурация nginx"
 curl -fsSL "$REPO_RAW/server/nginx-site.conf.template" -o /tmp/site.conf.template
 sed -e "s|__DOMAIN__|$DOMAIN|g" -e "s|__PHP_SOCK__|$PHP_SOCK|g" /tmp/site.conf.template > "/etc/nginx/sites-available/$DOMAIN.conf"
 ln -sf "/etc/nginx/sites-available/$DOMAIN.conf" "/etc/nginx/sites-enabled/$DOMAIN.conf"
-rm -f /etc/nginx/sites-enabled/default
+# сайт по умолчанию убираем только на чистом сервере: на обжитом за ним
+# может стоять чужой проект
+if [ "$SHARED" = "0" ]; then rm -f /etc/nginx/sites-enabled/default; fi
 # до выпуска сертификата https-блоки ссылаются на несуществующие файлы — временно оставляем только http
 if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
   cat > "/etc/nginx/sites-available/$DOMAIN.conf.http" <<NGINX
@@ -105,14 +149,23 @@ NGINX
 fi
 nginx -t && systemctl reload nginx
 
-echo "==> 6/8 Брандмауэр и автообновления"
-ufw allow OpenSSH >/dev/null
-ufw allow 'Nginx Full' >/dev/null
-ufw --force enable >/dev/null
-systemctl enable --now fail2ban >/dev/null 2>&1 || true
-dpkg-reconfigure -f noninteractive unattended-upgrades >/dev/null 2>&1 || true
+echo "==> 7/8 Брандмауэр и автообновления"
+if command -v ufw >/dev/null 2>&1; then
+  ufw allow OpenSSH >/dev/null 2>&1 || true
+  ufw allow 'Nginx Full' >/dev/null 2>&1 || true
+  if [ "$SHARED" = "0" ]; then
+    ufw --force enable >/dev/null
+  elif ! ufw status 2>/dev/null | grep -q "Status: active"; then
+    echo "    брандмауэр выключен — не включаю: на обжитом сервере это может"
+    echo "    отрезать порты чужих служб. Включить вручную: ufw enable"
+  fi
+fi
+if [ "$SHARED" = "0" ]; then
+  systemctl enable --now fail2ban >/dev/null 2>&1 || true
+  dpkg-reconfigure -f noninteractive unattended-upgrades >/dev/null 2>&1 || true
+fi
 
-echo "==> 7/8 Сертификат Let's Encrypt"
+echo "==> 8/8 Сертификат Let's Encrypt"
 if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
   if certbot certonly --webroot -w "$PUBLIC" -d "$DOMAIN" -d "www.$DOMAIN" \
        --agree-tos -m "$EMAIL" --non-interactive; then
@@ -131,7 +184,7 @@ if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
 fi
 systemctl enable --now certbot.timer >/dev/null 2>&1 || true
 
-echo "==> 8/8 Проверка"
+echo "==> Проверка"
 systemctl is-active --quiet nginx && echo "    nginx работает"
 curl -s -o /dev/null -w "    http://$DOMAIN → %{http_code}\n" --max-time 10 "http://$DOMAIN/" || true
 [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ] && curl -s -o /dev/null -w "    https://$DOMAIN → %{http_code}\n" --max-time 10 "https://$DOMAIN/" || true
