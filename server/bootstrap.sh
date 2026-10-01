@@ -69,6 +69,24 @@ fi
 
 echo "==> 2/8 Пакеты"
 export DEBIAN_FRONTEND=noninteractive
+
+# Сразу после создания сервера система ставит обновления сама и держит
+# блокировку apt. Молча ждать её — выглядит как зависший скрипт,
+# поэтому ждём с объяснением и ограничением по времени.
+waited=0
+while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+  if [ "$waited" = "0" ]; then
+    echo "    apt занят фоновым обновлением системы — ждём, это нормально"
+  fi
+  sleep 5; waited=$((waited + 5))
+  if [ "$waited" -ge 600 ]; then
+    echo "    !! apt занят уже 10 минут. Посмотрите, кто держит блокировку:"
+    echo "       fuser -v /var/lib/dpkg/lock-frontend"
+    exit 1
+  fi
+  [ $((waited % 60)) = 0 ] && echo "    ждём apt: $((waited / 60)) мин"
+done
+
 apt-get update -qq
 PKGS=""
 for pkg in nginx certbot python3-certbot-nginx rsync curl ca-certificates; do
@@ -80,7 +98,12 @@ if [ "$SHARED" = "0" ]; then
     dpkg -s "$pkg" >/dev/null 2>&1 || PKGS="$PKGS $pkg"
   done
 fi
-if [ -n "$PKGS" ]; then apt-get install -y -qq $PKGS >/dev/null; else echo "    всё нужное уже стоит"; fi
+if [ -n "$PKGS" ]; then
+  echo "    ставим:$PKGS (на слабом сервере это 2–5 минут)"
+  apt-get install -y -o Dpkg::Use-Pty=0 $PKGS 2>&1 | grep -E "^(Setting up|Unpacking|Получено|Настраивается)" | tail -5 || true
+else
+  echo "    всё нужное уже стоит"
+fi
 
 PHP_SOCK="$(ls /run/php/php*-fpm.sock 2>/dev/null | head -1 || true)"
 [ -n "$PHP_SOCK" ] || { echo "PHP-FPM не поднялся — проверьте: systemctl status php*-fpm"; exit 1; }
