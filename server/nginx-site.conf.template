@@ -1,6 +1,8 @@
 # Конфигурация nginx для сайта «Каркас Комфорт» на VPS.
 # Файл разворачивается скриптом server/bootstrap.sh: он подставляет домен
-# вместо __DOMAIN__ и кладёт результат в /etc/nginx/sites-available/.
+# вместо __DOMAIN__, путь к сокету PHP-FPM и способ включения HTTP/2
+# (до nginx 1.25 это флаг в listen, с 1.25 — отдельная директива),
+# затем кладёт результат в /etc/nginx/sites-available/.
 #
 # Здесь повторено всё, что на обычном хостинге делает .htaccess:
 # https и один канонический адрес, чистые URL без .html, редиректы со
@@ -18,10 +20,9 @@ server {
 }
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    http2 on;
-    server_name www.__DOMAIN__;
+    listen 443 ssl__HTTP2_LISTEN__;
+    listen [::]:443 ssl__HTTP2_LISTEN__;
+__HTTP2_DIRECTIVE__    server_name www.__DOMAIN__;
 
     ssl_certificate     /etc/letsencrypt/live/__DOMAIN__/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/__DOMAIN__/privkey.pem;
@@ -32,10 +33,9 @@ server {
 }
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    http2 on;
-    server_name __DOMAIN__;
+    listen 443 ssl__HTTP2_LISTEN__;
+    listen [::]:443 ssl__HTTP2_LISTEN__;
+__HTTP2_DIRECTIVE__    server_name __DOMAIN__;
 
     root /var/www/__DOMAIN__/public;
     index index.html;

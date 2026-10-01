@@ -127,7 +127,18 @@ chown www-data:www-data "$PUBLIC/api/leads.csv"; chmod 660 "$PUBLIC/api/leads.cs
 
 echo "==> 6/8 Конфигурация nginx"
 curl -fsSL "$REPO_RAW/server/nginx-site.conf.template" -o /tmp/site.conf.template
-sed -e "s|__DOMAIN__|$DOMAIN|g" -e "s|__PHP_SOCK__|$PHP_SOCK|g" /tmp/site.conf.template > "/etc/nginx/sites-available/$DOMAIN.conf"
+# HTTP/2 включается по-разному: до nginx 1.25 — флагом в listen,
+# с 1.25 — отдельной директивой. Старый nginx на директиве падает.
+NGINX_VER="$(nginx -v 2>&1 | sed -n 's|.*/\([0-9.]*\).*|\1|p')"
+if [ "$(printf '%s\n1.25.1\n' "$NGINX_VER" | sort -V | head -1)" = "1.25.1" ]; then
+  HTTP2_LISTEN=""; HTTP2_DIRECTIVE="    http2 on;\n"
+else
+  HTTP2_LISTEN=" http2"; HTTP2_DIRECTIVE=""
+fi
+echo "    nginx $NGINX_VER"
+sed -e "s|__DOMAIN__|$DOMAIN|g" -e "s|__PHP_SOCK__|$PHP_SOCK|g" \
+    -e "s|__HTTP2_LISTEN__|$HTTP2_LISTEN|g" -e "s|__HTTP2_DIRECTIVE__|$HTTP2_DIRECTIVE|g" \
+    /tmp/site.conf.template > "/etc/nginx/sites-available/$DOMAIN.conf"
 ln -sf "/etc/nginx/sites-available/$DOMAIN.conf" "/etc/nginx/sites-enabled/$DOMAIN.conf"
 # сайт по умолчанию убираем только на чистом сервере: на обжитом за ним
 # может стоять чужой проект
