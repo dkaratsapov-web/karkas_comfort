@@ -154,6 +154,13 @@ jobs:
                 --resolve $D:80:127.0.0.1 http://$D/ || true
               curl -sk -o /dev/null -w 'https %{http_code} -> %{redirect_url}\n' \
                 --resolve $D:443:127.0.0.1 https://$D/ || true
+              echo 'когда менялась конфигурация и что в ней:'
+              ls -la --time-style=+%d.%m-%H:%M /etc/nginx/sites-enabled/ /etc/nginx/conf.d/ 2>/dev/null || true
+              echo 'правил с проверкой внешнего запроса (в новом шаблоне их 3):'
+              grep -c 'request_uri ~' /etc/nginx/sites-available/$D.conf 2>/dev/null || true
+              grep -nE 'index index.html|request_uri ~|try_files|location = /index.html' /etc/nginx/sites-available/$D.conf 2>/dev/null | head -12 || true
+              echo 'заголовки ответа на главную:'
+              curl -sk -D - -o /dev/null --max-redirs 0 --resolve $D:443:127.0.0.1 https://$D/ | grep -iE '^HTTP/|^location:|^server:|^cache-control:' || true
               echo 'включённые сайты:'
               ls -1 /etc/nginx/sites-enabled/ 2>/dev/null || true
               grep -h -E 'server_name|root |listen ' /etc/nginx/sites-enabled/* 2>/dev/null | sed 's/^[[:space:]]*//' || true
