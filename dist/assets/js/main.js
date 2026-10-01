@@ -20,7 +20,7 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const groups = [
       ['.section__head', 0],
-      ['.grid > *, .tiers > *, .bento > *, .shots > *, .steps > *, .timeline > *, .figures > *', 55],
+      ['.grid > *, .tiers > *, .bento > *, .bento-grid > *, .shots > *, .steps > *, .timeline > *, .figures > *', 55],
       ['.split > *, .card, .project, .tile, .geo', 45]
     ];
     const seen = new Set();
@@ -44,6 +44,34 @@
     });
   };
   reveal();
+
+  /* ---------- цифры досчитывают при появлении ----------
+     Значение берём из разметки, поэтому без скрипта и при отключённой
+     анимации на странице сразу стоит готовое число. */
+  const counters = $$('[data-count]');
+  if (counters.length && 'IntersectionObserver' in window
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        io.unobserve(el);
+        const to = Number(el.dataset.count);
+        if (!Number.isFinite(to)) return;
+        const unit = el.dataset.countUnit ? ` ${el.dataset.countUnit}` : '';
+        const t0 = performance.now(), dur = 900;
+        const tick = (t) => {
+          const k = Math.min(1, (t - t0) / dur);
+          const eased = 1 - Math.pow(1 - k, 3);
+          el.textContent = `${Math.round(to * eased)}${unit}`;
+          if (k < 1) requestAnimationFrame(tick);
+        };
+        el.textContent = `0${unit}`;
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.6 });
+    counters.forEach((el) => io.observe(el));
+  }
 
   /* ---------- вкладки комплектаций ----------
      Переключение панелей с клавиатурой: стрелки, Home и End.

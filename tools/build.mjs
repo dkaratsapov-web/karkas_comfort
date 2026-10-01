@@ -455,7 +455,7 @@ ${previewBar}${header}
 ${content.trimEnd()}
   </main>
 ${footer}
-${hasLeadForm ? actionbar : actionbar.replace('href="#zayavka"', 'href="/index.html#zayavka"')}
+${hasLeadForm ? actionbar : actionbar.split('href="#zayavka"').join('href="/index.html#zayavka"')}
 ${modal}
   <script src="assets/js/main.js" defer></script>
 </body>
@@ -504,7 +504,7 @@ for (const file of files) {
 
   const out = outPath(file);
   mkdirSync(`${OUT}/${out.split('/').slice(0, -1).join('/')}` || OUT, { recursive: true });
-  writeFileSync(`${OUT}/${out}`, page({ file, meta, content, extraLd: blocks.join('\n') }));
+  writeFileSync(`${OUT}/${out}`, page({ file, meta, content, extraLd: blocks.join('\n'), bodyClass: meta.bodyClass || '' }));
   if (meta.noindex !== true) built.push({ url: pageUrl(file), priority: meta.priority ?? 0.6 });
   /* на GitHub Pages нет переадресации с сервера — кладём файл-заглушку,
      чтобы старые ссылки вида /obekty.html не отдавали 404 */
