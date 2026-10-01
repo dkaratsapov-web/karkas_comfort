@@ -7,5 +7,8 @@
   "googleVerification": "",
   "metrika": "",
   "gtag": "",
-  "telegram": ""
+  "_мессенджеры": "Ссылки на мессенджеры. Пустая строка — кнопка в шапке и подвале остаётся без ссылки и просто открывает форму заявки.",
+  "telegram": "",
+  "max": "https://max.ru/u/f9LHodD0cOKKcpdE46yYjXMR_UssPlZ4D6zTfEXc15ZJ8GN385ht40KzJFs",
+  "vk": ""
 }

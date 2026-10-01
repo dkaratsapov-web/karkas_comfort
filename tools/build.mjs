@@ -445,6 +445,18 @@ ${reviews.map((r) => `          <article class="card review">
         </div>` : '');
 
 /* ---------- сборка одной страницы ---------- */
+/* Кнопки мессенджеров становятся ссылками, когда адрес указан
+   в src/data/site.json. Без адреса остаётся кнопка: она открывает
+   форму заявки, а не ведёт в пустоту. */
+function messengerLinks(html) {
+  return html.replace(/<button([^>]*?)data-im="(\w+)"([^>]*?)>([\s\S]*?)<\/button>/g, (m, pre, key, post, inner) => {
+    const url = site[key];
+    if (!url) return m;
+    const attrs = `${(pre + post).replace(/\s*type="button"/, '').replace(/\s+/g, ' ').trim()} `;
+    return `<a ${attrs}href="${url}" target="_blank" rel="noopener">${inner}</a>`;
+  });
+}
+
 function page({ file, meta, content, extraLd = '', bodyClass = '' }) {
   /* на странице без блока заявки кнопка панели действий ведёт на расчёт с главной */
   const hasLeadForm = content.includes('id="zayavka"');
@@ -472,7 +484,7 @@ ${quiz}
 </body>
 </html>
 `;
-  return rebase(version(linkify(html)));
+  return rebase(version(linkify(messengerLinks(html))));
 }
 
 /* ---------- обычные страницы ---------- */

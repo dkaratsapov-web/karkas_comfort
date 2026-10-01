@@ -416,7 +416,6 @@ section[id], div[id] { scroll-margin-top: 88px; }
   transition: color .35s var(--ease), border-color .35s var(--ease), background .35s var(--ease);
 }
 .im svg { width: 19px; height: 19px; fill: currentColor; }
-.im--max span { font-family: var(--display); font-size: 11.5px; font-weight: 800; letter-spacing: .04em; }
 .im:hover { border-color: transparent; background: rgba(23, 21, 15, .06); color: var(--ink); }
 .im--tg:hover { color: #2AABEE; background: rgba(42, 171, 238, .1); }
 .im--max:hover { color: #7A5CFF; background: rgba(122, 92, 255, .1); }
@@ -1367,10 +1366,12 @@ section[id], div[id] { scroll-margin-top: 88px; }
      ширина считается из пропорции 9:16, а подпись встаёт справа —
      вдвоём они закрывают правую половину без обрезки кадра */
   .stuff .video--inset {
-    max-width: none; height: 100%;
-    display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: stretch;
+    max-width: none; align-self: start;
+    display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr); align-items: stretch;
   }
-  .stuff .video--inset .video__frame { aspect-ratio: 9 / 16; height: 100%; width: auto; }
+  /* кадр считается от своей ширины, а не от высоты соседней колонки:
+     так он крупный, а подпись стоит рядом и не распирает карточку */
+  .stuff .video--inset .video__frame { aspect-ratio: 9 / 16; width: 100%; height: auto; }
   .stuff .video--inset .video__frame :where(iframe, video) { object-fit: contain; object-position: center; }
   .stuff .video--inset figcaption {
     display: flex; flex-direction: column; justify-content: center; gap: 4px;

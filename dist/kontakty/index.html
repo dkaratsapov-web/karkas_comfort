@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=02abd7a1">
+  <link rel="stylesheet" href="/assets/css/style.css?v=5a69ae60">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/"},{"@type":"ListItem","position":2,"name":"Контакты","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/kontakty.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Каркас Комфорт","image":"https://xn--80aa2abbmnbmggrx.xn--p1ai/assets/img/og.png","url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/kontakty.html","telephone":"+7-920-171-69-69","email":"karkascomfort@yandex.ru","address":{"@type":"PostalAddress","streetAddress":"ул. Серебряная, 12, офис 31","addressLocality":"Тверь","postalCode":"170100","addressCountry":"RU"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"08:00","closes":"20:00"}],"areaServed":["Тверская область","Московская область"],"priceRange":"от 57 000 ₽/м²"}</script>
 </head>
@@ -60,13 +60,13 @@
         </div>
 
         <div class="header__im">
-          <button class="im im--tg" type="button" aria-label="Написать в Telegram" data-lead-messenger>
+          <button class="im im--tg" type="button" aria-label="Написать в Telegram" data-im="telegram" data-lead-messenger>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
           </button>
-          <button class="im im--max" type="button" aria-label="Написать в MAX" data-lead-messenger>
-            <span aria-hidden="true">MAX</span>
-          </button>
-          <button class="im im--vk" type="button" aria-label="Мы во ВКонтакте" data-lead-messenger>
+          <a class="im im--max" aria-label="Написать в MAX" data-lead-messenger href="https://max.ru/u/f9LHodD0cOKKcpdE46yYjXMR_UssPlZ4D6zTfEXc15ZJ8GN385ht40KzJFs" target="_blank" rel="noopener">
+            <svg viewBox="0 0 25 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.3405 23.9342C9.97568 23.9342 8.87728 23.5899 6.97252 22.2125C5.76041 23.762 1.94518 24.9672 1.77774 22.9012C1.77774 21.3535 1.42788 20.0492 1.04269 18.6132C0.570922 16.8544 0.0461426 14.898 0.0461426 12.0546C0.0461426 5.27426 5.6424 0.175079 12.2777 0.175079C18.913 0.175079 24.1153 5.52322 24.1153 12.1205C24.1153 18.7178 18.7474 23.9342 12.3405 23.9342ZM12.4368 6.03673C9.20791 5.86848 6.68817 8.0948 6.13253 11.5794C5.6724 14.465 6.48821 17.9812 7.18602 18.1582C7.51488 18.2416 8.35763 17.564 8.87711 17.0475C9.73154 17.5981 10.712 18.0245 11.8019 18.0813C15.1168 18.254 18.0544 15.6761 18.228 12.382C18.4016 9.08792 15.7517 6.20946 12.4368 6.03673Z"/></svg>
+          </a>
+          <button class="im im--vk" type="button" aria-label="Мы во ВКонтакте" data-im="vk" data-lead-messenger>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.16 18.99c.61 0 .86-.41.85-.92-.03-1.92.71-2.95 2.06-1.6 1.49 1.49 1.8 2.52 3.6 2.52h3.2c.81 0 1.13-.26 1.13-.67 0-.86-1.42-2.39-2.63-3.5-1.69-1.57-1.77-1.6-.31-3.49 1.8-2.34 4.16-5.34 2.07-5.34h-3.98c-.77 0-.83.44-1.1 1.08-1 2.35-2.89 5.39-3.6 4.92-.75-.48-.41-2.4-.35-5.26.02-.75.01-1.27-1.14-1.54-.63-.14-1.24-.2-1.81-.2-2.27 0-3.84.95-2.95 1.12 1.57.29 1.42 3.69 1.05 5.16-.64 2.56-3.04-2.02-4.03-4.3-.24-.55-.32-.98-1.18-.98H.79c-.49 0-.79.16-.79.52 0 .6 2.96 6.72 5.79 9.77 2.75 2.97 5.48 2.58 7.37 2.58z"/></svg>
           </button>
         </div>
@@ -106,9 +106,9 @@
           <span>ежедневно, 8:00 до 20:00</span>
         </div>
         <div class="mobile-nav__im">
-          <button class="im im--tg" type="button" aria-label="Написать в Telegram" data-lead-messenger><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></button>
-          <button class="im im--max" type="button" aria-label="Написать в MAX" data-lead-messenger><span aria-hidden="true">MAX</span></button>
-          <button class="im im--vk" type="button" aria-label="Мы во ВКонтакте" data-lead-messenger><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.16 18.99c.61 0 .86-.41.85-.92-.03-1.92.71-2.95 2.06-1.6 1.49 1.49 1.8 2.52 3.6 2.52h3.2c.81 0 1.13-.26 1.13-.67 0-.86-1.42-2.39-2.63-3.5-1.69-1.57-1.77-1.6-.31-3.49 1.8-2.34 4.16-5.34 2.07-5.34h-3.98c-.77 0-.83.44-1.1 1.08-1 2.35-2.89 5.39-3.6 4.92-.75-.48-.41-2.4-.35-5.26.02-.75.01-1.27-1.14-1.54-.63-.14-1.24-.2-1.81-.2-2.27 0-3.84.95-2.95 1.12 1.57.29 1.42 3.69 1.05 5.16-.64 2.56-3.04-2.02-4.03-4.3-.24-.55-.32-.98-1.18-.98H.79c-.49 0-.79.16-.79.52 0 .6 2.96 6.72 5.79 9.77 2.75 2.97 5.48 2.58 7.37 2.58z"/></svg></button>
+          <button class="im im--tg" type="button" aria-label="Написать в Telegram" data-im="telegram" data-lead-messenger><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></button>
+          <a class="im im--max" aria-label="Написать в MAX" data-lead-messenger href="https://max.ru/u/f9LHodD0cOKKcpdE46yYjXMR_UssPlZ4D6zTfEXc15ZJ8GN385ht40KzJFs" target="_blank" rel="noopener"><svg viewBox="0 0 25 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.3405 23.9342C9.97568 23.9342 8.87728 23.5899 6.97252 22.2125C5.76041 23.762 1.94518 24.9672 1.77774 22.9012C1.77774 21.3535 1.42788 20.0492 1.04269 18.6132C0.570922 16.8544 0.0461426 14.898 0.0461426 12.0546C0.0461426 5.27426 5.6424 0.175079 12.2777 0.175079C18.913 0.175079 24.1153 5.52322 24.1153 12.1205C24.1153 18.7178 18.7474 23.9342 12.3405 23.9342ZM12.4368 6.03673C9.20791 5.86848 6.68817 8.0948 6.13253 11.5794C5.6724 14.465 6.48821 17.9812 7.18602 18.1582C7.51488 18.2416 8.35763 17.564 8.87711 17.0475C9.73154 17.5981 10.712 18.0245 11.8019 18.0813C15.1168 18.254 18.0544 15.6761 18.228 12.382C18.4016 9.08792 15.7517 6.20946 12.4368 6.03673Z"/></svg></a>
+          <button class="im im--vk" type="button" aria-label="Мы во ВКонтакте" data-im="vk" data-lead-messenger><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.16 18.99c.61 0 .86-.41.85-.92-.03-1.92.71-2.95 2.06-1.6 1.49 1.49 1.8 2.52 3.6 2.52h3.2c.81 0 1.13-.26 1.13-.67 0-.86-1.42-2.39-2.63-3.5-1.69-1.57-1.77-1.6-.31-3.49 1.8-2.34 4.16-5.34 2.07-5.34h-3.98c-.77 0-.83.44-1.1 1.08-1 2.35-2.89 5.39-3.6 4.92-.75-.48-.41-2.4-.35-5.26.02-.75.01-1.27-1.14-1.54-.63-.14-1.24-.2-1.81-.2-2.27 0-3.84.95-2.95 1.12 1.57.29 1.42 3.69 1.05 5.16-.64 2.56-3.04-2.02-4.03-4.3-.24-.55-.32-.98-1.18-.98H.79c-.49 0-.79.16-.79.52 0 .6 2.96 6.72 5.79 9.77 2.75 2.97 5.48 2.58 7.37 2.58z"/></svg></button>
         </div>
       </div>
 
@@ -211,9 +211,9 @@
           <a class="footer__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
           <ul>
             <li><a href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a></li>
-            <li><button class="linklike" type="button" data-lead-messenger>Telegram</button></li>
-            <li><button class="linklike" type="button" data-lead-messenger>MAX</button></li>
-            <li><button class="linklike" type="button" data-lead-messenger>ВКонтакте</button></li>
+            <li><button class="linklike" type="button" data-im="telegram" data-lead-messenger>Telegram</button></li>
+            <li><a class="linklike" data-lead-messenger href="https://max.ru/u/f9LHodD0cOKKcpdE46yYjXMR_UssPlZ4D6zTfEXc15ZJ8GN385ht40KzJFs" target="_blank" rel="noopener">MAX</a></li>
+            <li><button class="linklike" type="button" data-im="vk" data-lead-messenger>ВКонтакте</button></li>
             <li><a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a></li>
             <li>г. Тверь, ул. Серебряная, 12, офис 31</li>
             <li>Ежедневно с 8:00 до 20:00</li>
