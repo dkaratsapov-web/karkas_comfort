@@ -134,6 +134,16 @@ jobs:
             grep -q "Каркас Комфорт" /tmp/page.html \
               && echo "Главная отдаётся и содержит название компании." \
               || echo "::warning::Страница открылась, но названия компании в ней нет — проверьте, что выгрузилась нужная сборка."
+            # разделы и статика: ловим случай, когда главная цела, а внутренние
+            # адреса уводит редиректом или в 404
+            bad=0
+            for u in /proekty/ /obekty/ /stati/ /kontakty/ /video/ /sitemap.xml /assets/css/style.css; do
+              c=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --max-redirs 0 "https://xn--80aa2abbmnbmggrx.xn--p1ai$u" || true)
+              printf '  %-26s %s\n' "$u" "$c"
+              [ "$c" = "200" ] || bad=1
+            done
+            [ "$bad" = "0" ] && echo "Все проверенные адреса отдаются." \
+              || echo "::warning::Не все адреса отвечают 200 — список выше."
             exit 0
           fi
           echo "::warning::Домен не ответил 200 — файлы выгружены, но отдаёт их сервер неправильно. Ниже разбор."
