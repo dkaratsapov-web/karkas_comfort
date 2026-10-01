@@ -1,0 +1,122 @@
+# Выгрузка сайта на VPS по SSH (rsync).
+#
+# Работает сама: как только «Preview site» успешно собрал демо, этот
+# workflow выкладывает ту же версию на сервер. Руками ничего запускать
+# не нужно; ручной запуск оставлен для перезаливки без новой правки.
+#
+# ОДИН РАЗ добавьте доступы: Settings → Secrets and variables → Actions
+#   VPS_HOST     IP сервера
+#   VPS_USER     deploy
+#   VPS_SSH_KEY  приватный ключ (целиком, вместе со строками BEGIN/END)
+#   VPS_PATH     /var/www/<домен>/public
+#   VPS_PORT     22 — только если SSH висит на другом порту (необязательно)
+#
+# Пока секретов нет, workflow не падает: пишет, чего не хватает, и
+# завершается успехом. Сервер готовится скриптом server/bootstrap.sh.
+
+name: Deploy to VPS
+
+on:
+  workflow_run:
+    workflows: ["Preview site"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Только показать, что изменится"
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+
+      - name: Проверка доступов
+        id: gate
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          if [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ] || [ -z "$VPS_SSH_KEY" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Доступы к серверу не заданы — выгрузка пропущена. Добавьте секреты VPS_HOST, VPS_USER, VPS_SSH_KEY (и VPS_PATH) в Settings → Secrets and variables → Actions."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.gate.outputs.ready == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Установка зависимостей
+        if: steps.gate.outputs.ready == 'true'
+        run: npm ci
+
+      - name: Сборка боевой версии
+        if: steps.gate.outputs.ready == 'true'
+        run: npm run build
+
+      - name: Проверка, что сборка не пустая
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          test -s dist/index.html
+          test -s dist/assets/css/style.css
+          test -s dist/sitemap.xml
+          grep -q "xn--80aa2abbmnbmggrx.xn--p1ai" dist/sitemap.xml
+
+      - name: Ключ для подключения
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Выгрузка на сервер
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          # --delete убирает с сервера то, чего больше нет в сборке,
+          # но config.php с боевой почтой и накопленные заявки не трогаем
+          rsync -az --delete ${{ inputs.dry_run && '--dry-run --itemize-changes' || '' }} \
+            --exclude 'api/config.php' \
+            --exclude 'api/leads.csv' \
+            -e "ssh -i ~/.ssh/id_deploy -p ${VPS_PORT:-22} -o StrictHostKeyChecking=yes" \
+            dist/ "$VPS_USER@$VPS_HOST:$TARGET/"
+
+      - name: Сайт открывается
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        run: |
+          code=$(curl -s -o /tmp/page.html -w '%{http_code}' --max-time 25 -L https://xn--80aa2abbmnbmggrx.xn--p1ai/ || true)
+          echo "Ответ сайта: $code"
+          if [ "$code" != "200" ]; then
+            echo "::warning::Домен не ответил 200 — проверьте A-записи и сертификат. Файлы при этом уже выгружены."
+            exit 0
+          fi
+          grep -q "Каркас Комфорт" /tmp/page.html && echo "Главная отдаётся и содержит название компании."
+
+      - name: Убрать ключ
+        if: always()
+        run: rm -f ~/.ssh/id_deploy
