@@ -363,6 +363,18 @@ rsync. Ручной запуск — Actions → Deploy to VPS → Run workflow,
 `server/nginx-site.conf.template` — там те же правила, разворачивает его
 `server/bootstrap.sh` (пункт 2.2).
 
+Если правила в шаблоне поменялись, на сервере их накатывает отдельный скрипт —
+страницы выгружаются сами, а для конфигурации nginx нужен root:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/dkaratsapov-web/karkas_comfort/claude/karkas-comfort-redesign-0zy3xi/server/nginx-apply.sh) \
+     --domain xn--80aa2abbmnbmggrx.xn--p1ai
+```
+
+Он забирает шаблон из репозитория, подставляет домен, проверяет конфигурацию
+и перезапускает nginx. Если проверка не прошла — возвращает прежнюю и ничего
+не перезапускает. Чужие сайты на том же сервере не затрагиваются.
+
 ---
 
 ## 4. Заявки с форм

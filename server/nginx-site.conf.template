@@ -38,7 +38,6 @@ server {
 __HTTP2_DIRECTIVE__    server_name __DOMAIN__;
 
     root /var/www/__DOMAIN__/public;
-    index index.html;
     charset utf-8;
 
     ssl_certificate     /etc/letsencrypt/live/__DOMAIN__/fullchain.pem;
@@ -74,13 +73,30 @@ __HTTP2_DIRECTIVE__    server_name __DOMAIN__;
     }
 
     # --- index.html в адресе не нужен ---
-    location = /index.html { return 301 /; }
+    #     Правило срабатывает только на внешний запрос: index-файл каталога
+    #     отдаёт try_files в location / напрямую, без внутреннего перехода
+    #     на /index.html — иначе редирект зацикливался бы сам на себя.
+    location = /index.html {
+        add_header Cache-Control "no-cache, must-revalidate";
+        if ($request_uri ~ "^/index\.html") { return 301 /; }
+        try_files $uri =404;
+    }
 
     # --- адреса с .html уводим на чистые ---
-    location ~ ^/proekty/([a-z0-9-]+)\.html$ { return 301 /proekty/$1/; }
-    location ~ ^/([a-z0-9-]+)\.html$ {
-        if ($uri = /404.html) { break; }
-        return 301 /$1/;
+    #     Как и выше, редирект делается только для внешнего запроса: внутри
+    #     nginx приходит к /…/index.html, когда отдаёт index-файл каталога,
+    #     и такой переход редиректить нельзя.
+    #     Имя страницы запоминаем именованной группой: проверка в if —
+    #     тоже регулярное выражение, и номерные $1 после неё теряются.
+    location ~ ^/proekty/(?<proekt>[a-z0-9-]+)\.html$ {
+        add_header Cache-Control "no-cache, must-revalidate";
+        if ($request_uri ~ "\.html") { return 301 /proekty/$proekt/; }
+        try_files $uri =404;
+    }
+    location ~ ^/(?<stranica>[a-z0-9-]+)\.html$ {
+        add_header Cache-Control "no-cache, must-revalidate";
+        if ($request_uri ~ "\.html") { return 301 /$stranica/; }
+        try_files $uri =404;
     }
 
     # --- старые адреса ---
@@ -105,7 +121,6 @@ __HTTP2_DIRECTIVE__    server_name __DOMAIN__;
 
     # --- статика: версия файла стоит в адресе (?v=…), можно кешировать надолго ---
     location ~* \.(css|js|woff2|svg|png|jpe?g|webp|ico|mp4)$ {
-        expires 1y;
         add_header Cache-Control "public, max-age=31536000, immutable";
         access_log off;
         try_files $uri =404;
@@ -118,12 +133,12 @@ __HTTP2_DIRECTIVE__    server_name __DOMAIN__;
     }
 
     # --- чистые адреса: /obekty/ отдаёт /obekty/index.html,
-    #     адрес без слеша получает редирект на канонический со слешем ---
+    #     адрес без слеша получает редирект на канонический со слешем,
+    #     чего на сайте нет — честный 404 ---
     location / {
-        try_files $uri $uri/ $uri/index.html @slash;
-    }
-    location @slash {
-        return 301 $uri/;
+        add_header Cache-Control "no-cache, must-revalidate";
+        if (-d "$document_root$uri") { rewrite ^(.*[^/])$ $1/ permanent; }
+        try_files $uri $uri/index.html =404;
     }
 
     error_page 404 /404.html;

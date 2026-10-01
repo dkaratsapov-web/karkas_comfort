@@ -47,7 +47,9 @@ src/
   data/README.md         ← что и как заполнять в данных
 server/
   .htaccess              ← настройки Apache: https, редиректы, кеш, сжатие
-  nginx.conf.example     ← то же самое для nginx
+  nginx-site.conf.template ← то же самое для nginx (VPS)
+  bootstrap.sh           ← настройка нового сервера одной командой
+  nginx-apply.sh         ← накатить изменённые правила nginx на сервер
   api/lead.php           ← приём заявок: почта, Telegram, CRM, запасная запись в CSV
   api/config.php         ← куда слать заявки и доступы к интеграциям (правится на хостинге)
 tools/
