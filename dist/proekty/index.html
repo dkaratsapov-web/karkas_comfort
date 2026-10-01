@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=5c3a9986">
+  <link rel="stylesheet" href="/assets/css/style.css?v=02abd7a1">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/"},{"@type":"ListItem","position":2,"name":"Проекты и цены","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty.html"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty/burashevo/","name":"Бурашево — 1 комнатный"},{"@type":"ListItem","position":2,"url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty/khodakova/","name":"Ходакова"},{"@type":"ListItem","position":3,"url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty/kolesnikovo/","name":"Колесниково — Стандартный барн"},{"@type":"ListItem","position":4,"url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty/lastochkin/","name":"Ласточкин"},{"@type":"ListItem","position":5,"url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty/zavolzhskiy/","name":"Заволжский — Четырёхкомнатный"},{"@type":"ListItem","position":6,"url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty/pavlinov/","name":"Павлинов"},{"@type":"ListItem","position":7,"url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty/grishkino/","name":"Гришкино — Расширенный"},{"@type":"ListItem","position":8,"url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/proekty/olbovo/","name":"Олбово"}]}</script>
 </head>
@@ -365,7 +365,7 @@
 
     <!-- десктоп: расчёт стоимости всегда под рукой, слева внизу.
          На телефоне эту роль играет панель действий выше. -->
-    <a class="calcdock" href="#zayavka">
+    <a class="calcdock" href="#zayavka" data-quiz-open>
       <span class="calcdock__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 6.5h8"/><path d="M8.5 11h0M12 11h0M15.5 11h0M8.5 14.5h0M12 14.5h0M15.5 14.5h0M8.5 18h0M12 18h0"/><path d="M15.5 16.5v3"/></svg>
       </span>
@@ -409,6 +409,78 @@
     </div>
   </div>
 
-  <script src="/assets/js/main.js?v=ed10228a" defer></script>
+  <!-- Квиз расчёта стоимости.
+       Вопросы собирает скрипт из src/data/pricing.json (данные лежат
+       в data-pricing на <body>), поэтому новые комплектации, фундаменты
+       и доплаты появляются здесь сами, без правки вёрстки.
+       Форма стоит в разметке целиком: её обрабатывает общий код отправки
+       заявок, а скрипт только подставляет итог расчёта. Без скрипта окно
+       не открывается — кнопки ведут на обычную форму расчёта. -->
+  <div class="modal quiz" id="quiz" hidden>
+    <div class="modal__scrim" data-quiz-close></div>
+    <div class="modal__card quiz__card" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+      <button class="modal__close" type="button" aria-label="Закрыть" data-quiz-close>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg>
+      </button>
+
+      <p class="eyebrow">Расчёт стоимости</p>
+      <h2 id="quiz-title">Пять вопросов — и видно цену</h2>
+
+      <div class="quiz__progress" role="presentation"><span data-quiz-bar></span></div>
+      <p class="quiz__counter" data-quiz-counter aria-live="polite"></p>
+
+      <div data-quiz-steps></div>
+
+      <div class="quiz__nav" data-quiz-nav>
+        <button class="btn btn--ghost btn--sm" type="button" data-quiz-back>Назад</button>
+        <button class="btn btn--accent btn--sm" type="button" data-quiz-next>Далее<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></button>
+      </div>
+
+      <div class="quiz__result" data-quiz-result hidden>
+        <div class="quiz__total">
+          <p class="quiz__label">Предварительная стоимость</p>
+          <p class="quiz__sum"><span data-quiz-low>0</span> — <span data-quiz-high>0</span> ₽</p>
+          <p class="quiz__note" data-quiz-note></p>
+        </div>
+
+        <dl class="quiz__facts">
+          <div><dt>Срок строительства</dt><dd data-quiz-term></dd></div>
+          <div><dt>Цена за м²</dt><dd data-quiz-perm2></dd></div>
+        </dl>
+
+        <div class="quiz__stages" data-quiz-stages></div>
+
+        <p class="quiz__disclaimer">Это предварительный расчёт по вашим ответам. Точная смета с ценой каждого этапа — после уточнения участка и проекта, за один рабочий день.</p>
+
+        <form class="form" novalidate>
+          <div class="form__body">
+            <div class="field">
+              <label for="q-name">Как к вам обращаться</label>
+              <input type="text" id="q-name" name="name" required autocomplete="name" placeholder="Имя">
+              <span class="field__error" id="q-name-error">Пожалуйста, укажите имя</span>
+            </div>
+            <div class="field">
+              <label for="q-phone">Телефон</label>
+              <input type="tel" id="q-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
+              <span class="field__error" id="q-phone-error">Введите номер полностью</span>
+            </div>
+            <input type="hidden" name="message" data-quiz-summary value="">
+            <div class="sr-only" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-label="Оставьте поле пустым"></div>
+            <label class="consent">
+              <input type="checkbox" name="consent" required>
+              <span>Согласен на обработку персональных данных в соответствии с <a href="/politika/">политикой конфиденциальности</a></span>
+            </label>
+            <button class="btn btn--accent btn--block" type="submit">Получить смету по этапам</button>
+          </div>
+          <p class="form__error" role="alert" aria-live="assertive"></p>
+          <p class="form__ok" role="status" aria-live="polite">Спасибо! Расчёт у нас — перезвоним в рабочее время с 8:00 до 20:00 и пришлём смету.</p>
+        </form>
+
+        <p class="modal__call">Или позвоните сразу: <a href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/main.js?v=a06cfcb6" defer></script>
 </body>
 </html>

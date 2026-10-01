@@ -72,6 +72,42 @@ if (TABBED) {
   ok('кадры во всех вкладках загружаются', loaded);
 }
 
+/* 2в. Квиз расчёта: проходит до конца, считает и кладёт итог в заявку.
+   Считается тем же прайсом, что и каталог, поэтому сверяем результат
+   с формулой, а не с записанным числом: цифры в pricing.json меняются. */
+await p.goto(`${B}/`, { waitUntil: 'networkidle' });
+await p.setViewportSize({ width: 1440, height: 900 });
+await p.click('[data-quiz-open]');
+await p.waitForSelector('#quiz:not([hidden])');
+ok('кнопка на десктопе открывает квиз', await p.isVisible('#quiz .quiz__card'));
+await p.fill('#quiz-area-num', '150');
+await p.click('[data-quiz-next]');
+await p.click('.quiz__step[data-step="1"] input[value="2"]');
+await p.click('[data-quiz-next]');
+await p.click('.quiz__step[data-step="2"] input[value="pod_kluch"]');
+await p.click('[data-quiz-next]');
+await p.click('.quiz__step[data-step="3"] input[value="plita"]');
+await p.click('[data-quiz-next]');
+await p.click('[data-quiz-next]');
+await p.waitForSelector('[data-quiz-result]:not([hidden])');
+ok('после пяти шагов показан расчёт', await p.isVisible('[data-quiz-sum], .quiz__sum'));
+
+const PRICING = JSON.parse(readFileSync('src/data/pricing.json', 'utf8'));
+const floor2 = PRICING.floors.find((f) => f.id === '2');
+const plita = PRICING.foundations.find((f) => f.id === 'plita');
+const expect = 150 * PRICING.ratePerM2.pod_kluch * floor2.factor + (150 / 2) * plita.perM2;
+const shown = (await p.textContent('.quiz__sum')).replace(/[^\d—-]/g, '');
+const [low, high] = shown.split(/[—-]/).map(Number);
+const near = (a, b) => Math.abs(a - b) <= 2000;
+ok('расчёт совпадает с прайсом из данных',
+  near(low, Math.round(expect * (1 - PRICING.spread) / 1000) * 1000)
+  && near(high, Math.round(expect * (1 + PRICING.spread) / 1000) * 1000));
+ok('итог расчёта уходит в заявку текстом',
+  (await p.inputValue('[data-quiz-summary]')).includes('150 м²'));
+ok('этапы оплаты разбиты по комплектации', (await p.$$('#quiz .quiz__stage')).length >= 4);
+await p.keyboard.press('Escape');
+await p.waitForTimeout(500);
+
 /* 3. Старый адрес карточки ведёт на новый */
 const oldPage = await (await p.request.get(`${B}/proekt.html?id=${FIRST.slug}`)).text();
 ok('старый адрес карточки не индексируется и ведёт в каталог', /noindex/.test(oldPage) && /proekty/.test(oldPage));

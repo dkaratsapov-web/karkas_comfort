@@ -297,146 +297,258 @@
     });
   });
 
-  /* ---------- калькулятор стоимости ----------
-     Всё считается из data-pricing на <body>: ставки, поправка на этажность,
-     фундамент по площади застройки, доплаты и доли этапов. Формулы здесь,
-     цифры — в src/data/pricing.json. */
-  const calc = $('#calc');
-  if (calc) {
-    let P = null;
-    try { P = JSON.parse(document.body.dataset.pricing); } catch { P = null; }
-    if (P) {
-      const state = {
-        area: 120,
-        floors: P.floors[0].id,
-        tier: 'komfort',
-        foundation: P.foundations[0].id,
-        extras: new Set()
-      };
+  /* ---------- квиз: расчёт стоимости по шагам ----------
+     Вопросы и цифры берутся из src/data/pricing.json (data-pricing
+     на <body>): ставки по комплектациям, поправка на этажность,
+     фундамент по площади застройки, доплаты и доли этапов. Формулы
+     здесь, числа — в данных. Итог расчёта уходит в заявку текстом,
+     поэтому менеджер видит, что именно считал посетитель. */
+  const quiz = $('#quiz');
+  let quizReady = false;
+  let P = null;
+  try { P = JSON.parse(document.body.dataset.pricing); } catch { P = null; }
 
-      const nf = new Intl.NumberFormat('ru-RU');
-      const money0 = (n) => nf.format(Math.round(n / 1000) * 1000);
+  if (quiz && P) {
+    quizReady = true;
+    const card = $('.quiz__card', quiz);
+    const stepsHost = $('[data-quiz-steps]', quiz);
+    const nav = $('[data-quiz-nav]', quiz);
+    const result = $('[data-quiz-result]', quiz);
+    const bar = $('[data-quiz-bar]', quiz);
+    const counter = $('[data-quiz-counter]', quiz);
+    const nf = new Intl.NumberFormat('ru-RU');
+    const money0 = (n) => nf.format(Math.round(n / 1000) * 1000);
 
-      /* сегментированный переключатель */
-      const seg = (host, items, group, render) => {
-        host.innerHTML = items.map((it) => `<button class="seg__btn" type="button" data-value="${it.id}" aria-pressed="${state[group] === it.id}">${render(it)}</button>`).join('');
-        host.addEventListener('click', (e) => {
-          const btn = e.target.closest('.seg__btn');
-          if (!btn) return;
-          state[group] = btn.dataset.value;
-          $$('.seg__btn', host).forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-          update();
-        });
-      };
+    const state = {
+      area: 120,
+      floors: P.floors[0].id,
+      tier: P.tiers[1] ? P.tiers[1].id : P.tiers[0].id,
+      foundation: P.foundations[0].id,
+      extras: new Set()
+    };
 
-      seg($('[data-group="floors"]', calc), P.floors, 'floors', (it) => `<b>${it.name}</b>`);
-      seg($('[data-group="foundation"]', calc), P.foundations, 'foundation',
-        (it) => `<b>${it.name}</b><em>${nf.format(it.perM2)} ₽/м²</em>`);
-      seg($('[data-group="tier"]', calc), P.tiers, 'tier',
-        (it) => `<b>${it.name}</b><em>${nf.format(P.ratePerM2[it.id])} ₽/м²</em>`);
-
-      /* доплаты */
-      const extrasHost = $('[data-group="extras"]', calc);
-      extrasHost.innerHTML = P.extras.map((it) => `<label class="calc__extra" title="${it.note}">
-        <input type="checkbox" value="${it.id}">
-        <b>${it.name}</b>
-        <em data-extra-sum="${it.id}"></em>
+    /* --- вопросы --- */
+    const radios = (group, items, note) => items.map((it, i) => `
+      <label class="quiz__opt">
+        <input type="radio" name="quiz-${group}" value="${it.id}"${state[group] === it.id ? ' checked' : ''}>
+        <span class="quiz__opt-body">
+          <b>${it.name}</b>
+          ${note(it) ? `<em>${note(it)}</em>` : ''}
+        </span>
       </label>`).join('');
-      extrasHost.addEventListener('change', (e) => {
-        const box = e.target.closest('input[type="checkbox"]');
-        if (!box) return;
-        if (box.checked) state.extras.add(box.value); else state.extras.delete(box.value);
-        update();
+
+    const steps = [
+      {
+        title: 'Какая площадь дома?',
+        hint: 'Общая площадь всех этажей.',
+        html: `
+          <div class="quiz__area">
+            <label class="sr-only" for="quiz-area-num">Площадь дома в квадратных метрах</label>
+            <input class="quiz__num" type="number" id="quiz-area-num" min="40" max="300" step="1" inputmode="numeric" value="${state.area}">
+            <span class="quiz__unit">м²</span>
+          </div>
+          <label class="sr-only" for="quiz-area">Площадь ползунком</label>
+          <input class="quiz__range" type="range" id="quiz-area" min="40" max="300" step="5" value="${state.area}">
+          <div class="quiz__presets">${(P.examples || []).map((a) => `<button class="quiz__preset" type="button" data-area="${a}">${a} м²</button>`).join('')}</div>`
+      },
+      {
+        title: 'Сколько этажей?',
+        hint: 'Полтора этажа — мансарда вместо второго этажа.',
+        html: radios('floors', P.floors, () => '')
+      },
+      {
+        title: 'Какая комплектация?',
+        hint: 'Что входит в каждую — в разделе «Проекты и цены».',
+        html: radios('tier', P.tiers, (it) => `${nf.format(P.ratePerM2[it.id])} ₽/м² · ${it.note}`)
+      },
+      {
+        title: 'Какой фундамент?',
+        hint: 'Если не знаете — оставьте сваи, уточним после выезда на участок.',
+        html: radios('foundation', P.foundations, (it) => `${nf.format(it.perM2)} ₽/м² · ${it.note}`)
+      },
+      {
+        title: 'Что добавить к дому?',
+        hint: 'Можно ничего не выбирать.',
+        html: P.extras.map((it) => `
+          <label class="quiz__opt">
+            <input type="checkbox" name="quiz-extra" value="${it.id}">
+            <span class="quiz__opt-body">
+              <b>${it.name}</b>
+              <em>${it.note} · <span data-extra-sum="${it.id}"></span></em>
+            </span>
+          </label>`).join('')
+      }
+    ];
+
+    stepsHost.innerHTML = steps.map((s, i) => `
+      <fieldset class="quiz__step" data-step="${i}"${i ? ' hidden' : ''}>
+        <legend class="quiz__question">${s.title}</legend>
+        <p class="quiz__hint">${s.hint}</p>
+        <div class="quiz__opts">${s.html}</div>
+      </fieldset>`).join('');
+
+    /* --- расчёт --- */
+    const extraSum = (it) => (it.fixed || 0) + (it.perM2 ? it.perM2 * state.area : 0);
+
+    const compute = () => {
+      const floor = P.floors.find((f) => f.id === state.floors) || P.floors[0];
+      const tier = P.tiers.find((t) => t.id === state.tier) || P.tiers[0];
+      const found = P.foundations.find((f) => f.id === state.foundation) || P.foundations[0];
+      const house = state.area * P.ratePerM2[tier.id] * floor.factor;
+      const footprint = state.area / Number(floor.id);
+      const foundation = footprint * found.perM2;
+      const picked = P.extras.filter((it) => state.extras.has(it.id));
+      const extras = picked.reduce((sum, it) => sum + extraSum(it), 0);
+      const total = house + foundation + extras;
+      const term = (P.terms.find((t) => state.area <= t.maxArea) || P.terms[P.terms.length - 1]).text;
+      return { total, tier, floor, found, picked, term };
+    };
+
+    const refreshExtras = () => {
+      P.extras.forEach((it) => {
+        const cell = $(`[data-extra-sum="${it.id}"]`, quiz);
+        if (cell) cell.textContent = `+${nf.format(Math.round(extraSum(it) / 1000))} тыс. ₽`;
       });
+    };
 
-      /* площадь: ползунок и поле связаны */
-      const range = $('#calc-area', calc);
-      const num = $('#calc-area-num', calc);
-      const setArea = (v, from) => {
-        const n = Math.min(300, Math.max(40, Math.round(Number(v) || 40)));
-        state.area = n;
-        if (from !== 'range') range.value = String(Math.round(n / 5) * 5);
-        if (from !== 'num') num.value = String(n);
-        update();
-      };
-      range.addEventListener('input', () => setArea(range.value, 'range'));
-      num.addEventListener('input', () => { if (num.value.length >= 2) setArea(num.value, 'num'); });
-      num.addEventListener('blur', () => setArea(num.value));
+    /* --- площадь --- */
+    const range = $('#quiz-area', quiz);
+    const num = $('#quiz-area-num', quiz);
+    const setArea = (v, from) => {
+      const n = Math.min(300, Math.max(40, Math.round(Number(v) || 40)));
+      state.area = n;
+      if (from !== 'range') range.value = String(Math.round(n / 5) * 5);
+      if (from !== 'num') num.value = String(n);
+      refreshExtras();
+    };
+    range.addEventListener('input', () => setArea(range.value, 'range'));
+    num.addEventListener('input', () => { if (num.value.length >= 2) setArea(num.value, 'num'); });
+    num.addEventListener('blur', () => setArea(num.value));
+    $$('.quiz__preset', quiz).forEach((btn) => {
+      btn.addEventListener('click', () => setArea(btn.dataset.area));
+    });
 
-      /* плавный счётчик: цифры не прыгают, а доезжают */
-      const spin = (el, to) => {
-        const from = Number(el.dataset.v || 0);
-        if (from === to) { el.textContent = money0(to); return; }
-        el.dataset.v = String(to);
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = money0(to); return; }
-        const t0 = performance.now(), dur = 420;
-        const tick = (t) => {
-          const k = Math.min(1, (t - t0) / dur);
-          const e = 1 - Math.pow(1 - k, 3);
-          el.textContent = money0(from + (to - from) * e);
-          if (k < 1 && el.dataset.v === String(to)) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      };
+    stepsHost.addEventListener('change', (e) => {
+      const input = e.target;
+      if (input.type === 'radio') {
+        const group = input.name.replace('quiz-', '');
+        state[group] = input.value;
+      }
+      if (input.type === 'checkbox' && input.name === 'quiz-extra') {
+        if (input.checked) state.extras.add(input.value); else state.extras.delete(input.value);
+      }
+    });
 
-      const extraSum = (it) => (it.fixed || 0) + (it.perM2 ? it.perM2 * state.area : 0);
+    /* --- шаги --- */
+    let step = 0;
+    const total = steps.length;
+    const show = (n) => {
+      step = n;
+      $$('.quiz__step', quiz).forEach((el) => { el.hidden = Number(el.dataset.step) !== n; });
+      counter.textContent = `Шаг ${n + 1} из ${total}`;
+      bar.style.width = `${Math.round((n + 1) / (total + 1) * 100)}%`;
+      $('[data-quiz-back]', quiz).disabled = n === 0;
+      card.scrollTop = 0;
+      const first = $('.quiz__step:not([hidden]) input', quiz);
+      if (first) first.focus({ preventScroll: true });
+    };
 
-      const compute = () => {
-        const floor = P.floors.find((f) => f.id === state.floors) || P.floors[0];
-        const tier = P.tiers.find((t) => t.id === state.tier) || P.tiers[1];
-        const found = P.foundations.find((f) => f.id === state.foundation) || P.foundations[0];
-        const house = state.area * P.ratePerM2[tier.id] * floor.factor;
-        const footprint = state.area / Number(floor.id);
-        const foundation = footprint * found.perM2;
-        const extras = P.extras.filter((it) => state.extras.has(it.id)).reduce((sum, it) => sum + extraSum(it), 0);
-        const total = house + foundation + extras;
-        const term = (P.terms.find((t) => state.area <= t.maxArea) || P.terms[P.terms.length - 1]).text;
-        return { total, house, foundation, extras, tier, floor, found, term };
-      };
+    const summary = (r, low, high) =>
+      `Квиз: ${state.area} м², ${r.floor.name.toLowerCase()}, «${r.tier.name}», фундамент ${r.found.name.toLowerCase()}`
+      + (r.picked.length ? `, дополнительно: ${r.picked.map((it) => it.name.toLowerCase()).join(', ')}` : '')
+      + `. Расчёт ${money0(low)}–${money0(high)} ₽, срок ${r.term}.`;
 
-      const stagesHost = $('[data-calc-stages]', calc);
-      const update = () => {
-        const r = compute();
-        const low = r.total * (1 - P.spread);
-        const high = r.total * (1 + P.spread);
-        spin($('[data-calc-low]', calc), low);
-        spin($('[data-calc-high]', calc), high);
+    const finish = () => {
+      const r = compute();
+      const low = r.total * (1 - P.spread);
+      const high = r.total * (1 + P.spread);
 
-        $('[data-calc-note]', calc).textContent =
-          `${state.area} м², ${r.floor.name.toLowerCase()}, «${r.tier.name}», ${r.found.name.toLowerCase()}`;
-        $('[data-calc-term]', calc).textContent = r.term;
-        $('[data-calc-perm2]', calc).textContent = `${nf.format(Math.round(r.total / state.area / 100) * 100)} ₽`;
+      $('[data-quiz-low]', quiz).textContent = money0(low);
+      $('[data-quiz-high]', quiz).textContent = money0(high);
+      $('[data-quiz-note]', quiz).textContent =
+        `${state.area} м², ${r.floor.name.toLowerCase()}, «${r.tier.name}», ${r.found.name.toLowerCase()}`
+        + (r.picked.length ? `, ${r.picked.map((it) => it.name.toLowerCase()).join(', ')}` : '');
+      $('[data-quiz-term]', quiz).textContent = r.term;
+      $('[data-quiz-perm2]', quiz).textContent =
+        `${nf.format(Math.round(r.total / state.area / 100) * 100)} ₽`;
 
-        P.extras.forEach((it) => {
-          const cell = $(`[data-extra-sum="${it.id}"]`, calc);
-          if (cell) cell.textContent = `+${nf.format(Math.round(extraSum(it) / 1000))} тыс.`;
-        });
+      /* доли этапов зависят от комплектации: нулевые не показываем */
+      const rows = P.stages
+        .map((st) => ({ name: st.name, share: st.share[r.tier.id] || 0 }))
+        .filter((st) => st.share > 0);
+      const sum = rows.reduce((a, b) => a + b.share, 0) || 1;
+      const max = Math.max(...rows.map((st) => st.share));
+      $('[data-quiz-stages]', quiz).innerHTML = `<p class="quiz__label">Оплата по этапам</p>` + rows.map((st) => {
+        const value = r.total * (st.share / sum);
+        return `<div class="quiz__stage">
+          <span class="quiz__stage-name">${st.name}</span>
+          <span class="quiz__stage-bar"><i style="--w:${Math.round(st.share / max * 100)}%"></i></span>
+          <span class="quiz__stage-sum">${nf.format(Math.round(value / 10000) * 10000)} ₽</span>
+        </div>`;
+      }).join('');
 
-        /* доли этапов зависят от комплектации: нулевые не показываем */
-        const rows = P.stages
-          .map((st) => ({ name: st.name, share: st.share[r.tier.id] || 0 }))
-          .filter((st) => st.share > 0);
-        const sum = rows.reduce((a, b) => a + b.share, 0) || 1;
-        const max = Math.max(...rows.map((st) => st.share));
-        stagesHost.innerHTML = rows.map((st, i) => {
-          const value = r.total * (st.share / sum);
-          return `<div class="calc__stage">
-            <span class="calc__stage__name">${st.name}</span>
-            <span class="calc__stage__bar"><i style="--w:${Math.round(st.share / max * 100)}%;--n:${i}"></i></span>
-            <span class="calc__stage__sum">${nf.format(Math.round(value / 10000) * 10000)} ₽</span>
-          </div>`;
-        }).join('');
+      $('[data-quiz-summary]', quiz).value = summary(r, low, high);
 
-        const cta = $('[data-calc-cta]', calc);
-        const picked = P.extras.filter((it) => state.extras.has(it.id)).map((it) => it.name.toLowerCase());
-        cta.dataset.project = `Расчёт: ${state.area} м², ${r.floor.name}, «${r.tier.name}», фундамент ${r.found.name.toLowerCase()}`
-          + (picked.length ? `, доп: ${picked.join(', ')}` : '')
-          + ` — ${money0(low)}–${money0(high)} ₽`;
-      };
+      stepsHost.hidden = true;
+      nav.hidden = true;
+      result.hidden = false;
+      counter.textContent = 'Готово';
+      bar.style.width = '100%';
+      card.scrollTop = 0;
+      const name = $('#q-name', quiz);
+      if (name) name.focus({ preventScroll: true });
+      track('quiz_done', { page: location.pathname, area: state.area, tier: r.tier.id });
+    };
 
-      update();
-    }
+    $('[data-quiz-next]', quiz).addEventListener('click', () => {
+      if (step < total - 1) show(step + 1); else finish();
+    });
+    $('[data-quiz-back]', quiz).addEventListener('click', () => { if (step > 0) show(step - 1); });
+
+    /* --- открытие и закрытие --- */
+    const focusables = () => $$('button, a[href], input, textarea, select', card)
+      .filter((el) => !el.hasAttribute('disabled') && el.offsetParent !== null);
+    let opener = null;
+
+    const close = () => {
+      quiz.classList.remove('is-open');
+      const done = () => { quiz.hidden = true; quiz.removeEventListener('transitionend', done); };
+      quiz.addEventListener('transitionend', done);
+      setTimeout(done, 400);
+      document.body.classList.remove('is-locked');
+      if (opener) opener.focus({ preventScroll: true });
+    };
+
+    const open = (from) => {
+      opener = from || null;
+      quiz.hidden = false;
+      requestAnimationFrame(() => quiz.classList.add('is-open'));
+      document.body.classList.add('is-locked');
+      refreshExtras();
+      show(0);
+      track('quiz_open', { page: location.pathname });
+    };
+
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('[data-quiz-open]');
+      if (!link) return;
+      e.preventDefault();
+      open(link);
+    });
+
+    quiz.addEventListener('click', (e) => { if (e.target.closest('[data-quiz-close]')) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (quiz.hidden) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key !== 'Tab') return;
+      const items = focusables();
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
   }
+
 
   /* ---------- окно заявки ----------
      Кнопки «Рассчитать» больше не прыгают к якорю, а открывают форму
@@ -481,6 +593,8 @@
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a[href$="#zayavka"], a[href$="#raschet"], [data-lead-modal]');
       if (!link || link.closest('.modal')) return;
+      /* кнопка квиза ведёт на ту же форму, но если квиз собрался — открывает его */
+      if (quizReady && link.hasAttribute('data-quiz-open')) return;
       e.preventDefault();
       const nav = link.closest('.mobile-nav');
       if (nav && nav.classList.contains('is-open')) $('.burger')?.click();

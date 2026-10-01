@@ -33,6 +33,7 @@ const footer = partial('footer');
 const cta = partial('cta');
 const actionbar = partial('actionbar');
 const modal = partial('modal');
+const quiz = partial('quiz');
 
 /* Фотография первого экрана: если файл положен в assets/img/photos/,
    берём его; пока файла нет — временная иллюстрация. */
@@ -466,6 +467,7 @@ ${content.trimEnd()}
 ${footer}
 ${hasLeadForm ? actionbar : actionbar.split('href="#zayavka"').join('href="/index.html#zayavka"')}
 ${modal}
+${quiz}
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>
