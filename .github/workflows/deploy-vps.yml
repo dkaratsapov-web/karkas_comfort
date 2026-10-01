@@ -121,14 +121,43 @@ jobs:
       - name: Сайт открывается
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          code=$(curl -s -o /tmp/page.html -w '%{http_code}' --max-time 25 -L https://xn--80aa2abbmnbmggrx.xn--p1ai/ || true)
+          SITE=https://xn--80aa2abbmnbmggrx.xn--p1ai/
+          code=$(curl -s -o /tmp/page.html -w '%{http_code}' --max-time 25 -L "$SITE" || true)
           echo "Ответ сайта: $code"
-          if [ "$code" != "200" ]; then
-            echo "::warning::Домен не ответил 200 — проверьте A-записи и сертификат. Файлы при этом уже выгружены."
+          if [ "$code" = "200" ]; then
+            grep -q "Каркас Комфорт" /tmp/page.html \
+              && echo "Главная отдаётся и содержит название компании." \
+              || echo "::warning::Страница открылась, но названия компании в ней нет — проверьте, что выгрузилась нужная сборка."
             exit 0
           fi
-          grep -q "Каркас Комфорт" /tmp/page.html && echo "Главная отдаётся и содержит название компании."
+          echo "::warning::Домен не ответил 200 — файлы выгружены, но отдаёт их сервер неправильно. Ниже разбор."
+          echo "--- цепочка ответов ---"
+          curl -s -o /dev/null -D - --max-time 25 --max-redirs 5 -L "$SITE" \
+            | grep -i -E '^HTTP/|^location:' || true
+          echo "--- что видно на сервере ---"
+          TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          ssh -i ~/.ssh/id_deploy -p "${VPS_PORT:-22}" -o StrictHostKeyChecking=yes \
+            "$VPS_USER@$VPS_HOST" "
+              echo 'каталог: $TARGET'
+              ls -la '$TARGET' | head -15
+              echo 'начало index.html:'
+              head -c 160 '$TARGET/index.html'; echo
+              echo 'ответ самого nginx, минуя интернет:'
+              curl -s -o /dev/null -w 'http  %{http_code} -> %{redirect_url}\n' \
+                --resolve $D:80:127.0.0.1 http://$D/ || true
+              curl -sk -o /dev/null -w 'https %{http_code} -> %{redirect_url}\n' \
+                --resolve $D:443:127.0.0.1 https://$D/ || true
+              echo 'включённые сайты:'
+              ls -1 /etc/nginx/sites-enabled/ 2>/dev/null || true
+              grep -h -E 'server_name|root |listen ' /etc/nginx/sites-enabled/* 2>/dev/null | sed 's/^[[:space:]]*//' || true
+            " || true
 
       - name: Убрать ключ
         if: always()
