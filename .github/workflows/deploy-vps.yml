@@ -84,8 +84,21 @@ jobs:
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
           install -d -m 700 ~/.ssh
-          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+          # Ключ принимается в двух видах: как есть и одной строкой в base64.
+          # Второй вариант нужен потому, что при копировании многострочного
+          # ключа из консоли сервера строки часто склеиваются, и ssh потом
+          # отвечает невнятным «error in libcrypto».
+          if printf '%s' "$VPS_SSH_KEY" | grep -q 'BEGIN .*PRIVATE KEY'; then
+            printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+          else
+            printf '%s' "$VPS_SSH_KEY" | tr -d ' \n' | base64 -d > ~/.ssh/id_deploy 2>/dev/null || true
+          fi
           chmod 600 ~/.ssh/id_deploy
+          if ! ssh-keygen -y -f ~/.ssh/id_deploy >/dev/null 2>&1; then
+            echo "::error::Секрет VPS_SSH_KEY не читается как приватный ключ. Скорее всего при копировании побились переносы строк. Выполните на сервере: base64 -w0 /root/deploy_key — и вставьте полученную строку в секрет целиком."
+            exit 1
+          fi
+          echo "Ключ прочитан, отпечаток: $(ssh-keygen -lf ~/.ssh/id_deploy | awk '{print $2}')"
           ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
       - name: Выгрузка на сервер
