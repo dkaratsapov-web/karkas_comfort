@@ -1382,17 +1382,19 @@ section[id], div[id] { scroll-margin-top: 88px; }
      одной колонкой друг за другом, справа ровно половина ширины —
      кадр во всю высоту этой колонки. Блок укладывается в один экран. */
   .stuff:has(.video--inset) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
-  .stuff:has(.video--inset) .stuff__list { grid-template-columns: minmax(0, 1fr); align-content: start; gap: clamp(10px, 1.1vw, 16px); }
+  /* обе колонки заканчиваются на одной линии: высоту задаёт ролик,
+     перечень растягивается на ту же высоту равными промежутками */
+  .stuff:has(.video--inset) .stuff__list { grid-template-columns: minmax(0, 1fr); align-content: space-between; gap: clamp(10px, 1.1vw, 16px); }
   /* кадр остаётся вертикальным: он занимает всю высоту колонки,
      ширина считается из пропорции 9:16, а подпись встаёт справа —
      вдвоём они закрывают правую половину без обрезки кадра */
   .stuff .video--inset {
-    max-width: none; align-self: start;
-    display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr); align-items: stretch;
+    max-width: none; align-self: stretch; height: 100%;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: stretch;
   }
-  /* кадр считается от своей ширины, а не от высоты соседней колонки:
-     так он крупный, а подпись стоит рядом и не распирает карточку */
-  .stuff .video--inset .video__frame { aspect-ratio: 9 / 16; width: 100%; height: auto; }
+  /* кадр во всю высоту карточки, ширина — из пропорции 9:16;
+     нижняя граница высоты держит его крупным, а не в палец шириной */
+  .stuff .video--inset .video__frame { aspect-ratio: 9 / 16; height: 100%; width: auto; min-height: min(540px, 58svh); }
   .stuff .video--inset .video__frame :where(iframe, video) { object-fit: contain; object-position: center; }
   .stuff .video--inset figcaption {
     display: flex; flex-direction: column; justify-content: center; gap: 4px;
