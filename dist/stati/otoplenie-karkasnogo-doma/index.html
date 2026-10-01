@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=5a69ae60">
+  <link rel="stylesheet" href="/assets/css/style.css?v=f29051cd">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Отопление каркасного дома: радиаторы, тёплый пол и выбор котла","description":"Как отапливать каркасный дом: газ, электричество или твердотопливный котёл, радиаторы или тёплый пол, какая мощность нужна. Что закладывать на этапе каркаса, чтобы потом не штробить.","image":"https://xn--80aa2abbmnbmggrx.xn--p1ai/assets/img/photos/kd-117-foto-18.jpg","datePublished":"2026-09-20","dateModified":"2026-09-27","inLanguage":"ru-RU","author":{"@type":"Organization","name":"Каркас Комфорт","url":"https://xn--80aa2abbmnbmggrx.xn--p1ai"},"publisher":{"@type":"Organization","name":"ООО «Каркас Комфорт»","logo":{"@type":"ImageObject","url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/assets/img/logo.svg"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://xn--80aa2abbmnbmggrx.xn--p1ai/stati/otoplenie-karkasnogo-doma/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/"},{"@type":"ListItem","position":2,"name":"Статьи","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/stati/"},{"@type":"ListItem","position":3,"name":"Отопление каркасного дома: радиаторы, тёплый пол и выбор котла","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/stati/otoplenie-karkasnogo-doma/"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Можно ли обойтись электрическими конвекторами?","acceptedAnswer":{"@type":"Answer","text":"Как временное решение на этапе отделки — да. Для постоянного проживания водяная система с котлом выгоднее по счетам и держит температуру ровнее."}},{"@type":"Question","name":"Нужен ли тёплый пол, если дом каркасный?","acceptedAnswer":{"@type":"Answer","text":"Не обязательно. В каркасном доме пол не холодный сам по себе при утеплении перекрытия. Тёплый пол — это про комфорт в санузле и прихожей, а не про необходимость."}},{"@type":"Question","name":"Кто делает отопление — вы или подрядчик?","acceptedAnswer":{"@type":"Answer","text":"Отопление, водоснабжение, канализацию и электрику делаем сами, своими бригадами. Со стороны привлекаем только узкие работы вроде бурения скважины."}}]}</script>
@@ -46,21 +46,22 @@
       </nav>
 
       <div class="header__side">
-        <a class="nav-solo" href="/stati/">Полезные статьи</a>
+        <a class="nav-solo" href="/stati/"><span class="nav-solo__dot" aria-hidden="true"></span>Полезные статьи</a>
 
+        <!-- Контакты собраны в один блок: крупный телефон сверху,
+             второй номер и часы работы — подписью. Так в шапке один
+             смысловой якорь вместо четырёх равных по весу строчек. -->
         <div class="header__contacts">
           <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
-          <a class="header__phone header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+          <span class="header__sub">
+            <a class="header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+            <span class="header__dot" aria-hidden="true"></span>
+            <span class="header__hours">8:00–20:00</span>
+          </span>
         </div>
 
-        <span class="header__rule" aria-hidden="true"></span>
-
-        <div class="header__aside">
-          <a class="header__mail" href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
-          <span class="header__hours">ежедневно, 8:00 до 20:00</span>
-        </div>
-
-        <div class="header__im">
+        <!-- мессенджеры стоят в общем лотке, а не тремя отдельными кружками -->
+        <div class="header__im" role="group" aria-label="Мессенджеры">
           <button class="im im--tg" type="button" aria-label="Написать в Telegram" data-im="telegram" data-lead-messenger>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
           </button>

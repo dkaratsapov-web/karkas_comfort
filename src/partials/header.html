@@ -15,21 +15,22 @@
       </nav>
 
       <div class="header__side">
-        <a class="nav-solo" href="stati.html">Полезные статьи</a>
+        <a class="nav-solo" href="stati.html"><span class="nav-solo__dot" aria-hidden="true"></span>Полезные статьи</a>
 
+        <!-- Контакты собраны в один блок: крупный телефон сверху,
+             второй номер и часы работы — подписью. Так в шапке один
+             смысловой якорь вместо четырёх равных по весу строчек. -->
         <div class="header__contacts">
           <a class="header__phone" href="tel:+79201716969" data-lead-call>8 (920) 171-69-69</a>
-          <a class="header__phone header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+          <span class="header__sub">
+            <a class="header__phone--second" href="tel:+74822752505" data-lead-call>8 (4822) 75-25-05</a>
+            <span class="header__dot" aria-hidden="true"></span>
+            <span class="header__hours">8:00–20:00</span>
+          </span>
         </div>
 
-        <span class="header__rule" aria-hidden="true"></span>
-
-        <div class="header__aside">
-          <a class="header__mail" href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>
-          <span class="header__hours">ежедневно, 8:00 до 20:00</span>
-        </div>
-
-        <div class="header__im">
+        <!-- мессенджеры стоят в общем лотке, а не тремя отдельными кружками -->
+        <div class="header__im" role="group" aria-label="Мессенджеры">
           <button class="im im--tg" type="button" aria-label="Написать в Telegram" data-im="telegram" data-lead-messenger>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
           </button>
