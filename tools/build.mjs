@@ -263,7 +263,15 @@ const verification = () => [
    или в системе включено «уменьшить движение». */
 function flightBlock() {
   const stops = flight.stops || [];
-  if (!stops.length) return '';
+  /* пролёт выключен — на первом экране прежний кадр, скрипт острова
+     на страницу не попадает: разметка не содержит data-flight-host */
+  if (!stops.length || flight.enabled === false) {
+    return `      <picture class="hero__pic">
+        <source media="(max-width: 899px)" srcset="/assets/img/photos/hero-mob.jpg">
+        <img class="hero__bg" src="/assets/img/photos/hero.jpg" srcset="/assets/img/photos/hero-800.jpg 1100w, /assets/img/photos/hero.jpg 2200w" sizes="100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="2200" height="1100" fetchpriority="high">
+      </picture>
+      <div class="hero__scrim" aria-hidden="true"></div>`;
+  }
   const frames = stops.map((st, i) => {
     const attrs = i === 0
       ? `${srcset(st.src, '100vw')} fetchpriority="high"`
@@ -545,7 +553,7 @@ ${footer}
 ${hasLeadForm ? actionbar : actionbar.split('href="#zayavka"').join('href="/index.html#zayavka"')}
 ${modal}
 ${quiz}
-  <script src="assets/js/main.js" defer></script>${content.includes('data-flight') ? '\n  <script src="assets/js/flight.js" defer></script>' : ''}
+  <script src="assets/js/main.js" defer></script>${content.includes('data-flight-host') ? '\n  <script src="assets/js/flight.js" defer></script>' : ''}
 </body>
 </html>
 `;
