@@ -109,12 +109,13 @@
     }
   ]
 } -->
-    <section class="hero">
-      <picture class="hero__pic">
-        <source media="(max-width: 899px)" srcset="assets/img/photos/hero-mob.jpg">
-        <img class="hero__bg" src="assets/img/photos/hero.jpg" srcset="assets/img/photos/hero-800.jpg 1100w, assets/img/photos/hero.jpg 2200w" sizes="100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="2200" height="1100" fetchpriority="high">
-      </picture>
-      <div class="hero__scrim" aria-hidden="true"></div>
+    <!-- Первый экран — пролёт по сданному дому. Секция высокая, внутри
+         липкий экран: прокрутка даёт прогресс, по нему сменяются кадры
+         и подписи. Без скрипта и при «уменьшить движение» остаётся
+         обычный первый экран с первым кадром. -->
+    <section class="hero flight" data-flight>
+      <div class="flight__inner">
+{{flight}}
       <div class="container container--wide hero__inner">
         <div class="hero__content">
           <h1>Строим каркасные дома под ключ в Твери</h1>
@@ -146,6 +147,7 @@
           <div class="hero__fact"><b>5 лет</b><span>гарантия по договору</span></div>
           <div class="hero__fact"><b>300+</b><span>домов в Тверской области</span></div>
         </div>
+      </div>
       </div>
     </section>
 

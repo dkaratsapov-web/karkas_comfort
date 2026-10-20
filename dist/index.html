@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=da7b2391">
+  <link rel="stylesheet" href="/assets/css/style.css?v=bf7a1edb">
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"GeneralContractor","name":"Каркас Комфорт","url":"https://xn--80aa2abbmnbmggrx.xn--p1ai/","telephone":"+7-920-171-69-69","email":"karkascomfort@yandex.ru","address":{"@type":"PostalAddress","streetAddress":"ул. Серебряная, 12, офис 31","addressLocality":"Тверь","postalCode":"170100","addressCountry":"RU"},"areaServed":["Тверская область","Московская область"],"openingHours":"Mo-Su 08:00-20:00","priceRange":"от 57 000 ₽/м²"},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Можно ли жить в каркасном доме круглый год?","acceptedAnswer":{"@type":"Answer","text":"Да, все наши дома рассчитаны на постоянное проживание: 150 мм утеплителя в стенах, 200 мм в перекрытии, отсутствие мостиков холода и водяное отопление. Сезонный вариант отличается только толщиной утепления и составом коммуникаций."}},{"@type":"Question","name":"Сколько времени занимает строительство?","acceptedAnswer":{"@type":"Answer","text":"Дом до 90 м² — полтора-два месяца, до 150 м² — два-три месяца, больше 150 м² — три-четыре месяца. Сроки прописываются в договоре, работы идут поэтапно с приёмкой каждого этапа."}},{"@type":"Question","name":"Может ли смета вырасти в процессе?","acceptedAnswer":{"@type":"Answer","text":"Нет, если проект не меняется. Стоимость согласовывается до начала работ и фиксируется в договоре. Изменение цены возможно только по вашей инициативе — например, если вы решили добавить террасу или сменить отделку."}},{"@type":"Question","name":"Работаете зимой?","acceptedAnswer":{"@type":"Answer","text":"Да. Каркасная технология не требует «мокрых» процессов, поэтому зимой мы ставим свайно-винтовой фундамент и продолжаем сборку. Зимой обычно свободнее график и короче срок ожидания бригады."}},{"@type":"Question","name":"Что с фундаментом на сложном грунте?","acceptedAnswer":{"@type":"Answer","text":"В Тверской области часто встречаются торфяники и высокая вода. На таких участках мы считаем сваи увеличенной длины или ленту с уширением. Тип фундамента определяем после выезда на участок, а не по телефону."}},{"@type":"Question","name":"Что входит в цену за квадратный метр?","acceptedAnswer":{"@type":"Answer","text":"Работы и материалы по выбранной комплектации: фундамент, каркас, перекрытия, кровля, утепление, окна и наружная отделка — в «Тёплом контуре»; плюс электрика, отопление, вода и черновая отделка — в «Вайт боксе»; плюс чистовая отделка, полы, санузел и двери — «Под ключ». Точный состав виден в таблице сравнения выше. Всё, чего в ней нет — скважина, септик, забор, благоустройство — в ставку за м² не входит и выносится отдельными строками сметы, чтобы не всплыть в конце стройки."}},{"@type":"Question","name":"Сколько денег нужно на старте?","acceptedAnswer":{"@type":"Answer","text":"Предоплаты за весь дом мы не берём. Работы разбиты на этапы — фундамент, каркас, кровля, контур, инженерия, отделка — и каждый оплачивается по факту приёмки. Первый платёж закрывает этап фундамента и обвязки — его долю в смете называем сразу, вместе с расчётом."}},{"@type":"Question","name":"Кто закупает материалы?","acceptedAnswer":{"@type":"Answer","text":"Мы. Цена за квадратный метр включает и работы, и материалы, поэтому закупка, доставка и подъём на этаж — наша забота, а не отдельный счёт в конце. Марки, сечения и количество зафиксированы в смете-приложении к договору: видно, что именно приедет на участок."}},{"@type":"Question","name":"Можно ли строить в ипотеку или с материнским капиталом?","acceptedAnswer":{"@type":"Answer","text":"Да. Работаем с ипотекой на строительство и с материнским капиталом, помогаем собрать пакет документов для банка: договор подряда, смету и график работ. Условия и ставку определяет банк — мы готовим документы под его требования."}},{"@type":"Question","name":"Можно ли переделать типовой проект?","acceptedAnswer":{"@type":"Answer","text":"Можно. Перепланировка, добавление террасы, гаража, второго санузла, перенос окон — обычная практика. Также строим полностью по индивидуальному проекту, в том числе по вашим чертежам."}}]}]</script>
 </head>
 
@@ -117,12 +117,51 @@
   </header>
 
   <main id="main">
-<section class="hero">
-      <picture class="hero__pic">
-        <source media="(max-width: 899px)" srcset="/assets/img/photos/hero-mob.jpg">
-        <img class="hero__bg" src="/assets/img/photos/hero.jpg" srcset="/assets/img/photos/hero-800.jpg 1100w, /assets/img/photos/hero.jpg 2200w" sizes="100vw" alt="Каркасный дом с панорамным остеклением и тёмным фасадом, построенный в Тверской области" width="2200" height="1100" fetchpriority="high">
-      </picture>
-      <div class="hero__scrim" aria-hidden="true"></div>
+<!-- Первый экран — пролёт по сданному дому. Секция высокая, внутри
+         липкий экран: прокрутка даёт прогресс, по нему сменяются кадры
+         и подписи. Без скрипта и при «уменьшить движение» остаётся
+         обычный первый экран с первым кадром. -->
+    <section class="hero flight" data-flight>
+      <div class="flight__inner">
+      <div class="flight__host" data-flight-host>
+        <div class="flight__media" aria-hidden="true">
+          <img class="flight__frame is-on" src="/assets/img/photos/kd-117-foto-02-800.jpg" srcset="/assets/img/photos/kd-117-foto-02-800.jpg 800w, /assets/img/photos/kd-117-foto-02.jpg 1700w" sizes="100vw" fetchpriority="high" alt="Одноэтажный каркасный дом с деревянным фасадом и панорамным остеклением в Гришкино" width="1700" height="1133">
+          <img class="flight__frame" src="/assets/img/photos/kd-117-foto-04-800.jpg" data-full="/assets/img/photos/kd-117-foto-04.jpg" loading="lazy" alt="" width="1700" height="1133" aria-hidden="true">
+          <img class="flight__frame" src="/assets/img/photos/kd-117-foto-13-800.jpg" data-full="/assets/img/photos/kd-117-foto-13.jpg" loading="lazy" alt="" width="1700" height="1133" aria-hidden="true">
+          <img class="flight__frame" src="/assets/img/photos/kd-117-foto-16-800.jpg" data-full="/assets/img/photos/kd-117-foto-16.jpg" loading="lazy" alt="" width="1700" height="1133" aria-hidden="true">
+        </div>
+        <div class="flight__scrim" aria-hidden="true"></div>
+        <div class="flight__story">
+          <ol class="flight__steps">
+            <li class="flight__step is-on" data-step="0">
+              <p class="flight__eyebrow">Объект в Гришкино</p>
+              <p class="flight__title">117 м², сдан за 2,5 месяца</p>
+              <p class="flight__text">Одноэтажный дом с панорамной гостиной и террасой под общей кровлей.</p>
+            </li>
+            <li class="flight__step" data-step="1">
+              <p class="flight__eyebrow">Тёплый контур · от 57 000 ₽/м²</p>
+              <p class="flight__title">Каркас, кровля, окна, фасад</p>
+              <p class="flight__text">Дом закрыт, утеплён и остеклён: 150 мм в стенах, 200 мм в перекрытии, вентзазор, фасад.</p>
+            </li>
+            <li class="flight__step" data-step="2">
+              <p class="flight__eyebrow">Инженерия</p>
+              <p class="flight__title">Свет, тепло и вода — сразу</p>
+              <p class="flight__text">Скрытая проводка в гофре, щит с автоматами и УЗО, водяное отопление, вода и канализация.</p>
+            </li>
+            <li class="flight__step" data-step="3">
+              <p class="flight__eyebrow">Вайт бокс · от 68 000 ₽/м²</p>
+              <p class="flight__title">Стены и потолки под чистовую</p>
+              <p class="flight__text">Остаётся выбрать отделку. Под ключ — от 80 000 ₽/м²: полы, двери, санузел, заезжаете с мебелью.</p>
+            </li>
+          </ol>
+          <div class="flight__rail" aria-hidden="true"><span class="flight__dot is-on" data-dot="0"></span><span class="flight__dot" data-dot="1"></span><span class="flight__dot" data-dot="2"></span><span class="flight__dot" data-dot="3"></span></div>
+          <p class="flight__source">Дом 117 м² в Гришкино. Фотографии со сдачи объекта</p>
+        </div>
+        </div>
+        <p class="flight__hint" aria-hidden="true">Листайте
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m-6-6 6 6 6-6"/></svg>
+        </p>
+        <script type="application/json" id="flight-data">{"caption":"Дом 117 м² в Гришкино. Фотографии со сдачи объекта","stops":[{"src":"/assets/img/photos/kd-117-foto-02-800.jpg","srcset":"/assets/img/photos/kd-117-foto-02-800.jpg 800w, /assets/img/photos/kd-117-foto-02.jpg 1700w","alt":"Одноэтажный каркасный дом с деревянным фасадом и панорамным остеклением в Гришкино","eyebrow":"Объект в Гришкино","title":"117 м², сдан за 2,5 месяца","text":"Одноэтажный дом с панорамной гостиной и террасой под общей кровлей."},{"src":"/assets/img/photos/kd-117-foto-04-800.jpg","srcset":"/assets/img/photos/kd-117-foto-04-800.jpg 800w, /assets/img/photos/kd-117-foto-04.jpg 1700w","alt":"Терраса и входная группа каркасного дома, деревянный фасад, тёмные окна","eyebrow":"Тёплый контур · от 57 000 ₽/м²","title":"Каркас, кровля, окна, фасад","text":"Дом закрыт, утеплён и остеклён: 150 мм в стенах, 200 мм в перекрытии, вентзазор, фасад."},{"src":"/assets/img/photos/kd-117-foto-13-800.jpg","srcset":"/assets/img/photos/kd-117-foto-13-800.jpg 800w, /assets/img/photos/kd-117-foto-13.jpg 1700w","alt":"Комнаты каркасного дома изнутри: разведённая электрика и трубы отопления до отделки","eyebrow":"Инженерия","title":"Свет, тепло и вода — сразу","text":"Скрытая проводка в гофре, щит с автоматами и УЗО, водяное отопление, вода и канализация."},{"src":"/assets/img/photos/kd-117-foto-16-800.jpg","srcset":"/assets/img/photos/kd-117-foto-16-800.jpg 800w, /assets/img/photos/kd-117-foto-16.jpg 1700w","alt":"Комната с выведенными под чистовую отделку стенами и потолком","eyebrow":"Вайт бокс · от 68 000 ₽/м²","title":"Стены и потолки под чистовую","text":"Остаётся выбрать отделку. Под ключ — от 80 000 ₽/м²: полы, двери, санузел, заезжаете с мебелью."}]}</script>
       <div class="container container--wide hero__inner">
         <div class="hero__content">
           <h1>Строим каркасные дома под ключ в Твери</h1>
@@ -154,6 +193,7 @@
           <div class="hero__fact"><b>5 лет</b><span>гарантия по договору</span></div>
           <div class="hero__fact"><b>300+</b><span>домов в Тверской области</span></div>
         </div>
+      </div>
       </div>
     </section>
 
@@ -989,5 +1029,6 @@
   </div>
 
   <script src="/assets/js/main.js?v=a06cfcb6" defer></script>
+  <script src="/assets/js/flight.js?v=f6e030b4" defer></script>
 </body>
 </html>

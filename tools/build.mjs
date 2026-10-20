@@ -47,6 +47,7 @@ const reviews = JSON.parse(read('src/data/reviews.json'));
 const articles = JSON.parse(read('src/data/articles.json'));
 const geo = JSON.parse(read('src/data/geo.json'));
 const videos = JSON.parse(read('src/data/videos.json'));
+const flight = JSON.parse(read('src/data/flight.json'));
 
 const img = (f) => `/assets/img/photos/${f}`;
 /* Уменьшенный вариант кадра (…-800.jpg), если он подготовлен рядом с оригиналом.
@@ -253,6 +254,61 @@ const verification = () => [
   site.googleVerification ? `  <meta name="google-site-verification" content="${esc(site.googleVerification)}">` : ''
 ].filter(Boolean).join('\n');
 
+/* ---------- пролёт по дому в первом экране ----------
+   Высокая секция, внутри липкий экран: прокрутка внутри неё ничего не
+   двигает, а только даёт прогресс от 0 до 1. Кадры и подписи сменяются
+   по остановкам из src/data/flight.json. Первый кадр отдаётся обычной
+   картинкой с высоким приоритетом — он же служит фоном, пока остальные
+   не подгрузились, и он же остаётся один, если скрипт не запустился
+   или в системе включено «уменьшить движение». */
+function flightBlock() {
+  const stops = flight.stops || [];
+  if (!stops.length) return '';
+  const frames = stops.map((st, i) => {
+    const attrs = i === 0
+      ? `${srcset(st.src, '100vw')} fetchpriority="high"`
+      : `src="${img(small(st.src))}" data-full="${img(st.src)}" loading="lazy"`;
+    return `          <img class="flight__frame${i === 0 ? ' is-on' : ''}" ${attrs} alt="${esc(i === 0 ? st.alt : '')}" width="1700" height="1133"${i ? ' aria-hidden="true"' : ''}>`;
+  }).join('\n');
+
+  const steps = stops.map((st, i) => `            <li class="flight__step${i === 0 ? ' is-on' : ''}" data-step="${i}">
+              <p class="flight__eyebrow">${esc(st.eyebrow)}</p>
+              <p class="flight__title">${esc(st.title)}</p>
+              <p class="flight__text">${esc(st.text)}</p>
+            </li>`).join('\n');
+
+  const dots = stops.map((_, i) => `<span class="flight__dot${i === 0 ? ' is-on' : ''}" data-dot="${i}"></span>`).join('');
+
+  /* данные для острова: те же остановки, но с готовыми путями —
+     React не ходит за JSON по сети, он читает их из разметки */
+  const data = JSON.stringify({
+    caption: flight.caption || '',
+    stops: stops.map((st) => ({
+      src: img(small(st.src)),
+      srcset: `${img(small(st.src))} 800w, ${img(st.src)} 1700w`,
+      alt: st.alt, eyebrow: st.eyebrow, title: st.title, text: st.text
+    }))
+  });
+
+  return `      <div class="flight__host" data-flight-host>
+        <div class="flight__media" aria-hidden="true">
+${frames}
+        </div>
+        <div class="flight__scrim" aria-hidden="true"></div>
+        <div class="flight__story">
+          <ol class="flight__steps">
+${steps}
+          </ol>
+          <div class="flight__rail" aria-hidden="true">${dots}</div>
+          <p class="flight__source">${esc(flight.caption || '')}</p>
+        </div>
+        </div>
+        <p class="flight__hint" aria-hidden="true">Листайте
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m-6-6 6 6 6-6"/></svg>
+        </p>
+        <script type="application/json" id="flight-data">${data.replace(/</g, '\\u003c')}</script>`;
+}
+
 /* Счётчики подключаются, только если в src/data/site.json указан номер.
    Цели на заявку, звонок и клик по мессенджеру шлёт assets/js/main.js. */
 const analytics = [
@@ -311,7 +367,8 @@ for (const f of ['favicon.ico', 'apple-touch-icon.png', 'icon-192.png', 'icon-51
 /* ---------- версии статики, чтобы браузер не показывал старый кеш ---------- */
 const V = {
   css: hash('assets/css/style.css'),
-  main: hash('assets/js/main.js')
+  main: hash('assets/js/main.js'),
+  flight: existsSync('assets/js/flight.js') ? hash('assets/js/flight.js') : ''
 };
 const previewBar = '';   // плашку демо-версии заказчик просил убрать
 
@@ -345,7 +402,8 @@ const linkify = (html) => html
 
 const version = (html) => html
   .replace(/assets\/css\/style\.css(?!\?)/g, `assets/css/style.css?v=${V.css}`)
-  .replace(/assets\/js\/main\.js(?!\?)/g, `assets/js/main.js?v=${V.main}`);
+  .replace(/assets\/js\/main\.js(?!\?)/g, `assets/js/main.js?v=${V.main}`)
+  .replace(/assets\/js\/flight\.js(?!\?)/g, `assets/js/flight.js?v=${V.flight}`);
 
 /* ---------- микроразметка ---------- */
 const ld = (obj) => `  <script type="application/ld+json">${JSON.stringify(obj)}</script>`;
@@ -480,7 +538,7 @@ ${footer}
 ${hasLeadForm ? actionbar : actionbar.split('href="#zayavka"').join('href="/index.html#zayavka"')}
 ${modal}
 ${quiz}
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/main.js" defer></script>${content.includes('data-flight') ? '\n  <script src="assets/js/flight.js" defer></script>' : ''}
 </body>
 </html>
 `;
@@ -500,6 +558,7 @@ for (const file of files) {
   content = content.replace(/\{\{articles:(\d+)\}\}/g, (_, n) => articles.slice(0, Number(n)).map(articleCard).join('\n'));
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{videos\}\}/g, () => videosBlock());
+  content = content.replace(/\{\{flight\}\}/g, () => flightBlock());
   content = content.replace(/\{\{video:(\d+)\}\}/g, (_, n) => videoCard(Number(n)));
   content = content.replace(/\{\{geo\}\}/g, () => geoMap());
   content = content.replace(/\{\{compare\}\}/g, () => compareTable());
