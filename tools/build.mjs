@@ -286,8 +286,15 @@ function flightBlock() {
     stops: stops.map((st) => ({
       src: img(small(st.src)),
       srcset: `${img(small(st.src))} 800w, ${img(st.src)} 1700w`,
-      alt: st.alt, eyebrow: st.eyebrow, title: st.title, text: st.text
-    }))
+      alt: st.alt, eyebrow: st.eyebrow, title: st.title, text: st.text,
+      point: st.point || null
+    })),
+    video: flight.video ? {
+      ...flight.video,
+      src: `/assets/video/${flight.video.src}`,
+      srcMobile: flight.video.srcMobile ? `/assets/video/${flight.video.srcMobile}` : '',
+      poster: flight.video.poster ? img(flight.video.poster) : ''
+    } : null
   });
 
   return `      <div class="flight__host" data-flight-host>

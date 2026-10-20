@@ -601,6 +601,46 @@ section[id], div[id] { scroll-margin-top: 88px; }
       rgba(12, 10, 7, .2) 54%, rgba(12, 10, 7, .56) 74%, rgba(12, 10, 7, .86) 100%);
 }
 
+/* ролик на весь кадр: он не играет сам, его перематывает прокрутка */
+.flight__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* выноска к объекту в кадре: кружок, линия и подпись.
+   Сторона выбирается по положению точки, чтобы подпись не уходила за край. */
+/* слой выносок: поверх затемнения, под заголовком и формой */
+.flight__points { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.flight__point { position: absolute; display: flex; align-items: center; gap: 0; pointer-events: none; }
+.flight__point--right { transform-origin: left center; }
+.flight__point--left { flex-direction: row-reverse; transform-origin: right center; }
+.flight__ring {
+  position: relative; flex: none; width: 13px; height: 13px; border-radius: 50%;
+  background: var(--accent-bright); box-shadow: 0 0 0 4px rgba(214, 160, 83, .25), 0 2px 10px rgba(8, 6, 4, .6);
+}
+.flight__ring::after {
+  content: ""; position: absolute; inset: -7px; border-radius: 50%;
+  border: 1px solid rgba(214, 160, 83, .6);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .flight__ring::after { animation: pointPulse 2.6s cubic-bezier(.4, 0, .2, 1) infinite; }
+}
+@keyframes pointPulse {
+  0% { transform: scale(.8); opacity: .9; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.flight__leader { flex: none; width: clamp(28px, 4vw, 54px); height: 1px; background: rgba(244, 239, 231, .55); }
+.flight__label {
+  padding: 7px 12px; border-radius: var(--r-s); white-space: nowrap;
+  font-size: 13px; font-weight: 600; color: var(--on-dark);
+  background: rgba(16, 19, 21, .72);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px rgba(244, 239, 231, .14);
+}
+@media (max-width: 1199px) {
+  /* на узком экране выноска не помещается рядом с точкой и лезет
+     на заголовок — остаются только подписи остановок внизу */
+  .flight__point { display: none; }
+}
+
 /* подписи остановок стоят там же, где цифры: меняется одна зона экрана,
    заголовок и форма остаются на месте */
 .flight__story { display: none; }
