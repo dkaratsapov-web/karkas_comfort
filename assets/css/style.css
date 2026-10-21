@@ -1868,7 +1868,11 @@ body::after {
 .obj-head { padding: clamp(16px, 2vw, 28px) 0 clamp(18px, 2.2vw, 32px); }
 .obj-head__grid { display: grid; gap: clamp(18px, 2.4vw, 40px); align-items: center; }
 @media (min-width: 1000px) {
-  .obj-head__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+  /* фото слева, описание справа: в разметке текст идёт первым —
+     так на телефоне человек сначала видит заголовок и адрес, а уже
+     потом кадр. На широком экране колонки меняются местами. */
+  .obj-head__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+  .obj-head__cover { order: -1; }
 }
 .obj-head__text { min-width: 0; }
 .obj-head .crumbs { padding: 0 0 clamp(12px, 1.6vw, 20px); }
