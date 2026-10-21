@@ -295,7 +295,7 @@ function flightBlock() {
       src: img(small(st.src)),
       srcset: `${img(small(st.src))} 800w, ${img(st.src)} 1700w`,
       alt: st.alt, eyebrow: st.eyebrow, title: st.title, text: st.text,
-      point: st.point || null
+      points: st.points || (st.point ? [st.point] : [])
     })),
     video: flight.video ? {
       ...flight.video,

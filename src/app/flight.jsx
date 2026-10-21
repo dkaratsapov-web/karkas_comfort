@@ -57,7 +57,7 @@ function Frame({ stop, range, progress, first, count }) {
    Появляется вместе со своей остановкой и гаснет вместе с ней. */
 function Point({ point, range, progress, last }) {
   const [start, end] = range;
-  const keys = [start - 0.02, start + 0.06, last ? 1 : end - 0.04, last ? 1.001 : end + 0.02];
+  const keys = [start + 0.02, start + 0.07, last ? 1 : end - 0.05, last ? 1.001 : end - 0.015];
   const opacity = useTransform(progress, keys, [0, 1, 1, last ? 1 : 0]);
   const scale = useTransform(progress, keys, [0.82, 1, 1, last ? 1 : 0.9]);
   const visibility = useTransform(opacity, (v) => (v < 0.04 ? 'hidden' : 'visible'));
@@ -80,7 +80,9 @@ function Step({ stop, range, progress, last }) {
   const [start, end] = range;
   /* соседние подписи пересекаются: одна ещё уходит, другая уже входит —
      иначе между остановками остаётся пустая секунда */
-  const keys = [start - 0.03, start + 0.03, last ? 1 : end - 0.03, last ? 1.001 : end + 0.03];
+  /* текст не наезжает на текст: предыдущая подпись уходит, и только
+     потом появляется следующая — между ними короткая пауза */
+  const keys = [start + 0.012, start + 0.055, last ? 1 : end - 0.055, last ? 1.001 : end - 0.012];
   const opacity = useTransform(progress, keys, [0, 1, 1, last ? 1 : 0]);
   const y = useTransform(progress, keys, [18, 0, 0, last ? 0 : -18]);
   /* погасшая подпись должна исчезать совсем: иначе она лежит поверх
@@ -178,9 +180,12 @@ function Flight({ section, stops, caption, video }) {
       </div>
       <div className="flight__scrim" aria-hidden="true" />
       <div className="flight__points" aria-hidden="true">
-        {stops.map((stop, i) => stop.point && (
-          <Point key={`p${i}`} point={stop.point} range={rows[i]} progress={progress} last={i === stops.length - 1} />
-        ))}
+        {stops.flatMap((stop, i) => {
+          const list = stop.points || (stop.point ? [stop.point] : []);
+          return list.map((pt, k) => (
+            <Point key={`p${i}-${k}`} point={pt} range={rows[i]} progress={progress} last={i === stops.length - 1} />
+          ));
+        })}
       </div>
       <p className="flight__source">{caption}</p>
       <div className="flight__story">
@@ -221,7 +226,9 @@ function start() {
   if (stops.length < 2) return;
 
   section.dataset.flight = 'on';
-  section.style.setProperty('--track', `${stops.length * 105}svh`);
+  /* на остановку — примерно 85% экрана прокрутки: шесть остановок
+     укладываются в пять экранов, дальше страница идёт как обычно */
+  section.style.setProperty('--track', `${100 + (stops.length - 1) * 85}svh`);
   createRoot(host).render(<Flight section={section} stops={stops} caption={caption} video={video} />);
 }
 
