@@ -747,15 +747,28 @@ ${row.map(cell).join('\n')}
           </div>`;
 }
 
+/* Съёмка объекта: ровная сетка одинаковых кадров.
+   У страниц проектов кадры разной пропорции (чертежи, развёртки), там
+   работает укладчик рядов выше. На объекте — живая съёмка телефоном,
+   пропорции скачут, и ряды получались рваными: восемь кадров вставали
+   в одну строку по 170 px. Здесь кадр всегда 4:3 и обрезается по центру,
+   поэтому сетка читается как разворот альбома. */
+function caseGrid(files, offset, altOf, zoomGroup) {
+  const cell = (f, i) => `            <figure><img ${srcset(f, '(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw')} alt="${altOf(offset + i)}" loading="${offset + i < 3 ? 'eager' : 'lazy'}" width="${imgSize(f).w}" height="${imgSize(f).h}" data-zoom="${img(f)}" data-zoom-group="${zoomGroup}"></figure>`;
+  return `          <div class="shots shots--even">
+${files.map(cell).join('\n')}
+          </div>`;
+}
+
 /* Съёмка, разложенная по типам помещений. Разбивка живёт в данных: на каждую
    группу указано, сколько кадров подряд она берёт. Без групп — одна лента. */
-function photoGallery(list, groups, altOf, zoomGroup) {
-  if (!groups || !groups.length) return photoGrid(list, 0, altOf, zoomGroup);
+function photoGallery(list, groups, altOf, zoomGroup, grid = photoGrid) {
+  if (!groups || !groups.length) return grid(list, 0, altOf, zoomGroup);
   let at = 0;
   const parts = [];
   const block = (title, slice, offset) => `        <section class="shots-group">
           <h2 class="shots-group__title">${esc(title)}<span>${slice.length}</span></h2>
-${photoGrid(slice, offset, altOf, zoomGroup)}
+${grid(slice, offset, altOf, zoomGroup)}
         </section>`;
   for (const g of groups) {
     const slice = list.slice(at, at + g.count);
@@ -1280,7 +1293,7 @@ for (const c of cases) {
   if (!list.length) continue;
 
   const alt = (i) => `${esc(c.title)}, фото ${i + 1}`;
-  const gallery = photoGallery(list, c.groups, alt, `${c.slug}-all`);
+  const gallery = photoGallery(list, c.groups, alt, `${c.slug}-all`, caseGrid);
 
   const facts = caseMeta(c);
   const meta = {
@@ -1294,20 +1307,25 @@ for (const c of cases) {
     ],
   };
 
-  const content = `    <div class="page-head">
-      <div class="container container--wide">
-        <nav class="crumbs" aria-label="Хлебные крошки">
+  /* Открывающий кадр: первая фотография во всю ширину, поверх — название,
+     адрес и характеристики. Съёмка на странице объекта и есть главное,
+     поэтому она начинается сразу, а не после двух экранов текста. */
+  const content = `    <section class="obj-hero">
+      <img class="obj-hero__pic" ${srcset(list[0], '100vw')} alt="${esc(c.title)}${c.place ? `, ${esc(c.place)}` : ''}" width="${imgSize(list[0]).w}" height="${imgSize(list[0]).h}" fetchpriority="high">
+      <div class="obj-hero__scrim" aria-hidden="true"></div>
+      <div class="container container--wide obj-hero__inner">
+        <nav class="crumbs crumbs--light" aria-label="Хлебные крошки">
           <ol><li><a href="/">Главная</a></li><li><a href="/obekty.html">Построенные объекты</a></li><li>${esc(c.title)}</li></ol>
         </nav>
-        <h1 class="page-head__title">${esc(c.title)}</h1>
-        ${c.lead ? `<p class="lead">${esc(c.lead)}</p>` : ''}
-        ${facts.length ? `<ul class="specs">${facts.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
-        ${c.place ? `<p class="muted" style="margin-top:14px">${esc(c.place)}</p>` : ''}
+        <h1 class="obj-hero__title">${esc(c.title)}</h1>
+        ${c.place ? `<p class="obj-hero__place">${esc(c.place)}</p>` : ''}
+        ${c.lead ? `<p class="obj-hero__lead">${esc(c.lead)}</p>` : ''}
+        ${facts.length ? `<ul class="obj-hero__facts">${facts.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
       </div>
-    </div>
+    </section>
 
     <section class="section section--tight">
-      <div class="container">
+      <div class="container container--wide">
         <h2 class="sr-only">Съёмка объекта</h2>
 ${gallery}
       </div>

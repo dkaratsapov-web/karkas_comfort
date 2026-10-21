@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=d952f4dd">
+  <link rel="stylesheet" href="/assets/css/style.css?v=a881091a">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/"},{"@type":"ListItem","position":2,"name":"Построенные объекты","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/obekty.html"},{"@type":"ListItem","position":3,"name":"Объект №4","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/obekty/obekt-4/"}]}</script>
 </head>
 
@@ -117,76 +117,66 @@
   </header>
 
   <main id="main">
-    <div class="page-head">
-      <div class="container container--wide">
-        <nav class="crumbs" aria-label="Хлебные крошки">
+    <section class="obj-hero">
+      <img class="obj-hero__pic" src="/assets/img/photos/proekt-4-foto-01-800.jpg" srcset="/assets/img/photos/proekt-4-foto-01-800.jpg 800w, /assets/img/photos/proekt-4-foto-01.jpg 1700w" sizes="100vw" alt="Объект №4, дер. Олбово, Тверская область" width="1800" height="1350" fetchpriority="high">
+      <div class="obj-hero__scrim" aria-hidden="true"></div>
+      <div class="container container--wide obj-hero__inner">
+        <nav class="crumbs crumbs--light" aria-label="Хлебные крошки">
           <ol><li><a href="/">Главная</a></li><li><a href="/obekty/">Построенные объекты</a></li><li>Объект №4</li></ol>
         </nav>
-        <h1 class="page-head__title">Объект №4</h1>
-        <p class="lead">Одноэтажный дом с большой террасой под общей кровлей. Фасад из натуральной вертикальной доски с графитовым цоколем, внутри светлая вагонка, тёмный ламинат и потолок со скосом по форме кровли.</p>
-        <ul class="specs"><li>140 м²</li></ul>
-        <p class="muted" style="margin-top:14px">дер. Олбово, Тверская область</p>
+        <h1 class="obj-hero__title">Объект №4</h1>
+        <p class="obj-hero__place">дер. Олбово, Тверская область</p>
+        <p class="obj-hero__lead">Одноэтажный дом с большой террасой под общей кровлей. Фасад из натуральной вертикальной доски с графитовым цоколем, внутри светлая вагонка, тёмный ламинат и потолок со скосом по форме кровли.</p>
+        <ul class="obj-hero__facts"><li>140 м²</li></ul>
       </div>
-    </div>
+    </section>
 
     <section class="section section--tight">
-      <div class="container">
+      <div class="container container--wide">
         <h2 class="sr-only">Съёмка объекта</h2>
         <section class="shots-group">
           <h2 class="shots-group__title">Снаружи<span>5</span></h2>
-          <div class="shots shots--rows">
-            <div class="shots__row" style="--sum:6.67">
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-01-800.jpg" srcset="/assets/img/photos/proekt-4-foto-01-800.jpg 800w, /assets/img/photos/proekt-4-foto-01.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 1" loading="eager" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-01.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-05-800.jpg" srcset="/assets/img/photos/proekt-4-foto-05-800.jpg 800w, /assets/img/photos/proekt-4-foto-05.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 2" loading="eager" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-05.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-06-800.jpg" srcset="/assets/img/photos/proekt-4-foto-06-800.jpg 800w, /assets/img/photos/proekt-4-foto-06.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 3" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-06.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-07-800.jpg" srcset="/assets/img/photos/proekt-4-foto-07-800.jpg 800w, /assets/img/photos/proekt-4-foto-07.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 4" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-07.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-08-800.jpg" srcset="/assets/img/photos/proekt-4-foto-08-800.jpg 800w, /assets/img/photos/proekt-4-foto-08.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 5" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-08.jpg" data-zoom-group="obekt-4-all"></figure>
-            </div>
+          <div class="shots shots--even">
+            <figure><img src="/assets/img/photos/proekt-4-foto-01-800.jpg" srcset="/assets/img/photos/proekt-4-foto-01-800.jpg 800w, /assets/img/photos/proekt-4-foto-01.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 1" loading="eager" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-01.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-05-800.jpg" srcset="/assets/img/photos/proekt-4-foto-05-800.jpg 800w, /assets/img/photos/proekt-4-foto-05.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 2" loading="eager" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-05.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-06-800.jpg" srcset="/assets/img/photos/proekt-4-foto-06-800.jpg 800w, /assets/img/photos/proekt-4-foto-06.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 3" loading="eager" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-06.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-07-800.jpg" srcset="/assets/img/photos/proekt-4-foto-07-800.jpg 800w, /assets/img/photos/proekt-4-foto-07.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 4" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-07.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-08-800.jpg" srcset="/assets/img/photos/proekt-4-foto-08-800.jpg 800w, /assets/img/photos/proekt-4-foto-08.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 5" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-08.jpg" data-zoom-group="obekt-4-all"></figure>
           </div>
         </section>
         <section class="shots-group">
           <h2 class="shots-group__title">Терраса<span>3</span></h2>
-          <div class="shots shots--rows">
-            <div class="shots__row" style="--sum:4.00">
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-03-800.jpg" srcset="/assets/img/photos/proekt-4-foto-03-800.jpg 800w, /assets/img/photos/proekt-4-foto-03.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 6" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-03.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-04-800.jpg" srcset="/assets/img/photos/proekt-4-foto-04-800.jpg 800w, /assets/img/photos/proekt-4-foto-04.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 7" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-04.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-09-800.jpg" srcset="/assets/img/photos/proekt-4-foto-09-800.jpg 800w, /assets/img/photos/proekt-4-foto-09.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 8" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-09.jpg" data-zoom-group="obekt-4-all"></figure>
-            </div>
+          <div class="shots shots--even">
+            <figure><img src="/assets/img/photos/proekt-4-foto-03-800.jpg" srcset="/assets/img/photos/proekt-4-foto-03-800.jpg 800w, /assets/img/photos/proekt-4-foto-03.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 6" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-03.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-04-800.jpg" srcset="/assets/img/photos/proekt-4-foto-04-800.jpg 800w, /assets/img/photos/proekt-4-foto-04.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 7" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-04.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-09-800.jpg" srcset="/assets/img/photos/proekt-4-foto-09-800.jpg 800w, /assets/img/photos/proekt-4-foto-09.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 8" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-09.jpg" data-zoom-group="obekt-4-all"></figure>
           </div>
         </section>
         <section class="shots-group">
           <h2 class="shots-group__title">Гостиная<span>3</span></h2>
-          <div class="shots shots--rows">
-            <div class="shots__row" style="--sum:4.00">
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-10-800.jpg" srcset="/assets/img/photos/proekt-4-foto-10-800.jpg 800w, /assets/img/photos/proekt-4-foto-10.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 9" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-10.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-11-800.jpg" srcset="/assets/img/photos/proekt-4-foto-11-800.jpg 800w, /assets/img/photos/proekt-4-foto-11.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 10" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-11.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-12-800.jpg" srcset="/assets/img/photos/proekt-4-foto-12-800.jpg 800w, /assets/img/photos/proekt-4-foto-12.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 11" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-12.jpg" data-zoom-group="obekt-4-all"></figure>
-            </div>
+          <div class="shots shots--even">
+            <figure><img src="/assets/img/photos/proekt-4-foto-10-800.jpg" srcset="/assets/img/photos/proekt-4-foto-10-800.jpg 800w, /assets/img/photos/proekt-4-foto-10.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 9" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-10.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-11-800.jpg" srcset="/assets/img/photos/proekt-4-foto-11-800.jpg 800w, /assets/img/photos/proekt-4-foto-11.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 10" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-11.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-12-800.jpg" srcset="/assets/img/photos/proekt-4-foto-12-800.jpg 800w, /assets/img/photos/proekt-4-foto-12.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 11" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-12.jpg" data-zoom-group="obekt-4-all"></figure>
           </div>
         </section>
         <section class="shots-group">
           <h2 class="shots-group__title">Коридор<span>1</span></h2>
-          <div class="shots shots--rows">
-            <div class="shots__row shots__row--solo" style="--sum:1.33">
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-13-800.jpg" srcset="/assets/img/photos/proekt-4-foto-13-800.jpg 800w, /assets/img/photos/proekt-4-foto-13.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 12" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-13.jpg" data-zoom-group="obekt-4-all"></figure>
-            </div>
+          <div class="shots shots--even">
+            <figure><img src="/assets/img/photos/proekt-4-foto-13-800.jpg" srcset="/assets/img/photos/proekt-4-foto-13-800.jpg 800w, /assets/img/photos/proekt-4-foto-13.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 12" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-13.jpg" data-zoom-group="obekt-4-all"></figure>
           </div>
         </section>
         <section class="shots-group">
           <h2 class="shots-group__title">Санузел<span>2</span></h2>
-          <div class="shots shots--rows">
-            <div class="shots__row" style="--sum:2.67">
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-14-800.jpg" srcset="/assets/img/photos/proekt-4-foto-14-800.jpg 800w, /assets/img/photos/proekt-4-foto-14.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 13" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-14.jpg" data-zoom-group="obekt-4-all"></figure>
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-15-800.jpg" srcset="/assets/img/photos/proekt-4-foto-15-800.jpg 800w, /assets/img/photos/proekt-4-foto-15.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 14" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-15.jpg" data-zoom-group="obekt-4-all"></figure>
-            </div>
+          <div class="shots shots--even">
+            <figure><img src="/assets/img/photos/proekt-4-foto-14-800.jpg" srcset="/assets/img/photos/proekt-4-foto-14-800.jpg 800w, /assets/img/photos/proekt-4-foto-14.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 13" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-14.jpg" data-zoom-group="obekt-4-all"></figure>
+            <figure><img src="/assets/img/photos/proekt-4-foto-15-800.jpg" srcset="/assets/img/photos/proekt-4-foto-15-800.jpg 800w, /assets/img/photos/proekt-4-foto-15.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 14" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-15.jpg" data-zoom-group="obekt-4-all"></figure>
           </div>
         </section>
         <section class="shots-group">
           <h2 class="shots-group__title">Котельная<span>1</span></h2>
-          <div class="shots shots--rows">
-            <div class="shots__row shots__row--solo" style="--sum:1.33">
-            <figure style="--a:1.333"><img src="/assets/img/photos/proekt-4-foto-16-800.jpg" srcset="/assets/img/photos/proekt-4-foto-16-800.jpg 800w, /assets/img/photos/proekt-4-foto-16.jpg 1700w" sizes="(min-width: 1000px) 40vw, 92vw" alt="Объект №4, фото 15" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-16.jpg" data-zoom-group="obekt-4-all"></figure>
-            </div>
+          <div class="shots shots--even">
+            <figure><img src="/assets/img/photos/proekt-4-foto-16-800.jpg" srcset="/assets/img/photos/proekt-4-foto-16-800.jpg 800w, /assets/img/photos/proekt-4-foto-16.jpg 1700w" sizes="(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw" alt="Объект №4, фото 15" loading="lazy" width="1800" height="1350" data-zoom="/assets/img/photos/proekt-4-foto-16.jpg" data-zoom-group="obekt-4-all"></figure>
           </div>
         </section>
       </div>
