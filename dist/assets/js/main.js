@@ -614,6 +614,28 @@
     });
   }
 
+  /* ---------- лента роликов: ролик грузится по клику ----------
+     На постере кнопка; по нажатию на её место встаёт плеер и сразу
+     играет. Остальные ролики в ленте при этом останавливаются. */
+  $$('.reel__frame').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const src = btn.dataset.video;
+      if (!src || btn.querySelector('video')) return;
+      $$('.reel__card.is-playing video').forEach((v) => v.pause());
+      const poster = $('img', btn);
+      const video = document.createElement('video');
+      video.src = src;
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      if (poster) video.poster = poster.currentSrc || poster.src;
+      btn.appendChild(video);
+      btn.closest('.reel__card').classList.add('is-playing');
+      track('video_play', { page: location.pathname, src });
+      video.play().catch(() => { /* автозапуск запрещён — остаются элементы управления */ });
+    });
+  });
+
   /* ---------- галерея проекта: переключение главного кадра ---------- */
   const gal = $('[data-gallery]');
   if (gal) {

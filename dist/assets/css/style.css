@@ -1810,6 +1810,52 @@ body::after {
 .modal__card .form { margin-top: 18px; }
 .modal__call { margin-top: 16px; font-size: 14.5px; color: var(--muted); text-align: center; }
 
+/* ---------- лента роликов на главной ----------
+   Вертикальная съёмка с телефона: кадр 9:16, постер и кнопка.
+   Ролик подгружается только после клика — иначе четыре видео
+   тянулись бы у каждого, кто просто прокручивает страницу. */
+.reel { display: grid; gap: clamp(10px, 1vw, 16px); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* ширина ленты ограничена: кадр 9:16 на всю колонку широкого контейнера
+   даёт карточку под 700 px, и подписи уходят за экран */
+@media (min-width: 960px) { .reel { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 1180px; } }
+.reel__card { display: flex; flex-direction: column; min-width: 0; }
+.reel__frame {
+  position: relative; display: block; width: 100%; padding: 0; border: 0; cursor: pointer;
+  aspect-ratio: 9 / 16; border-radius: var(--r-l); overflow: hidden;
+  background: rgba(244, 239, 231, .06);
+  box-shadow: inset 0 0 0 1px rgba(244, 239, 231, .12);
+}
+.reel__frame img, .reel__frame video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .7s cubic-bezier(.22, 1, .36, 1), filter .5s cubic-bezier(.22, 1, .36, 1);
+}
+.reel__frame:hover img { transform: scale(1.03); filter: brightness(1.04); }
+.reel__play {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+  display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%;
+  background: rgba(16, 19, 21, .52); color: var(--on-dark);
+  box-shadow: inset 0 0 0 1px rgba(244, 239, 231, .3), 0 10px 30px -14px rgba(8, 6, 4, .9);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1), background-color .45s cubic-bezier(.22, 1, .36, 1);
+}
+.reel__play svg { width: 24px; height: 24px; margin-left: 2px; }
+.reel__frame:hover .reel__play { transform: translate(-50%, -50%) scale(1.07); background: var(--brand); }
+.reel__frame:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; }
+.reel__time {
+  position: absolute; right: 10px; bottom: 10px;
+  padding: 4px 8px; border-radius: var(--r-s);
+  background: rgba(16, 19, 21, .72); color: var(--on-dark);
+  font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+.reel__title { margin-top: 12px; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.25; color: var(--on-dark); }
+.reel__note { margin-top: 6px; font-size: 13.5px; line-height: 1.45; color: var(--on-dark-2); }
+.reel__card.is-playing .reel__play, .reel__card.is-playing .reel__time { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reel__frame img, .reel__play { transition: none; }
+  .reel__frame:hover img, .reel__frame:hover .reel__play { transform: none; }
+  .reel__frame:hover .reel__play { transform: translate(-50%, -50%); }
+}
+
 /* ---------- страница объекта ----------
    Открывающий кадр во всю ширину: съёмка и есть содержание страницы,
    поэтому она начинается сразу. Дальше — ровная сетка кадров. */

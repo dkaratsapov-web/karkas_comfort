@@ -186,6 +186,27 @@ ${videos.map((v) => {
         </div>`;
 }
 
+/* Лента роликов на главной: постер с кнопкой, ролик подгружается
+   только после клика. Сразу четыре встроенных плеера на первой
+   странице — это лишние мегабайты у всех, кто до них не доскроллит. */
+function videoReel(n) {
+  const list = videos.slice(0, n).filter((v) => v.src);
+  if (!list.length) return '';
+  return `        <div class="reel">
+${list.map((v) => `          <article class="reel__card">
+            <button class="reel__frame" type="button" data-video="/assets/video/${esc(v.src)}" aria-label="Смотреть: ${esc(v.title)}">
+              ${v.poster ? `<img src="/assets/img/photos/${esc(v.poster)}" alt="" loading="lazy" width="720" height="1280">` : ''}
+              <span class="reel__play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+              </span>
+              ${v.length ? `<span class="reel__time">${esc(v.length)}</span>` : ''}
+            </button>
+            <h3 class="reel__title">${esc(v.title)}</h3>
+            ${v.note ? `<p class="reel__note">${esc(v.note)}</p>` : ''}
+          </article>`).join('\n')}
+        </div>`;
+}
+
 /* Один ролик врезкой: тот же кадр, что на странице «Видео», но
    с ссылкой на раздел. Номер в токене — порядковый в videos.json. */
 function videoCard(n) {
@@ -573,6 +594,7 @@ for (const file of files) {
   content = content.replace(/\{\{articles:(\d+)\}\}/g, (_, n) => articles.slice(0, Number(n)).map(articleCard).join('\n'));
   content = content.replace(/\{\{projects:count\}\}/g, () => String(projects.length));
   content = content.replace(/\{\{videos\}\}/g, () => videosBlock());
+  content = content.replace(/\{\{reel:(\d+)\}\}/g, (_, n) => videoReel(Number(n)));
   content = content.replace(/\{\{flight\}\}/g, () => flightBlock());
   content = content.replace(/\{\{video:(\d+)\}\}/g, (_, n) => videoCard(Number(n)));
   content = content.replace(/\{\{geo\}\}/g, () => geoMap());
