@@ -516,10 +516,15 @@ const caseMeta = (c) => [
   c.tier ? esc(c.tier) : '',
 ].filter(Boolean);
 
+/* Обложка объекта: один кадр, который идёт и в карточку списка,
+   и в шапку страницы объекта. Пока в данных пусто — берём первый
+   кадр съёмки, чтобы страница не пустовала. */
+const caseCover = (c) => (c.cover || (c.photos && c.photos[0]) || '');
+
 const caseTile = (c) => {
   const meta = caseMeta(c);
   return `        <a class="tile" href="${caseUrl(c)}">
-          <div class="tile__media"><img src="${c.photos && c.photos.length ? `/assets/img/photos/${c.photos[0]}` : `/assets/img/projects/${c.slug}.svg`}" alt="${esc(c.title)}${c.area ? `, ${c.area} м²` : ''}" loading="lazy" width="900" height="600"></div>
+          <div class="tile__media"><img src="${caseCover(c) ? `/assets/img/photos/${caseCover(c)}` : `/assets/img/projects/${c.slug}.svg`}" alt="${esc(c.title)}${c.area ? `, ${c.area} м²` : ''}" loading="lazy" width="900" height="600"></div>
           <div class="tile__body">
             <h3>${esc(c.title)}</h3>
             ${meta.length ? `<p class="tile__meta">${meta.map((x) => `<span>${x}</span>`).join('')}</p>` : ''}
@@ -1329,20 +1334,27 @@ for (const c of cases) {
     ],
   };
 
-  /* Открывающий кадр: первая фотография во всю ширину, поверх — название,
-     адрес и характеристики. Съёмка на странице объекта и есть главное,
-     поэтому она начинается сразу, а не после двух экранов текста. */
-  const content = `    <section class="obj-hero">
-      <img class="obj-hero__pic" ${srcset(list[0], '100vw')} alt="${esc(c.title)}${c.place ? `, ${esc(c.place)}` : ''}" width="${imgSize(list[0]).w}" height="${imgSize(list[0]).h}" fetchpriority="high">
-      <div class="obj-hero__scrim" aria-hidden="true"></div>
-      <div class="container container--wide obj-hero__inner">
-        <nav class="crumbs crumbs--light" aria-label="Хлебные крошки">
-          <ol><li><a href="/">Главная</a></li><li><a href="/obekty.html">Построенные объекты</a></li><li>${esc(c.title)}</li></ol>
-        </nav>
-        <h1 class="obj-hero__title">${esc(c.title)}</h1>
-        ${c.place ? `<p class="obj-hero__place">${esc(c.place)}</p>` : ''}
-        ${c.lead ? `<p class="obj-hero__lead">${esc(c.lead)}</p>` : ''}
-        ${facts.length ? `<ul class="obj-hero__facts">${facts.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
+  /* Шапка объекта: слева описание, справа обложка. Обложка — один
+     кадр на объект, он же стоит в карточке списка. Пока заказчик не
+     прислал общие кадры, берётся первый снимок съёмки. */
+  const cover = caseCover(c);
+  const content = `    <section class="obj-head">
+      <div class="container container--wide obj-head__grid">
+        <div class="obj-head__text">
+          <nav class="crumbs" aria-label="Хлебные крошки">
+            <ol><li><a href="/">Главная</a></li><li><a href="/obekty.html">Построенные объекты</a></li><li>${esc(c.title)}</li></ol>
+          </nav>
+          <h1 class="obj-head__title">${esc(c.title)}</h1>
+          ${c.place ? `<p class="obj-head__place">${esc(c.place)}</p>` : ''}
+          ${c.lead ? `<p class="obj-head__lead">${esc(c.lead)}</p>` : ''}
+          ${facts.length ? `<ul class="obj-head__facts">${facts.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
+          <a class="btn btn--sm" href="#zayavka">Рассчитать такой же<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+        </div>
+        <figure class="obj-head__cover">
+          ${cover
+            ? `<img ${srcset(cover, '(min-width: 1100px) 52vw, 100vw')} alt="${esc(c.title)}${c.place ? `, ${esc(c.place)}` : ''}" width="${imgSize(cover).w}" height="${imgSize(cover).h}" fetchpriority="high">`
+            : '<span class="obj-head__empty">Обложка объекта появится здесь</span>'}
+        </figure>
       </div>
     </section>
 

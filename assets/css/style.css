@@ -1862,52 +1862,40 @@ body::after {
 }
 
 /* ---------- страница объекта ----------
-   Открывающий кадр во всю ширину: съёмка и есть содержание страницы,
-   поэтому она начинается сразу. Дальше — ровная сетка кадров. */
-.obj-hero {
-  position: relative; isolation: isolate; display: flex; align-items: flex-end;
-  min-height: min(62svh, 620px);
-  margin-top: calc(-1 * (var(--header-h) + 14px));
-  background: var(--dark); color: var(--on-dark); overflow: hidden;
+   Шапка в два столбца: слева описание на светлом, справа обложка.
+   Один и тот же кадр стоит в карточке списка и здесь, поэтому объект
+   узнаётся при переходе. */
+.obj-head { padding: clamp(16px, 2vw, 28px) 0 clamp(18px, 2.2vw, 32px); }
+.obj-head__grid { display: grid; gap: clamp(18px, 2.4vw, 40px); align-items: center; }
+@media (min-width: 1000px) {
+  .obj-head__grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
 }
-.obj-hero__pic { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
-.obj-hero__scrim {
-  position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(180deg,
-    rgba(12, 10, 7, .55) 0%, rgba(12, 10, 7, .15) 26%,
-    rgba(12, 10, 7, .3) 58%, rgba(12, 10, 7, .82) 100%);
+.obj-head__text { min-width: 0; }
+.obj-head .crumbs { padding: 0 0 clamp(12px, 1.6vw, 20px); }
+.obj-head__title { font-size: clamp(27px, 3.4vw, 46px); line-height: 1.05; }
+.obj-head__place {
+  margin-top: 10px; font-size: 13.5px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--accent);
 }
-.obj-hero__inner {
-  position: relative; width: 100%;
-  padding-top: calc(var(--header-h) + clamp(26px, 4vw, 54px));
-  padding-bottom: clamp(20px, 2.6vw, 38px);
-}
-.obj-hero .crumbs { padding: 0; margin: 0 0 clamp(12px, 1.6vw, 20px); }
-.obj-hero .crumbs, .obj-hero .crumbs li, .obj-hero .crumbs a { color: var(--on-dark-2); }
-.obj-hero .crumbs a:hover { color: var(--on-dark); }
-.obj-hero__title {
-  font-size: clamp(28px, 4vw, 54px); line-height: 1.04; letter-spacing: .01em;
-  text-transform: uppercase; color: var(--on-dark);
-  text-shadow: 0 2px 28px rgba(8, 6, 4, .6);
-}
-.obj-hero__place {
-  margin-top: 10px; font-size: 14px; font-weight: 600; letter-spacing: .04em;
-  text-transform: uppercase; color: var(--accent-bright);
-}
-.obj-hero__lead {
-  margin-top: clamp(10px, 1.2vw, 16px); max-width: 64ch;
-  font-size: clamp(15px, 1.2vw, 18px); line-height: 1.5; color: rgba(244, 239, 231, .92);
-  text-shadow: 0 1px 14px rgba(8, 6, 4, .6);
-}
-.obj-hero__facts {
+.obj-head__lead { margin-top: clamp(10px, 1.2vw, 16px); max-width: 52ch; font-size: clamp(15px, 1.15vw, 17.5px); line-height: 1.5; color: var(--ink-2); }
+.obj-head__facts {
   display: flex; flex-wrap: wrap; gap: 8px; margin: clamp(14px, 1.8vw, 22px) 0 0; padding: 0; list-style: none;
 }
-.obj-hero__facts li {
+.obj-head__facts li {
   padding: 8px 14px; border-radius: var(--r-s);
-  background: rgba(16, 19, 21, .5);
-  box-shadow: inset 0 0 0 1px rgba(244, 239, 231, .18);
-  font-size: 13.5px; font-weight: 600; color: var(--on-dark);
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-soft);
+  font-size: 13.5px; font-weight: 600; color: var(--ink);
+}
+.obj-head .btn { margin-top: clamp(16px, 2vw, 24px); }
+.obj-head__cover {
+  margin: 0; border-radius: var(--r-l); overflow: hidden; background: var(--page-2);
+  box-shadow: var(--sh-1);
+}
+.obj-head__cover img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.obj-head__empty {
+  display: grid; place-items: center; aspect-ratio: 3 / 2; padding: 20px;
+  text-align: center; font-size: 14px; color: var(--muted);
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 
 /* ровная сетка съёмки: кадр всегда 4:3, обрезка по центру */

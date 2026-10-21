@@ -22,7 +22,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=0c808584">
+  <link rel="stylesheet" href="/assets/css/style.css?v=ecbb5e66">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/"},{"@type":"ListItem","position":2,"name":"Построенные объекты","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/obekty.html"},{"@type":"ListItem","position":3,"name":"Объект №10","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/obekty/obekt-10/"}]}</script>
 </head>
 
@@ -117,17 +117,21 @@
   </header>
 
   <main id="main">
-    <section class="obj-hero">
-      <img class="obj-hero__pic" src="/assets/img/photos/proekt-10-foto-01-800.jpg" srcset="/assets/img/photos/proekt-10-foto-01-800.jpg 800w, /assets/img/photos/proekt-10-foto-01.jpg 1700w" sizes="100vw" alt="Объект №10, Чуприяновка, Тверская область" width="1800" height="1350" fetchpriority="high">
-      <div class="obj-hero__scrim" aria-hidden="true"></div>
-      <div class="container container--wide obj-hero__inner">
-        <nav class="crumbs crumbs--light" aria-label="Хлебные крошки">
-          <ol><li><a href="/">Главная</a></li><li><a href="/obekty/">Построенные объекты</a></li><li>Объект №10</li></ol>
-        </nav>
-        <h1 class="obj-hero__title">Объект №10</h1>
-        <p class="obj-hero__place">Чуприяновка, Тверская область</p>
-        <p class="obj-hero__lead">Одноэтажный дом с крыльцом под навесом. Фасад отделан фактурными панелями тёмного тона, обрамления коричневые, дом стоит на винтовых сваях.</p>
-        <ul class="obj-hero__facts"><li>85 м²</li></ul>
+    <section class="obj-head">
+      <div class="container container--wide obj-head__grid">
+        <div class="obj-head__text">
+          <nav class="crumbs" aria-label="Хлебные крошки">
+            <ol><li><a href="/">Главная</a></li><li><a href="/obekty/">Построенные объекты</a></li><li>Объект №10</li></ol>
+          </nav>
+          <h1 class="obj-head__title">Объект №10</h1>
+          <p class="obj-head__place">Чуприяновка, Тверская область</p>
+          <p class="obj-head__lead">Одноэтажный дом с крыльцом под навесом. Фасад отделан фактурными панелями тёмного тона, обрамления коричневые, дом стоит на винтовых сваях.</p>
+          <ul class="obj-head__facts"><li>85 м²</li></ul>
+          <a class="btn btn--sm" href="#zayavka">Рассчитать такой же<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+        </div>
+        <figure class="obj-head__cover">
+          <img src="/assets/img/photos/proekt-10-foto-01-800.jpg" srcset="/assets/img/photos/proekt-10-foto-01-800.jpg 800w, /assets/img/photos/proekt-10-foto-01.jpg 1700w" sizes="(min-width: 1100px) 52vw, 100vw" alt="Объект №10, Чуприяновка, Тверская область" width="1800" height="1350" fetchpriority="high">
+        </figure>
       </div>
     </section>
 
