@@ -408,13 +408,27 @@ const V = {
 };
 const previewBar = '';   // плашку демо-версии заказчик просил убрать
 
-/* в превью сайт лежит в подпапке — правим корневые ссылки и закрываем от индексации */
-const rebase = (html) => (BASE
-  ? html
-    .replace(/(href|src|poster|data-zoom|data-full)="\/(?!\/)/g, `$1="${BASE}/`)
+/* в превью сайт лежит в подпапке — правим корневые ссылки и закрываем от индексации.
+   Пропустить здесь адрес — значит получить на демо 404 там, где на боевом
+   домене всё цело: так однажды перестали открываться ролики (data-video)
+   и кадры пролёта (они лежат не в атрибуте, а в JSON внутри страницы).
+   Поэтому в конце стоит проверка: ни одного корневого /assets/ остаться
+   не должно, иначе сборка падает. */
+const rebase = (html) => {
+  if (!BASE) return html;
+  const out = html
+    .replace(/(href|src|poster|data-zoom|data-full|data-video)="\/(?!\/)/g, `$1="${BASE}/`)
     /* srcset — это список «путь ширина, путь ширина», его тоже надо переписать */
     .replace(/srcset="([^"]+)"/g, (_, list) => `srcset="${list.replace(/(^|,\s*)\/(?!\/)/g, `$1${BASE}/`)}"`)
-  : html);
+    /* данные пролёта: пути лежат строками в JSON, атрибутный проход их не видит */
+    .replace(/(<script type="application\/json" id="flight-data">)([\s\S]*?)(<\/script>)/g,
+      (_, open, body, close) => open + body.replace(/(^|["\s,(])\/(assets|api)\//g, `$1${BASE}/$2/`) + close);
+  const left = out.match(/(?<![\w/])\/(assets|api)\/[^"'\s),]*/g);
+  if (left) {
+    throw new Error(`Демо-сборка: адреса остались от корня сайта, на github.io это 404:\n  ${[...new Set(left)].join('\n  ')}`);
+  }
+  return out;
+};
 
 /* Адреса без .html: страница живёт в своей папке (obekty/index.html),
    поэтому все внутренние ссылки делаем от корня и убираем расширение. */

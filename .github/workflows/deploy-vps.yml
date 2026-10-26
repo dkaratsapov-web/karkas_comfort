@@ -144,6 +144,14 @@ jobs:
             done
             [ "$bad" = "0" ] && echo "Все проверенные адреса отдаются." \
               || echo "::warning::Не все адреса отвечают 200 — список выше."
+            # ролики: смотрим не только код ответа, но и тип — браузер не
+            # возьмётся играть файл, отданный как application/octet-stream
+            VID=$(ls dist/assets/video/*.mp4 2>/dev/null | head -1 | sed 's|^dist||')
+            if [ -n "$VID" ]; then
+              vinfo=$(curl -sI -o /dev/null -w '%{http_code} %{content_type}' --max-time 25 "https://xn--80aa2abbmnbmggrx.xn--p1ai$VID" || true)
+              echo "  ролик $VID → $vinfo"
+              case "$vinfo" in 200\ video/mp4*) ;; *) echo "::warning::Ролик отдаётся не как видео ($vinfo) — на сайте он не заиграет." ;; esac
+            fi
             exit 0
           fi
           echo "::warning::Домен не ответил 200 — файлы выгружены, но отдаёт их сервер неправильно. Ниже разбор."

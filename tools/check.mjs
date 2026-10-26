@@ -157,6 +157,32 @@ await p.goto(`${B}/proekty/`, { waitUntil: 'networkidle' });
 await p.screenshot({ path: 'mob-catalog.png' });
 await p.close();
 
+/* 5а. Лента роликов: по клику встаёт плеер, и файл правда отдаётся.
+   Браузер проверки собран без H.264, поэтому играть ролик он не станет —
+   смотрим не картинку, а то, что ломалось на самом деле: адрес файла
+   и ответ сервера на него. Так ловится и потерянный файл, и путь,
+   не переписанный под подпапку демо. */
+p = await b.newPage({ viewport: { width: 1280, height: 900 } });
+p.on('pageerror', (e) => errs.push(e.message));
+await p.goto(`${B}/`, { waitUntil: 'networkidle' });
+const reels = await p.$$('.reel__frame');
+if (reels.length) {
+  await reels[0].click();
+  await p.waitForTimeout(300);
+  const src = await p.evaluate(() => document.querySelector('.reel__card video')?.src || '');
+  ok('клик по ленте роликов ставит плеер', !!src);
+  const badVideos = [];
+  const sources = await p.$$eval('.reel__frame', (els) => els.map((e) => e.dataset.video));
+  for (const u of sources) {
+    const r = await p.request.fetch(new URL(u, B).href, { method: 'head' });
+    const type = r.headers()['content-type'] || '';
+    if (r.status() !== 200 || !type.includes('video/')) badVideos.push(`${u} → ${r.status()} ${type}`);
+  }
+  ok(`файлы роликов отдаются (${sources.length} шт.)`, badVideos.length === 0);
+  if (badVideos.length) out.push(`  ${badVideos.join('\n  ')}`);
+}
+await p.close();
+
 /* 6. Все страницы: битые ссылки, разметка, шрифты */
 p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
