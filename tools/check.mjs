@@ -157,22 +157,50 @@ await p.goto(`${B}/proekty/`, { waitUntil: 'networkidle' });
 await p.screenshot({ path: 'mob-catalog.png' });
 await p.close();
 
-/* 5а. Лента роликов: по клику встаёт плеер, и файл правда отдаётся.
-   Браузер проверки собран без H.264, поэтому играть ролик он не станет —
-   смотрим не картинку, а то, что ломалось на самом деле: адрес файла
-   и ответ сервера на него. Так ловится и потерянный файл, и путь,
-   не переписанный под подпапку демо. */
+/* 5а. Лента роликов: по клику встаёт плеер, он занимает всю рамку,
+   и файл правда отдаётся. Браузер проверки собран без H.264, поэтому
+   играть ролик он не станет — смотрим не картинку, а то, что ломалось
+   на самом деле: размер и место плеера, адрес файла и ответ сервера.
+   Так ловится и потерянный файл, и путь, не переписанный под подпапку
+   демо, и плеер, уехавший под обрез рамки (слышно звук, видно постер). */
 p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 p.on('pageerror', (e) => errs.push(e.message));
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
-const reels = await p.$$('.reel__frame');
-if (reels.length) {
-  await reels[0].click();
-  await p.waitForTimeout(300);
-  const src = await p.evaluate(() => document.querySelector('.reel__card video')?.src || '');
-  ok('клик по ленте роликов ставит плеер', !!src);
+const sources = await p.$$eval('.reel__frame', (els) => els.map((e) => e.dataset.video).filter(Boolean));
+if (sources.length) {
+  /* кнопка воспроизведения не убегает из-под курсора. Меряем смещение
+     значка относительно своей рамки: сама страница при наведении
+     подкручивается, и абсолютные координаты сравнивать нельзя. */
+  const iconShift = async () => p.evaluate(() => {
+    const icon = document.querySelector('.reel__play').getBoundingClientRect();
+    const frame = document.querySelector('.reel__frame').getBoundingClientRect();
+    return { x: icon.x - frame.x, y: icon.y - frame.y };
+  });
+  const before = await iconShift();
+  await p.hover('.reel__frame');
+  await p.waitForTimeout(600);
+  const after = await iconShift();
+  ok('кнопка воспроизведения не уезжает под курсором',
+    Math.abs(before.x - after.x) < 2 && Math.abs(before.y - after.y) < 2);
+
+  await p.click('.reel__frame');
+  await p.waitForTimeout(400);
+  const fit = await p.evaluate(() => {
+    const v = document.querySelector('.reel__card video');
+    if (!v) return null;
+    const box = v.getBoundingClientRect();
+    const frame = v.closest('.reel__frame').getBoundingClientRect();
+    const seen = document.elementFromPoint(frame.x + frame.width / 2, frame.y + frame.height / 2);
+    return {
+      src: v.src,
+      covers: box.width > frame.width - 2 && box.height > frame.height - 2,
+      onTop: seen === v || v.contains(seen)
+    };
+  });
+  ok('клик по ленте роликов ставит плеер', !!(fit && fit.src));
+  ok('плеер занимает всю рамку и ничем не перекрыт', !!(fit && fit.covers && fit.onTop));
+
   const badVideos = [];
-  const sources = await p.$$eval('.reel__frame', (els) => els.map((e) => e.dataset.video));
   for (const u of sources) {
     const r = await p.request.fetch(new URL(u, B).href, { method: 'head' });
     const type = r.headers()['content-type'] || '';

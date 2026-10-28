@@ -1830,10 +1830,20 @@ body::after {
   background: rgba(244, 239, 231, .06);
   box-shadow: inset 0 0 0 1px rgba(244, 239, 231, .12);
 }
-.reel__frame img, .reel__frame video {
+.reel__frame img {
   width: 100%; height: 100%; object-fit: cover; display: block;
   transition: transform .7s cubic-bezier(.22, 1, .36, 1), filter .5s cubic-bezier(.22, 1, .36, 1);
 }
+/* Плеер встаёт поверх рамки целиком. Раньше он добавлялся следом за
+   постером обычным блоком: постер занимал всю высоту, видео уезжало
+   вниз и обрезалось — был слышен звук при неподвижной картинке.
+   contain, а не cover: кадр нельзя срезать, даже если ролик снят
+   не в вертикаль. */
+.reel__frame video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; background: #000; display: block;
+}
+.reel__frame--live { cursor: default; }
 .reel__frame:hover img { transform: scale(1.03); filter: brightness(1.04); }
 .reel__play {
   position: absolute; left: 50%; top: 50%; translate: -50% -50%;
@@ -1841,10 +1851,13 @@ body::after {
   background: rgba(16, 19, 21, .52); color: var(--on-dark);
   box-shadow: inset 0 0 0 1px rgba(244, 239, 231, .3), 0 10px 30px -14px rgba(8, 6, 4, .9);
   -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-  transition: transform .45s cubic-bezier(.22, 1, .36, 1), background-color .45s cubic-bezier(.22, 1, .36, 1);
+  transition: background-color .25s ease;
 }
 .reel__play svg { width: 24px; height: 24px; margin-left: 2px; }
-.reel__frame:hover .reel__play { transform: translate(-50%, -50%) scale(1.07); background: var(--brand); }
+/* Кнопка под курсором не двигается: она уже смещена свойством translate,
+   и любой transform в ховере складывался с ним — значок уезжал в сторону.
+   Под курсором меняется только цвет. */
+.reel__frame:hover .reel__play { background: var(--brand); }
 .reel__frame:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; }
 .reel__time {
   position: absolute; right: 10px; bottom: 10px;
@@ -1857,8 +1870,7 @@ body::after {
 .reel__card.is-playing .reel__play, .reel__card.is-playing .reel__time { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .reel__frame img, .reel__play { transition: none; }
-  .reel__frame:hover img, .reel__frame:hover .reel__play { transform: none; }
-  .reel__frame:hover .reel__play { transform: translate(-50%, -50%); }
+  .reel__frame:hover img { transform: none; }
 }
 
 /* ---------- страница объекта ----------

@@ -615,22 +615,28 @@
   }
 
   /* ---------- лента роликов: ролик грузится по клику ----------
-     На постере кнопка; по нажатию на её место встаёт плеер и сразу
-     играет. Остальные ролики в ленте при этом останавливаются. */
+     На постере кнопка; по нажатию она целиком заменяется плеером.
+     Именно заменяется, а не дополняется: элементы управления видео
+     внутри <button> браузер считает частью кнопки, и перемотка с
+     громкостью не нажимаются. Остальные ролики в ленте встают на паузу. */
   $$('.reel__frame').forEach((btn) => {
     btn.addEventListener('click', () => {
       const src = btn.dataset.video;
-      if (!src || btn.querySelector('video')) return;
+      if (!src) return;
       $$('.reel__card.is-playing video').forEach((v) => v.pause());
       const poster = $('img', btn);
+      const box = document.createElement('div');
+      box.className = 'reel__frame reel__frame--live';
       const video = document.createElement('video');
       video.src = src;
       video.controls = true;
-      video.autoplay = true;
       video.playsInline = true;
+      video.preload = 'auto';
       if (poster) video.poster = poster.currentSrc || poster.src;
-      btn.appendChild(video);
-      btn.closest('.reel__card').classList.add('is-playing');
+      box.appendChild(video);
+      const card = btn.closest('.reel__card');
+      btn.replaceWith(box);
+      card.classList.add('is-playing');
       track('video_play', { page: location.pathname, src });
       video.play().catch(() => { /* автозапуск запрещён — остаются элементы управления */ });
     });
