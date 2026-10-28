@@ -751,53 +751,59 @@ ${tep}
    высота примерно 280 px на широком экране). Группа, которой на ряд не
    хватает, остаётся одна и ограничивается по ширине в CSS — иначе пара
    кадров растянулась бы на весь экран. */
-const ROW_TARGET = 6;
+/* Выключенные ряды, как в фотоальбоме: ширина кадра в ряду пропорциональна
+   его собственной пропорции, высота у всех в ряду общая, ряд доходит до
+   правого края. Ничего не обрезается — вертикальный кадр просто занимает
+   меньше места по ширине, чем горизонтальный.
+
+   Ряд закрывается не по числу кадров, а по высоте: пока очередной кадр
+   приближает высоту ряда к целевой — он идёт в этот ряд, как только
+   уводит дальше — начинается новый. Раньше ряды делились по сумме
+   пропорций, и восемь вертикальных кадров вставали в одну строку
+   высотой 170 px. */
+const ROW = { width: 1740, gap: 14, target: 400, max: 6 };
+
+function rowHeight(row, width = ROW.width) {
+  const sum = row.reduce((n, it) => n + it.a, 0);
+  return (width - ROW.gap * (row.length - 1)) / sum;
+}
 
 function photoRows(files, offset) {
   const items = files.map((f, i) => {
     const { w, h } = imgSize(f);
-    return { f, i: offset + i, a: Math.max(0.5, Math.min(2.6, w / h)) };
+    return { f, i: offset + i, a: Math.max(0.45, Math.min(2.6, w / h)) };
   });
-  const total = items.reduce((n, it) => n + it.a, 0);
-  const rows = Math.max(1, Math.round(total / ROW_TARGET));
-  const per = total / rows;
-  const out = [];
-  let row = [], sum = 0;
+  const rows = [];
+  let row = [];
   for (const it of items) {
-    row.push(it); sum += it.a;
-    /* ряд закрываем, когда он ближе к цели, чем будет со следующим кадром */
-    if (out.length < rows - 1 && sum >= per - it.a / 2) { out.push(row); row = []; sum = 0; }
+    const next = row.concat(it);
+    /* первый кадр ряда берём всегда; дальше смотрим, стало ли ближе к цели */
+    if (row.length && (row.length >= ROW.max ||
+        Math.abs(rowHeight(next) - ROW.target) > Math.abs(rowHeight(row) - ROW.target))) {
+      rows.push(row); row = [it];
+    } else {
+      row = next;
+    }
   }
-  if (row.length) out.push(row);
-  return out;
+  if (row.length) rows.push(row);
+  return rows;
 }
 
 function photoGrid(files, offset, altOf, zoomGroup) {
   const rs = photoRows(files, offset);
-  /* группа из одного короткого ряда ставится по центру — иначе кадр
-     выглядит брошенным у левого края */
-  const solo = rs.length === 1 && rs[0].reduce((n, it) => n + it.a, 0) < 2.6;
-  /* если рядов несколько, они уже поделены поровну — пусть занимают всю ширину;
-     одинокому ряду ширину ограничиваем, иначе пара кадров растянется на экран */
-  const fill = rs.length > 1 ? ' shots__row--fill' : '';
-  const cell = (it) => `            <figure style="--a:${it.a.toFixed(3)}"><img ${srcset(it.f, "(min-width: 1000px) 40vw, 92vw")} alt="${altOf(it.i)}" loading="${it.i < 2 ? 'eager' : 'lazy'}" width="${imgSize(it.f).w}" height="${imgSize(it.f).h}" data-zoom="${img(it.f)}" data-zoom-group="${zoomGroup}"></figure>`;
+  const cell = (it) => `            <figure style="--a:${it.a.toFixed(3)}"><img ${srcset(it.f, "(min-width: 1000px) 30vw, 92vw")} alt="${altOf(it.i)}" loading="${it.i < 3 ? 'eager' : 'lazy'}" width="${imgSize(it.f).w}" height="${imgSize(it.f).h}" data-zoom="${img(it.f)}" data-zoom-group="${zoomGroup}"></figure>`;
   return `          <div class="shots shots--rows">
-${rs.map((row) => `            <div class="shots__row${solo ? ' shots__row--solo' : ''}${fill}" style="--sum:${row.reduce((n, it) => n + it.a, 0).toFixed(2)}">
+${rs.map((row, n) => {
+  const sum = row.reduce((v, it) => v + it.a, 0);
+  /* полный ряд тянется до края; неполный последний ограничен по ширине,
+     иначе два кадра вырастают во весь экран */
+  const last = n === rs.length - 1;
+  const fill = (!last || Math.abs(rowHeight(row) - ROW.target) < 60) ? ' shots__row--fill' : '';
+  const solo = rs.length === 1 && row.length < 3 ? ' shots__row--solo' : '';
+  return `            <div class="shots__row${fill}${solo}" style="--sum:${sum.toFixed(2)}">
 ${row.map(cell).join('\n')}
-            </div>`).join('\n')}
-          </div>`;
-}
-
-/* Съёмка объекта: ровная сетка одинаковых кадров.
-   У страниц проектов кадры разной пропорции (чертежи, развёртки), там
-   работает укладчик рядов выше. На объекте — живая съёмка телефоном,
-   пропорции скачут, и ряды получались рваными: восемь кадров вставали
-   в одну строку по 170 px. Здесь кадр всегда 4:3 и обрезается по центру,
-   поэтому сетка читается как разворот альбома. */
-function caseGrid(files, offset, altOf, zoomGroup) {
-  const cell = (f, i) => `            <figure><img ${srcset(f, '(min-width: 1200px) 30vw, (min-width: 700px) 46vw, 92vw')} alt="${altOf(offset + i)}" loading="${offset + i < 3 ? 'eager' : 'lazy'}" width="${imgSize(f).w}" height="${imgSize(f).h}" data-zoom="${img(f)}" data-zoom-group="${zoomGroup}"></figure>`;
-  return `          <div class="shots shots--even">
-${files.map(cell).join('\n')}
+            </div>`;
+}).join('\n')}
           </div>`;
 }
 
@@ -1334,7 +1340,7 @@ for (const c of cases) {
   if (!list.length) continue;
 
   const alt = (i) => `${esc(c.title)}, фото ${i + 1}`;
-  const gallery = photoGallery(list, c.groups, alt, `${c.slug}-all`, caseGrid);
+  const gallery = photoGallery(list, c.groups, alt, `${c.slug}-all`);
 
   const facts = caseMeta(c);
   const meta = {

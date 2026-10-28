@@ -1228,7 +1228,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* Ряд из одного-двух кадров не растягиваем во всю ширину: иначе одинокая
    фотография вырастает на целый экран. Предел ширины считается из суммы
    пропорций ряда — так высота ряда остаётся соразмерной соседним. */
-.shots__row { display: flex; flex-wrap: wrap; gap: clamp(8px, .9vw, 14px); max-width: calc(var(--sum, 3) * 460px); }
+.shots__row { display: flex; flex-wrap: wrap; gap: clamp(8px, .9vw, 14px); max-width: calc(var(--sum, 3) * var(--cap, 420px)); }
 .shots__row--solo { margin-inline: auto; }
 /* ряд из поделённой поровну группы занимает всю строку — без пустоты справа */
 .shots__row--fill, .page-dense .shots__row--fill { max-width: none; }
@@ -1924,22 +1924,6 @@ body::after {
   box-shadow: inset 0 0 0 1px var(--line);
 }
 
-/* ровная сетка съёмки: кадр всегда 4:3, обрезка по центру */
-.shots--even {
-  display: grid; gap: clamp(8px, .9vw, 14px);
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-}
-.shots--even figure { margin: 0; }
-.shots--even img {
-  width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block;
-  border-radius: var(--r); background: var(--page-2); cursor: zoom-in;
-  transition: transform .5s cubic-bezier(.22, 1, .36, 1), box-shadow .4s cubic-bezier(.22, 1, .36, 1);
-}
-.shots--even img:hover { transform: scale(1.012); box-shadow: var(--sh-2); }
-@media (prefers-reduced-motion: reduce) {
-  .shots--even img { transition: none; }
-  .shots--even img:hover { transform: none; }
-}
 
 /* ---------- квиз расчёта ----------
    Один вопрос на экран: так заполняют до конца чаще, чем длинную форму.

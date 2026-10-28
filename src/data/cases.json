@@ -67,9 +67,6 @@
     "lead": "Одноэтажный дом на этапе завершения: кровля, фасад и окна готовы, идёт благоустройство площадки.",
     "photos": [
       "proekt-2-foto-01.jpg",
-      "proekt-2-foto-02.jpg",
-      "proekt-2-foto-03.jpg",
-      "proekt-2-foto-04.jpg",
       "proekt-2-foto-05.jpg",
       "proekt-2-foto-06.jpg",
       "proekt-2-foto-07.jpg",
@@ -133,7 +130,7 @@
     "groups": [
       {
         "title": "Внешний вид",
-        "count": 13
+        "count": 10
       },
       {
         "title": "Кухня-гостиная",
