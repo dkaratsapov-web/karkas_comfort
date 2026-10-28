@@ -851,12 +851,22 @@ section[id], div[id] { scroll-margin-top: 88px; }
 @media (min-width: 1100px) { .bento-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 .bento-feature { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-l); overflow: hidden; box-shadow: var(--sh-1); }
-@media (min-width: 1100px) { .bento-feature { grid-column: span 2; grid-row: span 2; } }
-/* кадр занимает ровно свою пропорцию: раньше он тянулся на всю высоту
-   двух рядов и растил блок вместе с соседями */
+/* Высоту блока задают карточки справа, а не чертёж слева. Карточки
+   стоят по своему тексту (align-items: start у сетки), а большая
+   плитка растягивается на оба ряда и подгоняет под них чертёж —
+   раньше было наоборот, и между карточками зияли пустые полосы. */
 .bento-feature__media { flex: none; aspect-ratio: 16 / 9; min-height: 0; overflow: hidden; background: var(--page-2); }
 .bento-feature__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
 .bento-feature:hover .bento-feature__media img { transform: scale(1.035); }
+@media (min-width: 1100px) {
+  .bento-feature { grid-column: span 2; grid-row: span 2; align-self: stretch; }
+  /* flex-basis 0 и min-height у картинки: иначе чертёж тянет карточку
+     на свою натуральную высоту и снова растит оба ряда */
+  /* фон под чертежом — цвет самой подложки чертежа, чтобы при вписывании
+     по высоте поля слева и справа читались как часть листа */
+  .bento-feature__media { flex: 1 1 0; aspect-ratio: auto; min-height: 190px; background: #F3EDE3; }
+  .bento-feature__media img { object-fit: contain; min-height: 0; }
+}
 .bento-feature__body { padding: clamp(14px, 1.4vw, 20px); }
 .bento-feature h3 { font-size: clamp(17.5px, 1.5vw, 20px); }
 .bento-feature p { margin-top: 7px; color: var(--ink-2); font-size: 14.5px; line-height: 1.5; }
