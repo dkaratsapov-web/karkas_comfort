@@ -123,7 +123,7 @@ ErrorDocument 404 /404.html
   # Состояние сервера: доступы админки, настройки приёма заявок,
   # сами заявки и их статусы. Лежит рядом со скриптом в api/,
   # но из браузера не отдаётся ни одним адресом.
-  <FilesMatch "^(config\.php|settings\.json|admin-.*\.(json|code)|leads\.(csv|jsonl)|leads-state\.json)$">
+  <FilesMatch "^(config\.php|settings\.json|admin-.*\.(json|code)|leads\.(csv|jsonl)|leads-state\.json|users\.seed\.json)$">
     Require all denied
   </FilesMatch>
   <FilesMatch "\.(tmp|jsonl|code)$">

@@ -122,6 +122,27 @@ jobs:
             -e "ssh -i ~/.ssh/id_deploy -p ${VPS_PORT:-22} -o StrictHostKeyChecking=yes" \
             dist/ "$VPS_USER@$VPS_HOST:$TARGET/"
 
+      - name: Права на состояние админки
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          # Админка и приём заявок работают от php (www-data), а файлы
+          # в api/ принадлежат пользователю выгрузки. Без группового
+          # доступа php не смог бы завести ни пользователей, ни заявки.
+          TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          ssh -i ~/.ssh/id_deploy -p "${VPS_PORT:-22}" -o StrictHostKeyChecking=yes \
+            "$VPS_USER@$VPS_HOST" "
+              chmod 2775 '$TARGET/api' 2>/dev/null || true
+              for f in settings.json leads.jsonl leads-state.json admin-users.json admin-throttle.json; do
+                [ -f '$TARGET/api/'\$f ] && chmod 660 '$TARGET/api/'\$f || true
+              done
+              ls -ld '$TARGET/api'
+            " || echo '::warning::Не удалось поправить права на api/ — админка может не сохранять данные.'
+
       - name: Сайт открывается
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true

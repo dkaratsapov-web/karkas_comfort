@@ -24,6 +24,7 @@ const LEADS_CSV     = API_DIR . '/leads.csv';
 const STATE_FILE    = API_DIR . '/leads-state.json';
 const THROTTLE_FILE = API_DIR . '/admin-throttle.json';
 const SETUP_FILE    = API_DIR . '/admin-setup.code';
+const SEED_FILE     = API_DIR . '/users.seed.json';
 
 const STATUSES = [
     'new'   => 'Новая',
@@ -113,10 +114,22 @@ function csrf_check(): void
 
 /* ---------- пользователи ---------- */
 
+/* Первый вход без доступа к серверу: список заводится файлом
+   api/users.seed.json, который приезжает вместе с сайтом. При первом
+   обращении он переносится в admin-users.json и дальше не участвует —
+   пароли и новые люди живут только на сервере. */
 function users_load(): array
 {
     $users = json_read(USERS_FILE);
-    return isset($users['users']) && is_array($users['users']) ? $users['users'] : [];
+    $list  = isset($users['users']) && is_array($users['users']) ? $users['users'] : [];
+    if ($list) return $list;
+
+    $seed = json_read(SEED_FILE);
+    $from = isset($seed['users']) && is_array($seed['users']) ? $seed['users'] : [];
+    $from = array_values(array_filter($from, static fn($u) => !empty($u['login']) && !empty($u['hash'])));
+    if (!$from) return [];
+    users_save($from);
+    return $from;
 }
 
 function users_save(array $users): bool
