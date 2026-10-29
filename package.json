@@ -17,6 +17,7 @@
     "fonts": "node tools/gen-fonts.mjs",
     "publish:demo": "npm run build && npm run verify && node tools/publish-demo.mjs",
     "visual": "node tools/visual.mjs",
+    "seo": "node tools/seo.mjs",
     "verify": "node tools/verify.mjs",
     "bundle": "node tools/bundle.mjs"
   },

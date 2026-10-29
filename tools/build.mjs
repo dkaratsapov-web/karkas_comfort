@@ -178,7 +178,7 @@ ${videos.map((v) => {
     return `          <figure class="video${v.portrait ? ' video--portrait' : ''}">
             <div class="video__frame">${frame}${v.length ? `<span class="video__time">${esc(v.length)}</span>` : ''}</div>
             <figcaption>
-              <h3>${esc(v.title)}</h3>
+              <h2>${esc(v.title)}</h2>
               ${v.note ? `<p>${esc(v.note)}</p>` : ''}
             </figcaption>
           </figure>`;
@@ -354,7 +354,7 @@ const analytics = [
     (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
     ym(${JSON.stringify(site.metrika)}, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/${site.metrika}" style="position:absolute;left:-9999px" alt=""></div></noscript>` : '',
+  <noscript><div><img src="https://mc.yandex.ru/watch/${site.metrika}" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>` : '',
   site.gtag ? `  <script async src="https://www.googletagmanager.com/gtag/js?id=${site.gtag}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config",${JSON.stringify(site.gtag)});</script>` : ''
 ].filter(Boolean).join('\n');
@@ -370,6 +370,14 @@ const termOf = (p) => p.term || (p.area <= 90 ? '1,5–2 месяца' : p.area 
 const floorsLabel = (f) => (f === 1 ? '1 этаж' : f === 1.5 ? '1,5 этажа' : '2 этажа');
 const floorsWord = (f) => (f === 1 ? 'Одноэтажный' : f === 1.5 ? 'Полутораэтажный' : 'Двухэтажный');
 const bedroomsWord = (n) => `${n} ${n === 1 ? 'спальня' : n < 5 ? 'спальни' : 'спален'}`;
+/* Описание для выдачи: длиннее 165 знаков поисковик обрезает сам,
+   и обрывает на середине слова — лучше обрежем аккуратно. */
+const clip = (text, max) => {
+  const one = String(text).replace(/\s+/g, ' ').trim();
+  if (one.length <= max) return one;
+  const cut = one.slice(0, max - 1);
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,.;:\s]+$/, '') + '…';
+};
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /* фотография объекта, если её передал заказчик, иначе временная иллюстрация */
@@ -434,7 +442,11 @@ const rebase = (html) => {
 
 /* Адреса без .html: страница живёт в своей папке (obekty/index.html),
    поэтому все внутренние ссылки делаем от корня и убираем расширение. */
-const pageUrl = (file) => (file === 'index.html' ? '/' : file === '404.html' ? '/404.html' : `/${file.replace(/\.html$/, '')}/`);
+const pageUrl = (file) => (file === 'index.html' ? '/' : file === '404.html' ? '/404.html'
+  /* file приходит и как «uslugi.html», и как «obekty/obekt-2/» — лишние
+     слеши схлопываем, иначе canonical вёл на /obekty/obekt-2// и страница
+     двоилась в индексе */
+  : `/${file.replace(/\.html$/, '')}/`.replace(/\/{2,}/g, '/'));
 const outPath = (file) => (file === 'index.html' || file === '404.html' ? file : `${file.replace(/\.html$/, '')}/index.html`);
 
 const linkify = (html) => html
@@ -1347,7 +1359,7 @@ for (const c of cases) {
   const facts = caseMeta(c);
   const meta = {
     title: `${c.title} — построенный каркасный дом | Каркас Комфорт`,
-    description: `${c.title}: ${list.length} фотографий с объекта${c.place ? `, ${c.place}` : ''}. ${c.lead || 'Съёмка с площадки после сдачи дома.'}`.slice(0, 300),
+    description: clip(`${c.title}${c.place ? `, ${c.place}` : ''}: ${list.length} фотографий со сдачи. ${c.lead || 'Съёмка с площадки после сдачи дома.'}`, 165),
     priority: 0.7,
     breadcrumb: [
       { name: 'Главная', url: '/' },

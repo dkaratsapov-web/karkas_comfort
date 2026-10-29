@@ -56,6 +56,7 @@ const run = (script) => new Promise((resolve) => {
 let failed = 0;
 failed += (await run('tools/check.mjs')) ? 1 : 0;
 failed += (await run('tools/visual.mjs')) ? 1 : 0;
+failed += (await run('tools/seo.mjs')) ? 1 : 0;
 server.close();
 if (failed) {
   console.error('\nПроверки не пройдены — публиковать нельзя.');
