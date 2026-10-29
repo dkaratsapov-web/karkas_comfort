@@ -120,4 +120,13 @@ ErrorDocument 404 /404.html
   <FilesMatch "^(\.htaccess|\.git.*|package.*\.json|README\.md|DEPLOY\.md)$">
     Require all denied
   </FilesMatch>
+  # Состояние сервера: доступы админки, настройки приёма заявок,
+  # сами заявки и их статусы. Лежит рядом со скриптом в api/,
+  # но из браузера не отдаётся ни одним адресом.
+  <FilesMatch "^(config\.php|settings\.json|admin-.*\.(json|code)|leads\.(csv|jsonl)|leads-state\.json)$">
+    Require all denied
+  </FilesMatch>
+  <FilesMatch "\.(tmp|jsonl|code)$">
+    Require all denied
+  </FilesMatch>
 </IfModule>

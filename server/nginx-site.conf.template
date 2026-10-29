@@ -108,7 +108,9 @@ __HTTP2_DIRECTIVE__    server_name __DOMAIN__;
     # --- служебное закрыто ---
     location ~ /\.                                   { deny all; }
     location = /api/config.php                       { deny all; }
-    location = /api/leads.csv                        { deny all; }
+    # состояние сервера: доступы админки, настройки заявок, сами заявки
+    # и их статусы. Лежит в api/ рядом со скриптом, но наружу не отдаётся.
+    location ~ ^/api/.*\.(json|jsonl|csv|code|tmp)$  { deny all; }
     location ~* ^/(package(-lock)?\.json|README\.md|DEPLOY\.md)$ { deny all; }
 
     # --- приём заявок ---
@@ -117,6 +119,22 @@ __HTTP2_DIRECTIVE__    server_name __DOMAIN__;
         fastcgi_pass unix:__PHP_SOCK__;
         fastcgi_read_timeout 30s;
     }
+
+    # --- админка ---
+    # Префиксный location с ^~ выигрывает у регулярного «php запрещён»
+    # ниже, поэтому скрипты админки работают, а остальной php по-прежнему
+    # закрыт. Страницы админки не кешируются и не индексируются.
+    location ^~ /admin/ {
+        add_header Cache-Control "no-store" always;
+        add_header X-Robots-Tag "noindex, nofollow" always;
+        location ~ ^/admin/.+\.php$ {
+            include snippets/fastcgi-php.conf;
+            fastcgi_pass unix:__PHP_SOCK__;
+            fastcgi_read_timeout 60s;
+        }
+        try_files $uri $uri/index.php =404;
+    }
+
     location ~ \.php$ { deny all; }   # других скриптов на сайте нет
 
     # --- статика: версия файла стоит в адресе (?v=…), можно кешировать надолго ---

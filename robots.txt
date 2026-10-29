@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /src/
 Disallow: /tools/
+Disallow: /admin/
+Disallow: /api/
 
 Sitemap: {{site}}/sitemap.xml

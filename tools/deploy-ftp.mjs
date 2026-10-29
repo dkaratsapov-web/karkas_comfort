@@ -39,8 +39,13 @@ if (!existsSync('dist/index.html')) {
   process.exit(1);
 }
 
-/* файлы, которые живут на сервере своей жизнью */
-const KEEP_SERVER = new Set(['api/config.php', 'api/leads.csv']);
+/* файлы, которые живут на сервере своей жизнью: доступы, настройки
+   приёма заявок, сами заявки и их статусы. Выгрузка их не трогает. */
+const KEEP_SERVER = new Set([
+  'api/config.php', 'api/leads.csv', 'api/leads.jsonl',
+  'api/leads-state.json', 'api/settings.json',
+  'api/admin-users.json', 'api/admin-throttle.json', 'api/admin-setup.code',
+]);
 /* текст меняется часто и весит мало — заливаем всегда;
    медиа сверяем по размеру, иначе каждый деплой тащил бы сотню мегабайт */
 const ALWAYS = /\.(html|css|js|json|xml|txt|php|webmanifest)$|(^|\/)\.htaccess$/i;

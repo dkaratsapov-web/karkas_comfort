@@ -115,6 +115,10 @@ jobs:
           rsync -az --delete ${{ inputs.dry_run && '--dry-run --itemize-changes' || '' }} \
             --exclude 'api/config.php' \
             --exclude 'api/leads.csv' \
+            --exclude 'api/leads.jsonl' \
+            --exclude 'api/leads-state.json' \
+            --exclude 'api/settings.json' \
+            --exclude 'api/admin-*' \
             -e "ssh -i ~/.ssh/id_deploy -p ${VPS_PORT:-22} -o StrictHostKeyChecking=yes" \
             dist/ "$VPS_USER@$VPS_HOST:$TARGET/"
 

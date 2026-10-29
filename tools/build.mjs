@@ -395,6 +395,8 @@ if (PREVIEW) {
   if (existsSync('robots.txt')) writeFileSync(`${OUT}/robots.txt`, read('robots.txt').split('{{site}}').join(SITE));
   if (existsSync('server/.htaccess')) cpSync('server/.htaccess', `${OUT}/.htaccess`);
   if (existsSync('server/api')) cpSync('server/api', `${OUT}/api`, { recursive: true });
+  /* админка: только в боевой сборке — на Pages нет PHP, да и незачем */
+  if (existsSync('server/admin')) cpSync('server/admin', `${OUT}/admin`, { recursive: true });
 }
 if (existsSync('server/site.webmanifest')) cpSync('server/site.webmanifest', `${OUT}/site.webmanifest`);
 for (const f of ['favicon.ico', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'])

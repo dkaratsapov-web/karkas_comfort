@@ -10,6 +10,19 @@ header('X-Content-Type-Options: nosniff');
 
 $config = require __DIR__ . '/config.php';
 
+/* Настройки из админки перекрывают значения, заданные при установке:
+   почта, Telegram и CRM меняются на сайте, а не правкой файла по SSH. */
+$overrides = is_file(__DIR__ . '/settings.json')
+    ? json_decode((string) file_get_contents(__DIR__ . '/settings.json'), true)
+    : null;
+if (is_array($overrides)) {
+    foreach ($overrides as $key => $value) {
+        if (is_string($value) && trim($value) === '' && !array_key_exists($key, $config)) continue;
+        if (in_array($key, ['github_token', 'github_repo', 'github_branch'], true)) continue;
+        $config[$key] = $value;
+    }
+}
+
 function fail(string $message, int $code = 400)
 {
     http_response_code($code);
@@ -159,6 +172,29 @@ if (!empty($config['crm_webhook'])) {
 function csv_safe(string $value): string
 {
     return preg_match('/^[=+\-@\t\r]/', $value) === 1 ? "'" . $value : $value;
+}
+
+/* --- заявка в хранилище админки ---
+   leads.jsonl: одна заявка — одна строка. Админка показывает их списком,
+   ведёт статусы и заметки. Идентификатор нужен, чтобы статус держался
+   за конкретной заявкой. */
+$lead_id = date('Ymd-His') . '-' . substr(md5($digits . $when . random_bytes(4)), 0, 6);
+$record  = [
+    'id'      => $lead_id,
+    'at'      => date('c'),
+    'name'    => $name,
+    'phone'   => $phone,
+    'message' => $message,
+    'project' => $project,
+    'page'    => $page,
+    'ip'      => $ip,
+    'test'    => !empty($data['test']),
+    'sent'    => ['mail' => $sent, 'telegram' => $telegram, 'crm' => $crm],
+];
+$jsonl = @fopen(__DIR__ . '/leads.jsonl', 'a');
+if ($jsonl) {
+    fwrite($jsonl, json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
+    fclose($jsonl);
 }
 
 /* --- запись в файл: страховка на случай проблем с почтой --- */
