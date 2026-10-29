@@ -211,7 +211,18 @@ for (const url of pages) {
         }
         window.scrollTo({ top: 0, behavior: 'instant' });
       });
-      await page.waitForTimeout(500);
+      /* ждём, пока докачаются кадры, которые прокрутка только что
+         запустила: иначе на страницах с длинной галереей проверка
+         ловила «картинка не загрузилась» там, где она просто не успела */
+      await page.evaluate(() => {
+        const pending = [...document.images].filter((i) => !i.complete);
+        const done = pending.map((i) => new Promise((r) => {
+          i.addEventListener('load', r, { once: true });
+          i.addEventListener('error', r, { once: true });
+        }));
+        return Promise.race([Promise.all(done), new Promise((r) => setTimeout(r, 5000))]);
+      });
+      await page.waitForTimeout(300);
       const found = await page.evaluate(audit);
       found.forEach((f) => problems.push({ url, width, ...f }));
       errs.forEach((e) => problems.push({ url, width, kind: 'ошибка JS', where: '-', detail: e }));
