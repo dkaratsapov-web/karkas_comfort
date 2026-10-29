@@ -127,12 +127,17 @@ __HTTP2_DIRECTIVE__    server_name __DOMAIN__;
     location ^~ /admin/ {
         add_header Cache-Control "no-store" always;
         add_header X-Robots-Tag "noindex, nofollow" always;
+        # index, а не try_files на index.php: try_files отдал бы скрипт
+        # как обычный файл, то есть исходником в браузер. Директива index
+        # делает внутренний переход, и запрос снова проходит разбор
+        # location — попадая в блок ниже, к PHP-FPM.
+        index index.php;
         location ~ ^/admin/.+\.php$ {
             include snippets/fastcgi-php.conf;
             fastcgi_pass unix:__PHP_SOCK__;
             fastcgi_read_timeout 60s;
         }
-        try_files $uri $uri/index.php =404;
+        try_files $uri $uri/ =404;
     }
 
     location ~ \.php$ { deny all; }   # других скриптов на сайте нет
