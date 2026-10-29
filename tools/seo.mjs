@@ -16,8 +16,8 @@ const host = (site.domain || 'каркаскомфорт.рф').replace(/^https?
 const SITE = new URL(`https://${host}`).origin;
 
 /* ---------- границы, за которыми поисковик обрезает или ругается ---------- */
-const TITLE = { min: 25, max: 70 };
-const DESC  = { min: 70, max: 170 };
+const TITLE = { min: 45, max: 60 };
+const DESC  = { min: 150, max: 160 };
 const WORDS_MIN = 120;          /* меньше — страница считается пустой */
 
 const problems = [];

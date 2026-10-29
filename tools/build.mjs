@@ -194,8 +194,8 @@ function videoReel(n) {
   if (!list.length) return '';
   return `        <div class="reel">
 ${list.map((v) => `          <article class="reel__card">
-            <button class="reel__frame" type="button" data-video="/assets/video/${esc(v.src)}" aria-label="Смотреть: ${esc(v.title)}">
-              ${v.poster ? `<img src="/assets/img/photos/${esc(v.poster)}" alt="" loading="lazy" width="720" height="1280">` : ''}
+            <button class="reel__frame" type="button" data-video="/assets/video/${esc(v.src)}"${v.poster ? '' : ` aria-label="Смотреть: ${esc(v.title)}"`}>
+              ${v.poster ? `<img src="/assets/img/photos/${esc(v.poster)}" alt="Смотреть видео: ${esc(v.title)}" loading="lazy" width="720" height="1280">` : ''}
               <span class="reel__play" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
               </span>
@@ -256,7 +256,7 @@ function articleBody(blocks) {
 
 const articleCard = (a) => `        <article class="post">
           <div class="post__media${/razrez|fasad|vid-|plan|3d/.test(a.cover || '') ? ' post__media--sheet' : ''}">
-            <img ${srcset(a.cover, '(min-width: 900px) 33vw, 100vw')} alt="" loading="lazy" width="900" height="600">
+            <img ${srcset(a.cover, '(min-width: 900px) 33vw, 100vw')} alt="${esc(a.h1 || a.title)}" loading="lazy" width="900" height="600">
           </div>
           <div class="post__body">
             <p class="post__tag">${esc(a.tag)}</p>
@@ -297,7 +297,9 @@ function flightBlock() {
     const attrs = i === 0
       ? `${srcset(st.src, '100vw')} fetchpriority="high"`
       : `src="${img(small(st.src))}" data-full="${img(st.src)}" loading="lazy"`;
-    return `          <img class="flight__frame${i === 0 ? ' is-on' : ''}" ${attrs} alt="${esc(i === 0 ? st.alt : '')}" width="1700" height="1133"${i ? ' aria-hidden="true"' : ''}>`;
+    /* подпись есть у каждого кадра: программам чтения они не видны
+       (aria-hidden), а поисковику описывают, что на фотографии */
+    return `          <img class="flight__frame${i === 0 ? ' is-on' : ''}" ${attrs} alt="${esc(st.alt)}" width="1700" height="1133"${i ? ' aria-hidden="true"' : ''}>`;
   }).join('\n');
 
   const steps = stops.map((st, i) => `            <li class="flight__step${i === 0 ? ' is-on' : ''}" data-step="${i}">
@@ -370,6 +372,13 @@ const termOf = (p) => p.term || (p.area <= 90 ? '1,5–2 месяца' : p.area 
 const floorsLabel = (f) => (f === 1 ? '1 этаж' : f === 1.5 ? '1,5 этажа' : '2 этажа');
 const floorsWord = (f) => (f === 1 ? 'Одноэтажный' : f === 1.5 ? 'Полутораэтажный' : 'Двухэтажный');
 const bedroomsWord = (n) => `${n} ${n === 1 ? 'спальня' : n < 5 ? 'спальни' : 'спален'}`;
+/* Описание под выдачу: короче 140 знаков поисковик дополняет сам текстом
+   со страницы, длиннее 160 — обрезает. Держим в этой вилке. */
+const fitDesc = (text, tail = 'Фотографии со сдачи объекта, Тверь и область.') => {
+  let one = String(text).replace(/\s+/g, ' ').trim();
+  if (one.length < 150) one = `${one} ${tail}`.trim();
+  return clip(one, 160);
+};
 /* Описание для выдачи: длиннее 165 знаков поисковик обрезает сам,
    и обрывает на середине слова — лучше обрежем аккуратно. */
 const clip = (text, max) => {
@@ -593,7 +602,9 @@ function page({ file, meta, content, extraLd = '', bodyClass = '' }) {
 <html lang="ru">
 ${head
     .replace(/\{\{title\}\}/g, esc(meta.title))
-    .replace(/\{\{description\}\}/g, esc(meta.description))
+    /* описание доводится до вилки 150-160 знаков: короче — поисковик
+       дописывает своё, длиннее — обрезает на полуслове */
+    .replace(/\{\{description\}\}/g, esc(fitDesc(meta.description, file.startsWith('stati/') ? 'Разбор от строителей из Твери.' : 'Каркас Комфорт: Тверь и область.')))
     .replace(/\{\{canonical\}\}/g, canonical)
     .replace(/\{\{ogimage\}\}/g, ogimage)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
@@ -1059,8 +1070,8 @@ ${cells}
 for (const p of projects) {
   const similar = projects.filter((x) => x.slug !== p.slug)
     .sort((a, b) => Math.abs(a.area - p.area) - Math.abs(b.area - p.area)).slice(0, 3);
-  const title = `${projectName(p)}: каркасный дом ${p.size}, ${areaLabel(p)} м² | Каркас Комфорт`;
-  const description = `Проект «${projectName(p)}»: каркасный дом ${p.size}, ${areaLabel(p)} м², ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))}${p.priceNote ? `, ${p.priceNote}` : ` за тёплый контур, под ключ с отделкой ${p.prices ? '' : 'от '}${money(priceTop(p))}`}.`;
+  const title = `${projectName(p)}: каркасный дом ${areaLabel(p)} м² под ключ | Каркас Комфорт`;
+  const description = fitDesc(`Проект «${projectName(p)}»: каркасный дом ${p.size}, ${areaLabel(p)} м², ${floorsWord(p.floors).toLowerCase()}, ${bedroomsWord(p.bedrooms)}, срок ${termOf(p)}. Цена ${p.price ? '' : 'от '}${money(priceOf(p))}${p.priceNote ? `, ${p.priceNote}` : ` за тёплый контур, под ключ ${p.prices ? '' : 'от '}${money(priceTop(p))}`}.`, 'Строим в Твери и Тверской области, гарантия 5 лет.');
 
   const specs = [
     ['Габариты', `${p.size} м`],
@@ -1188,7 +1199,7 @@ mkdirSync(`${OUT}/stati`, { recursive: true });
 {
   const meta = {
     title: 'Статьи о строительстве каркасных домов | Каркас Комфорт',
-    description: 'Разборы по строительству каркасного дома: цены и сметы, фундаменты, пирог стены, зимняя стройка и договор подряда. Опыт компании «Каркас Комфорт» в Тверской области.',
+    description: 'Разборы по строительству каркасного дома: цены и сметы, фундамент, стены, инженерия, отделка, документы и приёмка. Опыт строек в Тверской области.',
     canonical: `${SITE}/stati/`,
     ogimage: ARTICLE_IMG(articles[0]),
     scripts: []
@@ -1359,7 +1370,7 @@ for (const c of cases) {
   const facts = caseMeta(c);
   const meta = {
     title: `${c.title} — построенный каркасный дом | Каркас Комфорт`,
-    description: clip(`${c.title}${c.place ? `, ${c.place}` : ''}: ${list.length} фотографий со сдачи. ${c.lead || 'Съёмка с площадки после сдачи дома.'}`, 165),
+    description: fitDesc(`${c.title}${c.place ? `, ${c.place}` : ''}: ${list.length} фотографий со сдачи. ${c.lead || 'Съёмка с площадки после сдачи дома.'}`),
     priority: 0.7,
     breadcrumb: [
       { name: 'Главная', url: '/' },
