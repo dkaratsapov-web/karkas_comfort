@@ -26,6 +26,9 @@ if (post('action', 20) === 'save') {
         'subject'          => post('subject', 200),
         'telegram_token'   => post('telegram_token', 120),
         'telegram_chat_id' => post('telegram_chat_id', 60),
+        'max_token'        => post('max_token', 200),
+        'max_chat_id'      => post('max_chat_id', 60),
+        'max_user_id'      => post('max_user_id', 60),
         'crm_webhook'      => post('crm_webhook', 500),
         'crm_format'       => post('crm_format', 10) === 'form' ? 'form' : 'json',
         'rate_limit'       => max(1, min(100, (int) post('rate_limit', 5))),
@@ -38,6 +41,49 @@ if (post('action', 20) === 'save') {
         settings_save($values);
         flash('Настройки сохранены.');
         redirect('/admin/settings.php');
+    }
+}
+
+/* Определить получателя в MAX: бот видит чаты только через свои события,
+   списка чатов в API нет. Поэтому пишем боту или добавляем его в чат,
+   а потом читаем последние события и достаём оттуда идентификаторы. */
+$maxWho = '';
+if (post('action', 20) === 'maxwho') {
+    $token = post('max_token', 200) ?: (string) ($now['max_token'] ?? '');
+    if ($token === '') {
+        $maxWho = 'Сначала впишите токен бота и сохраните настройки.';
+    } else {
+        $ch = curl_init('https://platform-api2.max.ru/updates?limit=50');
+        curl_setopt_array($ch, [
+            CURLOPT_HTTPHEADER     => ['Authorization: ' . $token],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 20,
+        ]);
+        $answer = (string) curl_exec($ch);
+        $code   = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        $error  = curl_error($ch);
+        curl_close($ch);
+
+        if ($code !== 200) {
+            $maxWho = $code
+                ? 'MAX ответил ' . $code . ': ' . mb_substr(strip_tags($answer), 0, 200)
+                : 'Нет связи с MAX: ' . $error . '. Если упоминается сертификат — на сервере нужен корневой сертификат Минцифры.';
+        } else {
+            /* в событиях идентификаторы лежат на разной глубине — обходим всё дерево */
+            $found = [];
+            $walk = static function ($node) use (&$walk, &$found) {
+                if (!is_array($node)) return;
+                if (isset($node['chat_id'])) $found['чат ' . $node['chat_id']] = (string) $node['chat_id'];
+                if (isset($node['user_id']) && isset($node['name'])) {
+                    $found[$node['name'] . ' (личный диалог)'] = (string) $node['user_id'];
+                }
+                foreach ($node as $child) $walk($child);
+            };
+            $walk(json_decode($answer, true) ?: []);
+            $maxWho = $found
+                ? 'Нашлись: ' . implode(' · ', array_map(static fn($k, $v) => "$k → $v", array_keys($found), $found))
+                : 'События пустые. Напишите боту в MAX или добавьте его в чат, отправьте там сообщение и нажмите кнопку ещё раз.';
+        }
     }
 }
 
@@ -92,6 +138,12 @@ echo '<p class="muted">Токен берётся у @BotFather, идентифи
 echo '<label>Токен бота<input name="telegram_token" value="' . h($now['telegram_token'] ?? '') . '" autocomplete="off" placeholder="123456:AA..."></label>';
 echo '<label>Идентификатор чата<input name="telegram_chat_id" value="' . h($now['telegram_chat_id'] ?? '') . '" autocomplete="off"></label>';
 
+echo '<h2>MAX</h2>';
+echo '<p class="muted">Бот создаётся в MAX, токен берётся там же. Получателя указывайте один: чат (группу или канал) либо личный диалог. Если не знаете идентификатор — впишите токен, сохраните и нажмите «Определить получателя» внизу.</p>';
+echo '<label>Токен бота<input name="max_token" value="' . h($now['max_token'] ?? '') . '" autocomplete="off"></label>';
+echo '<label>Идентификатор чата<input name="max_chat_id" value="' . h($now['max_chat_id'] ?? '') . '" autocomplete="off" placeholder="для группы или канала"></label>';
+echo '<label>Идентификатор пользователя<input name="max_user_id" value="' . h($now['max_user_id'] ?? '') . '" autocomplete="off" placeholder="для личного диалога"></label>';
+
 echo '<h2>CRM</h2>';
 echo '<p class="muted">Входящий вебхук CRM: в Битрикс24 это «CRM → Настройки → Вебхуки», в amoCRM — «Настройки → Интеграции». Подойдёт и адрес сценария в Make или n8n.</p>';
 echo '<label>Адрес вебхука<input name="crm_webhook" value="' . h($now['crm_webhook'] ?? '') . '" placeholder="https://..."></label>';
@@ -105,6 +157,11 @@ echo '<h2>Защита от спама</h2>';
 echo '<label>Сколько заявок принимать с одного адреса за час<input type="number" name="rate_limit" min="1" max="100" value="' . h((string) ($now['rate_limit'] ?? 5)) . '"></label>';
 
 echo '<button class="btn" type="submit">Сохранить</button></form>';
+
+if ($maxWho) echo '<p class="flash">' . h($maxWho) . '</p>';
+echo '<form method="post" class="card card--narrow">' . csrf_field() . '<input type="hidden" name="action" value="maxwho">';
+echo '<h2>Получатель в MAX</h2><p class="muted">Прочитает последние события бота и покажет идентификаторы чатов и диалогов, откуда ему писали.</p>';
+echo '<button class="btn btn--ghost" type="submit">Определить получателя</button></form>';
 
 echo '<form method="post" class="card card--narrow">' . csrf_field() . '<input type="hidden" name="action" value="test">';
 echo '<h2>Проверка</h2><p class="muted">Отправит тестовую заявку тем же путём, что и форма на сайте. В списке заявок она будет подписана как проверка.</p>';

@@ -134,6 +134,32 @@ function post_to(string $url, $payload, bool $asJson): bool
     return $ok;
 }
 
+/* --- отправка с заголовками: нужна для MAX, где токен идёт
+       в заголовке Authorization, а тело — JSON --- */
+function post_json(string $url, array $payload, array $headers = []): array
+{
+    if ($url === '' || !function_exists('curl_init')) {
+        return ['ok' => false, 'error' => 'curl недоступен'];
+    }
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 8,
+        CURLOPT_CONNECTTIMEOUT => 4,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
+        CURLOPT_HTTPHEADER     => array_merge(['Content-Type: application/json; charset=utf-8'], $headers),
+        CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE),
+    ]);
+    $answer = (string) curl_exec($ch);
+    $code   = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    $error  = curl_error($ch);
+    curl_close($ch);
+    if ($code >= 200 && $code < 300) return ['ok' => true];
+    return ['ok' => false, 'error' => $code ? "ответ $code: " . mb_substr($answer, 0, 200) : $error];
+}
+
 /* --- дубль в Telegram, если настроен --- */
 $telegram = false;
 if (!empty($config['telegram_token']) && !empty($config['telegram_chat_id'])) {
@@ -142,6 +168,26 @@ if (!empty($config['telegram_token']) && !empty($config['telegram_chat_id'])) {
         ['chat_id' => $config['telegram_chat_id'], 'text' => $body, 'disable_web_page_preview' => true],
         false
     );
+}
+
+/* --- дубль в MAX, если настроен бот ---
+   Адресат задаётся либо чатом (chat_id), либо личным диалогом (user_id).
+   Токен бота идёт заголовком: передача его в адресе больше не поддерживается.
+   Сертификат platform-api2.max.ru выпущен Минцифры, поэтому на сервере
+   должен стоять их корневой сертификат — иначе запрос не пройдёт проверку. */
+$max = false;
+$max_error = '';
+if (!empty($config['max_token']) && (!empty($config['max_chat_id']) || !empty($config['max_user_id']))) {
+    $target = !empty($config['max_chat_id'])
+        ? 'chat_id=' . rawurlencode((string) $config['max_chat_id'])
+        : 'user_id=' . rawurlencode((string) $config['max_user_id']);
+    $answer = post_json(
+        'https://platform-api2.max.ru/messages?' . $target,
+        ['text' => $body, 'notify' => true],
+        ['Authorization: ' . $config['max_token']]
+    );
+    $max = $answer['ok'];
+    $max_error = $answer['ok'] ? '' : (string) ($answer['error'] ?? '');
 }
 
 /* --- заявка в CRM, если настроен вебхук --- */
@@ -189,7 +235,7 @@ $record  = [
     'page'    => $page,
     'ip'      => $ip,
     'test'    => !empty($data['test']),
-    'sent'    => ['mail' => $sent, 'telegram' => $telegram, 'crm' => $crm],
+    'sent'    => ['mail' => $sent, 'telegram' => $telegram, 'max' => $max, 'crm' => $crm],
 ];
 $jsonl = @fopen(__DIR__ . '/leads.jsonl', 'a');
 if ($jsonl) {
@@ -203,15 +249,15 @@ if (!empty($config['log_file'])) {
     if ($fh) {
         if (ftell($fh) === 0) {
             fwrite($fh, "\xEF\xBB\xBF");                       // BOM, чтобы Excel открыл кириллицу
-            fputcsv($fh, ['Дата', 'Имя', 'Телефон', 'Проект', 'Сообщение', 'Страница', 'IP', 'Почта', 'Telegram', 'CRM'], ';');
+            fputcsv($fh, ['Дата', 'Имя', 'Телефон', 'Проект', 'Сообщение', 'Страница', 'IP', 'Почта', 'Telegram', 'MAX', 'CRM'], ';');
         }
         fputcsv($fh, array_map('csv_safe', [$when, $name, $phone, $project, $message, $page, $ip,
-            $sent ? 'да' : 'нет', $telegram ? 'да' : 'нет', $crm ? 'да' : 'нет']), ';');
+            $sent ? 'да' : 'нет', $telegram ? 'да' : 'нет', $max ? 'да' : 'нет', $crm ? 'да' : 'нет']), ';');
         fclose($fh);
     }
 }
 
-if (!$sent && !$telegram && !$crm) {
+if (!$sent && !$telegram && !$max && !$crm) {
     /* ни один канал не принял заявку: она записана в CSV, но человеку об этом знать нужно */
     fail('Заявка сохранена, но письмо менеджеру не ушло. Позвоните, пожалуйста: 8 (920) 171-69-69', 502);
 }
