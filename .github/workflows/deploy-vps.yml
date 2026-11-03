@@ -143,6 +143,34 @@ jobs:
               ls -ld '$TARGET/api'
             " || echo '::warning::Не удалось поправить права на api/ — админка может не сохранять данные.'
 
+      - name: Доставка заявок в MAX
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          MAX_TOKEN: ${{ secrets.MAX_TOKEN }}
+          MAX_CHAT_ID: ${{ secrets.MAX_CHAT_ID }}
+          MAX_USER_ID: ${{ secrets.MAX_USER_ID }}
+        run: |
+          # Токен бота MAX живёт в секретах GitHub, а не в репозитории.
+          # Этот шаг переносит его в api/settings.json на сервере, чтобы
+          # заявки уходили в MAX без правки файлов по SSH руками.
+          if [ -z "$MAX_TOKEN" ]; then
+            echo "::notice::Секрет MAX_TOKEN не задан — доставка в MAX не настраивается."
+            exit 0
+          fi
+          TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          SSH=(ssh -i ~/.ssh/id_deploy -p "${VPS_PORT:-22}" -o StrictHostKeyChecking=yes "$VPS_USER@$VPS_HOST")
+          "${SSH[@]}" "cat '$TARGET/api/settings.json' 2>/dev/null || echo '{}'" > now.json
+          jq --arg t "$MAX_TOKEN" --arg c "$MAX_CHAT_ID" --arg u "$MAX_USER_ID" \
+             '. + {max_token: $t, max_chat_id: $c, max_user_id: $u}' now.json > next.json
+          scp -i ~/.ssh/id_deploy -P "${VPS_PORT:-22}" -o StrictHostKeyChecking=yes next.json "$VPS_USER@$VPS_HOST:/tmp/kk-settings.json"
+          "${SSH[@]}" "install -m 660 -g www-data /tmp/kk-settings.json '$TARGET/api/settings.json' && rm -f /tmp/kk-settings.json"
+          rm -f now.json next.json
+          echo "Доставка в MAX настроена: получатель ${MAX_CHAT_ID:+чат}${MAX_USER_ID:+ личный диалог}."
+
       - name: Сайт открывается
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true
