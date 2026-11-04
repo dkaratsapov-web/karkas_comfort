@@ -285,57 +285,6 @@ jobs:
           rm -f now.json next.json
           echo "Доставка в MAX настроена: получатель ${MAX_CHAT_ID:+чат}${MAX_USER_ID:+ личный диалог}."
 
-      - name: Сервер отдаёт сайт
-        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
-        env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-        run: |
-          # Включает https, когда сертификат есть, и в любом случае
-          # оставляет работающий nginx: конфигурация проверяется по коду
-          # возврата, негодная откатывается на http-вариант, служба
-          # поднимается. Сайт важнее https.
-          D=xn--80aa2abbmnbmggrx.xn--p1ai
-          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
-              if [ \"\$(id -u)\" != 0 ]; then echo 'нет прав root — пропускаю'; exit 0; fi
-              CFG=/etc/nginx/sites-available/$D.conf
-              HTTP=/etc/nginx/sites-available/$D.conf.http
-              LINK=/etc/nginx/sites-enabled/$D.conf
-
-              WANT=\$HTTP
-              if [ -f /etc/letsencrypt/live/$D/fullchain.pem ] && [ -f \$CFG ]; then
-                WANT=\$CFG
-                echo 'сертификат есть, годен до:' \$(openssl x509 -enddate -noout -in /etc/letsencrypt/live/$D/fullchain.pem | cut -d= -f2)
-              else
-                echo 'сертификата нет — остаёмся на http'
-              fi
-              ln -sfn \$WANT \$LINK
-
-              if ! nginx -t >/tmp/ngt 2>&1; then
-                echo 'конфигурация не проходит проверку:'; tail -4 /tmp/ngt
-                ln -sfn \$HTTP \$LINK
-                nginx -t >/tmp/ngt2 2>&1 || { echo 'и http-вариант не проходит:'; tail -4 /tmp/ngt2; }
-              fi
-
-              systemctl reload nginx 2>/dev/null || systemctl restart nginx 2>/dev/null || true
-              if systemctl is-active --quiet nginx; then
-                echo 'nginx работает, включён:' \$(readlink -f \$LINK)
-              else
-                echo 'nginx не поднялся:'
-                systemctl status nginx --no-pager -l 2>&1 | tail -12
-                journalctl -u nginx -n 15 --no-pager 2>&1 | tail -15
-              fi
-
-              if command -v ufw >/dev/null && ufw status 2>/dev/null | head -1 | grep -q active; then
-                ufw status | grep -q 443 || ufw allow 443/tcp >/dev/null 2>&1 || true
-              fi
-
-              echo 'слушают порты:'
-              ss -ltn 2>/dev/null | awk '/:80 |:443 /{print \"  \" \$4}' || true
-              curl -s  -o /dev/null -w '  локально http:  %{http_code}\n' --resolve $D:80:127.0.0.1  http://$D/  || true
-              curl -sk -o /dev/null -w '  локально https: %{http_code}\n' --resolve $D:443:127.0.0.1 https://$D/ || true
-            "
-
       - name: Сайт открывается
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true
@@ -466,6 +415,57 @@ jobs:
           if [ "$proto" = http ]; then
             echo "::warning::Сайт отдаётся только по http. Браузеры открывают домен по https, а он молчит без сертификата — посетители до страницы не доходят, поэтому в Метрике пусто. Сертификат выпустится сам на следующей выгрузке."
           fi
+
+      - name: Сервер отдаёт сайт
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          # Включает https, когда сертификат есть, и в любом случае
+          # оставляет работающий nginx: конфигурация проверяется по коду
+          # возврата, негодная откатывается на http-вариант, служба
+          # поднимается. Сайт важнее https.
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
+              if [ \"\$(id -u)\" != 0 ]; then echo 'нет прав root — пропускаю'; exit 0; fi
+              CFG=/etc/nginx/sites-available/$D.conf
+              HTTP=/etc/nginx/sites-available/$D.conf.http
+              LINK=/etc/nginx/sites-enabled/$D.conf
+
+              WANT=\$HTTP
+              if [ -f /etc/letsencrypt/live/$D/fullchain.pem ] && [ -f \$CFG ]; then
+                WANT=\$CFG
+                echo 'сертификат есть, годен до:' \$(openssl x509 -enddate -noout -in /etc/letsencrypt/live/$D/fullchain.pem | cut -d= -f2)
+              else
+                echo 'сертификата нет — остаёмся на http'
+              fi
+              ln -sfn \$WANT \$LINK
+
+              if ! nginx -t >/tmp/ngt 2>&1; then
+                echo 'конфигурация не проходит проверку:'; cat /tmp/ngt | sed 's/^/    /'
+                ln -sfn \$HTTP \$LINK
+                nginx -t >/tmp/ngt2 2>&1 || { echo 'и http-вариант не проходит:'; tail -4 /tmp/ngt2; }
+              fi
+
+              systemctl reload nginx 2>/dev/null || systemctl restart nginx 2>/dev/null || true
+              if systemctl is-active --quiet nginx; then
+                echo 'nginx работает, включён:' \$(readlink -f \$LINK)
+              else
+                echo 'nginx не поднялся:'
+                systemctl status nginx --no-pager -l 2>&1 | tail -12
+                journalctl -u nginx -n 15 --no-pager 2>&1 | tail -15
+              fi
+
+              if command -v ufw >/dev/null && ufw status 2>/dev/null | head -1 | grep -q active; then
+                ufw status | grep -q 443 || ufw allow 443/tcp >/dev/null 2>&1 || true
+              fi
+
+              echo 'слушают порты:'
+              ss -ltn 2>/dev/null | awk '/:80 |:443 /{print \"  \" \$4}' || true
+              curl -s  -o /dev/null -w '  локально http:  %{http_code}\n' --resolve $D:80:127.0.0.1  http://$D/  || true
+              curl -sk -o /dev/null -w '  локально https: %{http_code}\n' --resolve $D:443:127.0.0.1 https://$D/ || true
+            "
 
       - name: Состояние сервера напоследок
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
