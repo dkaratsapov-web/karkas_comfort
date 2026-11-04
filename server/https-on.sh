@@ -66,6 +66,19 @@ if command -v ufw >/dev/null && ufw status 2>/dev/null | head -1 | grep -q activ
   ufw status | grep -q 443 || ufw allow 443/tcp >/dev/null 2>&1 || true
 fi
 
+# Продление: без таймера сертификат кончится через три месяца и сайт
+# перестанет открываться. Хук перезагружает nginx после продления.
+if command -v certbot >/dev/null; then
+  install -d -m 755 /etc/letsencrypt/renewal-hooks/deploy
+  cat > /etc/letsencrypt/renewal-hooks/deploy/nginx-reload.sh <<'HOOK'
+#!/bin/sh
+systemctl reload nginx
+HOOK
+  chmod +x /etc/letsencrypt/renewal-hooks/deploy/nginx-reload.sh
+  systemctl enable --now certbot.timer >/dev/null 2>&1 || true
+  echo "продление сертификата: $(systemctl is-active certbot.timer 2>/dev/null), следующая проверка $(systemctl list-timers certbot.timer --no-pager 2>/dev/null | awk 'NR==2{print $1, $2, $3}')"
+fi
+
 ss -ltn 2>/dev/null | awk '/:80 |:443 /{printf "  слушает %s\n", $4}'
 curl -s  -o /dev/null -w '  локально http  %{http_code}\n' --resolve "$D:80:127.0.0.1"  "http://$D/"  || true
 curl -sk -o /dev/null -w '  локально https %{http_code}\n' --resolve "$D:443:127.0.0.1" "https://$D/" || true
