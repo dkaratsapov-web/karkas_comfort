@@ -467,6 +467,36 @@ jobs:
             echo "::warning::Сайт отдаётся только по http. Браузеры открывают домен по https, а он молчит без сертификата — посетители до страницы не доходят, поэтому в Метрике пусто. Сертификат выпустится сам на следующей выгрузке."
           fi
 
+      - name: Состояние сервера напоследок
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          # Печатается последним: в длинном логе начало обрезается,
+          # а именно эти строки нужны, когда что-то не отдаётся.
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
+              echo 'служба nginx:' \$(systemctl is-active nginx)
+              echo 'включена конфигурация:' \$(readlink -f /etc/nginx/sites-enabled/$D.conf)
+              if [ -f /etc/letsencrypt/live/$D/fullchain.pem ]; then
+                echo 'сертификат есть, годен до:' \$(openssl x509 -enddate -noout -in /etc/letsencrypt/live/$D/fullchain.pem | cut -d= -f2)
+              else
+                echo 'сертификата нет'
+              fi
+              echo 'проверка полной конфигурации:'
+              T=\$(mktemp -d); cp -a /etc/nginx \$T/nginx
+              ln -sfn /etc/nginx/sites-available/$D.conf \$T/nginx/sites-enabled/$D.conf
+              nginx -t -c \$T/nginx/nginx.conf 2>&1 | sed 's/^/  /' | tail -6
+              rm -rf \$T
+              echo 'слушают порты:' \$(ss -ltn 2>/dev/null | awk '/:80 |:443 /{printf \"%s \", \$4}')
+              curl -s  -o /dev/null -w 'локально http  %{http_code}\n' --resolve $D:80:127.0.0.1  http://$D/  || true
+              curl -sk -o /dev/null -w 'локально https %{http_code}\n' --resolve $D:443:127.0.0.1 https://$D/ || true
+              echo 'последние ошибки nginx:'
+              tail -6 /var/log/nginx/error.log 2>/dev/null | sed 's/^/  /' || true
+            "
+
       - name: Убрать доступы
         if: always()
         run: rm -f ~/.ssh/id_deploy ~/.sshpass ~/sshw ~/scpw
