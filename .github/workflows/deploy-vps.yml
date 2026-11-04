@@ -372,6 +372,50 @@ jobs:
               grep -h -E 'server_name|root |listen ' /etc/nginx/sites-enabled/* 2>/dev/null | sed 's/^[[:space:]]*//' || true
             " || true
 
+      - name: Счётчик Метрики на боевом сайте
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        run: |
+          # Проверяем не разметку в репозитории, а то, что реально
+          # отдаёт домен: без этого «счётчик стоит» ничего не значит.
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          ID=$(node -e "process.stdout.write(String(require('./src/data/site.json').metrika||''))")
+          [ -n "$ID" ] || { echo "::warning::В src/data/site.json не задан номер счётчика."; exit 0; }
+
+          proto=https
+          code=$(curl -s -o /tmp/live.html -w '%{http_code}' --max-time 25 -L "https://$D/" || true)
+          if [ "$code" != "200" ]; then
+            proto=http
+            code=$(curl -s -o /tmp/live.html -w '%{http_code}' --max-time 25 -L "http://$D/" || true)
+          fi
+          if [ "$code" != "200" ]; then
+            echo "::warning::Главная по домену не открывается ($code) — счётчику нечего считать: пока сайт недоступен посетителям, данных в Метрике не будет."
+            exit 0
+          fi
+          echo "Главная прочитана по $proto."
+
+          n=$(grep -o "ym($ID, \"init\"" /tmp/live.html | wc -l)
+          echo "блоков init счётчика $ID на странице: $n"
+          case "$n" in
+            0) echo "::warning::На боевой главной счётчика нет. Выгрузилась не та сборка либо страница отдаётся из кеша — проверьте метку build.txt выше." ;;
+            1) echo "Счётчик на боевой главной один, как и должно быть." ;;
+            *) echo "::warning::Счётчик встречается $n раза — визиты будут считаться дважды." ;;
+          esac
+
+          grep -q "mc.yandex.ru/metrika/tag.js" /tmp/live.html \
+            && echo "загрузчик tag.js на месте." \
+            || echo "::warning::Нет обращения к mc.yandex.ru/metrika/tag.js — счётчик не загрузится."
+          grep -q "mc.yandex.ru/watch/$ID" /tmp/live.html \
+            && echo "пиксель для посетителей без JS на месте." \
+            || echo "::warning::Нет пикселя mc.yandex.ru/watch/$ID в noscript."
+          grep -q 'name="yandex-verification"' /tmp/live.html \
+            && echo "мета-тег Яндекс.Вебмастера на месте." \
+            || echo "::warning::На боевой главной нет мета-тега подтверждения Вебмастера."
+
+          if [ "$proto" = http ]; then
+            echo "::warning::Сайт отдаётся только по http. Браузеры открывают домен по https, а он молчит без сертификата — посетители до страницы не доходят, поэтому в Метрике пусто. Сертификат выпустится сам на следующей выгрузке."
+          fi
+
       - name: Убрать доступы
         if: always()
         run: rm -f ~/.ssh/id_deploy ~/.sshpass ~/sshw ~/scpw
