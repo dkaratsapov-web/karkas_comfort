@@ -137,6 +137,36 @@ jobs:
           echo "mode=$MODE" >> "$GITHUB_OUTPUT"
         id: access
 
+      - name: Кто пускает на сервер
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          # Пароль, который видно в панели хостинга, — это пароль root.
+          # В секрете VPS_USER мог остаться deploy с прошлого сервера,
+          # а у него пароля нет вовсе, и паролем он не войдёт никогда.
+          # Поэтому пробуем указанного пользователя и root, дальше ходим
+          # тем, кто пустил: владельцу не нужно угадывать логин.
+          ok=""
+          for u in "$VPS_USER" root; do
+            [ -n "$u" ] || continue
+            if out=$(~/sshw -o ConnectTimeout=15 -o NumberOfPasswordPrompts=1 "$u@$VPS_HOST" 'echo ПУСТИЛ $(id -un)' 2>&1); then
+              case "$out" in *ПУСТИЛ*) ok="$u"; echo "$out"; break ;; esac
+            fi
+            echo "Пользователь $u не пустил: $(printf '%s' "$out" | tail -2 | tr '\n' ' ')"
+          done
+
+          if [ -z "$ok" ]; then
+            echo "::error::Сервер не пускает ни указанного пользователя, ни root с паролем из секрета VPS_PASSWORD. Проверьте в панели хостинга адрес сервера (секрет VPS_HOST) и пароль root (секрет VPS_PASSWORD) — пароль там можно задать заново кнопкой «Сменить пароль». Секрет VPS_USER лучше задать как root, а нерабочий VPS_SSH_KEY удалить."
+            exit 1
+          fi
+
+          echo "SSH_USER=$ok" >> "$GITHUB_ENV"
+          TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          ~/sshw "$ok@$VPS_HOST" "mkdir -p '$TARGET' && echo 'каталог на сервере готов: $TARGET'"
+
       - name: Выгрузка на сервер
         if: steps.gate.outputs.ready == 'true'
         env:
@@ -156,7 +186,7 @@ jobs:
             --exclude 'api/settings.json' \
             --exclude 'api/admin-*' \
             -e ~/sshw \
-            dist/ "$VPS_USER@$VPS_HOST:$TARGET/"
+            dist/ "${SSH_USER:-$VPS_USER}@$VPS_HOST:$TARGET/"
 
       - name: Права на состояние админки
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
@@ -170,7 +200,7 @@ jobs:
           # в api/ принадлежат пользователю выгрузки. Без группового
           # доступа php не смог бы завести ни пользователей, ни заявки.
           TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
-          ~/sshw "$VPS_USER@$VPS_HOST" "
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
               [ \"\$(id -u)\" = 0 ] && chown -R root:www-data '$TARGET/api' 2>/dev/null || true
               chmod 2775 '$TARGET/api' 2>/dev/null || true
               for f in settings.json leads.jsonl leads-state.json admin-users.json admin-throttle.json; do
@@ -194,7 +224,7 @@ jobs:
           D=xn--80aa2abbmnbmggrx.xn--p1ai
           TARGET="${VPS_PATH:-/var/www/$D/public}"
           EMAIL="${CERT_EMAIL:-admin@$D}"
-          ~/sshw "$VPS_USER@$VPS_HOST" "
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
               if [ \"\$(id -u)\" != 0 ]; then echo 'нет прав root — пропускаю'; exit 0; fi
               if [ -f /etc/letsencrypt/live/$D/fullchain.pem ]; then
                 echo 'сертификат уже есть, годен до:' \$(openssl x509 -enddate -noout -in /etc/letsencrypt/live/$D/fullchain.pem | cut -d= -f2)
@@ -227,11 +257,11 @@ jobs:
             exit 0
           fi
           TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
-          ~/sshw "$VPS_USER@$VPS_HOST" "cat '$TARGET/api/settings.json' 2>/dev/null || echo '{}'" > now.json
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "cat '$TARGET/api/settings.json' 2>/dev/null || echo '{}'" > now.json
           jq --arg t "$MAX_TOKEN" --arg c "$MAX_CHAT_ID" --arg u "$MAX_USER_ID" \
              '. + {max_token: $t, max_chat_id: $c, max_user_id: $u}' now.json > next.json
-          ~/scpw next.json "$VPS_USER@$VPS_HOST:/tmp/kk-settings.json"
-          ~/sshw "$VPS_USER@$VPS_HOST" "install -m 660 -g www-data /tmp/kk-settings.json '$TARGET/api/settings.json' && rm -f /tmp/kk-settings.json"
+          ~/scpw next.json "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/kk-settings.json"
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "install -m 660 -g www-data /tmp/kk-settings.json '$TARGET/api/settings.json' && rm -f /tmp/kk-settings.json"
           rm -f now.json next.json
           echo "Доставка в MAX настроена: получатель ${MAX_CHAT_ID:+чат}${MAX_USER_ID:+ личный диалог}."
 
@@ -278,7 +308,7 @@ jobs:
           echo "--- что видно на сервере ---"
           TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
           D=xn--80aa2abbmnbmggrx.xn--p1ai
-          ~/sshw "$VPS_USER@$VPS_HOST" "
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
               echo 'каталог: $TARGET'
               ls -la '$TARGET' | head -15
               echo 'начало index.html:'
