@@ -46,10 +46,11 @@ jobs:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          if [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ] || [ -z "$VPS_SSH_KEY" ]; then
+          if [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ] || { [ -z "$VPS_SSH_KEY" ] && [ -z "$VPS_PASSWORD" ]; }; then
             echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Доступы к серверу не заданы — выгрузка пропущена. Добавьте секреты VPS_HOST, VPS_USER, VPS_SSH_KEY (и VPS_PATH) в Settings → Secrets and variables → Actions."
+            echo "::notice::Доступы к серверу не заданы — выгрузка пропущена. Нужны VPS_HOST, VPS_USER, VPS_PATH и один из двух: VPS_SSH_KEY или VPS_PASSWORD."
           else
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
@@ -76,30 +77,65 @@ jobs:
           test -s dist/sitemap.xml
           grep -q "xn--80aa2abbmnbmggrx.xn--p1ai" dist/sitemap.xml
 
-      - name: Ключ для подключения
+      - name: Доступ к серверу
         if: steps.gate.outputs.ready == 'true'
         env:
           VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
+          # Подключаться можно ключом или паролем. Пароль нужен там, где
+          # ключ взять неоткуда: его видно в панели хостинга, и владелец
+          # вставляет его в секрет из браузера, не заходя на сервер.
+          # Дальше все шаги ходят через обёртки ~/sshw и ~/scpw и не знают,
+          # каким способом установлено соединение.
           install -d -m 700 ~/.ssh
-          # Ключ принимается в двух видах: как есть и одной строкой в base64.
-          # Второй вариант нужен потому, что при копировании многострочного
-          # ключа из консоли сервера строки часто склеиваются, и ssh потом
-          # отвечает невнятным «error in libcrypto».
-          if printf '%s' "$VPS_SSH_KEY" | grep -q 'BEGIN .*PRIVATE KEY'; then
-            printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
-          else
-            printf '%s' "$VPS_SSH_KEY" | tr -d ' \n' | base64 -d > ~/.ssh/id_deploy 2>/dev/null || true
+          ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          MODE=""
+
+          if [ -n "$VPS_SSH_KEY" ]; then
+            # ключ принимается как есть и одной строкой в base64: при копировании
+            # многострочного ключа переносы часто склеиваются
+            if printf '%s' "$VPS_SSH_KEY" | grep -q 'BEGIN .*PRIVATE KEY'; then
+              printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+            else
+              printf '%s' "$VPS_SSH_KEY" | tr -d ' \n' | base64 -d > ~/.ssh/id_deploy 2>/dev/null || true
+            fi
+            chmod 600 ~/.ssh/id_deploy
+            if ssh-keygen -y -f ~/.ssh/id_deploy >/dev/null 2>&1; then
+              MODE=key
+              echo "Подключение ключом, отпечаток: $(ssh-keygen -lf ~/.ssh/id_deploy | awk '{print $2}')"
+            else
+              rm -f ~/.ssh/id_deploy
+              echo "::warning::VPS_SSH_KEY не читается как приватный ключ — пробую пароль."
+            fi
           fi
-          chmod 600 ~/.ssh/id_deploy
-          if ! ssh-keygen -y -f ~/.ssh/id_deploy >/dev/null 2>&1; then
-            echo "::error::Секрет VPS_SSH_KEY не читается как приватный ключ. Скорее всего при копировании побились переносы строк. Выполните на сервере: base64 -w0 /root/deploy_key — и вставьте полученную строку в секрет целиком."
+
+          if [ -z "$MODE" ] && [ -n "$VPS_PASSWORD" ]; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
+            printf '%s' "$VPS_PASSWORD" > ~/.sshpass
+            chmod 600 ~/.sshpass
+            MODE=password
+            echo "Подключение паролем."
+          fi
+
+          if [ -z "$MODE" ]; then
+            echo "::error::Нет рабочего доступа к серверу: ключ не читается, пароль не задан. Добавьте секрет VPS_PASSWORD (пароль root из панели хостинга) или исправьте VPS_SSH_KEY."
             exit 1
           fi
-          echo "Ключ прочитан, отпечаток: $(ssh-keygen -lf ~/.ssh/id_deploy | awk '{print $2}')"
-          ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+          PORT="${VPS_PORT:-22}"
+          if [ "$MODE" = key ]; then
+            printf '#!/usr/bin/env bash\nexec ssh -i ~/.ssh/id_deploy -p %s -o StrictHostKeyChecking=yes "$@"\n' "$PORT" > ~/sshw
+            printf '#!/usr/bin/env bash\nexec scp -i ~/.ssh/id_deploy -P %s -o StrictHostKeyChecking=yes "$@"\n' "$PORT" > ~/scpw
+          else
+            printf '#!/usr/bin/env bash\nexec sshpass -f ~/.sshpass ssh -p %s -o StrictHostKeyChecking=accept-new "$@"\n' "$PORT" > ~/sshw
+            printf '#!/usr/bin/env bash\nexec sshpass -f ~/.sshpass scp -P %s -o StrictHostKeyChecking=accept-new "$@"\n' "$PORT" > ~/scpw
+          fi
+          chmod +x ~/sshw ~/scpw
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+        id: access
 
       - name: Выгрузка на сервер
         if: steps.gate.outputs.ready == 'true'
@@ -119,7 +155,7 @@ jobs:
             --exclude 'api/leads-state.json' \
             --exclude 'api/settings.json' \
             --exclude 'api/admin-*' \
-            -e "ssh -i ~/.ssh/id_deploy -p ${VPS_PORT:-22} -o StrictHostKeyChecking=yes" \
+            -e ~/sshw \
             dist/ "$VPS_USER@$VPS_HOST:$TARGET/"
 
       - name: Права на состояние админки
@@ -134,14 +170,43 @@ jobs:
           # в api/ принадлежат пользователю выгрузки. Без группового
           # доступа php не смог бы завести ни пользователей, ни заявки.
           TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
-          ssh -i ~/.ssh/id_deploy -p "${VPS_PORT:-22}" -o StrictHostKeyChecking=yes \
-            "$VPS_USER@$VPS_HOST" "
+          ~/sshw "$VPS_USER@$VPS_HOST" "
+              [ \"\$(id -u)\" = 0 ] && chown -R root:www-data '$TARGET/api' 2>/dev/null || true
               chmod 2775 '$TARGET/api' 2>/dev/null || true
               for f in settings.json leads.jsonl leads-state.json admin-users.json admin-throttle.json; do
                 [ -f '$TARGET/api/'\$f ] && chmod 660 '$TARGET/api/'\$f || true
               done
               ls -ld '$TARGET/api'
             " || echo '::warning::Не удалось поправить права на api/ — админка может не сохранять данные.'
+
+      - name: Сертификат
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+          CERT_EMAIL: ${{ secrets.CERT_EMAIL }}
+        run: |
+          # Сертификат выпускается сам, как только домен начинает смотреть
+          # на этот сервер. Нужен доступ от root: под обычным пользователем
+          # выгрузки шаг тихо пропускается.
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          TARGET="${VPS_PATH:-/var/www/$D/public}"
+          EMAIL="${CERT_EMAIL:-admin@$D}"
+          ~/sshw "$VPS_USER@$VPS_HOST" "
+              if [ \"\$(id -u)\" != 0 ]; then echo 'нет прав root — пропускаю'; exit 0; fi
+              if [ -f /etc/letsencrypt/live/$D/fullchain.pem ]; then
+                echo 'сертификат уже есть, годен до:' \$(openssl x509 -enddate -noout -in /etc/letsencrypt/live/$D/fullchain.pem | cut -d= -f2)
+                exit 0
+              fi
+              if ! command -v certbot >/dev/null; then echo 'certbot не установлен — пропускаю'; exit 0; fi
+              certbot certonly --webroot -w '$TARGET' -d $D -d www.$D --agree-tos -m '$EMAIL' -n \
+                && ln -sf /etc/nginx/sites-available/$D.conf /etc/nginx/sites-enabled/$D.conf \
+                && nginx -t && systemctl reload nginx && systemctl enable --now certbot.timer \
+                && echo 'сертификат выпущен' \
+                || echo 'сертификат пока не выпускается: домен ещё не смотрит на этот сервер'
+            "
 
       - name: Доставка заявок в MAX
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
@@ -162,12 +227,11 @@ jobs:
             exit 0
           fi
           TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
-          SSH=(ssh -i ~/.ssh/id_deploy -p "${VPS_PORT:-22}" -o StrictHostKeyChecking=yes "$VPS_USER@$VPS_HOST")
-          "${SSH[@]}" "cat '$TARGET/api/settings.json' 2>/dev/null || echo '{}'" > now.json
+          ~/sshw "$VPS_USER@$VPS_HOST" "cat '$TARGET/api/settings.json' 2>/dev/null || echo '{}'" > now.json
           jq --arg t "$MAX_TOKEN" --arg c "$MAX_CHAT_ID" --arg u "$MAX_USER_ID" \
              '. + {max_token: $t, max_chat_id: $c, max_user_id: $u}' now.json > next.json
-          scp -i ~/.ssh/id_deploy -P "${VPS_PORT:-22}" -o StrictHostKeyChecking=yes next.json "$VPS_USER@$VPS_HOST:/tmp/kk-settings.json"
-          "${SSH[@]}" "install -m 660 -g www-data /tmp/kk-settings.json '$TARGET/api/settings.json' && rm -f /tmp/kk-settings.json"
+          ~/scpw next.json "$VPS_USER@$VPS_HOST:/tmp/kk-settings.json"
+          ~/sshw "$VPS_USER@$VPS_HOST" "install -m 660 -g www-data /tmp/kk-settings.json '$TARGET/api/settings.json' && rm -f /tmp/kk-settings.json"
           rm -f now.json next.json
           echo "Доставка в MAX настроена: получатель ${MAX_CHAT_ID:+чат}${MAX_USER_ID:+ личный диалог}."
 
@@ -214,8 +278,7 @@ jobs:
           echo "--- что видно на сервере ---"
           TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
           D=xn--80aa2abbmnbmggrx.xn--p1ai
-          ssh -i ~/.ssh/id_deploy -p "${VPS_PORT:-22}" -o StrictHostKeyChecking=yes \
-            "$VPS_USER@$VPS_HOST" "
+          ~/sshw "$VPS_USER@$VPS_HOST" "
               echo 'каталог: $TARGET'
               ls -la '$TARGET' | head -15
               echo 'начало index.html:'
@@ -237,6 +300,6 @@ jobs:
               grep -h -E 'server_name|root |listen ' /etc/nginx/sites-enabled/* 2>/dev/null | sed 's/^[[:space:]]*//' || true
             " || true
 
-      - name: Убрать ключ
+      - name: Убрать доступы
         if: always()
-        run: rm -f ~/.ssh/id_deploy
+        run: rm -f ~/.ssh/id_deploy ~/.sshpass ~/sshw ~/scpw
