@@ -1,0 +1,72 @@
+# Короткая диагностика боевого сервера.
+#
+# Запускается руками из вкладки Actions и ничего не меняет: печатает
+# состояние nginx, конфигурации, сертификата и портов. Нужна потому,
+# что в длинном логе выгрузки этот вывод обрезается.
+
+name: Проверить сервер
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Доступ к серверу
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          install -d -m 700 ~/.ssh
+          ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
+          printf '%s' "$VPS_PASSWORD" > ~/.sshpass
+          chmod 600 ~/.sshpass
+          printf '#!/usr/bin/env bash\nexec sshpass -f ~/.sshpass ssh -p %s -o StrictHostKeyChecking=accept-new "$@"\n' "${VPS_PORT:-22}" > ~/sshw
+          chmod +x ~/sshw
+
+      - name: Что на сервере
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          for u in root "$VPS_USER"; do
+            ~/sshw -o ConnectTimeout=15 -o NumberOfPasswordPrompts=1 "$u@$VPS_HOST" true 2>/dev/null && { U=$u; break; }
+          done
+          [ -n "$U" ] || { echo "сервер не пускает"; exit 1; }
+
+          ~/sshw "$U@$VPS_HOST" "
+              echo '== служба =='
+              systemctl is-active nginx; systemctl is-enabled nginx 2>/dev/null
+              echo '== включённая конфигурация =='
+              ls -l /etc/nginx/sites-enabled/
+              echo '== проверка полной конфигурации =='
+              ln -sfn /etc/nginx/sites-available/$D.conf /tmp/probe.conf 2>/dev/null || true
+              nginx -t 2>&1 | tail -5
+              echo '== что скажет nginx -t именно на полной конфигурации =='
+              T=\$(mktemp -d); cp -r /etc/nginx \$T/nginx
+              ln -sfn /etc/nginx/sites-available/$D.conf \$T/nginx/sites-enabled/$D.conf
+              nginx -t -c \$T/nginx/nginx.conf -p /etc/nginx 2>&1 | tail -8
+              rm -rf \$T
+              echo '== сертификаты =='
+              ls -l /etc/letsencrypt/live/ 2>/dev/null || echo 'каталога нет'
+              ls -l /etc/letsencrypt/live/$D/ 2>/dev/null | head -6 || echo 'сертификата для домена нет'
+              echo '== ссылки на сертификат в конфигурации =='
+              grep -n 'ssl_certificate' /etc/nginx/sites-available/$D.conf | head -4
+              echo '== порты =='
+              ss -ltn | awk '/:80 |:443 /{print \$4}'
+              echo '== локальные ответы =='
+              curl -s  -o /dev/null -w 'http  %{http_code}\n' --resolve $D:80:127.0.0.1  http://$D/  || true
+              curl -sk -o /dev/null -w 'https %{http_code}\n' --resolve $D:443:127.0.0.1 https://$D/ || true
+              echo '== последние ошибки nginx =='
+              tail -12 /var/log/nginx/error.log 2>/dev/null || true
+            "
+
+      - name: Убрать доступы
+        if: always()
+        run: rm -f ~/.sshpass ~/sshw
