@@ -230,6 +230,20 @@ jobs:
           D=xn--80aa2abbmnbmggrx.xn--p1ai
           TARGET="${VPS_PATH:-/var/www/$D/public}"
           EMAIL="${CERT_EMAIL:-admin@$D}"
+          # Сначала проверяем то, что проверяет Let's Encrypt: доходит ли
+          # запрос по http до каталога сайта. Так видно, в чём дело —
+          # в конфигурации сервера или в том, что домен ещё не разошёлся.
+          PROBE="kk-$(date +%s)"
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" \
+            "mkdir -p '$TARGET/.well-known/acme-challenge' && printf '%s' '$PROBE' > '$TARGET/.well-known/acme-challenge/$PROBE'"
+          GOT=$(curl -s --max-time 20 "http://$D/.well-known/acme-challenge/$PROBE" || true)
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "rm -f '$TARGET/.well-known/acme-challenge/$PROBE'"
+          if [ "$GOT" != "$PROBE" ]; then
+            echo "::warning::Проверочный файл по http через домен не читается (получено «${GOT:-пусто}»). Пока так, сертификат не выпустить: либо адреса домена ещё не разошлись по интернету (ждём 15–30 минут и запускаем выгрузку снова), либо запрос по http уходит не на этот сервер."
+            exit 0
+          fi
+          echo "Проверочный файл через домен читается — можно выпускать сертификат."
+
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
               if [ \"\$(id -u)\" != 0 ]; then echo 'нет прав root — пропускаю'; exit 0; fi
               if [ -f /etc/letsencrypt/live/$D/fullchain.pem ]; then
@@ -289,7 +303,14 @@ jobs:
             *) echo "::warning::Адрес домена не совпадает с адресом сервера выгрузки (секрет VPS_HOST). Либо A-записи ещё не переключены, либо не разошлись — проверьте через 15–30 минут." ;;
           esac
           code=$(curl -s -o /tmp/page.html -w '%{http_code}' --max-time 25 -L "$SITE" || true)
-          echo "Ответ сайта: $code"
+          echo "Ответ сайта по https: $code"
+          if [ "$code" != "200" ]; then
+            hcode=$(curl -s -o /tmp/page.html -w '%{http_code}' --max-time 25 "http://$D/" || true)
+            echo "Ответ сайта по http: $hcode"
+            if [ "$hcode" = "200" ]; then
+              echo "::warning::Сайт отдаётся по http, но не по https: сертификата на сервере ещё нет. Он выпустится сам на следующей выгрузке, когда адреса домена разойдутся по интернету."
+            fi
+          fi
           if [ "$code" = "200" ]; then
             grep -q "Каркас Комфорт" /tmp/page.html \
               && echo "Главная отдаётся и содержит название компании." \
