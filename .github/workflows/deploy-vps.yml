@@ -285,6 +285,45 @@ jobs:
           rm -f now.json next.json
           echo "Доставка в MAX настроена: получатель ${MAX_CHAT_ID:+чат}${MAX_USER_ID:+ личный диалог}."
 
+      - name: Включить https
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          # Выпустить сертификат мало: сайт отдаёт https только когда
+          # включена полная конфигурация, nginx её перечитал, а 443
+          # пропускает брандмауэр. Этот шаг доводит всё три до конца.
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
+              if [ \"\$(id -u)\" != 0 ]; then echo 'нет прав root — пропускаю'; exit 0; fi
+              if [ ! -f /etc/letsencrypt/live/$D/fullchain.pem ]; then
+                echo 'сертификата ещё нет — https включать нечем'; exit 0
+              fi
+              echo 'сертификат годен до:' \$(openssl x509 -enddate -noout -in /etc/letsencrypt/live/$D/fullchain.pem | cut -d= -f2)
+
+              # полная конфигурация вместо временной, только для http
+              ln -sf /etc/nginx/sites-available/$D.conf /etc/nginx/sites-enabled/$D.conf
+              if nginx -t 2>&1 | tail -2; then
+                systemctl reload nginx || systemctl restart nginx
+                echo 'nginx перечитал конфигурацию'
+              else
+                echo 'конфигурация с ошибкой — оставляю как было'; exit 0
+              fi
+
+              # брандмауэр: без открытого 443 снаружи ничего не видно
+              if command -v ufw >/dev/null && ufw status | head -1 | grep -q active; then
+                ufw status | grep -q '443' || ufw allow 443/tcp >/dev/null 2>&1 || true
+                ufw status | grep -E '80|443' || true
+              fi
+
+              echo 'кто слушает порты:'
+              ss -ltn 2>/dev/null | grep -E ':(80|443)\\b' || echo '  443 никто не слушает'
+              curl -sk -o /dev/null -w '  локально https: %{http_code}\n' --resolve $D:443:127.0.0.1 https://$D/ || true
+            "
+
       - name: Сайт открывается
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true
