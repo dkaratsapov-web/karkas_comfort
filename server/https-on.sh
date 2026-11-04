@@ -23,6 +23,26 @@ fi
 echo "конфигурации:"
 ls -l /etc/nginx/sites-available/ | sed 's/^/  /'
 
+# Конфигурация, созданная раньше, подключает файлы плагина
+# certbot-nginx. Сертификат выпускается в режиме webroot, плагина нет,
+# и без этих файлов nginx не принимает конфигурацию. Создаём их сами.
+if [ ! -f /etc/letsencrypt/options-ssl-nginx.conf ]; then
+  install -d -m 755 /etc/letsencrypt
+  cat > /etc/letsencrypt/options-ssl-nginx.conf <<'OPT'
+ssl_session_cache shared:le_nginx_SSL:10m;
+ssl_session_timeout 1440m;
+ssl_session_tickets off;
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_prefer_server_ciphers off;
+ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-CHACHA20-POLY1305";
+OPT
+  echo "создан /etc/letsencrypt/options-ssl-nginx.conf"
+fi
+if [ ! -f /etc/letsencrypt/ssl-dhparams.pem ]; then
+  openssl dhparam -dsaparam -out /etc/letsencrypt/ssl-dhparams.pem 2048 >/dev/null 2>&1 \
+    && echo "создан /etc/letsencrypt/ssl-dhparams.pem"
+fi
+
 if [ -f "$LIVE" ] && [ -f "$CFG" ]; then
   ln -sfn "$CFG" "$LINK"
   if nginx -t 2>/tmp/ngt; then

@@ -26,8 +26,16 @@ __HTTP2_DIRECTIVE__    server_name www.__DOMAIN__;
 
     ssl_certificate     /etc/letsencrypt/live/__DOMAIN__/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/__DOMAIN__/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    # Настройки TLS заданы здесь, а не подключением файлов из
+    # /etc/letsencrypt: их кладёт плагин certbot-nginx, а сертификат
+    # выпускается в режиме webroot, без него. Отсутствие файла валило
+    # проверку конфигурации, и сайт оставался без https.
+    ssl_session_cache shared:le_nginx_SSL:10m;
+    ssl_session_timeout 1440m;
+    ssl_session_tickets off;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-CHACHA20-POLY1305";
 
     return 301 https://__DOMAIN__$request_uri;
 }
@@ -42,8 +50,16 @@ __HTTP2_DIRECTIVE__    server_name __DOMAIN__;
 
     ssl_certificate     /etc/letsencrypt/live/__DOMAIN__/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/__DOMAIN__/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    # Настройки TLS заданы здесь, а не подключением файлов из
+    # /etc/letsencrypt: их кладёт плагин certbot-nginx, а сертификат
+    # выпускается в режиме webroot, без него. Отсутствие файла валило
+    # проверку конфигурации, и сайт оставался без https.
+    ssl_session_cache shared:le_nginx_SSL:10m;
+    ssl_session_timeout 1440m;
+    ssl_session_tickets off;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-CHACHA20-POLY1305";
 
     # --- заголовки безопасности ---
     add_header X-Content-Type-Options "nosniff" always;
