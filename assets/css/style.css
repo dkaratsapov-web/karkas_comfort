@@ -1188,11 +1188,15 @@ section[id], div[id] { scroll-margin-top: 88px; }
 }
 .chero--video .chero__info { max-width: 74ch; }
 .chero--video .videos { margin-top: clamp(20px, 2.4vw, 34px); }
+/* Кадр вертикальный: ширина колонки превращается в полторы её высоты.
+   Без потолка на средних экранах один ролик занимал больше экрана,
+   поэтому ширину карточки ограничиваем везде, а не только на широких. */
+.videos--portrait .video { max-width: 320px; width: 100%; margin-inline: auto; }
 .chero--video .video {
   background: rgba(248, 249, 246, .07); border-color: rgba(232, 234, 230, .2); color: var(--on-dark);
 }
 .chero--video .video figcaption { border-top-color: rgba(232, 234, 230, .16); }
-.chero--video .video h3 { color: var(--on-dark); }
+.chero--video .video h2, .chero--video .video h3 { color: var(--on-dark); }
 .chero--video .video figcaption p { color: var(--on-dark-2); }
 .chero--video .chero__scrim { background: linear-gradient(180deg, var(--dark) 0%, #171B1E 100%); }
 
@@ -2429,7 +2433,7 @@ body::after {
   font-size: 12px; font-weight: 600; letter-spacing: .02em; font-variant-numeric: tabular-nums;
 }
 .video figcaption { padding: 14px 16px 16px; border-top: 1px solid var(--line-soft); }
-.video h3 { font-size: 17px; line-height: 1.3; }
+.video h2, .video h3 { font-size: 17px; line-height: 1.3; font-weight: 650; }
 .video figcaption p { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
 
 /* пустое состояние: раздел есть, содержимого пока нет */
