@@ -48,7 +48,7 @@ if (!$users) {
         }
     }
 
-    layout_head('Установка админки');
+    layout_head('Установка админки', null, '', 'auth');
     echo '<div class="card card--narrow"><h1>Первый вход</h1>';
     echo '<p class="muted">Пользователей ещё нет. Заведите владельца: он сможет добавлять остальных.</p>';
     echo '<p class="muted">Код установки лежит на сервере. Покажите его командой:<br><code>cat ' . h(SETUP_FILE) . '</code></p>';
@@ -88,7 +88,7 @@ if (!$user) {
         }
     }
 
-    layout_head('Вход');
+    layout_head('Вход', null, '', 'auth');
     echo '<div class="card card--narrow"><h1>Вход в админку</h1>';
     if ($error) echo '<p class="flash flash--err">' . h($error) . '</p>';
     echo '<form method="post" class="form">' . csrf_field();

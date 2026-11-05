@@ -300,7 +300,7 @@ function leads_load(): array
 
 /* ---------- оболочка страницы ---------- */
 
-function layout_head(string $title, ?array $user = null, string $active = ''): void
+function layout_head(string $title, ?array $user = null, string $active = '', string $mode = ''): void
 {
     $nav = [
         'index.php'    => 'Заявки',
@@ -325,7 +325,9 @@ function layout_head(string $title, ?array $user = null, string $active = ''): v
         echo '</nav><div class="top__user">' . h($user['name'] ?: $user['login'])
             . ' <a href="/admin/logout.php">выйти</a></div></header>';
     }
-    echo '<main class="wrap">';
+    /* У входа нет шапки и меню, поэтому окно пустое: карточку
+       ставим в середину экрана, а не в левый верхний угол. */
+    echo '<main class="wrap' . ($mode === 'auth' ? ' wrap--auth' : '') . '">';
 }
 
 function layout_foot(): void

@@ -506,6 +506,27 @@ jobs:
           ~/scpw server/max-ca.sh "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/max-ca.sh"
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "bash /tmp/max-ca.sh '$TARGET'; rm -f /tmp/max-ca.sh"
 
+      - name: Последние ошибки сервера
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          # Код 500 виден только в журналах сервера: в браузере на его
+          # месте пустая страница.
+          TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
+              echo 'права в api/:'
+              ls -l '$TARGET/api' | head -14
+              echo 'версия php:' \$(php -v 2>/dev/null | head -1 || echo 'php из командной строки нет')
+              echo 'ошибки php-fpm:'
+              tail -n 12 /var/log/php*-fpm.log 2>/dev/null | sed 's/^/  /' || echo '  журнала нет'
+              echo 'ошибки php из журнала nginx:'
+              grep -i 'php\|fastcgi' /var/log/nginx/error.log 2>/dev/null | tail -n 12 | sed 's/^/  /' || echo '  нет записей'
+            "
+
       - name: Убрать доступы
         if: always()
         run: rm -f ~/.ssh/id_deploy ~/.sshpass ~/sshw ~/scpw

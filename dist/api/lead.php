@@ -8,6 +8,9 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 
+require_once __DIR__ . '/max.php';
+require_once __DIR__ . '/max-card.php';
+
 $config = require __DIR__ . '/config.php';
 
 /* Настройки из админки перекрывают значения, заданные при установке:
@@ -152,6 +155,13 @@ function post_json(string $url, array $payload, array $headers = []): array
         CURLOPT_HTTPHEADER     => array_merge(['Content-Type: application/json; charset=utf-8'], $headers),
         CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE),
     ]);
+    /* Серверы MAX подписаны центром Минцифры, которого нет в системном
+       списке. Его сертификат лежит отдельным файлом и применяется только
+       к max.ru: в общее доверие он не добавлен намеренно. */
+    $maxCa = __DIR__ . '/max-ca.pem';
+    if (str_contains($url, '.max.ru') && is_file($maxCa)) {
+        curl_setopt($ch, CURLOPT_CAINFO, $maxCa);
+    }
     $answer = (string) curl_exec($ch);
     $code   = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
     $error  = curl_error($ch);
@@ -175,19 +185,46 @@ if (!empty($config['telegram_token']) && !empty($config['telegram_chat_id'])) {
    Токен бота идёт заголовком: передача его в адресе больше не поддерживается.
    Сертификат platform-api2.max.ru выпущен Минцифры, поэтому на сервере
    должен стоять их корневой сертификат — иначе запрос не пройдёт проверку. */
+$lead_id = date('Ymd-His') . '-' . substr(md5($digits . $when . random_bytes(4)), 0, 6);
+
 $max = false;
 $max_error = '';
 if (!empty($config['max_token']) && (!empty($config['max_chat_id']) || !empty($config['max_user_id']))) {
-    $target = !empty($config['max_chat_id'])
-        ? 'chat_id=' . rawurlencode((string) $config['max_chat_id'])
-        : 'user_id=' . rawurlencode((string) $config['max_user_id']);
-    $answer = post_json(
-        'https://platform-api2.max.ru/messages?' . $target,
-        ['text' => $body, 'notify' => true],
-        ['Authorization: ' . $config['max_token']]
+    $lead_for_card = [
+        'id'      => $lead_id,
+        'at'      => date('c'),
+        'name'    => $name,
+        'phone'   => $phone,
+        'message' => $message,
+        'project' => $project,
+        'page'    => $page,
+        'test'    => !empty($data['test']),
+    ];
+    $answer = max_send(
+        (string) $config['max_token'],
+        ['chat_id' => $config['max_chat_id'] ?? '', 'user_id' => $config['max_user_id'] ?? ''],
+        max_lead_card($lead_for_card, 'new'),
+        max_lead_buttons($lead_for_card, 'new', (string) ($config['domain'] ?? 'xn--80aa2abbmnbmggrx.xn--p1ai'))
     );
     $max = $answer['ok'];
     $max_error = $answer['ok'] ? '' : (string) ($answer['error'] ?? '');
+
+    /* Идентификатор отправленного сообщения нужен, чтобы потом
+       переписать карточку: статус меняется в ней самой, а не
+       новой строкой в чате. */
+    $mid = (string) ($answer['data']['message']['body']['mid'] ?? '');
+    if ($mid !== '') {
+        $stateFile = __DIR__ . '/leads-state.json';
+        $state = is_file($stateFile)
+            ? (json_decode((string) file_get_contents($stateFile), true) ?: [])
+            : [];
+        $state[$lead_id] = array_merge($state[$lead_id] ?? [], ['max_mid' => $mid]);
+        $tmp = $stateFile . '.tmp';
+        if (file_put_contents($tmp, json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), LOCK_EX) !== false) {
+            @chmod($tmp, 0660);
+            rename($tmp, $stateFile);
+        }
+    }
 }
 
 /* --- заявка в CRM, если настроен вебхук --- */
@@ -224,7 +261,6 @@ function csv_safe(string $value): string
    leads.jsonl: одна заявка — одна строка. Админка показывает их списком,
    ведёт статусы и заметки. Идентификатор нужен, чтобы статус держался
    за конкретной заявкой. */
-$lead_id = date('Ymd-His') . '-' . substr(md5($digits . $when . random_bytes(4)), 0, 6);
 $record  = [
     'id'      => $lead_id,
     'at'      => date('c'),
