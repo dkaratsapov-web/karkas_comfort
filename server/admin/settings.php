@@ -80,13 +80,33 @@ if ($action === 'maxhook' || $action === 'maxoff') {
         if (!$me['ok']) {
             $maxHook = 'MAX не принял токен: ' . $me['error'];
         } else {
+            /* Сначала стучимся на свой же адрес: если сервер закрывает
+               его, MAX не доставит ни одного события, а понять это по
+               молчанию бота потом тяжело. */
+            $ch = curl_init(max_hook_url());
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => '{}',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => 10,
+            ]);
+            curl_exec($ch);
+            $own = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+            curl_close($ch);
+            if ($own === 403 || $own === 404) {
+                $maxHook = 'Адрес для событий бота закрыт сервером (ответ ' . $own
+                    . '). Сообщите об этом — нужно обновить конфигурацию сервера, без неё бот не получит ни одного события.';
+                $own = 0;
+            }
+        }
+        if ($me['ok'] && ($own ?? 0) !== 0) {
             $r = max_subscribe($token, max_hook_url(), $secret, [
                 'message_created', 'message_callback', 'bot_added', 'bot_removed',
                 'bot_started', 'chat_title_changed',
             ]);
             $botName = (string) ($me['data']['name'] ?? $me['data']['first_name'] ?? 'бот');
             $maxHook = $r['ok'] && !empty($r['data']['success'])
-                ? 'Бот «' . $botName . '» подключён. Добавьте его в рабочий чат — заявки пойдут туда, а под каждой будут кнопки статусов.'
+                ? 'Бот «' . $botName . '» подключён. Теперь добавьте его в рабочий чат и напишите там любое сообщение — чат сам появится в списке ниже, искать его номер не нужно.'
                 : 'Не получилось подключить: ' . ($r['error'] ?: (string) ($r['data']['message'] ?? 'MAX отказал'));
         }
     }
