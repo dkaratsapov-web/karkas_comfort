@@ -197,6 +197,16 @@ jobs:
             ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" \
               "printf '%s\n' '${{ github.sha }}' > '$TARGET/build.txt'"
 
+      - name: Расширения php на сервере
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          ~/scpw server/php-ext.sh "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/php-ext.sh"
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "bash /tmp/php-ext.sh; rm -f /tmp/php-ext.sh"
+
       - name: Права на состояние админки
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         env:

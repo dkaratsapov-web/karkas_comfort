@@ -97,7 +97,12 @@ PKGS=""
 for pkg in nginx certbot python3-certbot-nginx rsync curl ca-certificates; do
   dpkg -s "$pkg" >/dev/null 2>&1 || PKGS="$PKGS $pkg"
 done
+# php-fpm сам по себе не тянет mbstring и curl, а без них админка,
+# бот и приём заявок падают с 500 и ничего не пишут в журнал nginx.
 ls /run/php/php*-fpm.sock >/dev/null 2>&1 || PKGS="$PKGS php-fpm"
+for pkg in php-mbstring php-curl; do
+  dpkg -s "$pkg" >/dev/null 2>&1 || PKGS="$PKGS $pkg"
+done
 if [ "$SHARED" = "0" ]; then
   for pkg in ufw fail2ban unattended-upgrades; do
     dpkg -s "$pkg" >/dev/null 2>&1 || PKGS="$PKGS $pkg"
