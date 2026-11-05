@@ -507,6 +507,24 @@ jobs:
           ~/scpw server/max-ca.sh "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/max-ca.sh"
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "bash /tmp/max-ca.sh '$TARGET'; rm -f /tmp/max-ca.sh"
 
+      - name: Конфигурация nginx из шаблона
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          # Конфигурация на сервере сама не обновляется, а правила в ней
+          # меняются вместе с сайтом: без этого адрес событий бота MAX
+          # закрыт общим запретом php, и MAX не доставит ни одного события.
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          TARGET="${VPS_PATH:-/var/www/$D/public}"
+          ~/scpw server/nginx-sync.sh "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/nginx-sync.sh"
+          ~/scpw server/nginx-site.conf.template "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/site.conf.template"
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" \
+            "bash /tmp/nginx-sync.sh /tmp/site.conf.template $D '$TARGET'; rm -f /tmp/nginx-sync.sh /tmp/site.conf.template"
+
       - name: Приём заявок и админка работают
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true
