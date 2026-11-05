@@ -1,7 +1,7 @@
 # Выгрузка сайта на VPS по SSH (rsync).
 #
-# Работает сама: как только «Preview site» успешно собрал демо, этот
-# workflow выкладывает ту же версию на сервер. Руками ничего запускать
+# Работает сама: как только «Проверка сайта» прошла, этот workflow
+# выкладывает проверенную версию на сервер. Руками ничего запускать
 # не нужно; ручной запуск оставлен для перезаливки без новой правки.
 #
 # ОДИН РАЗ добавьте доступы: Settings → Secrets and variables → Actions
@@ -18,7 +18,7 @@ name: Deploy to VPS
 
 on:
   workflow_run:
-    workflows: ["Preview site"]
+    workflows: ["Проверка сайта"]
     types: [completed]
   workflow_dispatch:
     inputs:

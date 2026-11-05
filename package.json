@@ -15,11 +15,12 @@
     "preview": "node tools/build-preview.mjs",
     "preview:serve": "npm run preview && npx http-server preview -p 8081 -c-1",
     "fonts": "node tools/gen-fonts.mjs",
-    "publish:demo": "npm run build && npm run verify && node tools/publish-demo.mjs",
+    "publish:demo": "npm run publish:site",
     "visual": "node tools/visual.mjs",
     "seo": "node tools/seo.mjs",
     "verify": "node tools/verify.mjs",
-    "bundle": "node tools/bundle.mjs"
+    "bundle": "node tools/bundle.mjs",
+    "publish:site": "npm run build && npm run verify && node tools/publish.mjs"
   },
   "devDependencies": {
     "basic-ftp": "^6.2.0",

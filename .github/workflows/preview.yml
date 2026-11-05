@@ -1,44 +1,39 @@
-# Демонстрационная версия сайта на GitHub Pages.
-# Адрес: https://<владелец>.github.io/<репозиторий>/
-# Обновляется автоматически при каждом пуше в рабочую ветку.
+# Проверка сайта перед выкладкой.
 #
-# ПЕРЕД ПЕРВЫМ ЗАПУСКОМ нужно один раз включить Pages вручную:
-#   Settings → Pages → Build and deployment → Source: GitHub Actions
-# Сам workflow включить их не может: создание сайта Pages — админская
-# операция, токену GITHUB_TOKEN она недоступна.
+# Раньше этот workflow публиковал демо на GitHub Pages. После перевода
+# репозитория в приватный Pages стали недоступны (на бесплатном тарифе
+# страницы приватных репозиториев не публикуются), и демо отключено.
+# Проверки остались: они ловят ошибки до того, как их увидят посетители.
+#
+# Выгрузка на боевой сервер («Deploy to VPS») запускается после успешного
+# завершения этого workflow.
 
-name: Preview site
+name: Проверка сайта
 
 on:
   push:
     branches:
-      # Публиковать демо может только ветка по умолчанию: окружение
-      # github-pages не пускает остальные. Рабочая ветка попадает сюда
-      # перемоткой — npm run publish:demo.
       - claude/karkas-comfort-redesign-0zy3xi
+      - claude/site-analysis-redesign-tfso59
       - main
     paths-ignore:
       - 'README.md'
       - 'DEPLOY.md'
-      # Сырьё от заказчика: в сборку не входит, пересобирать демо незачем.
+      - 'docs/**'
+      # Сырьё от заказчика: в сборку не входит, проверять незачем.
       - 'materials/**'
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: check-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  check:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -50,37 +45,17 @@ jobs:
       - name: Установка зависимостей
         run: npm ci
 
-      - name: Настройка Pages
-        id: pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
+      - name: Браузер для проверок
+        run: npx playwright install --with-deps chromium
 
-      - name: Сборка демо-версии
-        env:
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          SITE_URL: ${{ steps.pages.outputs.origin }}${{ steps.pages.outputs.base_path }}
-        run: npm run preview
+      - name: Сборка
+        run: npm run build
 
-      - name: Проверка сборки
+      - name: Проверка, что сборка не пустая
         run: |
-          test -s preview/index.html
-          test -s preview/assets/css/style.css
-          grep -q "noindex" preview/index.html
-          grep -q "Disallow: /" preview/robots.txt
+          test -s dist/index.html
+          test -s dist/assets/css/style.css
+          test -s dist/sitemap.xml
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: preview
-
-      - name: Публикация
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - name: Подсказка, если публикация не прошла
-        if: failure()
-        run: |
-          echo "::error::Похоже, GitHub Pages ещё не включены."
-          echo "Откройте Settings → Pages → Build and deployment"
-          echo "и выберите Source: GitHub Actions, затем перезапустите этот workflow."
-
+      - name: Проверки сайта
+        run: npm run verify
