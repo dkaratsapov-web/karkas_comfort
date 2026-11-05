@@ -29,10 +29,14 @@ done
 [ "$(id -u)" = "0" ] || { echo "Запускать от root"; exit 1; }
 
 REPO_RAW="https://raw.githubusercontent.com/dkaratsapov-web/karkas_comfort/claude/karkas-comfort-redesign-0zy3xi"
+# Репозиторий приватный: без токена GitHub не отдаёт файлы.
+# Токен передаётся переменной GH_TOKEN (fine-grained, Contents: Read).
+GH_AUTH=()
+[ -n "${GH_TOKEN:-}" ] && GH_AUTH=(-H "Authorization: Bearer ${GH_TOKEN}")
 CONF="/etc/nginx/sites-available/$DOMAIN.conf"
 
 echo "==> Шаблон из репозитория"
-curl -fsSL "$REPO_RAW/server/nginx-site.conf.template" -o /tmp/site.conf.template
+curl -fsSL "${GH_AUTH[@]}" "$REPO_RAW/server/nginx-site.conf.template" -o /tmp/site.conf.template
 
 PHP_SOCK="$(ls /run/php/php*-fpm.sock 2>/dev/null | head -1 || true)"
 [ -n "$PHP_SOCK" ] || PHP_SOCK="/run/php/php-fpm.sock"

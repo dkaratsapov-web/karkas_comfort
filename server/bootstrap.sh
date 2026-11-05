@@ -40,6 +40,10 @@ done
 [ "$(id -u)" = "0" ] || { echo "Запускать от root"; exit 1; }
 
 REPO_RAW="https://raw.githubusercontent.com/dkaratsapov-web/karkas_comfort/claude/karkas-comfort-redesign-0zy3xi"
+# Репозиторий приватный: без токена GitHub не отдаёт файлы.
+# Токен передаётся переменной GH_TOKEN (fine-grained, Contents: Read).
+GH_AUTH=()
+[ -n "${GH_TOKEN:-}" ] && GH_AUTH=(-H "Authorization: Bearer ${GH_TOKEN}")
 ROOT="/var/www/$DOMAIN"
 PUBLIC="$ROOT/public"
 
@@ -153,7 +157,7 @@ chown -R "$DEPLOY_USER:www-data" "$PUBLIC"
 echo "==> 5/8 Приём заявок"
 # config.php хранит почту и токены: создаётся один раз и выгрузкой не перезаписывается
 if [ ! -f "$PUBLIC/api/config.php" ]; then
-  curl -fsSL "$REPO_RAW/server/api/config.php" -o "$PUBLIC/api/config.php" || true
+  curl -fsSL "${GH_AUTH[@]}" "$REPO_RAW/server/api/config.php" -o "$PUBLIC/api/config.php" || true
 fi
 if [ -f "$PUBLIC/api/config.php" ]; then
   chown "$DEPLOY_USER:www-data" "$PUBLIC/api/config.php"; chmod 640 "$PUBLIC/api/config.php"
@@ -162,7 +166,7 @@ touch "$PUBLIC/api/leads.csv"
 chown www-data:www-data "$PUBLIC/api/leads.csv"; chmod 660 "$PUBLIC/api/leads.csv"
 
 echo "==> 6/8 Конфигурация nginx"
-curl -fsSL "$REPO_RAW/server/nginx-site.conf.template" -o /tmp/site.conf.template
+curl -fsSL "${GH_AUTH[@]}" "$REPO_RAW/server/nginx-site.conf.template" -o /tmp/site.conf.template
 # HTTP/2 включается по-разному: до nginx 1.25 — флагом в listen,
 # с 1.25 — отдельной директивой. Старый nginx на директиве падает.
 NGINX_VER="$(nginx -v 2>&1 | sed -n 's|.*/\([0-9.]*\).*|\1|p')"
