@@ -28,9 +28,14 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Второй свет сильно увеличивает счёт за отопление?","acceptedAnswer":{"@type":"Answer","text":"Умеренно, если контур утеплён по зимним нормам и внизу есть тёплый пол. Основные потери идут не от объёма, а от большой площади остекления."}},{"@type":"Question","name":"Можно ли потом закрыть второй свет перекрытием?","acceptedAnswer":{"@type":"Answer","text":"Технически да, если каркас и фундамент рассчитаны на дополнительную нагрузку. Это решается на этапе проекта, иначе потребуется усиление."}},{"@type":"Question","name":"Мансарда или полуторный этаж?","acceptedAnswer":{"@type":"Answer","text":"Полуторный удобнее: подъём стены убирает самую неудобную зону у окон, а стоит он ненамного дороже мансарды."}}]}</script>
   <meta name="yandex-verification" content="73b1bd7626f79ddd">
   <script>
+    /* Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
+       грузится, но счётчик не инициализируется и обращение /watch/
+       не уходит — визиты в Метрику не попадают вовсе. */
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    m[i].l=1*new Date();
+    for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=113852042","ym");
     ym(113852042, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/113852042" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>

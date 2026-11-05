@@ -28,9 +28,14 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Что дешевле: 120 м² в один этаж или в два?","acceptedAnswer":{"@type":"Answer","text":"При одинаковой площади разница обычно невелика: одноэтажный выигрывает на лестнице и перекрытии, проигрывает на фундаменте и кровле. Считать нужно по конкретному проекту."}},{"@type":"Question","name":"Насколько неудобна лестница?","acceptedAnswer":{"@type":"Answer","text":"Это вопрос привычки и состава семьи. С маленькими детьми и пожилыми родителями лестница становится ежедневным ограничением, поэтому часто спальню для старшего поколения размещают внизу."}},{"@type":"Question","name":"Мансарда или второй этаж?","acceptedAnswer":{"@type":"Answer","text":"Мансарда дешевле, но теряет площадь на скосах. Полуторный этаж — компромисс: подъём стены убирает неудобную зону у окон."}}]}</script>
   <meta name="yandex-verification" content="73b1bd7626f79ddd">
   <script>
+    /* Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
+       грузится, но счётчик не инициализируется и обращение /watch/
+       не уходит — визиты в Метрику не попадают вовсе. */
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    m[i].l=1*new Date();
+    for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=113852042","ym");
     ym(113852042, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/113852042" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>

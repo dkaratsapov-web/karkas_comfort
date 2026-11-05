@@ -28,9 +28,14 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Нужен ли независимый эксперт на приёмке?","acceptedAnswer":{"@type":"Answer","text":"Если вы не уверены в своих силах, технадзор на один выезд стоит дешевле, чем переделка. Он смотрит узлы и измеряет то, что сложно оценить на глаз."}},{"@type":"Question","name":"Можно ли проверить утепление после отделки?","acceptedAnswer":{"@type":"Answer","text":"Прямо — нет, стены закрыты. Косвенно помогает тепловизор в мороз и фотоотчёт по скрытым работам, сделанный до зашивки."}},{"@type":"Question","name":"Что делать, если недостатки нашли после подписания акта?","acceptedAnswer":{"@type":"Answer","text":"Обращаться по гарантии: гарантийный срок прописан в договоре. Поэтому важно, чтобы в договоре были и срок, и порядок обращения, и сроки устранения."}}]}</script>
   <meta name="yandex-verification" content="73b1bd7626f79ddd">
   <script>
+    /* Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
+       грузится, но счётчик не инициализируется и обращение /watch/
+       не уходит — визиты в Метрику не попадают вовсе. */
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    m[i].l=1*new Date();
+    for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=113852042","ym");
     ym(113852042, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/113852042" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>

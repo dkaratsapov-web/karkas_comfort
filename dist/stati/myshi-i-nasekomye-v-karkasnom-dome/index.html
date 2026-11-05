@@ -28,9 +28,14 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Правда ли, что в каркасных домах всегда мыши?","acceptedAnswer":{"@type":"Answer","text":"Нет. Мыши заводятся там, где есть открытый путь в конструкцию. В доме с закрытым подпольем, сеткой на продухах и загерметизированными вводами их нет так же, как в кирпичном."}},{"@type":"Question","name":"Помогает ли металлическая сетка под обшивкой?","acceptedAnswer":{"@type":"Answer","text":"Да, если она стоит в правильных местах: на продухах, в начале и конце вентзазора, вокруг вводов. Сплошная сетка по всей стене не нужна."}},{"@type":"Question","name":"Нужно ли обрабатывать каркас от насекомых?","acceptedAnswer":{"@type":"Answer","text":"Элементы в зоне риска (нижняя обвязка, лаги, контакт с бетоном) обрабатываются обязательно. Сухая закрытая древесина внутри стены в обработке не нуждается."}}]}</script>
   <meta name="yandex-verification" content="73b1bd7626f79ddd">
   <script>
+    /* Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
+       грузится, но счётчик не инициализируется и обращение /watch/
+       не уходит — визиты в Метрику не попадают вовсе. */
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    m[i].l=1*new Date();
+    for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=113852042","ym");
     ym(113852042, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/113852042" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>

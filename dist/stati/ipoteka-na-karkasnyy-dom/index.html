@@ -28,9 +28,14 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Вы аккредитованы в банках?","acceptedAnswer":{"@type":"Answer","text":"Да, работаем по программам ИЖС с аккредитацией. Список банков меняется, поэтому актуальный уточняйте у нас перед подачей заявки — назовём те, где аккредитация действует сейчас."}},{"@type":"Question","name":"Можно ли использовать материнский капитал?","acceptedAnswer":{"@type":"Answer","text":"Материнский капитал можно направить на первоначальный взнос или на погашение кредита на строительство. Порядок и условия определяет банк и Социальный фонд."}},{"@type":"Question","name":"Дом нужно достроить к определённому сроку?","acceptedAnswer":{"@type":"Answer","text":"Да, в кредитном договоре есть срок завершения строительства. Поэтому срок работ в договоре подряда мы фиксируем и согласуем с банковским."}}]}</script>
   <meta name="yandex-verification" content="73b1bd7626f79ddd">
   <script>
+    /* Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
+       грузится, но счётчик не инициализируется и обращение /watch/
+       не уходит — визиты в Метрику не попадают вовсе. */
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    m[i].l=1*new Date();
+    for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=113852042","ym");
     ym(113852042, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/113852042" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>

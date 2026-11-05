@@ -28,9 +28,14 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Можно ли сделать умный дом после ремонта?","acceptedAnswer":{"@type":"Answer","text":"Да, на беспроводных устройствах. Ограничения: батарейки, задержки и невозможность поставить реле там, где в подрозетнике нет нуля."}},{"@type":"Question","name":"Что важнее всего заложить?","acceptedAnswer":{"@type":"Answer","text":"Нулевой провод в выключателях, витую пару к ключевым точкам и электрокран на вводе воды. Остальное добавляется позже."}},{"@type":"Question","name":"Нужен ли отдельный сервер?","acceptedAnswer":{"@type":"Answer","text":"Для небольшого дома достаточно контроллера или мини-компьютера. Главное, чтобы базовые функции (свет, тепло, вода) работали без интернета."}}]}</script>
   <meta name="yandex-verification" content="73b1bd7626f79ddd">
   <script>
+    /* Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
+       грузится, но счётчик не инициализируется и обращение /watch/
+       не уходит — визиты в Метрику не попадают вовсе. */
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    m[i].l=1*new Date();
+    for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=113852042","ym");
     ym(113852042, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/113852042" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>
