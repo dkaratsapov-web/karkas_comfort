@@ -551,9 +551,12 @@ jobs:
               ls -l '$TARGET/api' | head -14
               echo 'версия php:' \$(php -v 2>/dev/null | head -1 || echo 'php из командной строки нет')
               echo 'ошибки php-fpm:'
-              tail -n 12 /var/log/php*-fpm.log 2>/dev/null | sed 's/^/  /' || echo '  журнала нет'
-              echo 'ошибки php из журнала nginx:'
-              grep -i 'php\|fastcgi' /var/log/nginx/error.log 2>/dev/null | tail -n 12 | sed 's/^/  /' || echo '  нет записей'
+              tail -n 6 /var/log/php*-fpm.log 2>/dev/null | sed 's/^/  /' || echo '  журнала нет'
+              # Журнал страниц печатаем последним: ради него всё и
+              # затевалось, а вывод выше вытесняет его из видимой
+              # части лога.
+              echo '=== ошибки страниц админки и заявок ==='
+              tail -n 20 '$TARGET/api/admin-error.log' 2>/dev/null | sed 's/^/  /' || echo '  записей нет'
             "
 
       - name: Убрать доступы
