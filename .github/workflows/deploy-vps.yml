@@ -222,7 +222,7 @@ jobs:
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
               [ \"\$(id -u)\" = 0 ] && chown -R root:www-data '$TARGET/api' 2>/dev/null || true
               chmod 2775 '$TARGET/api' 2>/dev/null || true
-              for f in settings.json leads.jsonl leads-state.json admin-users.json admin-throttle.json; do
+              for f in settings.json leads.jsonl leads-state.json admin-users.json admin-throttle.json admin-error.log max-bot.log max-chats.json; do
                 [ -f '$TARGET/api/'\$f ] && chmod 660 '$TARGET/api/'\$f || true
               done
               ls -ld '$TARGET/api'
