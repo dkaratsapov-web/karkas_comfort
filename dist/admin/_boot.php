@@ -17,6 +17,13 @@
 declare(strict_types=1);
 
 const API_DIR       = __DIR__ . '/../api';
+
+/* Свой журнал ошибок. Код 500 в браузере не объясняет ничего, а общий
+   журнал php-fpm на сервере пуст: ошибки страниц туда не попадают.
+   Файл закрыт от веба и не перезаписывается выгрузкой. */
+ini_set('log_errors', '1');
+ini_set('display_errors', '0');
+ini_set('error_log', __DIR__ . '/../api/admin-error.log');
 const USERS_FILE    = API_DIR . '/admin-users.json';
 const SETTINGS_FILE = API_DIR . '/settings.json';
 const LEADS_FILE    = API_DIR . '/leads.jsonl';
@@ -300,7 +307,7 @@ function leads_load(): array
 
 /* ---------- оболочка страницы ---------- */
 
-function layout_head(string $title, ?array $user = null, string $active = ''): void
+function layout_head(string $title, ?array $user = null, string $active = '', string $mode = ''): void
 {
     $nav = [
         'index.php'    => 'Заявки',
@@ -325,7 +332,9 @@ function layout_head(string $title, ?array $user = null, string $active = ''): v
         echo '</nav><div class="top__user">' . h($user['name'] ?: $user['login'])
             . ' <a href="/admin/logout.php">выйти</a></div></header>';
     }
-    echo '<main class="wrap">';
+    /* У входа нет шапки и меню, поэтому окно пустое: карточку
+       ставим в середину экрана, а не в левый верхний угол. */
+    echo '<main class="wrap' . ($mode === 'auth' ? ' wrap--auth' : '') . '">';
 }
 
 function layout_foot(): void

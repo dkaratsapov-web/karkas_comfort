@@ -67,6 +67,19 @@ code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13.5px;
 /* ---------- каркас ---------- */
 .wrap { max-width: 1180px; margin: 0 auto; padding: clamp(18px, 3vw, 34px) clamp(14px, 3vw, 30px) 60px; }
 
+/* Вход: карточка по центру экрана. Без этого она прижималась к левому
+   краю контейнера в 1180 px и к верхней кромке — на широком мониторе
+   выглядело как сбитая вёрстка. */
+.wrap--auth {
+  max-width: 460px;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  padding-bottom: clamp(18px, 3vw, 34px);
+}
+.wrap--auth .card { width: 100%; margin: 0; }
+.wrap--auth h1 { margin-top: 0; }
+
 .card {
   background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-l);
   padding: clamp(16px, 2.2vw, 26px); margin-bottom: 18px; box-shadow: var(--shadow);

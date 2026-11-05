@@ -68,6 +68,34 @@ if ($action === 'maxhook' || $action === 'maxoff') {
         $r = max_unsubscribe($token, max_hook_url());
         $maxHook = $r['ok'] ? 'Бот отключён: события больше не приходят.' : 'Не получилось: ' . $r['error'];
     } else {
+        /* Пока подписки нет, MAX отдаёт накопленные события опросом,
+           а после подписки — перестаёт. Поэтому сначала забираем, что
+           уже есть: бота могли добавить в чат раньше подключения,
+           и это событие иначе потерялось бы. */
+        $seen = max_updates($token, 100);
+        if ($seen['ok']) {
+            $chats = json_read(API_DIR . '/max-chats.json');
+            $before = count($chats);
+            $walk = static function ($node) use (&$walk, &$chats) {
+                if (!is_array($node)) return;
+                if (!empty($node['chat_id'])) {
+                    $id = (string) $node['chat_id'];
+                    $chats[$id] = array_merge($chats[$id] ?? [], [
+                        'chat_id' => $id,
+                        'title'   => (string) ($chats[$id]['title'] ?? ($node['title'] ?? '')),
+                        'kind'    => !empty($node['is_channel']) ? 'channel' : ($chats[$id]['kind'] ?? 'chat'),
+                        'seen'    => date('c'),
+                    ]);
+                }
+                foreach ($node as $child) $walk($child);
+            };
+            $walk($seen['data']);
+            if (count($chats) > $before) {
+                json_write(API_DIR . '/max-chats.json', $chats);
+                $maxWho = 'Из прошлых событий бота добавлено чатов: ' . (count($chats) - $before) . '. ';
+            }
+        }
+
         /* Секрет создаётся один раз и хранится на сервере: по нему
            страница бота отличает события MAX от чужих запросов. */
         $secret = (string) ($now['max_secret'] ?? '');
@@ -80,13 +108,33 @@ if ($action === 'maxhook' || $action === 'maxoff') {
         if (!$me['ok']) {
             $maxHook = 'MAX не принял токен: ' . $me['error'];
         } else {
+            /* Сначала стучимся на свой же адрес: если сервер закрывает
+               его, MAX не доставит ни одного события, а понять это по
+               молчанию бота потом тяжело. */
+            $ch = curl_init(max_hook_url());
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => '{}',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => 10,
+            ]);
+            curl_exec($ch);
+            $own = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+            curl_close($ch);
+            if ($own === 403 || $own === 404) {
+                $maxHook = 'Адрес для событий бота закрыт сервером (ответ ' . $own
+                    . '). Сообщите об этом — нужно обновить конфигурацию сервера, без неё бот не получит ни одного события.';
+                $own = 0;
+            }
+        }
+        if ($me['ok'] && ($own ?? 0) !== 0) {
             $r = max_subscribe($token, max_hook_url(), $secret, [
                 'message_created', 'message_callback', 'bot_added', 'bot_removed',
                 'bot_started', 'chat_title_changed',
             ]);
             $botName = (string) ($me['data']['name'] ?? $me['data']['first_name'] ?? 'бот');
             $maxHook = $r['ok'] && !empty($r['data']['success'])
-                ? 'Бот «' . $botName . '» подключён. Добавьте его в рабочий чат — заявки пойдут туда, а под каждой будут кнопки статусов.'
+                ? 'Бот «' . $botName . '» подключён. Теперь добавьте его в рабочий чат и напишите там любое сообщение — чат сам появится в списке ниже, искать его номер не нужно.'
                 : 'Не получилось подключить: ' . ($r['error'] ?: (string) ($r['data']['message'] ?? 'MAX отказал'));
         }
     }
@@ -211,7 +259,7 @@ echo '<button class="btn" type="submit">Сохранить</button></form>';
 if ($maxHook) echo '<p class="flash">' . h($maxHook) . '</p>';
 if ($maxWho)  echo '<p class="flash">' . h($maxWho) . '</p>';
 echo '<form method="post" class="card card--narrow">' . csrf_field();
-echo '<h2>Бот MAX</h2><p class="muted">Подключение нужно один раз: после него бот получает события — его добавили в чат, нажали кнопку под заявкой, написали сообщение. Адрес для событий: ' . h(max_hook_url()) . '</p>';
+echo '<h2>Бот MAX</h2><p class="muted">Бот в групповом чате должен быть <b>администратором</b>: иначе MAX не отдаёт ему события этого чата, и чат не появится в списке. Подключение нужно один раз: после него бот получает события — его добавили в чат, нажали кнопку под заявкой, написали сообщение. Адрес для событий: ' . h(max_hook_url()) . '</p>';
 echo '<button class="btn btn--ghost" type="submit" name="action" value="maxhook">Подключить бота</button> ';
 echo '<button class="btn btn--ghost" type="submit" name="action" value="maxwho">Обновить список чатов</button> ';
 echo '<button class="btn btn--ghost" type="submit" name="action" value="maxoff">Отключить</button>';
