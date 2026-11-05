@@ -186,6 +186,8 @@ jobs:
             --exclude 'api/settings.json' \
             --exclude 'api/admin-*' \
             --exclude 'api/max-ca.pem' \
+            --exclude 'api/max-chats.json' \
+            --exclude 'api/max-bot.log' \
             -e ~/sshw \
             dist/ "${SSH_USER:-$VPS_USER}@$VPS_HOST:$TARGET/"
 
