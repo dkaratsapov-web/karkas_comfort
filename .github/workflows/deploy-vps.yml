@@ -517,7 +517,12 @@ jobs:
           # Код 500 виден только в журналах сервера: в браузере на его
           # месте пустая страница.
           TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          ~/scpw server/admin-selftest.php "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/admin-selftest.php"
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
+              echo 'проверка админки тем же кодом, что и страница заявок:'
+              sudo -u www-data php /tmp/admin-selftest.php '$TARGET' 2>&1 | sed 's/^/  /' \
+                || php /tmp/admin-selftest.php '$TARGET' 2>&1 | sed 's/^/  /'
+              rm -f /tmp/admin-selftest.php
               echo 'права в api/:'
               ls -l '$TARGET/api' | head -14
               echo 'версия php:' \$(php -v 2>/dev/null | head -1 || echo 'php из командной строки нет')
