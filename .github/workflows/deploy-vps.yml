@@ -471,6 +471,30 @@ jobs:
             *)   echo "::warning::Приём заявок отвечает $code — заявки с форм могут не доходить." ;;
           esac
 
+      - name: Настройки приёма заявок на месте
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          # api/config.php намеренно исключён из выгрузки: там боевая
+          # почта и токены, и перезаписывать его нельзя. Но если файла
+          # нет вовсе, приём заявок падает с 500 — ставим образец,
+          # дальше всё правится в админке.
+          TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          if ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "test -f '$TARGET/api/config.php'"; then
+            echo "настройки на сервере есть, не трогаю"
+          else
+            echo "::warning::На сервере не было api/config.php — заявки не принимались. Ставлю образец."
+            ~/scpw server/api/config.php "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/kk-config.php"
+            ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
+                install -m 640 -o root -g www-data /tmp/kk-config.php '$TARGET/api/config.php' \
+                  && rm -f /tmp/kk-config.php && echo 'образец настроек установлен'
+              "
+          fi
+
       - name: Учётные записи админки
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true
