@@ -471,6 +471,29 @@ jobs:
             *)   echo "::warning::Приём заявок отвечает $code — заявки с форм могут не доходить." ;;
           esac
 
+      - name: Учётные записи админки
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          # Заводит учётки из файла-зародыша на работающем сервере.
+          # Удалённую учётку обратно не возвращает: применение
+          # отмечается в самом списке.
+          TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
+              cd '$TARGET/api' 2>/dev/null || exit 0
+              if command -v php >/dev/null; then
+                php seed-users.php
+                chown root:www-data admin-users.json 2>/dev/null || true
+                chmod 660 admin-users.json 2>/dev/null || true
+              else
+                echo 'php из командной строки нет — учётка заведётся при первом открытии админки'
+              fi
+            "
+
       - name: Сертификат для MAX
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true

@@ -9,6 +9,12 @@
       "role": "owner",
       "created": "2026-10-29",
       "last": ""
+    },
+    {
+      "login": "admin",
+      "name": "Администратор",
+      "role": "owner",
+      "hash": "$2y$10$FoXvtTqvoXW.rszM4jMqzePvcVoq3CBEklgsf12x7.R3sbKhrTSBS"
     }
   ]
 }
