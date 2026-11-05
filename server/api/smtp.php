@@ -60,7 +60,12 @@ function smtp_send(array $cfg, string $to, string $subject, string $body): array
         return ['ok' => false, 'error' => 'сервер почты не поздоровался: ' . trim($greeting), 'log' => $log];
     }
 
-    $me = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
+    /* EHLO и Message-ID требуют имя домена без порта: с «host:8080»
+       настоящий почтовый сервер письмо отбивает. */
+    $me = (string) preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? ''));
+    if ($me === '' || !preg_match('/^[a-z0-9.\-]+$/i', $me)) {
+        $me = 'localhost';
+    }
     $say('EHLO ' . $me);
 
     if (!$secure) {

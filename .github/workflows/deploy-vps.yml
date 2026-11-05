@@ -271,7 +271,7 @@ jobs:
                 || echo 'сертификат пока не выпускается: домен ещё не смотрит на этот сервер'
             "
 
-      - name: Доставка заявок в MAX
+      - name: "Доставка заявок: MAX и почта"
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
@@ -281,22 +281,34 @@ jobs:
           MAX_TOKEN: ${{ secrets.MAX_TOKEN }}
           MAX_CHAT_ID: ${{ secrets.MAX_CHAT_ID }}
           MAX_USER_ID: ${{ secrets.MAX_USER_ID }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
         run: |
-          # Токен бота MAX живёт в секретах GitHub, а не в репозитории.
-          # Этот шаг переносит его в api/settings.json на сервере, чтобы
-          # заявки уходили в MAX без правки файлов по SSH руками.
-          if [ -z "$MAX_TOKEN" ]; then
-            echo "::notice::Секрет MAX_TOKEN не задан — доставка в MAX не настраивается."
+          # Токен бота MAX и пароль почтового ящика живут в секретах
+          # GitHub, а не в репозитории. Этот шаг переносит их в
+          # api/settings.json на сервере, чтобы заявки уходили без правки
+          # файлов по SSH руками. Пароль можно вписать и в админке —
+          # тогда секреты не нужны, а настройки она не затирает.
+          if [ -z "$MAX_TOKEN" ] && [ -z "$SMTP_HOST" ]; then
+            echo "::notice::Секретов MAX_TOKEN и SMTP_HOST нет — настройки на сервере не меняются."
             exit 0
           fi
           TARGET="${VPS_PATH:-/var/www/xn--80aa2abbmnbmggrx.xn--p1ai/public}"
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "cat '$TARGET/api/settings.json' 2>/dev/null || echo '{}'" > now.json
           jq --arg t "$MAX_TOKEN" --arg c "$MAX_CHAT_ID" --arg u "$MAX_USER_ID" \
-             '. + {max_token: $t, max_chat_id: $c, max_user_id: $u}' now.json > next.json
+             --arg sh "$SMTP_HOST" --arg sp "${SMTP_PORT:-465}" --arg su "$SMTP_USER" --arg spw "$SMTP_PASS" \
+             '. as $was
+              | (if $t  != "" then {max_token: $t, max_chat_id: $c, max_user_id: $u} else {} end) as $max
+              | (if $sh != "" then {smtp_host: $sh, smtp_port: ($sp|tonumber), smtp_user: $su, smtp_pass: $spw} else {} end) as $mail
+              | $was + $max + $mail' now.json > next.json
           ~/scpw next.json "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/kk-settings.json"
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "install -m 660 -g www-data /tmp/kk-settings.json '$TARGET/api/settings.json' && rm -f /tmp/kk-settings.json"
           rm -f now.json next.json
-          echo "Доставка в MAX настроена: получатель ${MAX_CHAT_ID:+чат}${MAX_USER_ID:+ личный диалог}."
+          [ -n "$MAX_TOKEN" ] && echo "Доставка в MAX настроена: получатель ${MAX_CHAT_ID:+чат}${MAX_USER_ID:+ личный диалог}."
+          [ -n "$SMTP_HOST" ] && echo "Отправка почты настроена через $SMTP_HOST:${SMTP_PORT:-465}."
+          exit 0
 
       - name: Сайт открывается
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run

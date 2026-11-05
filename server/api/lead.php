@@ -57,7 +57,12 @@ $clean = static function ($value, int $max = 500): string {
 
 /* --- ловушка для ботов: поле скрыто от людей и должно быть пустым --- */
 if ($clean($data['website'] ?? '') !== '') {
-    echo json_encode(['ok' => true], JSON_UNESCAPED_UNICODE);   // боту показываем успех
+    /* Каналы перечисляем без текста ошибки: подробности нужны владельцу
+   в админке, а не случайному посетителю. Текст лежит в leads.jsonl. */
+echo json_encode([
+    'ok'   => true,
+    'sent' => ['mail' => $sent, 'telegram' => $telegram, 'max' => $max, 'crm' => $crm],
+], JSON_UNESCAPED_UNICODE);   // боту показываем успех
     exit;
 }
 
@@ -98,9 +103,11 @@ $lines[] = "Время:    {$when}";
 $lines[] = "IP:       {$ip}";
 $body = implode("\n", $lines);
 
-$from    = $clean($config['from'], 100);
-$name_h  = '=?UTF-8?B?' . base64_encode($clean($config['from_name'], 60)) . '?=';
-$subject = '=?UTF-8?B?' . base64_encode($clean($config['subject'], 120)) . '?=';
+$from     = $clean($config['from'], 100);
+$fromName = $clean($config['from_name'], 60);
+$subjRaw  = $clean($config['subject'], 120);
+$name_h   = '=?UTF-8?B?' . base64_encode($fromName) . '?=';
+$subject  = '=?UTF-8?B?' . base64_encode($subjRaw) . '?=';
 $headers = implode("\r\n", [
     "From: {$name_h} <{$from}>",
     "Reply-To: {$from}",
@@ -110,11 +117,38 @@ $headers = implode("\r\n", [
     'X-Mailer: karkascomfort-site',
 ]);
 
-$sent = false;
-foreach (array_map('trim', explode(',', (string) $config['to'])) as $to) {
-    if ($to !== '' && filter_var($to, FILTER_VALIDATE_EMAIL)) {
-        $sent = mail($to, $subject, $body, $headers, '-f' . $from) || $sent;
+/* Два пути отправки. Если в настройках указан почтовый сервер — письмо
+   идёт через ящик компании, как из обычной почтовой программы: на VPS нет
+   почтовой службы, а письма с нового адреса без подписи попадают в спам.
+   Если сервер не указан — остаётся mail(), он работает на обычном хостинге. */
+$sent      = false;
+$mailError = '';
+
+if (trim((string) ($config['smtp_host'] ?? '')) !== '') {
+    require_once __DIR__ . '/smtp.php';
+    $out = smtp_send([
+        'smtp_host' => $config['smtp_host'],
+        'smtp_port' => $config['smtp_port'] ?? 465,
+        'smtp_user' => $config['smtp_user'] ?? '',
+        'smtp_pass' => $config['smtp_pass'] ?? '',
+        'from'      => $from !== '' ? $from : (string) ($config['smtp_user'] ?? ''),
+        'from_name' => $fromName,
+    ], (string) $config['to'], $subjRaw, $body);
+    $sent      = $out['ok'];
+    $mailError = $out['error'];
+} else {
+    foreach (array_map('trim', explode(',', (string) $config['to'])) as $to) {
+        if ($to !== '' && filter_var($to, FILTER_VALIDATE_EMAIL)) {
+            $sent = mail($to, $subject, $body, $headers, '-f' . $from) || $sent;
+        }
     }
+    if (!$sent) {
+        $mailError = 'mail() не отправил письмо: на сервере нет почтовой службы.'
+            . ' Укажите в настройках почтовый сервер (SMTP).';
+    }
+}
+if (!$sent && $mailError !== '') {
+    error_log('почта: ' . $mailError);
 }
 
 /* --- отправка во внешний сервис: Telegram и CRM --- */
@@ -276,6 +310,7 @@ $record  = [
     'ip'      => $ip,
     'test'    => !empty($data['test']),
     'sent'    => ['mail' => $sent, 'telegram' => $telegram, 'max' => $max, 'crm' => $crm],
+    'mail_error' => $sent ? '' : mb_substr($mailError, 0, 300),
 ];
 $jsonl = @fopen(__DIR__ . '/leads.jsonl', 'a');
 if ($jsonl) {
@@ -302,4 +337,9 @@ if (!$sent && !$telegram && !$max && !$crm) {
     fail('Заявка сохранена, но письмо менеджеру не ушло. Позвоните, пожалуйста: 8 (920) 171-69-69', 502);
 }
 
-echo json_encode(['ok' => true], JSON_UNESCAPED_UNICODE);
+/* Каналы перечисляем без текста ошибки: подробности нужны владельцу
+   в админке, а не случайному посетителю. Текст лежит в leads.jsonl. */
+echo json_encode([
+    'ok'   => true,
+    'sent' => ['mail' => $sent, 'telegram' => $telegram, 'max' => $max, 'crm' => $crm],
+], JSON_UNESCAPED_UNICODE);
