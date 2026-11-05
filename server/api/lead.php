@@ -5,6 +5,10 @@
 
 declare(strict_types=1);
 
+ini_set('log_errors', '1');
+ini_set('display_errors', '0');
+ini_set('error_log', __DIR__ . '/admin-error.log');
+
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 

@@ -17,6 +17,13 @@
 declare(strict_types=1);
 
 const API_DIR       = __DIR__ . '/../api';
+
+/* Свой журнал ошибок. Код 500 в браузере не объясняет ничего, а общий
+   журнал php-fpm на сервере пуст: ошибки страниц туда не попадают.
+   Файл закрыт от веба и не перезаписывается выгрузкой. */
+ini_set('log_errors', '1');
+ini_set('display_errors', '0');
+ini_set('error_log', __DIR__ . '/../api/admin-error.log');
 const USERS_FILE    = API_DIR . '/admin-users.json';
 const SETTINGS_FILE = API_DIR . '/settings.json';
 const LEADS_FILE    = API_DIR . '/leads.jsonl';
