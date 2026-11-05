@@ -312,10 +312,15 @@ $record  = [
     'sent'    => ['mail' => $sent, 'telegram' => $telegram, 'max' => $max, 'crm' => $crm],
     'mail_error' => $sent ? '' : mb_substr($mailError, 0, 300),
 ];
-$jsonl = @fopen(__DIR__ . '/leads.jsonl', 'a');
+$stored = false;
+$jsonl  = @fopen(__DIR__ . '/leads.jsonl', 'a');
 if ($jsonl) {
-    fwrite($jsonl, json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n");
+    $line   = json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n";
+    $stored = fwrite($jsonl, $line) !== false;
     fclose($jsonl);
+}
+if (!$stored) {
+    error_log('заявка не записана в leads.jsonl: нет прав на запись в api/');
 }
 
 /* --- запись в файл: страховка на случай проблем с почтой --- */
@@ -332,9 +337,13 @@ if (!empty($config['log_file'])) {
     }
 }
 
-if (!$sent && !$telegram && !$max && !$crm) {
-    /* ни один канал не принял заявку: она записана в CSV, но человеку об этом знать нужно */
-    fail('Заявка сохранена, но письмо менеджеру не ушло. Позвоните, пожалуйста: 8 (920) 171-69-69', 502);
+/* Заявка в хранилище админки — это и есть доставка: владелец видит её
+   в разделе «Сделки», даже когда почта и мессенджер молчат. Поэтому
+   отказ посетителю показываем только если не сохранилось вообще нигде.
+   Причина отказа почты при этом записана в заявку и в журнал — она
+   нужна владельцу, а не человеку, который заполнил форму. */
+if (!$stored && !$sent && !$telegram && !$max && !$crm) {
+    fail('Заявка не сохранилась. Позвоните, пожалуйста: 8 (920) 171-69-69', 502);
 }
 
 /* Каналы перечисляем без текста ошибки: подробности нужны владельцу
