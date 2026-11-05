@@ -425,6 +425,16 @@ jobs:
           ~/scpw server/https-on.sh "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/https-on.sh"
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "bash /tmp/https-on.sh xn--80aa2abbmnbmggrx.xn--p1ai; rm -f /tmp/https-on.sh"
 
+      - name: Настоящий визит на сайт
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        run: |
+          # Открываем боевой сайт настоящим браузером и смотрим, уходит ли
+          # обращение в Метрику. Разметка может быть верной, а счётчик
+          # всё равно не работать: блокировка, ошибка JS, отказ сети.
+          npm i --no-save playwright-core@1.49.1 >/dev/null 2>&1 || true
+          node tools/live-visit.mjs https://xn--80aa2abbmnbmggrx.xn--p1ai/
+
       - name: Убрать доступы
         if: always()
         run: rm -f ~/.ssh/id_deploy ~/.sshpass ~/sshw ~/scpw
