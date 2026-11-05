@@ -307,34 +307,67 @@ function leads_load(): array
 
 /* ---------- оболочка страницы ---------- */
 
+/* Разделы слева. Порядок — по ходу работы: сначала то, с чем
+   работают каждый день, настройки внизу. */
+function admin_nav(): array
+{
+    return [
+        'Работа' => [
+            'index.php'  => ['Сделки',   'Заявки и их движение по этапам'],
+            'tasks.php'  => ['Задачи',   'Что нужно сделать и когда'],
+            'people.php' => ['Клиенты',  'Контакты и история общения'],
+        ],
+        'Сайт' => [
+            'content.php' => ['Содержимое сайта', 'Цены, проекты, объекты'],
+        ],
+        'Настройки' => [
+            'settings.php' => ['Приём заявок', 'Почта, бот MAX, CRM'],
+            'users.php'    => ['Пользователи', 'Кто может входить'],
+        ],
+    ];
+}
+
 function layout_head(string $title, ?array $user = null, string $active = '', string $mode = ''): void
 {
-    $nav = [
-        'index.php'    => 'Заявки',
-        'content.php'  => 'Содержимое сайта',
-        'settings.php' => 'Настройки заявок',
-        'users.php'    => 'Пользователи',
-    ];
     echo '<!doctype html><html lang="ru"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
     echo '<meta name="robots" content="noindex, nofollow">';
     echo '<title>' . h($title) . ' · Каркас Комфорт</title>';
     echo '<link rel="icon" href="/assets/img/favicon.svg">';
-    echo '<link rel="stylesheet" href="/admin/admin.css?v=3">';
-    echo '</head><body>';
+    echo '<link rel="stylesheet" href="/admin/admin.css?v=5">';
+    echo '</head><body class="' . ($user ? 'has-side' : 'no-side') . '">';
+
     if ($user) {
-        echo '<header class="top"><a class="top__logo" href="/admin/">Каркас Комфорт<span>админка</span></a><nav class="top__nav">';
-        foreach ($nav as $file => $label) {
-            if ($file === 'users.php' && ($user['role'] ?? '') !== 'owner') continue;
-            $is = $file === $active ? ' class="is-on"' : '';
-            echo '<a href="/admin/' . h($file) . '"' . $is . '>' . h($label) . '</a>';
+        /* Боковое меню: разделов становится много, и сверху они
+           перестали помещаться в строку. Слева список растёт вниз
+           без перестроения вёрстки. */
+        echo '<a class="skip" href="#main">К содержимому</a>';
+        echo '<input type="checkbox" id="side-toggle" class="side-toggle" hidden>';
+        echo '<label class="side-open" for="side-toggle" aria-label="Меню">☰</label>';
+        echo '<aside class="side">';
+        echo '<a class="side__logo" href="/admin/">Каркас Комфорт<span>кабинет</span></a>';
+        foreach (admin_nav() as $group => $items) {
+            $visible = [];
+            foreach ($items as $file => $row) {
+                if ($file === 'users.php' && ($user['role'] ?? '') !== 'owner') continue;
+                $visible[$file] = $row;
+            }
+            if (!$visible) continue;
+            echo '<div class="side__group"><div class="side__title">' . h($group) . '</div><nav>';
+            foreach ($visible as $file => [$label, $hint]) {
+                $is = $file === $active ? ' class="is-on"' : '';
+                echo '<a href="/admin/' . h($file) . '"' . $is . ' title="' . h($hint) . '">' . h($label) . '</a>';
+            }
+            echo '</nav></div>';
         }
-        echo '</nav><div class="top__user">' . h($user['name'] ?: $user['login'])
-            . ' <a href="/admin/logout.php">выйти</a></div></header>';
+        echo '<div class="side__user">' . h($user['name'] ?: $user['login'])
+            . '<a href="/admin/logout.php">выйти</a></div>';
+        echo '</aside>';
     }
-    /* У входа нет шапки и меню, поэтому окно пустое: карточку
-       ставим в середину экрана, а не в левый верхний угол. */
-    echo '<main class="wrap' . ($mode === 'auth' ? ' wrap--auth' : '') . '">';
+
+    /* У входа нет меню, поэтому окно пустое: карточку ставим
+       в середину экрана, а не в левый верхний угол. */
+    echo '<main id="main" class="wrap' . ($mode === 'auth' ? ' wrap--auth' : '') . '">';
 }
 
 function layout_foot(): void

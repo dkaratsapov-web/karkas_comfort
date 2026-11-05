@@ -1,201 +1,179 @@
 <?php
-/*  Вход в админку и список заявок (внутренняя CRM).
+/*  Сделки: всё, что пришло с сайта, и что с этим делают дальше.
  *
- *  Первый запуск: пока нет ни одного пользователя, страница предлагает
- *  завести владельца. Чтобы этого не сделал посторонний, который просто
- *  первым открыл адрес, нужен код установки — он лежит файлом на сервере
- *  и виден только тому, у кого есть доступ к серверу.
+ *  Главный экран кабинета. Наверху — что требует внимания сегодня,
+ *  ниже воронка по этапам и список сделок. Подробности и история —
+ *  в карточке сделки (deal.php).
  */
 
 declare(strict_types=1);
 require __DIR__ . '/_boot.php';
+require __DIR__ . '/crm.php';
 
 session_boot();
 csrf_check();
 
+/* ---------- вход ---------- */
 $users = users_load();
-
-/* ---------- первый запуск: заводим владельца ---------- */
 if (!$users) {
-    if (!is_file(SETUP_FILE)) {
-        file_put_contents(SETUP_FILE, bin2hex(random_bytes(6)) . "\n");
-        @chmod(SETUP_FILE, 0640);
-    }
-    $code  = trim((string) file_get_contents(SETUP_FILE));
-    $error = '';
-
-    if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
-        $login = post('login', 40);
-        $name  = post('name', 80);
-        $pass  = (string) ($_POST['password'] ?? '');
-        if (!hash_equals($code, post('code', 64)))      $error = 'Код установки не совпал.';
-        elseif (!preg_match('/^[a-zA-Z0-9._-]{3,40}$/', $login)) $error = 'Логин: латиница, цифры, точка, дефис, подчёркивание, от 3 символов.';
-        elseif (mb_strlen($pass) < 10)                   $error = 'Пароль — от 10 символов.';
-        else {
-            users_save([[
-                'login'   => $login,
-                'name'    => $name !== '' ? $name : $login,
-                'hash'    => password_hash($pass, PASSWORD_DEFAULT),
-                'role'    => 'owner',
-                'created' => date('c'),
-                'last'    => '',
-            ]]);
-            @unlink(SETUP_FILE);
-            $_SESSION['login'] = $login;
-            session_regenerate_id(true);
-            flash('Готово. Вы вошли как владелец — теперь можно добавить остальных.');
-            redirect('/admin/');
-        }
-    }
-
-    layout_head('Установка админки', null, '', 'auth');
-    echo '<div class="card card--narrow"><h1>Первый вход</h1>';
-    echo '<p class="muted">Пользователей ещё нет. Заведите владельца: он сможет добавлять остальных.</p>';
-    echo '<p class="muted">Код установки лежит на сервере. Покажите его командой:<br><code>cat ' . h(SETUP_FILE) . '</code></p>';
-    if ($error) echo '<p class="flash flash--err">' . h($error) . '</p>';
-    echo '<form method="post" class="form">' . csrf_field();
-    echo '<label>Код установки<input name="code" required autocomplete="off"></label>';
-    echo '<label>Логин<input name="login" required autocomplete="username" placeholder="например, dmitriy"></label>';
-    echo '<label>Имя<input name="name" placeholder="Как подписывать заявки"></label>';
-    echo '<label>Пароль<input type="password" name="password" required minlength="10" autocomplete="new-password"></label>';
-    echo '<button class="btn" type="submit">Создать владельца</button></form></div>';
-    layout_foot();
+    /* Учётных записей нет вовсе: заводим первую по коду установки,
+       который лежит файлом на сервере. */
+    require __DIR__ . '/setup.php';
     exit;
 }
 
-/* ---------- вход ---------- */
 $user = current_user();
 if (!$user) {
-    $error = '';
-    if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
-        $login = post('login', 40);
-        $pass  = (string) ($_POST['password'] ?? '');
-        $wait  = throttle_blocked($login);
-        if ($wait > 0) {
-            $error = 'Слишком много попыток. Повторите через ' . ceil($wait / 60) . ' мин.';
-        } else {
-            $found = user_find($login);
-            if ($found && password_verify($pass, (string) $found['hash'])) {
-                throttle_clear($login);
-                session_regenerate_id(true);
-                $_SESSION['login'] = $found['login'];
-                user_touch($found['login']);
-                $next = (string) ($_POST['next'] ?? '/admin/');
-                redirect(str_starts_with($next, '/admin/') ? $next : '/admin/');
-            }
-            throttle_fail($login);
-            $error = 'Логин или пароль не подошли.';
-        }
-    }
-
-    layout_head('Вход', null, '', 'auth');
-    echo '<div class="card card--narrow"><h1>Вход в админку</h1>';
-    if ($error) echo '<p class="flash flash--err">' . h($error) . '</p>';
-    echo '<form method="post" class="form">' . csrf_field();
-    echo '<input type="hidden" name="next" value="' . h((string) ($_GET['next'] ?? '/admin/')) . '">';
-    echo '<label>Логин<input name="login" required autocomplete="username" autofocus></label>';
-    echo '<label>Пароль<input type="password" name="password" required autocomplete="current-password"></label>';
-    echo '<button class="btn" type="submit">Войти</button></form></div>';
-    layout_foot();
+    require __DIR__ . '/login.php';
     exit;
 }
 
-/* ---------- действия со заявкой ---------- */
-if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && post('action') === 'state') {
-    $id     = post('id', 80);
-    $status = post('status', 20);
-    if ($id !== '' && isset(STATUSES[$status])) {
-        lead_state_set($id, [
-            'status' => $status,
-            'note'   => post('note', 1000),
-            'by'     => (string) $user['login'],
-        ]);
-        flash('Заявка обновлена.');
+/* ---------- быстрые действия из списка ---------- */
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && post('action') === 'stage') {
+    $id    = post('id', 80);
+    $stage = crm_stage(post('stage', 20));
+    if ($id !== '') {
+        crm_update($id, ['status' => $stage], (string) $user['login'], 'этап: ' . crm_stage_name($stage));
+        flash('Этап обновлён: ' . crm_stage_name($stage));
     }
-    redirect('/admin/' . (($_GET['q'] ?? '') !== '' ? '?q=' . rawurlencode((string) $_GET['q']) : ''));
+    redirect('/admin/' . ($_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : ''));
 }
 
-/* ---------- выгрузка в CSV ---------- */
-$leads = leads_load();
+$deals = crm_deals();
+
+/* ---------- выгрузка ---------- */
 if (($_GET['export'] ?? '') === 'csv') {
     header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename="zayavki-' . date('Y-m-d') . '.csv"');
+    header('Content-Disposition: attachment; filename="sdelki-' . date('Y-m-d') . '.csv"');
     $out = fopen('php://output', 'w');
-    fwrite($out, "\xEF\xBB\xBF");                       // метка для Excel
-    fputcsv($out, ['Дата', 'Имя', 'Телефон', 'Проект', 'Сообщение', 'Страница', 'Статус', 'Заметка'], ';');
-    foreach ($leads as $row) {
+    fwrite($out, "\xEF\xBB\xBF");
+    fputcsv($out, ['Дата', 'Имя', 'Телефон', 'Проект', 'Источник', 'Этап', 'Ответственный', 'Сумма', 'Следующий шаг', 'Когда', 'Сообщение'], ';');
+    foreach ($deals as $d) {
         fputcsv($out, [
-            $row['at'] ?? '', $row['name'] ?? '', $row['phone'] ?? '', $row['project'] ?? '',
-            $row['message'] ?? '', $row['page'] ?? '', STATUSES[$row['status']] ?? '', $row['note'] ?? '',
+            $d['at'] ?? '', $d['name'] ?? '', $d['phone'] ?? '', $d['project'] ?? '',
+            $d['source'], crm_stage_name($d['stage']), $d['owner'], $d['amount'] ?: '',
+            $d['next_what'], $d['next_at'], $d['message'] ?? '',
         ], ';');
     }
     exit;
 }
 
 /* ---------- отбор ---------- */
-$q      = mb_strtolower(trim((string) ($_GET['q'] ?? '')));
-$filter = (string) ($_GET['status'] ?? '');
-$counts = ['all' => count($leads)];
-foreach (array_keys(STATUSES) as $key) $counts[$key] = 0;
-foreach ($leads as $row) $counts[$row['status']] = ($counts[$row['status']] ?? 0) + 1;
+$q     = mb_strtolower(trim((string) ($_GET['q'] ?? '')));
+$stage = (string) ($_GET['stage'] ?? '');
+$mine  = ($_GET['mine'] ?? '') === '1';
+$view  = ($_GET['view'] ?? 'list') === 'board' ? 'board' : 'list';
 
-$shown = array_filter($leads, static function (array $row) use ($q, $filter) {
-    if ($filter !== '' && ($row['status'] ?? '') !== $filter) return false;
+$counts = ['all' => 0];
+foreach (array_keys(CRM_STAGES) as $code) $counts[$code] = 0;
+foreach ($deals as $d) { $counts['all']++; $counts[$d['stage']]++; }
+
+$shown = array_filter($deals, static function (array $d) use ($q, $stage, $mine, $user) {
+    if ($stage !== '' && $d['stage'] !== $stage) return false;
+    if ($mine && $d['owner'] !== (string) $user['login']) return false;
     if ($q === '') return true;
-    $hay = mb_strtolower(implode(' ', [$row['name'] ?? '', $row['phone'] ?? '', $row['project'] ?? '', $row['message'] ?? '', $row['note'] ?? '']));
+    $hay = mb_strtolower(implode(' ', [
+        $d['name'] ?? '', $d['phone'] ?? '', $d['project'] ?? '', $d['message'] ?? '',
+        $d['next_what'], $d['owner'], $d['source'],
+    ]));
     return str_contains($hay, $q);
 });
 
-layout_head('Заявки', $user, 'index.php');
+$sum = crm_summary($deals);
+
+/* ---------- вывод ---------- */
+layout_head('Сделки', $user, 'index.php');
 flash_show();
 
-echo '<div class="head"><h1>Заявки <span class="count">' . count($leads) . '</span></h1>';
-echo '<form class="search" method="get"><input name="q" value="' . h((string) ($_GET['q'] ?? '')) . '" placeholder="Имя, телефон, проект" aria-label="Поиск по заявкам">';
-if ($filter !== '') echo '<input type="hidden" name="status" value="' . h($filter) . '">';
-echo '<button class="btn btn--sm" type="submit">Найти</button>';
-echo '<a class="btn btn--ghost btn--sm" href="/admin/?export=csv">Выгрузить CSV</a></form></div>';
-
-echo '<div class="chips">';
-$chip = static function (string $key, string $label, int $n) use ($filter, $q) {
-    $href = '/admin/?status=' . rawurlencode($key) . ($q !== '' ? '&q=' . rawurlencode($q) : '');
-    $is   = ($filter === $key) ? ' is-on' : '';
-    echo '<a class="chip' . $is . '" href="' . h($key === '' ? '/admin/' : $href) . '">' . h($label) . ' <b>' . $n . '</b></a>';
+$link = static function (array $params): string {
+    $now = array_filter(array_merge($_GET, $params), static fn($v) => $v !== '' && $v !== null);
+    return '/admin/' . ($now ? '?' . http_build_query($now) : '');
 };
-$chip('', 'Все', $counts['all']);
-foreach (STATUSES as $key => $label) $chip($key, $label, $counts[$key]);
+
+echo '<div class="head"><h1>Сделки</h1>';
+echo '<form class="search" method="get">';
+if ($stage !== '') echo '<input type="hidden" name="stage" value="' . h($stage) . '">';
+if ($mine)         echo '<input type="hidden" name="mine" value="1">';
+echo '<input name="q" value="' . h((string) ($_GET['q'] ?? '')) . '" placeholder="Имя, телефон, проект" aria-label="Поиск по сделкам">';
+echo '<button class="btn" type="submit">Найти</button>';
+echo '<a class="btn btn--ghost" href="' . h($link(['export' => 'csv'])) . '">Выгрузить CSV</a>';
+echo '</form></div>';
+
+/* Сводка: сначала то, из-за чего теряются деньги — просроченные
+   и сегодняшние шаги, потом объём работы. */
+echo '<div class="tiles">';
+$tiles = [
+    ['Просрочено',  $sum['overdue'], $sum['overdue'] > 0 ? 'bad' : '',  'Шаг назначен на прошедшую дату'],
+    ['На сегодня',  $sum['today'],   $sum['today'] > 0 ? 'warn' : '',   'Что сделать сегодня'],
+    ['В работе',    $sum['open'],    '',                                'Сделки, которые не закрыты'],
+    ['Сумма в работе', crm_money($sum['money']), '',                    'Сколько денег в открытых сделках'],
+    ['Выиграно',    $sum['won'],     'good',                            'Объекты сданы'],
+];
+foreach ($tiles as [$label, $value, $kind, $hint]) {
+    echo '<div class="tile' . ($kind ? ' tile--' . $kind : '') . '" title="' . h($hint) . '">'
+        . '<div class="tile__value">' . h((string) $value) . '</div>'
+        . '<div class="tile__label">' . h($label) . '</div></div>';
+}
+echo '</div>';
+
+/* Воронка: этапы по порядку работы, с количеством в каждом. */
+echo '<div class="chips">';
+echo '<a class="chip' . ($stage === '' ? ' is-on' : '') . '" href="' . h($link(['stage' => null])) . '">Все <b>' . $counts['all'] . '</b></a>';
+foreach (CRM_STAGES as $code => [$label, $hint]) {
+    $on = $stage === $code ? ' is-on' : '';
+    echo '<a class="chip chip--' . h($code) . $on . '" href="' . h($link(['stage' => $code])) . '" title="' . h($hint) . '">'
+        . h($label) . ' <b>' . $counts[$code] . '</b></a>';
+}
+echo '<a class="chip' . ($mine ? ' is-on' : '') . '" href="' . h($link(['mine' => $mine ? null : '1'])) . '">Мои</a>';
 echo '</div>';
 
 if (!$shown) {
-    echo '<div class="card"><p class="muted">Заявок пока нет. Как только с сайта придёт первая, она появится здесь.</p></div>';
-} else {
-    echo '<div class="leads">';
-    foreach ($shown as $row) {
-        $when  = $row['at'] ?? '';
-        $stamp = strtotime((string) $when);
-        echo '<article class="lead lead--' . h($row['status']) . '">';
-        echo '<div class="lead__head"><div><p class="lead__name">' . h($row['name'] ?: 'Без имени') . '</p>';
-        echo '<p class="lead__phone"><a href="tel:' . h(preg_replace('/[^\d+]/', '', (string) $row['phone'])) . '">' . h($row['phone']) . '</a></p></div>';
-        echo '<p class="lead__when">' . h($stamp ? date('d.m.Y H:i', $stamp) : $when) . '</p></div>';
+    echo '<div class="card"><p class="muted">Здесь пусто. Как только с сайта придёт заявка, она появится в этом списке.</p></div>';
+    layout_foot();
+    exit;
+}
 
-        $meta = [];
-        if (($row['project'] ?? '') !== '') $meta[] = 'Проект: ' . $row['project'];
-        if (($row['page'] ?? '') !== '')    $meta[] = 'Страница: ' . $row['page'];
-        if ($meta) echo '<p class="lead__meta">' . h(implode(' · ', $meta)) . '</p>';
-        if (($row['message'] ?? '') !== '') echo '<p class="lead__text">' . h($row['message']) . '</p>';
+foreach ($shown as $id => $d) {
+    $closed  = in_array($d['stage'], CRM_CLOSED, true);
+    $overdue = !$closed && crm_overdue($d['next_at']);
+    echo '<article class="deal deal--' . h($d['stage']) . ($overdue ? ' is-overdue' : '') . '">';
 
-        echo '<form class="lead__form" method="post">' . csrf_field();
-        echo '<input type="hidden" name="action" value="state"><input type="hidden" name="id" value="' . h($row['id']) . '">';
-        echo '<select name="status" aria-label="Статус заявки">';
-        foreach (STATUSES as $key => $label) {
-            echo '<option value="' . h($key) . '"' . ($row['status'] === $key ? ' selected' : '') . '>' . h($label) . '</option>';
-        }
-        echo '</select>';
-        echo '<input name="note" value="' . h($row['note']) . '" placeholder="Заметка: о чём договорились">';
-        echo '<button class="btn btn--sm" type="submit">Сохранить</button>';
-        if (($row['by'] ?? '') !== '') echo '<span class="lead__by">' . h($row['by']) . '</span>';
-        echo '</form></article>';
-    }
+    echo '<div class="deal__top">';
+    echo '<a class="deal__name" href="/admin/deal.php?id=' . h(rawurlencode($id)) . '">' . h($d['name'] ?: 'Без имени') . '</a>';
+    echo '<span class="deal__stage">' . h(crm_stage_name($d['stage'])) . '</span>';
+    echo '<time class="deal__time">' . h(date('d.m.Y H:i', strtotime((string) ($d['at'] ?? 'now')))) . '</time>';
     echo '</div>';
+
+    echo '<div class="deal__facts">';
+    if (!empty($d['phone'])) echo '<a class="deal__phone" href="tel:' . h(preg_replace('/\D+/', '', $d['phone'])) . '">' . h($d['phone']) . '</a>';
+    if (!empty($d['project'])) echo '<span>Проект: ' . h($d['project']) . '</span>';
+    echo '<span>Источник: ' . h($d['source']) . '</span>';
+    if ($d['amount'] > 0) echo '<span>Сумма: ' . h(crm_money($d['amount'])) . '</span>';
+    if ($d['owner'] !== '') echo '<span>Ведёт: ' . h($d['owner']) . '</span>';
+    echo '</div>';
+
+    if (!empty($d['message'])) echo '<p class="deal__message">' . h($d['message']) . '</p>';
+
+    if ($d['next_at'] !== '' && !$closed) {
+        echo '<p class="deal__next' . ($overdue ? ' is-overdue' : '') . '">'
+            . ($overdue ? 'Просрочено: ' : 'Следующий шаг: ')
+            . h(date('d.m.Y', strtotime($d['next_at'])))
+            . ($d['next_what'] !== '' ? ' — ' . h($d['next_what']) : '') . '</p>';
+    }
+
+    /* Этап меняется прямо из списка: это самое частое действие,
+       ради него незачем открывать карточку. */
+    echo '<form class="deal__form" method="post">' . csrf_field();
+    echo '<input type="hidden" name="action" value="stage"><input type="hidden" name="id" value="' . h($id) . '">';
+    echo '<select name="stage" aria-label="Этап сделки">';
+    foreach (CRM_STAGES as $code => [$label]) {
+        echo '<option value="' . h($code) . '"' . ($code === $d['stage'] ? ' selected' : '') . '>' . h($label) . '</option>';
+    }
+    echo '</select><button class="btn" type="submit">Сохранить</button>';
+    echo '<a class="btn btn--ghost" href="/admin/deal.php?id=' . h(rawurlencode($id)) . '">Открыть</a>';
+    echo '</form>';
+
+    echo '</article>';
 }
 
 layout_foot();
