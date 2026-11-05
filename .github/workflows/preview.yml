@@ -46,7 +46,12 @@ jobs:
         run: npm ci
 
       - name: Браузер для проверок
-        run: npx playwright install --with-deps chromium
+        run: |
+          # npx playwright install кладёт только браузер, сам пакет остаётся
+          # вне node_modules — и проверки падают на импорте playwright.
+          # Поэтому ставим пакет рядом, не трогая package.json.
+          npm i --no-save playwright
+          npx playwright install --with-deps chromium
 
       - name: Сборка
         run: npm run build
