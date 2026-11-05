@@ -55,15 +55,15 @@ for u in https://gu-st.ru/content/Other/doc/russian_trusted_root_ca.cer \
   echo "  $(basename "$u"): $code"
 done
 
-# Файлы приходят в PEM или DER — приводим к PEM и складываем в один
+# Файлы приходят в PEM или DER. Каждый пропускаем через openssl:
+# так в набор попадает ровно сертификат, без лишних байт вокруг,
+# на которых curl отказывался принимать файл целиком.
 : > "$TMP/bundle.pem"
 for f in "$TMP"/*.cer; do
   [ -s "$f" ] || continue
-  if grep -q 'BEGIN CERTIFICATE' "$f"; then
-    cat "$f" >> "$TMP/bundle.pem"
-  else
-    openssl x509 -inform DER -in "$f" >> "$TMP/bundle.pem" 2>/dev/null || true
-  fi
+  openssl x509 -in "$f" -outform PEM 2>/dev/null >> "$TMP/bundle.pem" \
+    || openssl x509 -inform DER -in "$f" -outform PEM 2>/dev/null >> "$TMP/bundle.pem" \
+    || echo "  $(basename "$f") не разобрался как сертификат"
 done
 
 echo "что скачалось:"
@@ -85,7 +85,13 @@ if [ ! -s "$TMP/bundle.pem" ]; then
   echo "скачать не удалось — отправка в MAX работать не будет"
   exit 0
 fi
-echo "в наборе сертификатов: $(grep -c 'BEGIN CERTIFICATE' "$TMP/bundle.pem") шт."
+echo "в наборе сертификатов: $(grep -c 'BEGIN CERTIFICATE' "$TMP/bundle.pem") шт., $(wc -c < "$TMP/bundle.pem") байт"
+echo "первая строка набора: $(head -1 "$TMP/bundle.pem" | cat -A | head -c 60)"
+echo "openssl проверяет цепочку MAX этим набором:"
+openssl s_client -connect platform-api2.max.ru:443 -servername platform-api2.max.ru \
+  -CAfile "$TMP/bundle.pem" </dev/null 2>/dev/null \
+  | grep -E 'Verify return code|Verification' | sed 's/^/  /' | head -3 \
+  || echo "  проверить не удалось"
 
 # Главная проверка: этим сертификатом связь с MAX действительно
 # устанавливается. Без токена MAX отвечает 401 — этого достаточно.
