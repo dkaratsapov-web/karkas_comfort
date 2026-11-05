@@ -25,6 +25,14 @@ if (post('action', 20) === 'save') {
         'from'             => post('from', 120),
         'from_name'        => post('from_name', 120),
         'subject'          => post('subject', 200),
+        'smtp_host'        => post('smtp_host', 120),
+        'smtp_port'        => (int) post('smtp_port', 5) ?: 465,
+        'smtp_user'        => post('smtp_user', 120),
+        /* Пустое поле пароля значит «оставить как было»: пароль в админке
+           не показывается, и сохранение настроек не должно его стирать. */
+        'smtp_pass'        => post('smtp_pass', 200) !== ''
+            ? post('smtp_pass', 200)
+            : (string) ($now['smtp_pass'] ?? ''),
         'telegram_token'   => post('telegram_token', 120),
         'telegram_chat_id' => post('telegram_chat_id', 60),
         'max_token'        => post('max_token', 200),
@@ -37,6 +45,10 @@ if (post('action', 20) === 'save') {
     ];
     if ($values['to'] === '' || !filter_var(explode(',', $values['to'])[0], FILTER_VALIDATE_EMAIL)) {
         $error = 'Укажите рабочий адрес почты (несколько — через запятую).';
+    } elseif ($values['smtp_host'] !== '' && ($values['smtp_user'] === '' || $values['smtp_pass'] === '')) {
+        $error = 'Для почтового сервера нужны логин и пароль ящика, через который идёт отправка.';
+    } elseif ($values['smtp_host'] !== '' && !in_array((int) $values['smtp_port'], [25, 465, 587, 2525], true)) {
+        $error = 'Порт почтового сервера обычно 465 (шифрование сразу) или 587 (STARTTLS).';
     } elseif ($values['crm_webhook'] !== '' && !filter_var($values['crm_webhook'], FILTER_VALIDATE_URL)) {
         $error = 'Адрес вебхука CRM должен начинаться с https://';
     } else {
@@ -53,6 +65,21 @@ if (post('action', 20) === 'save') {
 $maxWho  = '';
 $maxHook = '';
 $action  = post('action', 20);
+
+/* Последняя записанная причина, по которой не ушло письмо. */
+function lead_mail_error(): string
+{
+    $file = API_DIR . '/leads.jsonl';
+    if (!is_file($file)) return '';
+    $lines = @file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+    for ($i = count($lines) - 1; $i >= 0 && $i > count($lines) - 5; $i--) {
+        $row = json_decode($lines[$i], true);
+        if (is_array($row) && !empty($row['mail_error'])) {
+            return (string) $row['mail_error'];
+        }
+    }
+    return '';
+}
 
 function max_hook_url(): string
 {
@@ -195,9 +222,25 @@ if (post('action', 20) === 'test') {
     $code   = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
     curl_close($ch);
     $body = json_decode($answer, true);
-    $test = $code === 200 && !empty($body['ok'])
-        ? 'Тестовая заявка отправлена. Проверьте почту' . ($now['telegram_token'] ? ' и Telegram' : '') . ' — письмо приходит в течение минуты.'
-        : 'Не получилось: сервер ответил ' . $code . ' ' . mb_substr(strip_tags($answer), 0, 200);
+    if ($code === 200 && !empty($body['ok'])) {
+        $ways = $body['sent'] ?? [];
+        $ok   = [];
+        if (!empty($ways['mail']))     $ok[] = 'почта';
+        if (!empty($ways['telegram'])) $ok[] = 'Telegram';
+        if (!empty($ways['max']))      $ok[] = 'MAX';
+        if (!empty($ways['crm']))      $ok[] = 'CRM';
+        $test = $ok
+            ? 'Заявка ушла: ' . implode(', ', $ok) . '. Письмо приходит в течение минуты.'
+            : 'Заявка сохранена, но ни один канал её не принял.';
+        /* Причину отказа почты пишет сам приёмник заявок — забираем её
+           из последней записи, чтобы владелец видел, что именно не так. */
+        if (empty($ways['mail'])) {
+            $why = lead_mail_error();
+            $test .= ' Почта: ' . ($why !== '' ? $why : 'письмо не отправлено.');
+        }
+    } else {
+        $test = 'Не получилось: сервер ответил ' . $code . ' ' . mb_substr(strip_tags($answer), 0, 200);
+    }
     $test = $channel === '' ? $test : $test;
 }
 
@@ -216,6 +259,15 @@ echo '<label>Куда слать заявки<input name="to" value="' . h($now[
 echo '<label>Адрес отправителя<input name="from" value="' . h($now['from'] ?? '') . '"><small>Домен должен совпадать с сайтом, иначе письма уходят в спам.</small></label>';
 echo '<label>Имя отправителя<input name="from_name" value="' . h($now['from_name'] ?? '') . '"></label>';
 echo '<label>Тема письма<input name="subject" value="' . h($now['subject'] ?? '') . '"></label>';
+
+echo '<h3>Через какой ящик отправлять</h3>';
+echo '<p class="muted">На этом сервере своей почтовой службы нет, и письма с нового адреса без подписи попадают в спам. Поэтому сайт отправляет письма через обычный почтовый ящик компании — так же, как почтовая программа на компьютере. Для Яндекса: <b>smtp.yandex.ru</b>, порт <b>465</b>, логин — полный адрес ящика, пароль — <b>пароль приложения</b> (Яндекс ID → Безопасность → Пароли приложений), обычный пароль от входа не подойдёт. Для Mail.ru: <b>smtp.mail.ru</b>, порт 465, тоже пароль для внешнего приложения.</p>';
+echo '<label>Почтовый сервер<input name="smtp_host" value="' . h((string) ($now['smtp_host'] ?? '')) . '" placeholder="smtp.yandex.ru"><small>Оставьте пустым, если сайт переедет на обычный хостинг со своей почтой.</small></label>';
+echo '<label>Порт<input type="number" name="smtp_port" value="' . h((string) ($now['smtp_port'] ?? 465)) . '" min="1" max="65535"><small>465 — шифрование сразу, 587 — STARTTLS.</small></label>';
+echo '<label>Логин ящика<input name="smtp_user" value="' . h((string) ($now['smtp_user'] ?? '')) . '" autocomplete="off" placeholder="zayavki@example.ru"></label>';
+echo '<label>Пароль приложения<input type="password" name="smtp_pass" value="" autocomplete="new-password" placeholder="'
+    . (($now['smtp_pass'] ?? '') !== '' ? 'сохранён — впишите новый, чтобы заменить' : 'пароль приложения, не от входа')
+    . '"><small>Пароль не показывается. Пустое поле оставит прежний.</small></label>';
 
 echo '<h2>Telegram</h2>';
 echo '<p class="muted">Токен берётся у @BotFather, идентификатор чата — у @userinfobot. Для группы добавьте бота в неё и возьмите идентификатор группы (начинается с -100).</p>';
