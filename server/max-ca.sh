@@ -54,14 +54,36 @@ for f in "$TMP"/*.cer; do
   fi
 done
 
+echo "что скачалось:"
+for f in "$TMP"/*.cer; do
+  [ -s "$f" ] || { echo "  $(basename "$f"): пусто"; continue; }
+  subj=$(openssl x509 -noout -subject -in "$f" 2>/dev/null \
+      || openssl x509 -inform DER -noout -subject -in "$f" 2>/dev/null \
+      || echo "не сертификат, $(head -c 40 "$f" | tr -d '\0' | tr '\n' ' ')")
+  echo "  $(basename "$f") ($(wc -c < "$f") байт): $subj"
+done
+
+echo "чем подписан сам MAX:"
+openssl s_client -connect platform-api2.max.ru:443 -servername platform-api2.max.ru \
+  -showcerts </dev/null 2>/dev/null \
+  | grep -E '^ *[0-9]+ s:|^ *i:' | sed 's/^/  /' | head -8 \
+  || echo "  цепочку получить не удалось"
+
 if [ ! -s "$TMP/bundle.pem" ]; then
   echo "скачать не удалось — отправка в MAX работать не будет"
   exit 0
 fi
+echo "в наборе сертификатов: $(grep -c 'BEGIN CERTIFICATE' "$TMP/bundle.pem") шт."
 
 # Главная проверка: этим сертификатом связь с MAX действительно
 # устанавливается. Без токена MAX отвечает 401 — этого достаточно.
 got=$(ok "$TMP/bundle.pem")
+if [ "$got" != "401" ] && [ "$got" != "200" ]; then
+  # сервер может отдавать неполную цепочку: добавляем системные
+  cat /etc/ssl/certs/ca-certificates.crt >> "$TMP/bundle.pem" 2>/dev/null || true
+  got=$(ok "$TMP/bundle.pem")
+  echo "  со всеми системными вместе: $got"
+fi
 if [ "$got" != "401" ] && [ "$got" != "200" ]; then
   echo "сертификат скачан, но связь с MAX им не проверяется (ответ $got) — не ставлю"
   exit 0
