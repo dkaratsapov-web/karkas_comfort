@@ -296,3 +296,17 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .note:first-of-type { border-top: 0; }
 .note__meta { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ---------- правка содержимого ---------- */
+.code-area {
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.5;
+  white-space: pre; overflow-wrap: normal; overflow-x: auto; tab-size: 2;
+}
+.del-row {
+  display: flex; align-items: center; gap: 12px; justify-content: space-between;
+  border-top: 1px solid var(--line); padding: 8px 0;
+}
+.del-row:first-of-type { border-top: 0; }
+.btn--small { min-height: 38px; padding: 6px 14px; font-size: 14px; }
+.check { display: flex !important; flex-direction: row !important; align-items: center; gap: 10px; font-weight: 600; }
+.check input { width: 20px; height: 20px; }

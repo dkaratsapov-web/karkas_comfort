@@ -94,6 +94,57 @@ function gh_put_json(string $path, array $data, string $sha, string $message): a
     return ['ok' => true];
 }
 
+/* Обычный файл: страницы сайта тоже правятся отсюда, а они не JSON. */
+function gh_get_text(string $path): array
+{
+    $s = gh_settings();
+    [$code, $data] = gh_request('GET', '/repos/' . $s['repo'] . '/contents/' . rawurlencode_path($path) . '?ref=' . rawurlencode($s['branch']));
+    if ($code !== 200 || empty($data['content'])) {
+        return ['ok' => false, 'error' => $data['message'] ?? ('GitHub ответил ' . $code)];
+    }
+    return [
+        'ok'   => true,
+        'text' => base64_decode(str_replace("\n", '', (string) $data['content'])),
+        'sha'  => (string) $data['sha'],
+    ];
+}
+
+function gh_put_text(string $path, string $text, string $sha, string $message): array
+{
+    $s = gh_settings();
+    [$code, $answer] = gh_request('PUT', '/repos/' . $s['repo'] . '/contents/' . rawurlencode_path($path), [
+        'message' => $message,
+        'content' => base64_encode($text),
+        'sha'     => $sha,
+        'branch'  => $s['branch'],
+    ]);
+    if ($code === 409 || $code === 422) {
+        return ['ok' => false, 'error' => 'Файл изменился, пока вы правили. Обновите страницу и повторите.'];
+    }
+    if ($code !== 200 && $code !== 201) {
+        return ['ok' => false, 'error' => $answer['message'] ?? ('GitHub ответил ' . $code)];
+    }
+    return ['ok' => true];
+}
+
+/* Что лежит в каталоге: нужен, чтобы в админке выбирать готовый файл
+   из репозитория, а не вписывать путь руками и ошибаться. */
+function gh_list_dir(string $path, string $ext = ''): array
+{
+    $s = gh_settings();
+    [$code, $data] = gh_request('GET', '/repos/' . $s['repo'] . '/contents/' . rawurlencode_path($path) . '?ref=' . rawurlencode($s['branch']));
+    if ($code !== 200 || !is_array($data)) return [];
+    $out = [];
+    foreach ($data as $row) {
+        if (($row['type'] ?? '') !== 'file') continue;
+        $name = (string) ($row['name'] ?? '');
+        if ($ext !== '' && !str_ends_with(mb_strtolower($name), $ext)) continue;
+        $out[] = $name;
+    }
+    sort($out);
+    return $out;
+}
+
 /* Косые в пути оставляем как есть, остальное экранируем. */
 function rawurlencode_path(string $path): string
 {
