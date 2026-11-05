@@ -19,17 +19,29 @@ TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 API=https://platform-api2.max.ru/updates?limit=1
 
-ok() { curl -sS -o /dev/null -w '%{http_code}' --max-time 20 --cacert "$1" \
-         -H 'Authorization: proverka' "$API" 2>/dev/null; }
+# Код 000 ничего не объясняет, поэтому показываем и текст ошибки,
+# и результат проверки сертификата.
+ok() {
+  curl -sS -o /dev/null --max-time 20 --cacert "$1" \
+    -w 'код %{http_code}, проверка сертификата %{ssl_verify_result}, время %{time_total}s\n' \
+    -H 'Authorization: proverka' "$API" 2>&1 | tr '\n' ' '
+}
+code_of() { printf '%s' "$1" | sed -n 's/.*код \([0-9]*\).*/\1/p'; }
 
 # Уже есть и работает — ничего не делаем
-if [ -f "$OUT" ] && [ "$(ok "$OUT")" = "401" ]; then
-  echo "сертификат для MAX уже на месте и работает"
-  exit 0
+if [ -f "$OUT" ]; then
+  r=$(ok "$OUT"); echo "проверка имеющегося файла: $r"
+  if [ "$(code_of "$r")" = "401" ]; then
+    echo "сертификат для MAX уже на месте и работает"
+    exit 0
+  fi
 fi
 
 # Системного доверия достаточно? Тогда файл не нужен
-if [ "$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 -H 'Authorization: proverka' "$API" 2>/dev/null)" = "401" ]; then
+sys=$(curl -sS -o /dev/null --max-time 20 -w 'код %{http_code}, проверка сертификата %{ssl_verify_result}' \
+        -H 'Authorization: proverka' "$API" 2>&1 | tr '\n' ' ')
+echo "с системным доверием: $sys"
+if [ "$(code_of "$sys")" = "401" ]; then
   echo "системного доверия хватает, отдельный сертификат не нужен"
   rm -f "$OUT"
   exit 0
@@ -77,12 +89,15 @@ echo "в наборе сертификатов: $(grep -c 'BEGIN CERTIFICATE' "$
 
 # Главная проверка: этим сертификатом связь с MAX действительно
 # устанавливается. Без токена MAX отвечает 401 — этого достаточно.
-got=$(ok "$TMP/bundle.pem")
+res=$(ok "$TMP/bundle.pem")
+echo "  с корневым Минцифры: $res"
+got=$(code_of "$res")
 if [ "$got" != "401" ] && [ "$got" != "200" ]; then
   # сервер может отдавать неполную цепочку: добавляем системные
   cat /etc/ssl/certs/ca-certificates.crt >> "$TMP/bundle.pem" 2>/dev/null || true
-  got=$(ok "$TMP/bundle.pem")
-  echo "  со всеми системными вместе: $got"
+  res=$(ok "$TMP/bundle.pem")
+  echo "  вместе с системными: $res"
+  got=$(code_of "$res")
 fi
 if [ "$got" != "401" ] && [ "$got" != "200" ]; then
   echo "сертификат скачан, но связь с MAX им не проверяется (ответ $got) — не ставлю"
