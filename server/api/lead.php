@@ -152,6 +152,13 @@ function post_json(string $url, array $payload, array $headers = []): array
         CURLOPT_HTTPHEADER     => array_merge(['Content-Type: application/json; charset=utf-8'], $headers),
         CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_UNICODE),
     ]);
+    /* Серверы MAX подписаны центром Минцифры, которого нет в системном
+       списке. Его сертификат лежит отдельным файлом и применяется только
+       к max.ru: в общее доверие он не добавлен намеренно. */
+    $maxCa = __DIR__ . '/max-ca.pem';
+    if (str_contains($url, '.max.ru') && is_file($maxCa)) {
+        curl_setopt($ch, CURLOPT_CAINFO, $maxCa);
+    }
     $answer = (string) curl_exec($ch);
     $code   = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
     $error  = curl_error($ch);

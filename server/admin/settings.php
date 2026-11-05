@@ -59,6 +59,8 @@ if (post('action', 20) === 'maxwho') {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => 20,
         ]);
+        $maxCa = API_DIR . '/max-ca.pem';
+        if (is_file($maxCa)) curl_setopt($ch, CURLOPT_CAINFO, $maxCa);
         $answer = (string) curl_exec($ch);
         $code   = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         $error  = curl_error($ch);
