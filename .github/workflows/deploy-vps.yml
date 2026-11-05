@@ -435,6 +435,39 @@ jobs:
           npm i --no-save playwright-core@1.49.1 >/dev/null 2>&1 || true
           node tools/live-visit.mjs https://xn--80aa2abbmnbmggrx.xn--p1ai/
 
+      - name: Приём заявок и админка работают
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        run: |
+          # Формы сайта шлют заявку в /api/lead.php, админка живёт
+          # в /admin/. Оба требуют php: если его нет или он не подключён
+          # к nginx, сайт выглядит целым, а заявки просто пропадают.
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          a=$(curl -s -o /tmp/adm.html -w '%{http_code}' --max-time 25 "https://$D/admin/" || true)
+          echo "админка /admin/: $a"
+          case "$a" in
+            200) grep -qi 'вход\|пароль\|логин' /tmp/adm.html \
+                   && echo "  отдаётся страница входа" \
+                   || echo "::warning::/admin/ отвечает 200, но это не страница входа — проверьте, что php обрабатывает каталог." ;;
+            *)   echo "::warning::Админка не открывается ($a): либо php не работает, либо nginx не отдаёт /admin/." ;;
+          esac
+
+          # Тестовая заявка тем же путём, что и форма сайта. Признак test
+          # отличает её в списке заявок.
+          code=$(curl -s -o /tmp/lead.json -w '%{http_code}' --max-time 30 \
+            -H 'Content-Type: application/json' \
+            -d '{"name":"Проверка выгрузки","phone":"+7 920 171-69-69","message":"Автоматическая проверка приёма заявок после выгрузки.","page":"/","consent":true,"test":true}' \
+            "https://$D/api/lead.php" || true)
+          echo "приём заявки /api/lead.php: $code"
+          head -c 300 /tmp/lead.json; echo
+          case "$code" in
+            200) grep -q '"ok":true' /tmp/lead.json \
+                   && echo "  заявка принята и сохранена" \
+                   || echo "::warning::Ответ 200, но без признака успеха — смотрите тело ответа выше." ;;
+            404) echo "::warning::/api/lead.php не найден: php-файлы не выгружаются или nginx их не отдаёт. Заявки с форм сейчас теряются." ;;
+            *)   echo "::warning::Приём заявок отвечает $code — заявки с форм могут не доходить." ;;
+          esac
+
       - name: Убрать доступы
         if: always()
         run: rm -f ~/.ssh/id_deploy ~/.sshpass ~/sshw ~/scpw
