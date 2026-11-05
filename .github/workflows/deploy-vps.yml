@@ -481,29 +481,6 @@ jobs:
           ~/scpw server/max-ca.sh "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/max-ca.sh"
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "bash /tmp/max-ca.sh '$TARGET'; rm -f /tmp/max-ca.sh"
 
-      - name: Сервер достаёт до MAX
-        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
-        continue-on-error: true
-        env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_USER: ${{ secrets.VPS_USER }}
-        run: |
-          # Заявку в MAX отправляет сам сервер. Сервер MAX отдаёт
-          # сертификат Минцифры, которого на свежей Ubuntu нет, и запрос
-          # падает ещё до проверки токена. Проверяем связь заранее:
-          # без токена MAX отвечает 401, и это значит, что связь есть.
-          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
-              out=\$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 \
-                -H 'Authorization: proverka' \
-                'https://platform-api2.max.ru/updates?limit=1' 2>&1)
-              echo \"ответ MAX: \$out\"
-              case \"\$out\" in
-                40*|200) echo '  связь с MAX есть, сертификат принимается' ;;
-                *)       echo '  связи нет — текст ошибки выше' ;;
-              esac
-              php -r 'echo \"php видит MAX: \"; \$c=curl_init(\"https://platform-api2.max.ru/updates?limit=1\"); curl_setopt_array(\$c,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_TIMEOUT=>20,CURLOPT_HTTPHEADER=>[\"Authorization: proverka\"]]); curl_exec(\$c); echo curl_getinfo(\$c,CURLINFO_RESPONSE_CODE) ?: curl_error(\$c); echo PHP_EOL;' 2>/dev/null || echo 'php из командной строки недоступен'
-            "
-
       - name: Убрать доступы
         if: always()
         run: rm -f ~/.ssh/id_deploy ~/.sshpass ~/sshw ~/scpw
