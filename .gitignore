@@ -14,3 +14,8 @@ audit/raw.json
 design/karkas-komfort-redesign.html
 mob-catalog.png
 mob-top.png
+
+# Навыки Higgsfield, поставленные через skills add: сторонний код
+# рабочего места, к сайту отношения не имеет и на сервер не едет.
+.agents/
+.claude/skills/higgsfield-*
