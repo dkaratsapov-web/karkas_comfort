@@ -227,6 +227,11 @@ $lead_id = date('Ymd-His') . '-' . substr(md5($digits . $when . random_bytes(4))
 
 $max = false;
 $max_error = '';
+if (empty($config['max_token'])) {
+    $max_error = 'токен бота MAX не задан';
+} elseif (empty($config['max_chat_id']) && empty($config['max_user_id'])) {
+    $max_error = 'получатель не выбран: в настройках заявок нет ни чата, ни пользователя';
+}
 if (!empty($config['max_token']) && (!empty($config['max_chat_id']) || !empty($config['max_user_id']))) {
     $lead_for_card = [
         'id'      => $lead_id,
@@ -287,6 +292,10 @@ if (!empty($config['crm_webhook'])) {
     $crm = post_to($config['crm_webhook'], $payload, ($config['crm_format'] ?? 'json') === 'json');
 }
 
+if (!$max && $max_error !== '') {
+    error_log('MAX: ' . $max_error);
+}
+
 /* Значение для CSV: Excel и LibreOffice исполняют ячейку, начинающуюся
    с =, +, -, @ или табуляции, как формулу. Заявку присылает кто угодно,
    поэтому такие значения обезвреживаем апострофом. */
@@ -311,6 +320,7 @@ $record  = [
     'test'    => !empty($data['test']),
     'sent'    => ['mail' => $sent, 'telegram' => $telegram, 'max' => $max, 'crm' => $crm],
     'mail_error' => $sent ? '' : mb_substr($mailError, 0, 300),
+    'max_error'  => $max ? '' : mb_substr($max_error, 0, 300),
 ];
 $stored = false;
 $jsonl  = @fopen(__DIR__ . '/leads.jsonl', 'a');
