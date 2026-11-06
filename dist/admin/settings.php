@@ -33,9 +33,16 @@ if (post('action', 20) === 'save') {
         'smtp_pass'        => post('smtp_pass', 200) !== ''
             ? post('smtp_pass', 200)
             : (string) ($now['smtp_pass'] ?? ''),
-        'telegram_token'   => post('telegram_token', 120),
+        /* Пустое поле токена значит «оставить как было»: токен
+           в админке не показывается, и сохранение не должно его
+           стирать — иначе заявки молча перестают доходить. */
+        'telegram_token'   => post('telegram_token', 120) !== ''
+            ? post('telegram_token', 120)
+            : (string) ($now['telegram_token'] ?? ''),
         'telegram_chat_id' => post('telegram_chat_id', 60),
-        'max_token'        => post('max_token', 200),
+        'max_token'        => post('max_token', 200) !== ''
+            ? post('max_token', 200)
+            : (string) ($now['max_token'] ?? ''),
         'max_chat_id'      => post('max_chat_id', 60),
         'max_user_id'      => post('max_user_id', 60),
         'max_secret'       => (string) ($now['max_secret'] ?? ''),
@@ -282,12 +289,16 @@ echo '<label>Пароль приложения<input type="password" name="smtp_
 
 echo '<h2>Telegram</h2>';
 echo '<p class="muted">Токен берётся у @BotFather, идентификатор чата — у @userinfobot. Для группы добавьте бота в неё и возьмите идентификатор группы (начинается с -100).</p>';
-echo '<label>Токен бота<input name="telegram_token" value="' . h($now['telegram_token'] ?? '') . '" autocomplete="off" placeholder="123456:AA..."></label>';
+echo '<label>Токен бота<input type="password" name="telegram_token" value="" autocomplete="new-password" placeholder="'
+    . (($now['telegram_token'] ?? '') !== '' ? 'сохранён — впишите новый, чтобы заменить' : '123456:AA...')
+    . '"><small>Токен не показывается. Пустое поле оставит прежний.</small></label>';
 echo '<label>Идентификатор чата<input name="telegram_chat_id" value="' . h($now['telegram_chat_id'] ?? '') . '" autocomplete="off"></label>';
 
 echo '<h2>MAX</h2>';
 echo '<p class="muted">Токен берётся в кабинете MAX: Чат-боты → ваш бот → Настройки. Впишите его, сохраните и нажмите «Подключить бота» внизу — дальше достаточно добавить бота в рабочий чат, он сам появится в списке ниже.</p>';
-echo '<label>Токен бота<input name="max_token" value="' . h($now['max_token'] ?? '') . '" autocomplete="off"></label>';
+echo '<label>Токен бота<input type="password" name="max_token" value="" autocomplete="new-password" placeholder="'
+    . (($now['max_token'] ?? '') !== '' ? 'сохранён — впишите новый, чтобы заменить' : 'из кабинета MAX')
+    . '"><small>Токен не показывается. Пустое поле оставит прежний.</small></label>';
 $chats = json_read(API_DIR . '/max-chats.json');
 if ($chats) {
     echo '<label>Куда слать заявки<select name="max_chat_id">';
