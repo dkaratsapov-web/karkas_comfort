@@ -330,6 +330,14 @@ jobs:
           esac
           code=$(curl -s -o /tmp/page.html -w '%{http_code}' --max-time 25 -L "$SITE" || true)
           echo "Ответ сайта по https: $code"
+
+          # Значок сайта берут и браузеры, и Метрика со счётчиками,
+          # и поиск. Если сервер его не отдаёт, вместо логотипа везде
+          # остаётся пустой квадрат, а заметить это по самому сайту
+          # трудно: браузер показывает значок из кеша.
+          ico=$(curl -s -o /tmp/fav.ico -w '%{http_code}' --max-time 15 "$SITE""favicon.ico" || true)
+          echo "Значок сайта /favicon.ico: $ico, $(wc -c < /tmp/fav.ico) байт"
+          [ "$ico" = "200" ] || echo "::warning::Значок сайта не отдаётся ($ico) — в поиске и в Метрике будет пустой квадрат."
           if [ "$code" != "200" ]; then
             hcode=$(curl -s -o /tmp/page.html -w '%{http_code}' --max-time 25 "http://$D/" || true)
             echo "Ответ сайта по http: $hcode"

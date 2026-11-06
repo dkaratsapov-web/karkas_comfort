@@ -593,8 +593,10 @@ function messengerLinks(html) {
   return html.replace(/<button([^>]*?)data-im="(\w+)"([^>]*?)>([\s\S]*?)<\/button>/g, (m, pre, key, post, inner) => {
     const url = site[key];
     if (!url) return m;
+    /* data-im остаётся на ссылке: по нему в Метрику уходит своя цель
+       на каждый мессенджер. Без него все клики слились бы в один. */
     const attrs = `${(pre + post).replace(/\s*type="button"/, '').replace(/\s+/g, ' ').trim()} `;
-    return `<a ${attrs}href="${url}" target="_blank" rel="noopener">${inner}</a>`;
+    return `<a ${attrs}data-im="${key}" href="${url}" target="_blank" rel="noopener">${inner}</a>`;
   });
 }
 
@@ -614,7 +616,7 @@ ${head
     .replace(/\{\{ogimage\}\}/g, ogimage)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
     .replace('</head>', `${extraLd ? extraLd + '\n' : ''}${PREVIEW || meta.noindex === true ? '  <meta name="robots" content="noindex, nofollow">\n' : ''}${PREVIEW || !verification() ? '' : verification() + '\n'}${PREVIEW || !analytics ? '' : analytics + '\n'}</head>`)}
-<body${bodyClass ? ` class="${bodyClass}"` : ''} data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
+<body${bodyClass ? ` class="${bodyClass}"` : ''} data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${content.includes('data-flight-host') ? ` data-flight-src="/assets/js/flight.js?v=${V.flight}"` : ''}${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
 ${previewBar}${header}
   <main id="main">
 ${content.trimEnd()}
@@ -623,7 +625,7 @@ ${footer}
 ${hasLeadForm ? actionbar : actionbar.split('href="#zayavka"').join('href="/index.html#zayavka"')}
 ${modal}
 ${quiz}
-  <script src="assets/js/main.js" defer></script>${content.includes('data-flight-host') ? '\n  <script src="assets/js/flight.js" defer></script>' : ''}
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
 `;
@@ -1127,7 +1129,7 @@ ${p.packages.map((k) => `                <li><a href="#komplektacii"><span>${esc
               </ul>` : ''}
               <div class="stack" style="margin-top:20px">
                 <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${areaLabel(p)} м²)">Рассчитать этот проект</a>
-                <button class="btn btn--ghost btn--block" type="button" data-lead-messenger>Написать в Telegram</button>
+                <button class="btn btn--ghost btn--block" type="button" data-im="telegram" data-lead-messenger>Написать в Telegram</button>
               </div>
               <ul class="checks checks--tight" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft)">
                 <li>Смета с ценами до подписания договора</li>

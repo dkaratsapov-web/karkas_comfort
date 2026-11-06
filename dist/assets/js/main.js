@@ -125,10 +125,20 @@
   document.addEventListener('click', (e) => {
     const call = e.target.closest('[data-lead-call]');
     if (call) track('call_click', { page: location.pathname });
+
+    /* У каждого мессенджера своя цель: в Метрике сразу видно, куда
+       люди пишут охотнее. Общая messenger_click остаётся — по ней
+       считают обращения в мессенджеры целиком. */
     const msg = e.target.closest('[data-lead-messenger]');
-    if (msg) track('messenger_click', { page: location.pathname });
+    if (msg) {
+      const im = (msg.dataset.im || '').toLowerCase();
+      track('messenger_click', { page: location.pathname, im: im || 'telegram' });
+      const goal = { telegram: 'telegram_click', max: 'max_click', vk: 'vk_click', whatsapp: 'whatsapp_click' }[im];
+      if (goal) track(goal, { page: location.pathname });
+    }
   });
 
+  flightLater();
   thanksPage();
 
   /* ---------- мобильное меню ---------- */
@@ -270,6 +280,34 @@ function thanksPage() {
     if (left) left.textContent = String(Math.max(sec, 0));
     if (sec <= 0) { clearInterval(tick); location.replace(back); }
   }, 1000);
+}
+
+/* Пролёт по дому в первом экране написан на React с анимацией —
+   это 365 КБ, больше всего остального кода сайта вместе взятого.
+   Первый экран работает и без него: в разметке лежит рабочая
+   статичная версия с первым кадром, заголовком и формой. Поэтому
+   скрипт грузится после того, как страница показана, и только там,
+   где он действительно нужен: на коротком экране и при выключенном
+   в системе движении остров всё равно не запускается. */
+function flightLater() {
+  const host = document.querySelector('[data-flight-host]');
+  if (!host) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.innerHeight < 520) return;
+
+  const load = () => {
+    const el = document.createElement('script');
+    el.src = (document.body.dataset.flightSrc || '/assets/js/flight.js');
+    el.defer = true;
+    document.body.appendChild(el);
+  };
+
+  /* ждём, пока браузер отрисует первый экран и освободится */
+  const start = () => ('requestIdleCallback' in window
+    ? requestIdleCallback(load, { timeout: 1500 })
+    : setTimeout(load, 200));
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start, { once: true });
 }
 
   async function sendLead(data) {

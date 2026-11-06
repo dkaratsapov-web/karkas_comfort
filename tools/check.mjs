@@ -260,12 +260,19 @@ if (hasPhp) {
   await p.click('form.form button[type="submit"]');
   const resp = await req;
   const json = await resp.json().catch(() => ({}));
-  await p.waitForTimeout(300);
-  const shownOk = await p.isVisible('form.form .form__ok');
-  const shownErr = await p.isVisible('form.form .form__error');
+
   if (resp.status() === 200) {
-    ok(`форма отправляет заявку на /api/lead.php (ok=${json.ok})`, json.ok === true && shownOk && !shownErr);
+    /* После успешной отправки человек уходит на страницу «Спасибо»:
+       по ней Метрика считает заявки. Поэтому успех проверяем по
+       переходу, а не по сообщению на прежней странице — её уже нет. */
+    const went = await p.waitForURL(/\/spasibo\//, { timeout: 5000 }).then(() => true).catch(() => false);
+    const back = new URL(p.url()).searchParams.get('from') || '';
+    ok(`форма отправляет заявку на /api/lead.php (ok=${json.ok})`, json.ok === true && went);
+    ok('после отправки открывается «Спасибо» с адресом возврата', went && back.startsWith('/kontakty'));
   } else {
+    await p.waitForTimeout(300);
+    const shownErr = await p.isVisible('form.form .form__error');
+    const shownOk = await p.isVisible('form.form .form__ok');
     ok(`сервер отказал (${resp.status()}) и отказ показан пользователю`, shownErr && !shownOk);
   }
 }
