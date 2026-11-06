@@ -519,6 +519,26 @@ jobs:
           ~/scpw server/max-ca.sh "${SSH_USER:-$VPS_USER}@$VPS_HOST:/tmp/max-ca.sh"
           ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "bash /tmp/max-ca.sh '$TARGET'; rm -f /tmp/max-ca.sh"
 
+      - name: Бот MAX подключён
+        if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          # Подписка бота на события живёт на стороне MAX, и без неё он
+          # молчит: ни заявок в чат, ни кнопок под ними. Держать её живой
+          # не должно зависеть от того, зашёл ли кто-то в кабинет, —
+          # поэтому подключаем при каждой выгрузке. Без токена в
+          # настройках шаг ничего не делает.
+          D=xn--80aa2abbmnbmggrx.xn--p1ai
+          TARGET="${VPS_PATH:-/var/www/$D/public}"
+          ~/sshw "${SSH_USER:-$VPS_USER}@$VPS_HOST" "
+              sudo -u www-data php '$TARGET/api/max-link.php' $D 2>&1 | sed 's/^/  /' \
+                || php '$TARGET/api/max-link.php' $D 2>&1 | sed 's/^/  /'
+            "
+
       - name: Конфигурация nginx из шаблона
         if: steps.gate.outputs.ready == 'true' && !inputs.dry_run
         continue-on-error: true
