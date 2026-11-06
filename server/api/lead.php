@@ -8,6 +8,11 @@ declare(strict_types=1);
 ini_set('log_errors', '1');
 ini_set('display_errors', '0');
 ini_set('error_log', __DIR__ . '/admin-error.log');
+/* Время всюду московское: сервер живёт по UTC, и в карточке заявки
+   стояло «15:18», когда в чате было 18:18 — менеджер видел время
+   на три часа раньше, чем звонил клиент. */
+date_default_timezone_set('Europe/Moscow');
+
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -241,7 +246,9 @@ $headers = implode("\r\n", [
 $sent      = false;
 $mailError = '';
 
-if (trim((string) ($config['smtp_host'] ?? '')) !== '') {
+if ($silent) {
+    $mailError = 'проверка выгрузки: письмо не отправляем';
+} elseif (trim((string) ($config['smtp_host'] ?? '')) !== '') {
     require_once __DIR__ . '/smtp.php';
     $out = smtp_send([
         'smtp_host' => $config['smtp_host'],
@@ -342,14 +349,24 @@ if (!empty($config['telegram_token']) && !empty($config['telegram_chat_id'])) {
    должен стоять их корневой сертификат — иначе запрос не пройдёт проверку. */
 $lead_id = date('Ymd-His') . '-' . substr(md5($digits . $when . random_bytes(4)), 0, 6);
 
+/* Выгрузка после каждой правки шлёт проверочную заявку, чтобы
+   убедиться, что приём работает. Людям она не нужна: чат бота
+   забивался «проверками» по десять раз на дню. Поэтому с признаком
+   silent заявка только сохраняется — ответ всё равно показывает,
+   дошла ли она. Кнопка проверки в кабинете признак не ставит:
+   там владелец как раз и ждёт сообщение в чате. */
+$silent = !empty($data['silent']);
+
 $max = false;
 $max_error = '';
-if (empty($config['max_token'])) {
+if ($silent) {
+    $max_error = 'проверка выгрузки: в чат не отправляем';
+} elseif (empty($config['max_token'])) {
     $max_error = 'токен бота MAX не задан';
 } elseif (empty($config['max_chat_id']) && empty($config['max_user_id'])) {
     $max_error = 'получатель не выбран: в настройках заявок нет ни чата, ни пользователя';
 }
-if (!empty($config['max_token']) && (!empty($config['max_chat_id']) || !empty($config['max_user_id']))) {
+if (!$silent && !empty($config['max_token']) && (!empty($config['max_chat_id']) || !empty($config['max_user_id']))) {
     $lead_for_card = [
         'id'      => $lead_id,
         'at'      => date('c'),

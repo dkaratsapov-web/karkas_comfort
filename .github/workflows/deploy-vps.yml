@@ -587,7 +587,7 @@ jobs:
           # отличает её в списке заявок.
           code=$(curl -s -o /tmp/lead.json -w '%{http_code}' --max-time 30 \
             -H 'Content-Type: application/json' \
-            -d '{"name":"Проверка выгрузки","phone":"+7 920 171-69-69","message":"Автоматическая проверка приёма заявок после выгрузки.","page":"/","consent":true,"test":true}' \
+            -d '{"name":"Проверка выгрузки","phone":"+7 920 171-69-69","message":"Автоматическая проверка приёма заявок после выгрузки.","page":"/","consent":true,"test":true,"silent":true}' \
             "https://$D/api/lead.php" || true)
           echo "приём заявки /api/lead.php: $code"
           head -c 300 /tmp/lead.json; echo

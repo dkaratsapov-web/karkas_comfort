@@ -15,6 +15,12 @@
 
 declare(strict_types=1);
 
+/* Время всюду московское: сервер живёт по UTC, и в карточке заявки
+   стояло «15:18», когда в чате было 18:18 — менеджер видел время
+   на три часа раньше, чем звонил клиент. */
+date_default_timezone_set('Europe/Moscow');
+
+
 ini_set('log_errors', '1');
 ini_set('display_errors', '0');
 ini_set('error_log', __DIR__ . '/admin-error.log');

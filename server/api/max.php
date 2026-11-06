@@ -11,6 +11,11 @@
 
 declare(strict_types=1);
 
+/* Время московское и здесь: карточку рисует и приём заявок,
+   и сам бот — пояс не должен зависеть от того, кто её позвал. */
+date_default_timezone_set('Europe/Moscow');
+
+
 const MAX_API = 'https://platform-api2.max.ru';
 
 /* ---------- запрос к MAX ---------- */
