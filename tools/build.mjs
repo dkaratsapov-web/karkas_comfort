@@ -229,6 +229,11 @@ function videoCard(n) {
 
 const articleUrl = (slug) => `/stati/${slug}/`;
 const ARTICLE_IMG = (a) => (a.cover ? `/assets/img/photos/${a.cover}` : '/assets/img/og.png');
+/* Чертёж показывается целиком на светлой подложке, фотография — кадром
+   под обрез. Раньше это решалось по словам в имени файла, и обложка
+   stati-otdelka-fasada-… попадала в чертежи из-за «fasad». Сгенерированные
+   обложки лежат с приставкой stati- и всегда идут как кадр. */
+const isSheet = (cover) => !/^stati-/.test(cover || '') && /razrez|fasad|vid-|plan|3d/.test(cover || '');
 const dateRu = (iso) => {
   const m = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
   const [y, mo, d] = iso.split('-');
@@ -255,7 +260,7 @@ function articleBody(blocks) {
 }
 
 const articleCard = (a) => `        <article class="post">
-          <div class="post__media${/razrez|fasad|vid-|plan|3d/.test(a.cover || '') ? ' post__media--sheet' : ''}">
+          <div class="post__media${isSheet(a.cover) ? ' post__media--sheet' : ''}">
             <img ${srcset(a.cover, '(min-width: 900px) 33vw, 100vw')} alt="${esc(a.h1 || a.title)}" loading="lazy" width="900" height="600">
           </div>
           <div class="post__body">
@@ -1272,7 +1277,7 @@ for (const a of articles) {
             <span>${a.read} мин чтения</span>
           </p>
         </header>
-${a.cover ? `        <figure class="post-cover${/razrez|fasad|vid-|plan|3d/.test(a.cover) ? ' post-cover--sheet' : ''}">
+${a.cover ? `        <figure class="post-cover${isSheet(a.cover) ? ' post-cover--sheet' : ''}">
           <img ${srcset(a.cover, '(min-width: 1100px) 900px, 100vw')} alt="${esc(a.h1 || a.title)}" width="1700" height="1100" fetchpriority="high">
         </figure>` : ''}
         <div class="prose">
