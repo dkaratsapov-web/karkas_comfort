@@ -17,21 +17,44 @@ const MAX_STATUSES = [
     'lost' => 'Отказ',
 ];
 
+/* Значок статуса: в ленте чата заявки отличаются с одного взгляда,
+   не вчитываясь в строку «Статус». */
+const MAX_STATUS_ICONS = [
+    'new'  => '🔔',
+    'work' => '⚡',
+    'meet' => '📅',
+    'deal' => '✅',
+    'lost' => '✖️',
+];
+
 /** Текст карточки. Статус пишем в текст: всплывающих уведомлений
  *  в MAX нет, иначе нажавший не увидел бы, что действие сработало. */
 function max_lead_card(array $lead, string $status = 'new', string $who = ''): string
 {
-    $lines = [empty($lead['test']) ? 'Заявка с сайта' : 'Проверка связи (тестовая заявка)', ''];
-    $lines[] = 'Имя: ' . ($lead['name'] ?? '—');
-    $lines[] = 'Телефон: ' . ($lead['phone'] ?? '—');
-    if (!empty($lead['project'])) $lines[] = 'Проект: ' . $lead['project'];
-    if (!empty($lead['message'])) $lines[] = 'Сообщение: ' . $lead['message'];
-    if (!empty($lead['page']))    $lines[] = 'Страница: ' . $lead['page'];
-    $lines[] = 'Время: ' . (!empty($lead['at'])
+    $icon  = MAX_STATUS_ICONS[$status] ?? '🔔';
+    $lines = [
+        empty($lead['test'])
+            ? $icon . ' Заявка с сайта'
+            : '🧪 Проверка связи (тестовая заявка)',
+        '',
+    ];
+    $lines[] = '👤 ' . ($lead['name'] ?? '—');
+    $lines[] = '📞 ' . ($lead['phone'] ?? '—');
+    if (!empty($lead['project'])) $lines[] = '🏠 Проект: ' . $lead['project'];
+    if (!empty($lead['message'])) $lines[] = '💬 ' . $lead['message'];
+    $lines[] = '';
+    /* Откуда клиент: по этим строкам видно, какая реклама работает,
+       и из какого он города — разговор начинается по-разному. */
+    if (!empty($lead['source'])) $lines[] = '📣 Источник: ' . $lead['source'];
+    if (!empty($lead['place']))  $lines[] = '📍 Откуда: ' . $lead['place'];
+    if (!empty($lead['page']))   $lines[] = '🔗 Страница: ' . $lead['page'];
+    if (!empty($lead['device'])) $lines[] = '💻 Устройство: ' . $lead['device'];
+    $lines[] = '🕐 ' . (!empty($lead['at'])
         ? date('d.m.Y H:i', strtotime((string) $lead['at']))
         : date('d.m.Y H:i'));
     $lines[] = '';
-    $lines[] = 'Статус: ' . (MAX_STATUSES[$status] ?? $status) . ($who !== '' ? ' — ' . $who : '');
+    $lines[] = $icon . ' Статус: ' . (MAX_STATUSES[$status] ?? $status)
+        . ($who !== '' ? ' — ' . $who : '');
     return implode("\n", $lines);
 }
 
@@ -42,7 +65,7 @@ function max_lead_buttons(array $lead, string $status, string $domain = ''): arr
     $id    = (string) ($lead['id'] ?? '');
     $rows  = [];
     $moves = [];
-    foreach (['work' => 'В работу', 'meet' => 'Встреча', 'deal' => 'Договор', 'lost' => 'Отказ'] as $code => $label) {
+    foreach (['work' => '⚡ В работу', 'meet' => '📅 Встреча', 'deal' => '✅ Договор', 'lost' => '✖️ Отказ'] as $code => $label) {
         if ($code !== $status) $moves[] = [$label, 'st:' . $code . ':' . $id];
     }
     foreach (array_chunk($moves, 2) as $pair) $rows[] = $pair;   // по две в ряд: подписи влезают целиком
@@ -53,7 +76,7 @@ function max_lead_buttons(array $lead, string $status, string $domain = ''): arr
        buttons», и заявка в чат не приходила вовсе. Номер и так
        в тексте карточки, в мессенджере он нажимается сам. */
     $last = [];
-    if ($domain !== '') $last[] = ['Открыть в админке', null, 'https://' . $domain . '/admin/?lead=' . rawurlencode($id)];
+    if ($domain !== '') $last[] = ['🗂 Открыть в кабинете', null, 'https://' . $domain . '/admin/?lead=' . rawurlencode($id)];
     if ($last) $rows[] = $last;
 
     return $rows;

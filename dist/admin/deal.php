@@ -135,8 +135,24 @@ if (!empty($d['phone'])) {
 }
 echo '<p class="muted">Пришла: ' . h(date('d.m.Y H:i', strtotime((string) ($d['at'] ?? 'now')))) . '<br>';
 echo 'Источник: ' . h($d['source']);
-if (!empty($d['page'])) echo '<br>Страница: ' . h($d['page']);
+if (!empty($d['place']))  echo '<br>Откуда: ' . h((string) $d['place']);
+if (!empty($d['page']))   echo '<br>Страница: ' . h($d['page']);
+if (!empty($d['landing']) && $d['landing'] !== ($d['page'] ?? ''))
+    echo '<br>Вошёл на: ' . h((string) $d['landing']);
+if (!empty($d['device'])) echo '<br>Устройство: ' . h((string) $d['device']);
+if (!empty($d['referrer'])) echo '<br>Ссылался: ' . h((string) $d['referrer']);
 echo '</p>';
+
+/* Метки рекламы показываем как есть: по ним сверяют отчёт рекламного
+   кабинета с тем, что реально дошло до заявок. */
+if (!empty($d['utm']) && is_array($d['utm'])) {
+    echo '<p class="muted">';
+    $parts = [];
+    foreach ($d['utm'] as $key => $value) {
+        $parts[] = h(str_replace('utm_', '', (string) $key)) . ': ' . h((string) $value);
+    }
+    echo implode('<br>', $parts) . '</p>';
+}
 if (!empty($d['message'])) echo '<p class="quote">' . h($d['message']) . '</p>';
 echo '</div>';
 

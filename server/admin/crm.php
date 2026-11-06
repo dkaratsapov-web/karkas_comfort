@@ -72,6 +72,12 @@ function crm_deals(): array
 /** Откуда пришла заявка: страница говорит об этом точнее всего. */
 function crm_source(array $lead): string
 {
+    /* Если заявка принесла рекламную метку, она и есть источник:
+       страница говорит, где человек нажал кнопку, а метка — откуда
+       он вообще пришёл на сайт. */
+    $marked = trim((string) ($lead['source'] ?? ''));
+    if ($marked !== '' && $marked !== 'прямой заход') return $marked;
+
     $page = (string) ($lead['page'] ?? '');
     if ($page === '' || $page === '/')        return 'Главная';
     if (str_starts_with($page, '/proekty'))   return 'Каталог проектов';

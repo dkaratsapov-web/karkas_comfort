@@ -37,6 +37,106 @@ function fail(string $message, int $code = 400)
     exit;
 }
 
+/* ---------- кто и откуда пришёл ----------
+   В заявке мало телефона: менеджеру важно, с какой рекламы человек,
+   из какого города и с чего смотрел — от этого зависит и разговор,
+   и куда вкладывать рекламные деньги. */
+
+/** Телефон или компьютер и какой браузер — коротко, без версий. */
+function device_from_ua(string $ua): string
+{
+    if ($ua === '') return '';
+    $kind = preg_match('~iPad|Tablet~i', $ua) ? 'планшет'
+        : (preg_match('~Mobile|Android|iPhone|iPod~i', $ua) ? 'телефон' : 'компьютер');
+    $browser = '';
+    foreach ([
+        'YaBrowser' => 'Яндекс Браузер', 'Edg' => 'Edge', 'OPR' => 'Opera',
+        'Firefox' => 'Firefox', 'Chrome' => 'Chrome', 'Safari' => 'Safari',
+    ] as $needle => $name) {
+        if (stripos($ua, $needle) !== false) { $browser = $name; break; }
+    }
+    return $browser !== '' ? $kind . ', ' . $browser : $kind;
+}
+
+/** Город по адресу посетителя. Ответ кешируется на сутки: один и тот
+ *  же человек часто оставляет несколько заявок, а сторонний сервис
+ *  может отвечать медленно или не ответить вовсе — тогда просто
+ *  останемся без города, заявка от этого не пострадает. */
+function place_by_ip(string $ip): string
+{
+    if ($ip === '' || !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+        return '';
+    }
+    if (!function_exists('curl_init')) return '';
+
+    $file  = __DIR__ . '/ip-places.json';
+    $cache = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
+    $row   = $cache[$ip] ?? null;
+    if (is_array($row) && (time() - (int) ($row['at'] ?? 0)) < 86400) {
+        return (string) ($row['place'] ?? '');
+    }
+
+    $ch = curl_init('https://ipwho.is/' . rawurlencode($ip) . '?fields=success,city,region,country');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 3,
+        CURLOPT_CONNECTTIMEOUT => 2,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_SSL_VERIFYHOST => 2,
+    ]);
+    $answer = (string) curl_exec($ch);
+    curl_close($ch);
+
+    $data  = json_decode($answer, true);
+    $place = '';
+    if (is_array($data) && !empty($data['success'])) {
+        $parts = array_filter([
+            (string) ($data['city'] ?? ''),
+            (string) ($data['region'] ?? ''),
+            (string) ($data['country'] ?? ''),
+        ], static fn($v) => trim($v) !== '');
+        /* Страну не повторяем, когда это Россия: и так понятно */
+        if (($data['country'] ?? '') === 'Russia') array_pop($parts);
+        $place = implode(', ', array_slice($parts, 0, 2));
+    }
+
+    $cache[$ip] = ['place' => $place, 'at' => time()];
+    if (count($cache) > 500) $cache = array_slice($cache, -500, null, true);
+    @file_put_contents($file, json_encode($cache, JSON_UNESCAPED_UNICODE), LOCK_EX);
+    return $place;
+}
+
+/** Источник человеческими словами: откуда пришёл клиент. */
+function source_label(array $utm, string $referrer): string
+{
+    $named = [
+        'yandex-direct' => 'Яндекс Директ', 'yandex' => 'Яндекс',
+        'google-ads' => 'Google Ads', 'google' => 'Google',
+        'vk' => 'ВКонтакте', 'telegram' => 'Telegram', 'max' => 'MAX',
+        'avito' => 'Авито', 'instagram' => 'Instagram',
+    ];
+    $src = (string) ($utm['utm_source'] ?? '');
+    if ($src !== '') {
+        $label = $named[mb_strtolower($src)] ?? $src;
+        $extra = array_filter([
+            (string) ($utm['utm_campaign'] ?? ''),
+            (string) ($utm['utm_content'] ?? ''),
+        ], static fn($v) => $v !== '');
+        return $extra ? $label . ' · ' . implode(' · ', $extra) : $label;
+    }
+    if ($referrer !== '') {
+        $host = parse_url($referrer, PHP_URL_HOST);
+        if (is_string($host) && $host !== '') {
+            $host = preg_replace('~^www\.~', '', $host);
+            foreach ($named as $key => $label) {
+                if (str_contains($host, $key)) return 'переход с ' . $label;
+            }
+            return 'переход с ' . $host;
+        }
+    }
+    return 'прямой заход';
+}
+
 /* --- принимаем только POST --- */
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     fail('Метод не поддерживается', 405);
@@ -88,6 +188,18 @@ if ($hits >= (int) $config['rate_limit']) {
 }
 file_put_contents($stamp, (string) ($hits + 1));
 
+/* --- откуда пришёл посетитель --- */
+$utm = [];
+foreach (['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as $k) {
+    $v = $clean($data[$k] ?? '', 120);
+    if ($v !== '') $utm[$k] = $v;
+}
+$referrer = $clean($data['referrer'] ?? '', 200);
+$landing  = $clean($data['landing'] ?? '', 200);
+$device   = device_from_ua((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''));
+$place    = place_by_ip($ip);
+$source   = source_label($utm, $referrer);
+
 /* --- письмо --- */
 $when = date('d.m.Y H:i');
 $lines = [
@@ -99,6 +211,11 @@ $lines = [
 if ($project !== '') $lines[] = "Проект:   {$project}";
 if ($message !== '') $lines[] = "Сообщение: {$message}";
 $lines[] = "Страница: {$page}";
+$lines[] = "Источник: {$source}";
+if ($place !== '')    $lines[] = "Откуда:   {$place}";
+if ($device !== '')   $lines[] = "Устройство: {$device}";
+if ($landing !== '')  $lines[] = "Вошёл на: {$landing}";
+if ($referrer !== '') $lines[] = "Ссылался: {$referrer}";
 $lines[] = "Время:    {$when}";
 $lines[] = "IP:       {$ip}";
 $body = implode("\n", $lines);
@@ -241,6 +358,9 @@ if (!empty($config['max_token']) && (!empty($config['max_chat_id']) || !empty($c
         'message' => $message,
         'project' => $project,
         'page'    => $page,
+        'source'  => $source,
+        'place'   => $place,
+        'device'  => $device,
         'test'    => !empty($data['test']),
     ];
     $answer = max_send(
@@ -317,6 +437,12 @@ $record  = [
     'project' => $project,
     'page'    => $page,
     'ip'      => $ip,
+    'source'  => $source,
+    'place'   => $place,
+    'device'  => $device,
+    'referrer' => $referrer,
+    'landing' => $landing,
+    'utm'     => $utm,
     'test'    => !empty($data['test']),
     'sent'    => ['mail' => $sent, 'telegram' => $telegram, 'max' => $max, 'crm' => $crm],
     'mail_error' => $sent ? '' : mb_substr($mailError, 0, 300),

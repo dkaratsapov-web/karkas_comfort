@@ -208,6 +208,34 @@
   });
 
   /* ---------- отправка форм ---------- */
+/* Откуда пришёл посетитель. Метки рекламы стоят в адресе только на
+   первой странице визита, дальше теряются — поэтому запоминаем их на
+   время визита и прикладываем к заявке: без них непонятно, какая
+   реклама привела клиента. */
+function visitSource() {
+  const KEY = 'kk-source';
+  let saved = null;
+  try { saved = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { saved = null; }
+
+  if (!saved) {
+    const q = new URLSearchParams(location.search);
+    const utm = {};
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach((k) => {
+      const v = (q.get(k) || '').slice(0, 120);
+      if (v) utm[k] = v;
+    });
+    /* Яндекс.Директ и Google Ads подставляют свою метку, когда utm нет */
+    if (!utm.utm_source && q.get('yclid')) utm.utm_source = 'yandex-direct';
+    if (!utm.utm_source && q.get('gclid')) utm.utm_source = 'google-ads';
+    saved = Object.assign(utm, {
+      referrer: (document.referrer || '').slice(0, 200),
+      landing: (location.pathname + location.search).slice(0, 200),
+    });
+    try { sessionStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { /* приватный режим */ }
+  }
+  return saved;
+}
+
   async function sendLead(data) {
     const endpoint = document.body.dataset.leadEndpoint;   // адрес обработчика заявок
     if (!endpoint) return { ok: true, demo: true };
@@ -269,6 +297,7 @@
       if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Отправляем…'; }
       const data = Object.fromEntries(new FormData(form).entries());
       data.page = location.pathname;
+      Object.assign(data, visitSource());
 
       try {
         const result = await sendLead(data);
