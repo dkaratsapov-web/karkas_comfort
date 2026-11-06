@@ -47,11 +47,14 @@ function max_lead_buttons(array $lead, string $status, string $domain = ''): arr
     }
     foreach (array_chunk($moves, 2) as $pair) $rows[] = $pair;   // по две в ряд: подписи влезают целиком
 
-    $digits = preg_replace('/\D+/', '', (string) ($lead['phone'] ?? '')) ?? '';
-    $last   = [];
-    if (strlen($digits) >= 11) $last[] = ['Позвонить', null, 'tel:+' . $digits];
-    if ($domain !== '')        $last[] = ['Открыть в админке', null, 'https://' . $domain . '/admin/?lead=' . rawurlencode($id)];
-    if ($last) $rows[] = $last;   // ссылок в ряду допускается до трёх
+    /* Кнопки со ссылками MAX принимает только http и https: кнопка
+       «Позвонить» с tel: валила отправку целиком — вся карточка
+       отбивалась с «Must have only http/https links format in
+       buttons», и заявка в чат не приходила вовсе. Номер и так
+       в тексте карточки, в мессенджере он нажимается сам. */
+    $last = [];
+    if ($domain !== '') $last[] = ['Открыть в админке', null, 'https://' . $domain . '/admin/?lead=' . rawurlencode($id)];
+    if ($last) $rows[] = $last;
 
     return $rows;
 }
