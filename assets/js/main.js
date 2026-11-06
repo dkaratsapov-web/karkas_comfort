@@ -129,6 +129,8 @@
     if (msg) track('messenger_click', { page: location.pathname });
   });
 
+  thanksPage();
+
   /* ---------- мобильное меню ---------- */
   const burger = $('.burger');
   const mobileNav = $('#mobile-nav');
@@ -236,6 +238,40 @@ function visitSource() {
   return saved;
 }
 
+/* Отдельная страница «Спасибо»: по ней в Метрике считаются заявки.
+   Событие reachGoal засчитывается не всегда — человек закрывает
+   вкладку раньше, чем счётчик успевает отправить его, — а переход
+   на адрес виден всегда. Через несколько секунд возвращаем туда,
+   где он был: уводить человека с проекта, который он смотрел,
+   незачем. */
+function thanksGo() {
+  const back = location.pathname + location.search + location.hash;
+  setTimeout(() => {
+    location.href = '/spasibo/?from=' + encodeURIComponent(back);
+  }, 400);
+}
+
+/* Обратный отсчёт и возврат на странице «Спасибо». */
+function thanksPage() {
+  const left = document.querySelector('[data-thanks-left]');
+  const now = document.querySelector('[data-thanks-now]');
+  if (!left && !now) return;
+
+  const raw = new URLSearchParams(location.search).get('from') || '/';
+  /* Возвращаем только внутрь своего сайта: чужой адрес в параметре
+     превратил бы страницу в открытый редирект. */
+  const back = /^\/(?!\/)/.test(raw) ? raw : '/';
+  if (now) now.setAttribute('href', back);
+
+  let sec = 6;
+  if (left) left.textContent = String(sec);
+  const tick = setInterval(() => {
+    sec -= 1;
+    if (left) left.textContent = String(Math.max(sec, 0));
+    if (sec <= 0) { clearInterval(tick); location.replace(back); }
+  }, 1000);
+}
+
   async function sendLead(data) {
     const endpoint = document.body.dataset.leadEndpoint;   // адрес обработчика заявок
     if (!endpoint) return { ok: true, demo: true };
@@ -304,6 +340,7 @@ function visitSource() {
         if (result.ok) {
           form.classList.add('is-sent');
           track('lead_sent', { page: location.pathname, project: data.project || '' });
+          thanksGo();
         } else {
           showError(result.error || 'Не удалось отправить заявку. Позвоните нам: 8 (920) 171-69-69');
           track('lead_error', { page: location.pathname });

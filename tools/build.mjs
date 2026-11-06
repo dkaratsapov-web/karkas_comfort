@@ -613,7 +613,7 @@ ${head
     .replace(/\{\{canonical\}\}/g, canonical)
     .replace(/\{\{ogimage\}\}/g, ogimage)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
-    .replace('</head>', `${extraLd ? extraLd + '\n' : ''}${PREVIEW ? '  <meta name="robots" content="noindex, nofollow">\n' : ''}${PREVIEW || !verification() ? '' : verification() + '\n'}${PREVIEW || !analytics ? '' : analytics + '\n'}</head>`)}
+    .replace('</head>', `${extraLd ? extraLd + '\n' : ''}${PREVIEW || meta.noindex === true ? '  <meta name="robots" content="noindex, nofollow">\n' : ''}${PREVIEW || !verification() ? '' : verification() + '\n'}${PREVIEW || !analytics ? '' : analytics + '\n'}</head>`)}
 <body${bodyClass ? ` class="${bodyClass}"` : ''} data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
 ${previewBar}${header}
   <main id="main">

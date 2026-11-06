@@ -2468,3 +2468,17 @@ body::after {
 .page-head--tight h1 { font-size: clamp(28px, 3.4vw, 44px); }
 .page-head--tight .lead { margin-top: 10px; max-width: 74ch; font-size: clamp(15px, 1.2vw, 17px); }
 .page-head--tight .eyebrow { margin-top: 12px !important; }
+
+/* ---------- страница «Спасибо» ----------
+   Её видят несколько секунд после отправки заявки: нужна Метрике,
+   чтобы считать обращения по адресу, а не по событию, которое
+   теряется, если человек закрыл вкладку. */
+.section--thanks { padding-block: clamp(48px, 9vw, 110px); }
+.thanks { max-width: 640px; text-align: center; }
+.thanks__mark { color: var(--accent-ink, #1E4A35); margin: 0 0 18px; }
+.thanks h1 { margin-bottom: 12px; }
+.thanks__lead { font-size: clamp(16px, 1.5vw, 19px); color: var(--ink-2); }
+.thanks__back { margin-top: 22px; font-size: 15px; line-height: 1.7; }
+.thanks__back b { font-variant-numeric: tabular-nums; }
+.thanks__next { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 26px; }
+.thanks__back a { text-decoration: underline; text-underline-offset: 3px; }
