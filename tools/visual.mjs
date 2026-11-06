@@ -17,6 +17,20 @@ const sitemap = readFileSync('dist/sitemap.xml', 'utf8');
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
 const pages = [...new Set(urls.length ? urls : ['/'])];
 
+/* Проверяем свой сайт, а не доступность чужих. Запросы наружу
+   (счётчик) гасим: страница иначе ждёт сеть, прогон растягивается
+   с трёх минут до двадцати пяти, а результат начинает зависеть от
+   того, отвечает ли сегодня чужой сервер. */
+const ownOnly = async (page) => {
+  await page.route('**/*', (route) => {
+    const host = new URL(route.request().url()).hostname;
+    return (host === '127.0.0.1' || host === 'localhost')
+      ? route.continue()
+      : route.abort();
+  });
+  return page;
+};
+
 const browser = await chromium.launch(process.env.PW_CHROME ? { executablePath: process.env.PW_CHROME } : {});
 const problems = [];
 
@@ -198,7 +212,7 @@ const audit = () => {
 
 for (const url of pages) {
   for (const width of WIDTHS) {
-    const page = await browser.newPage({ viewport: { width, height: 900 } });
+    const page = await ownOnly(await browser.newPage({ viewport: { width, height: 900 } }));
     const errs = [];
     page.on('pageerror', (e) => errs.push(e.message));
     try {
@@ -234,7 +248,7 @@ for (const url of pages) {
 }
 /* частая сетка ширин на главной: ловим переполнение шапки между брейкпоинтами */
 {
-  const page = await browser.newPage({ viewport: { width: 1200, height: 700 } });
+  const page = await ownOnly(await browser.newPage({ viewport: { width: 1200, height: 700 } }));
   await page.goto(`${B}/`, { waitUntil: 'networkidle', timeout: 30000 });
   for (const width of SWEEP) {
     await page.setViewportSize({ width, height: 700 });

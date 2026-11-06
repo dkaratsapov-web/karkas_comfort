@@ -16,7 +16,11 @@ if (!gh_ready()) {
     echo '<div class="card"><p>Чтобы править содержимое отсюда, нужен доступ к репозиторию: админка сохраняет правку коммитом, а дальше сайт собирается и выкладывается сам.</p>';
     if (($me['role'] ?? '') === 'owner') {
         $s = gh_settings();
-        echo '<p class="muted">Токен создаётся в GitHub: Settings → Developer settings → Personal access tokens → Fine-grained tokens. Доступ нужен только к этому репозиторию и только на Contents: Read and write.</p>';
+        echo '<p class="muted">Токен создаётся в GitHub: Settings → Developer settings → Personal access tokens.</p>';
+        echo '<p class="muted"><b>Если репозиторий ваш</b> — Fine-grained tokens: Repository access → Only select repositories → '
+            . h($s['repo']) . ', Permissions → Contents: Read and write.<br>'
+            . '<b>Если репозиторий чужой, а вы в нём соавтор</b> — нужен Tokens (classic) с галочкой <b>repo</b>: '
+            . 'токены Fine-grained работают только с репозиториями своего аккаунта, на чужой GitHub отвечает «не найдено».</p>';
         echo '<form method="post" class="form">' . csrf_field() . '<input type="hidden" name="action" value="token">';
         echo '<label>Токен<input name="github_token" autocomplete="off" placeholder="github_pat_..."></label>';
         echo '<label>Репозиторий<input name="github_repo" value="' . h($s['repo']) . '"></label>';

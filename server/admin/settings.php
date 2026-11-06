@@ -143,12 +143,15 @@ if ($action === 'maxhook' || $action === 'maxoff') {
                 CURLOPT_POST           => true,
                 CURLOPT_POSTFIELDS     => '{}',
                 CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER         => true,
                 CURLOPT_TIMEOUT        => 10,
             ]);
-            curl_exec($ch);
-            $own = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+            $probe = (string) curl_exec($ch);
+            $own   = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
             curl_close($ch);
-            if ($own === 403 || $own === 404) {
+            /* Запрос без секрета бот отклоняет сам: 403 с его
+               заголовком — признак исправности, а не запрета. */
+            if (stripos($probe, 'X-Max-Bot: ready') === false && ($own === 403 || $own === 404)) {
                 $maxHook = 'Адрес для событий бота закрыт сервером (ответ ' . $own
                     . '). Сообщите об этом — нужно обновить конфигурацию сервера, без неё бот не получит ни одного события.';
                 $own = 0;

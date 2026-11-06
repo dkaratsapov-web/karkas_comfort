@@ -60,6 +60,43 @@ function gh_request(string $method, string $path, ?array $body = null): array
     return [$code, is_array($data) ? $data : []];
 }
 
+/* Почему GitHub ответил «не найдено». У токена без доступа к нужному
+   репозиторию ответ тот же 404, что и у опечатки в пути, поэтому
+   голое «Not Found» в админке ничего не объясняет: проверяем по
+   шагам — виден ли токену репозиторий, есть ли ветка, есть ли файл. */
+function gh_why(string $path, int $code, array $data): string
+{
+    $s   = gh_settings();
+    $msg = (string) ($data['message'] ?? '');
+
+    if ($code === 401) {
+        return 'GitHub не принял токен: он просрочен или отозван. Создайте новый и впишите заново.';
+    }
+    if ($code === 403) {
+        return 'GitHub отказал в доступе: у токена нет права Contents: Read and write на этот репозиторий.';
+    }
+    if ($code !== 404) {
+        return 'GitHub ответил ' . $code . ($msg !== '' ? ': ' . $msg : '');
+    }
+
+    [$repoCode] = gh_request('GET', '/repos/' . $s['repo']);
+    if ($repoCode === 404) {
+        return 'Токен не видит репозиторий ' . $s['repo'] . '. У приватного репозитория GitHub отвечает «не найдено»'
+            . ' и когда доступа нет, поэтому проверьте в настройках токена: Repository access → Only select repositories → '
+            . $s['repo'] . ', и Permissions → Repository permissions → Contents: Read and write.';
+    }
+    if ($repoCode !== 200) {
+        return 'Репозиторий ' . $s['repo'] . ' отвечает ' . $repoCode . ' — проверьте имя репозитория в поле выше.';
+    }
+
+    [$branchCode] = gh_request('GET', '/repos/' . $s['repo'] . '/branches/' . rawurlencode($s['branch']));
+    if ($branchCode === 404) {
+        return 'В репозитории нет ветки «' . $s['branch'] . '» — проверьте её имя в поле выше.';
+    }
+
+    return 'В ветке «' . $s['branch'] . '» нет файла ' . $path . '. Он появится после ближайшей выкладки сайта.';
+}
+
 /* Файл данных из репозитория: содержимое плюс sha — без него GitHub
    не примет запись, и это же защищает от затирания чужой правки. */
 function gh_get_json(string $path): array
@@ -67,7 +104,7 @@ function gh_get_json(string $path): array
     $s = gh_settings();
     [$code, $data] = gh_request('GET', '/repos/' . $s['repo'] . '/contents/' . rawurlencode_path($path) . '?ref=' . rawurlencode($s['branch']));
     if ($code !== 200 || empty($data['content'])) {
-        return ['ok' => false, 'error' => $data['message'] ?? ('GitHub ответил ' . $code)];
+        return ['ok' => false, 'error' => gh_why($path, $code, $data)];
     }
     $raw = base64_decode(str_replace("\n", '', (string) $data['content']));
     $json = json_decode($raw, true);
@@ -89,7 +126,7 @@ function gh_put_json(string $path, array $data, string $sha, string $message): a
         return ['ok' => false, 'error' => 'Файл изменился, пока вы правили. Обновите страницу и повторите.'];
     }
     if ($code !== 200 && $code !== 201) {
-        return ['ok' => false, 'error' => $answer['message'] ?? ('GitHub ответил ' . $code)];
+        return ['ok' => false, 'error' => gh_why($path, $code, $answer)];
     }
     return ['ok' => true];
 }
@@ -100,7 +137,7 @@ function gh_get_text(string $path): array
     $s = gh_settings();
     [$code, $data] = gh_request('GET', '/repos/' . $s['repo'] . '/contents/' . rawurlencode_path($path) . '?ref=' . rawurlencode($s['branch']));
     if ($code !== 200 || empty($data['content'])) {
-        return ['ok' => false, 'error' => $data['message'] ?? ('GitHub ответил ' . $code)];
+        return ['ok' => false, 'error' => gh_why($path, $code, $data)];
     }
     return [
         'ok'   => true,
@@ -122,7 +159,7 @@ function gh_put_text(string $path, string $text, string $sha, string $message): 
         return ['ok' => false, 'error' => 'Файл изменился, пока вы правили. Обновите страницу и повторите.'];
     }
     if ($code !== 200 && $code !== 201) {
-        return ['ok' => false, 'error' => $answer['message'] ?? ('GitHub ответил ' . $code)];
+        return ['ok' => false, 'error' => gh_why($path, $code, $answer)];
     }
     return ['ok' => true];
 }

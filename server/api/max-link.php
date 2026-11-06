@@ -101,16 +101,20 @@ if ($secret === '') {
 $ch = curl_init($hook);
 curl_setopt_array($ch, [
     CURLOPT_POST => true, CURLOPT_POSTFIELDS => '{}',
-    CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 10,
+    CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => true, CURLOPT_TIMEOUT => 10,
 ]);
-curl_exec($ch);
-$own = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+$answer = (string) curl_exec($ch);
+$own    = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 curl_close($ch);
-if ($own === 403 || $own === 404) {
+/* Запрос без секрета бот отклоняет сам — это 403 с его заголовком,
+   и это признак исправности. Без заголовка 403 или 404 означает,
+   что до бота не дошли: адрес закрыт сервером. */
+$mine = stripos($answer, 'X-Max-Bot: ready') !== false;
+if (!$mine && ($own === 403 || $own === 404)) {
     say('адрес для событий закрыт сервером (ответ ' . $own . ') — бот не получит ни одного события');
     exit(0);
 }
-say('адрес для событий отвечает: ' . $own . ' (403 на пустой запрос — так и задумано)');
+say('адрес для событий отвечает: ' . $own . ($mine ? ' от самого бота — адрес работает' : ''));
 
 /* Подписка. Повторный вызов с тем же адресом MAX принимает спокойно,
    поэтому шаг можно гонять на каждой выгрузке. */

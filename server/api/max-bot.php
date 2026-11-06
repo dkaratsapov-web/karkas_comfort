@@ -116,6 +116,12 @@ $token  = (string) ($conf['max_token'] ?? '');
 $secret = (string) ($conf['max_secret'] ?? '');
 $domain = (string) ($conf['domain'] ?? 'xn--80aa2abbmnbmggrx.xn--p1ai');
 
+/* Отвечая «нет доступа», помечаем ответ своим заголовком: снаружи
+   403 от бота и 403 от запрета nginx выглядят одинаково, а разница
+   решающая — в первом случае адрес работает, во втором события
+   до бота не доходят вовсе. */
+header('X-Max-Bot: ready');
+
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     http_response_code(405);
     exit('Только POST');

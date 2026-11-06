@@ -12,6 +12,20 @@ const N = PROJECTS.length;                                   /* сколько �
 /* Проверки идут по тому, что лежит в данных: каталог меняется, сценарии — нет. */
 const FIRST = PROJECTS[0];
 const b = await chromium.launch(process.env.PW_CHROME ? { executablePath: process.env.PW_CHROME } : {});
+/* Проверяем свой сайт, а не доступность чужих. Запросы наружу
+   (счётчик) гасим: страница иначе ждёт сеть, прогон растягивается
+   с трёх минут до двадцати пяти, а результат начинает зависеть от
+   того, отвечает ли сегодня чужой сервер. */
+const ownOnly = async (page) => {
+  await page.route('**/*', (route) => {
+    const host = new URL(route.request().url()).hostname;
+    return (host === '127.0.0.1' || host === 'localhost')
+      ? route.continue()
+      : route.abort();
+  });
+  return page;
+};
+
 const out = [];
 const ok = (n, c) => out.push(`${c ? '✓' : '✗ ПРОВАЛ'} ${n}`);
 const errs = [];
@@ -25,7 +39,7 @@ const hasPhp = [200, 400, 429, 502].includes(probeStatus);
 if (!hasPhp) out.push(`· PHP на сервере не отвечает (${probeStatus}) — отправка заявки проверяется в демо-режиме`);
 
 /* 1. Каталог: карточки есть в HTML, фильтры работают и попадают в адрес */
-let p = await b.newPage({ viewport: { width: 1280, height: 900 } });
+let p = await ownOnly(await b.newPage({ viewport: { width: 1280, height: 900 } }));
 p.on('pageerror', (e) => errs.push(e.message));
 const catalogHtml = await (await p.request.get(`${B}/proekty/`)).text();
 ok('каталог отдаётся сервером со всеми карточками (без JS)', (catalogHtml.split('class="project"').length - 1) === N);
@@ -136,7 +150,7 @@ ok('после отправки пользователь видит однозн
 await p.close();
 
 /* 5. Мобильная версия */
-p = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+p = await ownOnly(await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }));
 p.on('pageerror', (e) => errs.push(e.message));
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 ok('нет горизонтальной прокрутки на 390px',
@@ -163,7 +177,7 @@ await p.close();
    на самом деле: размер и место плеера, адрес файла и ответ сервера.
    Так ловится и потерянный файл, и путь, не переписанный под подпапку
    демо, и плеер, уехавший под обрез рамки (слышно звук, видно постер). */
-p = await b.newPage({ viewport: { width: 1280, height: 900 } });
+p = await ownOnly(await b.newPage({ viewport: { width: 1280, height: 900 } }));
 p.on('pageerror', (e) => errs.push(e.message));
 await p.goto(`${B}/`, { waitUntil: 'networkidle' });
 const sources = await p.$$eval('.reel__frame', (els) => els.map((e) => e.dataset.video).filter(Boolean));
@@ -212,7 +226,7 @@ if (sources.length) {
 await p.close();
 
 /* 6. Все страницы: битые ссылки, разметка, шрифты */
-p = await b.newPage({ viewport: { width: 1280, height: 900 } });
+p = await ownOnly(await b.newPage({ viewport: { width: 1280, height: 900 } }));
 p.on('pageerror', (e) => errs.push(e.message));
 const pages = ['', 'proekty/', 'obekty/', 'uslugi/', 'o-kompanii/', 'kontakty/', 'politika/', '404.html', `proekty/${PROJECTS[PROJECTS.length - 1].slug}/`];
 const missing = [];
