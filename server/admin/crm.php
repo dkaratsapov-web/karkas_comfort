@@ -46,13 +46,22 @@ function crm_stage_name(string $code): string
 /* ---------- сделки ---------- */
 
 /** Все сделки: заявка плюс то, что с ней сделали. */
-function crm_deals(): array
+function crm_deals(bool $deleted = false): array
 {
     $state = leads_state();
     $out   = [];
 
     foreach (leads_load() as $id => $lead) {
         $extra = $state[$id] ?? [];
+        /* Удаление мягкое: сама заявка остаётся в leads.jsonl, из
+           работы уходит только пометка. Так удалённое можно вернуть,
+           а историю обращений ничто не рвёт. */
+        if (!empty($extra['deleted']) !== $deleted) continue;
+        /* Правка контакта хранится рядом, поверх исходной заявки:
+           то, что прислал человек, остаётся нетронутым. */
+        foreach (['name', 'phone', 'message'] as $field) {
+            if (isset($extra[$field]) && $extra[$field] !== '') $lead[$field] = $extra[$field];
+        }
         $out[$id] = $lead + [
             'stage'     => crm_stage((string) ($extra['status'] ?? $lead['status'] ?? 'new')),
             'owner'     => (string) ($extra['owner'] ?? ''),
@@ -114,6 +123,34 @@ function crm_note(string $id, string $text, string $by): void
     $notes = (array) ($all[$id]['notes'] ?? []);
     $notes[] = ['at' => date('c'), 'by' => $by, 'text' => $text];
     crm_update($id, ['notes' => $notes], $by, 'заметка');
+}
+
+/** Убрать сделку из работы. Запись о заявке остаётся: удаляется
+ *  пометкой, вернуть можно в любой момент. */
+function crm_delete(string $id, string $by): void
+{
+    crm_update($id, ['deleted' => date('c')], $by, 'удалил');
+}
+
+function crm_restore(string $id, string $by): void
+{
+    $all = leads_state();
+    unset($all[$id]['deleted']);
+    json_write(STATE_FILE, $all);
+    crm_update($id, [], $by, 'вернул из удалённых');
+}
+
+/** Разом убрать проверочные заявки: после настройки приёма их
+ *  накапливается больше, чем настоящих, и список перестаёт читаться. */
+function crm_delete_tests(string $by): int
+{
+    $n = 0;
+    foreach (crm_deals() as $id => $deal) {
+        if (empty($deal['test'])) continue;
+        crm_delete($id, $by);
+        $n++;
+    }
+    return $n;
 }
 
 /* ---------- задачи ----------

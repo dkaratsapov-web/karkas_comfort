@@ -22,6 +22,20 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         crm_update($id, ['next_at' => '', 'next_what' => ''], (string) $user['login'], 'шаг выполнен');
         flash('Шаг отмечен выполненным. Поставьте следующий, чтобы сделка не потерялась.');
     }
+    if ($id !== '' && post('action') === 'edit') {
+        /* Дату и описание шага правят чаще всего прямо отсюда:
+           ради переноса на другой день открывать сделку незачем. */
+        $when = preg_match('/^\d{4}-\d{2}-\d{2}$/', post('next_at', 10)) ? post('next_at', 10) : '';
+        crm_update($id, [
+            'next_at'   => $when,
+            'next_what' => post('next_what', 200),
+        ], (string) $user['login'], 'правка шага');
+        flash($when !== '' ? 'Шаг изменён.' : 'Дата снята: задача ушла из списка.');
+    }
+    if ($id !== '' && post('action') === 'del') {
+        crm_delete($id, (string) $user['login']);
+        flash('Сделка удалена. Вернуть можно в разделе «Сделки» → «Удалённые».');
+    }
     if ($id !== '' && post('action') === 'move') {
         $days = max(1, min(60, (int) post('days', 3)));
         $when = date('Y-m-d', strtotime('+' . $days . ' days'));
@@ -73,7 +87,19 @@ $card = static function (string $id, array $d): void {
     echo '<button class="btn btn--ghost" type="submit" name="action" value="move">Перенести на 3 дня</button>';
     echo '<input type="hidden" name="days" value="3">';
     echo '<a class="btn btn--ghost" href="/admin/deal.php?id=' . h(rawurlencode($id)) . '">Открыть</a>';
-    echo '</form></article>';
+    echo '</form>';
+
+    /* Правка шага: дата и описание меняются на месте, здесь же
+       сделку можно убрать совсем. */
+    echo '<details class="deal__edit"><summary>Изменить</summary>';
+    echo '<form class="deal__form" method="post">' . csrf_field();
+    echo '<input type="hidden" name="id" value="' . h($id) . '">';
+    echo '<input type="date" name="next_at" value="' . h($d['next_at']) . '" aria-label="Когда">';
+    echo '<input name="next_what" value="' . h($d['next_what']) . '" placeholder="что сделать" aria-label="Что сделать">';
+    echo '<button class="btn" type="submit" name="action" value="edit">Сохранить</button>';
+    echo '<button class="btn btn--ghost btn--danger" type="submit" name="action" value="del">Удалить сделку</button>';
+    echo '</form></details>';
+    echo '</article>';
 };
 
 $any = false;

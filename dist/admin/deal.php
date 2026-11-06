@@ -17,6 +17,11 @@ $user = require_login();
 
 $id    = (string) ($_GET['id'] ?? post('id', 80));
 $deals = crm_deals();
+$wasDeleted = false;
+if ($id !== '' && !isset($deals[$id])) {
+    $binned = crm_deals(true);
+    if (isset($binned[$id])) { $deals[$id] = $binned[$id]; $wasDeleted = true; }
+}
 if ($id === '' || !isset($deals[$id])) {
     layout_head('Сделка не найдена', $user, 'index.php');
     echo '<div class="card"><h1>Сделка не найдена</h1><p class="muted">Возможно, её удалили. <a href="/admin/">Вернуться к списку</a>.</p></div>';
@@ -29,6 +34,36 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $was  = $deals[$id];
     $by   = (string) $user['login'];
     $what = [];
+
+    if (post('action') === 'del') {
+        crm_delete($id, $by);
+        flash('Сделка удалена. Её можно вернуть на этой же странице.');
+        redirect('/admin/deal.php?id=' . rawurlencode($id));
+    }
+
+    if (post('action') === 'restore') {
+        crm_restore($id, $by);
+        flash('Сделка возвращена в работу.');
+        redirect('/admin/deal.php?id=' . rawurlencode($id));
+    }
+
+    /* Контакт правится отдельно от сделки: в заявке бывает опечатка
+       в имени или телефоне, а исходную запись трогать нельзя —
+       правка ложится рядом, поверх неё. */
+    if (post('action') === 'contact') {
+        $patch = [
+            'name'    => post('c_name', 120),
+            'phone'   => post('c_phone', 40),
+            'message' => post('c_message', 2000),
+        ];
+        $changed = [];
+        foreach ($patch as $field => $value) {
+            if ((string) $value !== (string) ($was[$field] ?? '')) $changed[] = $field;
+        }
+        crm_update($id, $patch, $by, $changed ? 'правка контакта: ' . implode(', ', $changed) : '');
+        flash($changed ? 'Контакт изменён.' : 'Изменений нет.');
+        redirect('/admin/deal.php?id=' . rawurlencode($id));
+    }
 
     if (post('action') === 'note') {
         $text = post('note', 2000);
@@ -125,6 +160,28 @@ echo '<label>Когда начинать<input name="o_start" value="' . h($obj[
 
 echo '<button class="btn" type="submit">Сохранить</button>';
 echo '</form>';
+
+/* Правка контакта и удаление — отдельной карточкой: это редкие
+   действия, им не место среди полей, которые меняют каждый день. */
+echo '<div class="card"><h2>Контакт</h2>';
+echo '<form class="form" method="post">' . csrf_field() . '<input type="hidden" name="action" value="contact">';
+echo '<label>Имя<input name="c_name" value="' . h((string) ($d['name'] ?? '')) . '"></label>';
+echo '<label>Телефон<input name="c_phone" value="' . h((string) ($d['phone'] ?? '')) . '"></label>';
+echo '<label>Сообщение<textarea name="c_message" rows="3">' . h((string) ($d['message'] ?? '')) . '</textarea></label>';
+echo '<small class="muted">Исходная заявка остаётся как есть: правка хранится рядом и видна в истории.</small>';
+echo '<button class="btn" type="submit">Сохранить контакт</button>';
+echo '</form></div>';
+
+echo '<div class="card"><h2>' . ($wasDeleted ? 'Сделка удалена' : 'Удаление') . '</h2>';
+echo '<form method="post">' . csrf_field();
+if ($wasDeleted) {
+    echo '<p class="muted">Она не видна в работе, но ничего не потеряно.</p>';
+    echo '<button class="btn" type="submit" name="action" value="restore">Вернуть в работу</button>';
+} else {
+    echo '<p class="muted">Сделка уйдёт из списков, запись о заявке останется — вернуть можно в любой момент.</p>';
+    echo '<button class="btn btn--ghost btn--danger" type="submit" name="action" value="del">Удалить сделку</button>';
+}
+echo '</form></div>';
 
 /* ---- справа: что известно ---- */
 echo '<div class="side-col">';

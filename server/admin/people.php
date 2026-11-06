@@ -12,7 +12,36 @@ require __DIR__ . '/_boot.php';
 require __DIR__ . '/crm.php';
 
 session_boot();
+csrf_check();
 $user = require_login();
+
+/* Клиент — это не отдельная запись, а все его обращения, склеенные
+   по телефону. Поэтому правка имени и удаление идут по всем его
+   сделкам сразу: иначе в списке остался бы наполовину
+   переименованный человек. */
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+    $ids  = array_slice(array_filter(explode(',', post('ids', 4000))), 0, 200);
+    $by   = (string) $user['login'];
+    $what = post('action', 20);
+
+    if ($ids && $what === 'rename') {
+        $name  = post('name', 120);
+        $phone = post('phone', 40);
+        foreach ($ids as $one) {
+            crm_update(trim($one), array_filter([
+                'name'  => $name,
+                'phone' => $phone,
+            ], static fn($v) => $v !== ''), $by, 'правка клиента');
+        }
+        flash('Клиент изменён во всех его обращениях: ' . count($ids) . '.');
+    }
+
+    if ($ids && $what === 'del') {
+        foreach ($ids as $one) crm_delete(trim($one), $by);
+        flash('Клиент удалён вместе с обращениями: ' . count($ids) . '. Вернуть можно в «Сделках» → «Удалённые».');
+    }
+    redirect('/admin/people.php' . ($_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : ''));
+}
 
 $deals  = crm_deals();
 $people = crm_people($deals);
@@ -50,6 +79,20 @@ foreach ($people as $p) {
     if ($p['amount'] > 0) echo '<span>Сумма сделок: ' . h(crm_money($p['amount'])) . '</span>';
     echo '<span>Первое обращение: ' . h(date('d.m.Y', strtotime($p['first']))) . '</span>';
     echo '</div>';
+
+    $ids = implode(',', array_map(static fn($deal) => (string) $deal['id'], $p['deals']));
+    echo '<details class="deal__edit"><summary>Изменить или удалить</summary>';
+    echo '<form class="deal__form" method="post">' . csrf_field();
+    echo '<input type="hidden" name="ids" value="' . h($ids) . '">';
+    echo '<input name="name" value="' . h($p['name']) . '" placeholder="имя" aria-label="Имя клиента">';
+    echo '<input name="phone" value="' . h($p['phone']) . '" placeholder="телефон" aria-label="Телефон клиента">';
+    echo '<button class="btn" type="submit" name="action" value="rename">Сохранить</button>';
+    echo '<button class="btn btn--ghost btn--danger" type="submit" name="action" value="del">'
+        . 'Удалить клиента' . ($p['count'] > 1 ? ' и все ' . $p['count'] . ' обращения' : '') . '</button>';
+    echo '</form>';
+    echo '<p class="muted">Правка меняет все обращения этого человека. Удаление убирает их из работы,'
+        . ' сами заявки остаются и возвращаются в «Сделках» → «Удалённые».</p>';
+    echo '</details>';
 
     echo '<ul class="list list--tight">';
     foreach (array_reverse($p['deals']) as $deal) {

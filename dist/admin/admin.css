@@ -310,3 +310,20 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .btn--small { min-height: 38px; padding: 6px 14px; font-size: 14px; }
 .check { display: flex !important; flex-direction: row !important; align-items: center; gap: 10px; font-weight: 600; }
 .check input { width: 20px; height: 20px; }
+
+/* Правка и удаление спрятаны под «Изменить»: это редкие действия,
+   им не место рядом с кнопками, которые нажимают каждый день. */
+.deal__edit { margin-top: 10px; }
+.deal__edit > summary {
+  cursor: pointer; display: inline-block; padding: 4px 2px;
+  font-size: 14px; color: var(--ink-2);
+}
+.deal__edit > summary:hover { color: var(--ink); }
+.deal__edit .deal__form { margin-top: 8px; flex-wrap: wrap; }
+.deal__edit input[type="date"] { width: auto; }
+.deal__edit p { margin-top: 6px; font-size: 13px; }
+
+/* Строка со ссылками над списком: удалённые, чистка проверок */
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: -6px 0 14px; }
+.toolbar form { display: inline; }
+.toolbar .linklike { font-size: inherit; }

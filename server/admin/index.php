@@ -39,7 +39,35 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && post('action') === 'stage')
     redirect('/admin/' . ($_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : ''));
 }
 
-$deals = crm_deals();
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && post('action') === 'del') {
+    $id = post('id', 80);
+    if ($id !== '') {
+        crm_delete($id, (string) $user['login']);
+        flash('Сделка удалена. Вернуть можно в разделе «Удалённые».');
+    }
+    redirect('/admin/' . ($_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : ''));
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && post('action') === 'restore') {
+    $id = post('id', 80);
+    if ($id !== '') {
+        crm_restore($id, (string) $user['login']);
+        flash('Сделка возвращена в работу.');
+    }
+    redirect('/admin/?show=deleted');
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && post('action') === 'del_tests') {
+    $n = crm_delete_tests((string) $user['login']);
+    flash($n > 0 ? "Проверочных заявок удалено: $n." : 'Проверочных заявок нет.');
+    redirect('/admin/');
+}
+
+/* Удалённые показываем тем же списком: отдельная страница ради
+   корзины не нужна, а вернуть сделку должно быть так же просто,
+   как удалить. */
+$showDeleted = ($_GET['show'] ?? '') === 'deleted';
+$deals = crm_deals($showDeleted);
 
 /* ---------- выгрузка ---------- */
 if (($_GET['export'] ?? '') === 'csv') {
@@ -90,7 +118,7 @@ $link = static function (array $params): string {
     return '/admin/' . ($now ? '?' . http_build_query($now) : '');
 };
 
-echo '<div class="head"><h1>Сделки</h1>';
+echo '<div class="head"><h1>' . ($showDeleted ? 'Удалённые сделки' : 'Сделки') . '</h1>';
 echo '<form class="search" method="get">';
 if ($stage !== '') echo '<input type="hidden" name="stage" value="' . h($stage) . '">';
 if ($mine)         echo '<input type="hidden" name="mine" value="1">';
@@ -98,6 +126,23 @@ echo '<input name="q" value="' . h((string) ($_GET['q'] ?? '')) . '" placeholder
 echo '<button class="btn" type="submit">Найти</button>';
 echo '<a class="btn btn--ghost" href="' . h($link(['export' => 'csv'])) . '">Выгрузить CSV</a>';
 echo '</form></div>';
+
+/* Проверочные заявки копятся при настройке приёма и забивают список,
+   поэтому убрать их должно быть одно действие, а не двадцать. */
+$tests = 0;
+foreach ($deals as $d) if (!empty($d['test'])) $tests++;
+echo '<p class="muted toolbar">';
+if ($showDeleted) {
+    echo '<a href="/admin/">← к сделкам в работе</a>';
+} else {
+    echo '<a href="/admin/?show=deleted">Удалённые</a>';
+    if ($tests > 0) {
+        echo ' · <form method="post" class="inline">' . csrf_field()
+            . '<button class="linklike" type="submit" name="action" value="del_tests">'
+            . 'Убрать проверочные заявки (' . $tests . ')</button></form>';
+    }
+}
+echo '</p>';
 
 /* Сводка: сначала то, из-за чего теряются деньги — просроченные
    и сегодняшние шаги, потом объём работы. */
@@ -171,6 +216,13 @@ foreach ($shown as $id => $d) {
     }
     echo '</select><button class="btn" type="submit">Сохранить</button>';
     echo '<a class="btn btn--ghost" href="/admin/deal.php?id=' . h(rawurlencode($id)) . '">Открыть</a>';
+    echo '</form>';
+
+    echo '<form class="deal__form" method="post">' . csrf_field();
+    echo '<input type="hidden" name="id" value="' . h($id) . '">';
+    echo $showDeleted
+        ? '<button class="btn btn--ghost" type="submit" name="action" value="restore">Вернуть в работу</button>'
+        : '<button class="btn btn--ghost btn--danger" type="submit" name="action" value="del">Удалить</button>';
     echo '</form>';
 
     echo '</article>';
