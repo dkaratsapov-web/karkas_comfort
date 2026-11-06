@@ -151,6 +151,66 @@ function max_updates(string $token, int $limit = 50): array
 }
 
 /** Сведения о самом боте: имя и идентификатор. Заодно проверяет токен. */
+/* ---------- чаты ----------
+   Общего списка чатов у MAX с июня 2026 нет: остался только запрос
+   одного чата по идентификатору. Идентификаторы бот запоминает сам
+   из событий, а названия события не приносят — поэтому названия
+   дочитываем здесь, иначе в админке видны одни номера. */
+
+/** Один чат или канал по идентификатору. */
+function max_chat(string $token, string $chatId): array
+{
+    return max_call($token, 'GET', '/chats/' . rawurlencode($chatId));
+}
+
+/** Запись для max-chats.json из ответа MAX, поверх прежней. */
+function max_chat_row(array $data, array $old = []): array
+{
+    $title = trim((string) ($data['title'] ?? ''));
+    if ($title === '' && !empty($data['dialog_with_user']) && is_array($data['dialog_with_user'])) {
+        $u = $data['dialog_with_user'];
+        $title = trim((string) ($u['name'] ?? trim((string) ($u['first_name'] ?? '') . ' ' . (string) ($u['last_name'] ?? ''))));
+    }
+    $kind = (string) ($data['type'] ?? '');
+    return array_merge($old, [
+        'chat_id' => (string) ($data['chat_id'] ?? ($old['chat_id'] ?? '')),
+        'title'   => $title !== '' ? $title : (string) ($old['title'] ?? ''),
+        'kind'    => $kind !== '' ? $kind : (string) ($old['kind'] ?? 'chat'),
+        'status'  => (string) ($data['status'] ?? ($old['status'] ?? '')),
+        'people'  => (int) ($data['participants_count'] ?? ($old['people'] ?? 0)),
+        'seen'    => date('c'),
+    ]);
+}
+
+/** Как чат называется в списках: название, вид и номер. Номер
+ *  оставляем — по нему чат можно сверить в самом MAX. */
+function max_chat_label(array $chat): string
+{
+    $kinds = ['chat' => 'чат', 'channel' => 'канал', 'dialog' => 'личный диалог'];
+    $title = trim((string) ($chat['title'] ?? ''));
+    $kind  = $kinds[(string) ($chat['kind'] ?? '')] ?? 'чат';
+    return ($title !== '' ? $title . ' · ' . $kind : 'без названия · ' . $kind)
+        . ' · ' . (string) ($chat['chat_id'] ?? '');
+}
+
+/** Дочитывает названия известных чатов. Чат, из которого бота убрали,
+ *  из списка пропадает: предлагать его получателем заявок незачем. */
+function max_chats_refresh(string $token, array $chats): array
+{
+    foreach (array_keys($chats) as $id) {
+        $old = is_array($chats[$id]) ? $chats[$id] : [];
+        $r   = max_chat($token, (string) $id);
+        if (!$r['ok']) continue;          /* диалог или недоступен — оставляем как есть */
+        $row = max_chat_row($r['data'], $old);
+        if (in_array($row['status'], ['removed', 'left', 'closed'], true)) {
+            unset($chats[$id]);
+            continue;
+        }
+        $chats[$id] = $row;
+    }
+    return $chats;
+}
+
 function max_me(string $token): array
 {
     return max_call($token, 'GET', '/me');

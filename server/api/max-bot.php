@@ -182,7 +182,16 @@ switch ($type) {
 
     case 'bot_added': {
         $chatId = (string) ($update['chat_id'] ?? '');
-        chat_remember($chatId, '', !empty($update['is_channel']) ? 'channel' : 'chat');
+        /* Событие названия чата не содержит — спрашиваем его у MAX,
+           иначе в админке чат виден одним номером. */
+        $about = max_chat($token, $chatId);
+        chat_remember(
+            $chatId,
+            $about['ok'] ? trim((string) ($about['data']['title'] ?? '')) : '',
+            $about['ok'] && ($about['data']['type'] ?? '') !== ''
+                ? (string) $about['data']['type']
+                : (!empty($update['is_channel']) ? 'channel' : 'chat')
+        );
         $first = target_set_if_empty($chatId);
         blog("бот добавлен в чат $chatId" . ($first ? ', он выбран получателем заявок' : ''));
         max_send($token, ['chat_id' => $chatId], $first

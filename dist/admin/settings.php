@@ -173,13 +173,21 @@ if ($action === 'maxwho') {
         $maxWho = 'Сначала впишите токен бота и сохраните настройки.';
     } else {
         /* При включённом вебхуке опрос событий MAX не отдаёт, поэтому
-           сперва смотрим, что бот запомнил сам. */
+           сперва смотрим, что бот запомнил сам. Названия события не
+           приносят — дочитываем их по идентификаторам, иначе в списке
+           одни номера и выбрать нужный чат невозможно. */
         $known = json_read(API_DIR . '/max-chats.json');
+        if ($known) {
+            $filled = max_chats_refresh($token, $known);
+            if ($filled !== $known) {
+                json_write(API_DIR . '/max-chats.json', $filled);
+                $known = $filled;
+            }
+        }
         $found = [];
         foreach ($known as $chat) {
             if (empty($chat['chat_id'])) continue;
-            $label = $chat['title'] !== '' ? $chat['title'] : ($chat['kind'] === 'dialog' ? 'личный диалог' : 'чат');
-            $found[$label . ' (' . $chat['chat_id'] . ')'] = (string) $chat['chat_id'];
+            $found[max_chat_label($chat)] = (string) $chat['chat_id'];
         }
         if (!$found) {
             $r = max_updates($token);
@@ -284,11 +292,10 @@ if ($chats) {
     foreach ($chats as $chat) {
         $id    = (string) ($chat['chat_id'] ?? '');
         if ($id === '') continue;
-        $label = ($chat['title'] ?? '') !== '' ? $chat['title'] : (($chat['kind'] ?? '') === 'dialog' ? 'личный диалог' : 'чат');
         $sel   = ((string) ($now['max_chat_id'] ?? '') === $id) ? ' selected' : '';
-        echo '<option value="' . h($id) . '"' . $sel . '>' . h($label . ' · ' . $id) . '</option>';
+        echo '<option value="' . h($id) . '"' . $sel . '>' . h(max_chat_label($chat)) . '</option>';
     }
-    echo '</select><small>Список составляет сам бот: сюда попадают чаты, куда его добавили.</small></label>';
+    echo '</select><small>Список составляет сам бот: сюда попадают чаты, куда его добавили. Если вместо названия стоит «без названия» — нажмите «Обновить список чатов» внизу, названия дочитываются из MAX.</small></label>';
 } else {
     echo '<label>Идентификатор чата<input name="max_chat_id" value="' . h($now['max_chat_id'] ?? '') . '" autocomplete="off" placeholder="заполнится сам, когда бота добавят в чат"></label>';
 }

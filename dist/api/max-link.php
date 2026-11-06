@@ -129,6 +129,19 @@ say($r['ok'] && !empty($r['data']['success'])
     ? ($already ? 'подписка на события обновлена' : 'подписка на события создана')
     : 'подписка не удалась: ' . ($r['error'] ?: (string) ($r['data']['message'] ?? 'MAX отказал')));
 
+/* Названия чатов события не приносят — дочитываем их по
+   идентификаторам, иначе в админке видны одни номера. */
+if ($chats) {
+    $filled = max_chats_refresh($token, $chats);
+    if ($filled !== $chats) {
+        $chats = $filled;
+        $tmp = $chatsFile . '.tmp';
+        if (@file_put_contents($tmp, json_encode($chats, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)) !== false) {
+            @rename($tmp, $chatsFile);
+        }
+    }
+}
+
 /* Получатель заявок. Если он не выбран, а бот знает ровно один чат —
    выбираем его: это и есть тот рабочий чат, куда бота добавили. */
 $to = trim((string) ($settings['max_chat_id'] ?? ''));
@@ -137,7 +150,7 @@ if ($chats) {
     say('чаты, которые знает бот:');
     foreach ($chats as $c) {
         $mark = ((string) ($c['chat_id'] ?? '') === $to) ? ' ← получатель заявок' : '';
-        say('  ' . ($c['title'] !== '' ? $c['title'] : ($c['kind'] ?? 'чат')) . ' · ' . $c['chat_id'] . $mark);
+        say('  ' . max_chat_label($c) . $mark);
     }
 } else {
     say('чатов бот пока не знает: напишите в рабочем чате любое сообщение — после подписки он запомнит его сам');
