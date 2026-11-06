@@ -141,12 +141,18 @@ await p.click('#zayavka button[type="submit"]');
 ok('без согласия заявка не уходит и объяснено почему', /согласие/i.test(await p.textContent('#zayavka .form__error')));
 await p.check('#zayavka input[name="consent"]');
 await p.click('#zayavka button[type="submit"]');
-await p.waitForTimeout(400);
 /* На боевом хостинге ожидаем подтверждение; там, где почта и интеграции
    не настроены (локальная проверка, демо), сервер честно отвечает отказом —
-   важно, что пользователь в любом случае видит однозначный результат. */
-ok('после отправки пользователь видит однозначный результат',
-  (await p.isVisible('#zayavka .form__ok')) !== (await p.isVisible('#zayavka .form__error')));
+   важно, что пользователь в любом случае видит однозначный результат.
+
+   Ждём сам ответ, а не отрезок времени: после удачной отправки страница
+   через 400 мс уходит на «Спасибо», и проверка с паузой ровно в 400 мс
+   то видела подтверждение, то читала уже пустую страницу. */
+const answer = await Promise.race([
+  p.waitForSelector('#zayavka .form__ok', { state: 'visible', timeout: 5000 }).then(() => 'ok'),
+  p.waitForSelector('#zayavka .form__error', { state: 'visible', timeout: 5000 }).then(() => 'error'),
+]).catch(() => '');
+ok('после отправки пользователь видит однозначный результат', answer === 'ok' || answer === 'error');
 await p.close();
 
 /* 5. Мобильная версия */
