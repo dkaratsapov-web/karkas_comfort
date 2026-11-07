@@ -138,7 +138,8 @@
     }
   });
 
-  flightLater();
+  heroSlider();
+  articleSearch();
   thanksPage();
 
   /* ---------- мобильное меню ---------- */
@@ -282,32 +283,135 @@ function thanksPage() {
   }, 1000);
 }
 
-/* Пролёт по дому в первом экране написан на React с анимацией —
-   это 365 КБ, больше всего остального кода сайта вместе взятого.
-   Первый экран работает и без него: в разметке лежит рабочая
-   статичная версия с первым кадром, заголовком и формой. Поэтому
-   скрипт грузится после того, как страница показана, и только там,
-   где он действительно нужен: на коротком экране и при выключенном
-   в системе движении остров всё равно не запускается. */
-function flightLater() {
-  const host = document.querySelector('[data-flight-host]');
-  if (!host) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if (window.innerHeight < 520) return;
+/* Слайдер первого экрана.
+   Раньше кадры сменяла прокрутка: секция была высотой в пять экранов,
+   внутри липкий кадр, а анимацию вёл React с motion — 365 КБ, больше
+   всего остального кода сайта вместе взятого. Вернуться к кадру или
+   пропустить их было нечем: единственным органом управления было
+   колесо, и промотать первый экран не получалось.
 
-  const load = () => {
-    const el = document.createElement('script');
-    el.src = (document.body.dataset.flightSrc || '/assets/js/flight.js');
-    el.defer = true;
-    document.body.appendChild(el);
+   Теперь это обычный слайдер: стрелки, точки, клавиши и палец. Вся
+   разметка уже лежит в странице, скрипт только переставляет класс
+   is-on, поэтому без скрипта остаётся рабочий первый экран
+   с первым кадром. */
+/* Поиск по статьям.
+   Все сорок карточек уже лежат на странице, поэтому искать ходить
+   некуда: прячем те, что не подошли. Строка для сравнения собрана
+   при сборке в data-find — заголовок, подводка и рубрика в нижнем
+   регистре. Запрос разбиваем на слова: «смета договор» найдёт
+   карточку, где эти слова стоят порознь. */
+function articleSearch() {
+  const box = $('[data-find-box]');
+  const list = $('[data-find-list]');
+  if (!box || !list) return;
+
+  const input = $('.find__input', box);
+  const clear = $('.find__clear', box);
+  const count = $('.find__count');
+  const empty = $('.find__empty');
+  const cards = $$('.post', list);
+  const total = cards.length;
+
+  const norm = (v) => v.toLowerCase().replace(/ё/g, 'е').trim();
+
+  const apply = () => {
+    const words = norm(input.value).split(/\s+/).filter(Boolean);
+    clear.hidden = words.length === 0;
+
+    let shown = 0;
+    cards.forEach((card) => {
+      const hay = card.dataset.find || '';
+      const fit = words.every((w) => hay.includes(w));
+      card.hidden = !fit;
+      if (fit) shown += 1;
+    });
+
+    empty.hidden = shown > 0 || words.length === 0;
+    count.hidden = words.length === 0;
+    if (words.length) {
+      const tail = shown % 10 === 1 && shown % 100 !== 11 ? 'статья'
+        : [2, 3, 4].includes(shown % 10) && ![12, 13, 14].includes(shown % 100) ? 'статьи'
+          : 'статей';
+      count.textContent = shown ? `Нашлось ${shown} ${tail} из ${total}` : 'Ничего не нашлось';
+    }
   };
 
-  /* ждём, пока браузер отрисует первый экран и освободится */
-  const start = () => ('requestIdleCallback' in window
-    ? requestIdleCallback(load, { timeout: 1500 })
-    : setTimeout(load, 200));
-  if (document.readyState === 'complete') start();
-  else window.addEventListener('load', start, { once: true });
+  input.addEventListener('input', apply);
+  input.addEventListener('search', apply);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && input.value) { input.value = ''; apply(); e.stopPropagation(); }
+  });
+  clear.addEventListener('click', () => { input.value = ''; apply(); input.focus(); });
+
+  /* поле не отправляет форму: отбор идёт на вводе */
+  box.addEventListener('submit', (e) => e.preventDefault());
+  apply();
+}
+
+function heroSlider() {
+  const root = $('.flight');
+  const host = root && $('[data-slider-host]', root);
+  if (!host) return;
+
+  const frames = $$('.flight__frame', root);
+  const steps = $$('.flight__step', root);
+  const dots = $$('.flight__dot', root);
+  const points = $$('.flight__point', root);
+  if (frames.length < 2) return;
+
+  root.dataset.slider = 'on';
+  let at = 0;
+
+  const show = (next) => {
+    const i = (next + frames.length) % frames.length;
+    if (i === at) return;
+    at = i;
+    /* крупный кадр подгружаем в момент показа: в разметке у всех,
+       кроме первого, стоит лёгкий вариант на 800 px */
+    const frame = frames[i];
+    if (frame.dataset.full) { frame.src = frame.dataset.full; delete frame.dataset.full; }
+    frames.forEach((el, k) => el.classList.toggle('is-on', k === i));
+    steps.forEach((el, k) => el.classList.toggle('is-on', k === i));
+    dots.forEach((el, k) => {
+      el.classList.toggle('is-on', k === i);
+      el.setAttribute('aria-current', k === i ? 'true' : 'false');
+    });
+    points.forEach((el) => el.classList.toggle('is-on', Number(el.dataset.stop) === i));
+    /* на первом кадре внизу стоят цифры, дальше — рассказ о кадре:
+       меняется одна полоса экрана, заголовок и форма не двигаются */
+    root.classList.toggle('is-telling', i > 0);
+  };
+
+  root.addEventListener('click', (e) => {
+    const nav = e.target.closest('.flight__nav');
+    if (nav) { show(at + Number(nav.dataset.slide)); return; }
+    const dot = e.target.closest('.flight__dot');
+    if (dot) show(Number(dot.dataset.dot));
+  });
+
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { show(at + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { show(at - 1); e.preventDefault(); }
+  });
+
+  /* Листание пальцем. Берём только явно горизонтальный жест, иначе
+     слайдер перехватывал бы обычную прокрутку страницы вниз. */
+  let x0 = 0, y0 = 0, id = null;
+  const inner = $('.flight__inner', root);
+  inner.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' || e.target.closest('a, button, input, form')) return;
+    id = e.pointerId; x0 = e.clientX; y0 = e.clientY;
+  }, { passive: true });
+  inner.addEventListener('pointerup', (e) => {
+    if (e.pointerId !== id) return;
+    id = null;
+    const dx = e.clientX - x0;
+    const dy = e.clientY - y0;
+    if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.6) return;
+    show(at + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  dots.forEach((el, k) => el.setAttribute('aria-current', k === 0 ? 'true' : 'false'));
 }
 
   async function sendLead(data) {
@@ -767,7 +871,7 @@ function flightLater() {
   /* ---------- просмотр фотографий во весь экран ---------- */
   const zoomables = $$('[data-zoom]');
   if (zoomables.length) {
-    let box = null, items = [], idx = 0, opener = null;
+    let box = null, items = [], idx = 0, opener = null, turn = 0;
 
     const build = () => {
       box = document.createElement('div');
@@ -777,12 +881,18 @@ function flightLater() {
       box.setAttribute('aria-label', 'Просмотр фотографии');
       box.innerHTML =
         '<button class="lightbox__close" type="button" aria-label="Закрыть">&times;</button>' +
+        /* Планировки и развёртки сняты по-разному: часть листов лежит
+           боком. Поворот по клику избавляет от наклона головы. */
+        '<button class="lightbox__turn" type="button" aria-label="Повернуть на 90 градусов">' +
+        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M4 11a8 8 0 1 1 2.3 5.7"/><path d="M4 7v4h4"/></svg></button>' +
         '<button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Предыдущее фото">&#8249;</button>' +
         '<figure class="lightbox__stage"><img alt=""><figcaption class="lightbox__cap"></figcaption></figure>' +
         '<button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Следующее фото">&#8250;</button>';
       document.body.append(box);
       box.addEventListener('click', (e) => {
         if (e.target === box || e.target.closest('.lightbox__close')) close();
+        else if (e.target.closest('.lightbox__turn')) rotate();
         else if (e.target.closest('.lightbox__nav--prev')) go(-1);
         else if (e.target.closest('.lightbox__nav--next')) go(1);
       });
@@ -796,7 +906,19 @@ function flightLater() {
       img.alt = el.alt || '';
       $('.lightbox__cap', box).textContent = `${el.alt || ''} — ${idx + 1} из ${items.length}`;
       $$('.lightbox__nav', box).forEach((b) => { b.hidden = items.length < 2; });
+      turn = 0;
+      apply();
     };
+
+    /* Повёрнутый на четверть кадр меняет ширину с высотой местами,
+       поэтому в этом положении его вписываем по высоте окна. */
+    const apply = () => {
+      const stage = $('.lightbox__stage', box);
+      stage.dataset.turn = String(turn);
+      $('img', box).style.transform = turn ? `rotate(${turn}deg)` : '';
+    };
+
+    const rotate = () => { turn = (turn + 90) % 360; apply(); };
 
     const go = (step) => { idx = (idx + step + items.length) % items.length; show(); };
 
@@ -835,6 +957,7 @@ function flightLater() {
       if (e.key === 'Escape') close();
       else if (e.key === 'ArrowLeft') go(-1);
       else if (e.key === 'ArrowRight') go(1);
+      else if (e.key === 'r' || e.key === 'R' || e.key === 'к' || e.key === 'К') rotate();
       else if (e.key === 'Tab') {
         const f = $$('button:not([hidden])', box);
         const first = f[0], last = f[f.length - 1];

@@ -222,7 +222,7 @@ function videoCard(n) {
             <figcaption>
               <h3>${esc(v.title)}</h3>
               ${v.note ? `<p>${esc(v.note)}</p>` : ''}
-              <a class="linklike" href="/video/">Все видео со строек</a>
+              <a class="btn btn--ghost btn--sm video__more" href="/video/">Все видео со строек<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
             </figcaption>
           </figure>`;
 }
@@ -259,7 +259,12 @@ function articleBody(blocks) {
   }).join('\n');
 }
 
-const articleCard = (a) => `        <article class="post">
+/* Строка для поиска собирается при сборке: искать по готовому тексту
+   быстрее и надёжнее, чем вытаскивать его из разметки на странице.
+   «ё» сводим к «е» — иначе «утеплитель» не найдёт «ёмкость». */
+const searchKey = (...parts) => esc(parts.join(' ').toLowerCase().replace(/ё/g, 'е'));
+
+const articleCard = (a) => `        <article class="post" data-find="${searchKey(a.h1 || a.title, a.lead, a.tag)}">
           <div class="post__media${isSheet(a.cover) ? ' post__media--sheet' : ''}">
             <img ${srcset(a.cover, '(min-width: 900px) 33vw, 100vw')} alt="${esc(a.h1 || a.title)}" loading="lazy" width="900" height="600">
           </div>
@@ -281,16 +286,15 @@ const verification = () => [
 ].filter(Boolean).join('\n');
 
 /* ---------- пролёт по дому в первом экране ----------
-   Высокая секция, внутри липкий экран: прокрутка внутри неё ничего не
-   двигает, а только даёт прогресс от 0 до 1. Кадры и подписи сменяются
-   по остановкам из src/data/flight.json. Первый кадр отдаётся обычной
-   картинкой с высоким приоритетом — он же служит фоном, пока остальные
-   не подгрузились, и он же остаётся один, если скрипт не запустился
-   или в системе включено «уменьшить движение». */
+   Обычный первый экран со слайдером: кадры объекта листаются стрелками,
+   точками, клавишами и пальцем. Остановки берутся из src/data/flight.json.
+   Первый кадр отдаётся обычной картинкой с высоким приоритетом — он же
+   служит фоном, пока остальные не подгрузились, и он же остаётся один,
+   если скрипт не запустился. Вся разметка слайдера лежит в странице:
+   скрипт только переключает классы. */
 function flightBlock() {
   const stops = flight.stops || [];
-  /* пролёт выключен — на первом экране прежний кадр, скрипт острова
-     на страницу не попадает: разметка не содержит data-flight-host */
+  /* слайдер выключен — на первом экране прежний кадр и ничего больше */
   if (!stops.length || flight.enabled === false) {
     return `      <picture class="hero__pic">
         <source media="(max-width: 899px)" srcset="/assets/img/photos/hero-mob.jpg">
@@ -307,49 +311,45 @@ function flightBlock() {
     return `          <img class="flight__frame${i === 0 ? ' is-on' : ''}" ${attrs} alt="${esc(st.alt)}" width="1700" height="1133"${i ? ' aria-hidden="true"' : ''}>`;
   }).join('\n');
 
+  /* выноски к объектам в кадре: сторона выбирается по положению точки,
+     чтобы подпись не уходила за край. На узком экране их прячет CSS. */
+  const points = stops.flatMap((st, i) => {
+    const list = st.points || (st.point ? [st.point] : []);
+    return list.map((pt) => `          <span class="flight__point flight__point--${pt.x > 55 ? 'left' : 'right'}${i === 0 ? ' is-on' : ''}" data-stop="${i}" style="left:${pt.x}%;top:${pt.y}%">
+            <span class="flight__ring"></span><span class="flight__leader"></span><span class="flight__label">${esc(pt.label)}</span>
+          </span>`);
+  }).join('\n');
+
   const steps = stops.map((st, i) => `            <li class="flight__step${i === 0 ? ' is-on' : ''}" data-step="${i}">
               <p class="flight__eyebrow">${esc(st.eyebrow)}</p>
               <p class="flight__title">${esc(st.title)}</p>
               <p class="flight__text">${esc(st.text)}</p>
             </li>`).join('\n');
 
-  const dots = stops.map((_, i) => `<span class="flight__dot${i === 0 ? ' is-on' : ''}" data-dot="${i}"></span>`).join('');
+  /* точки шкалы — кнопки: по ним переходят к нужному кадру.
+     Подпись кнопки называет кадр, а не номер: так понятнее на слух. */
+  const dots = stops.map((st, i) => `<button class="flight__dot${i === 0 ? ' is-on' : ''}" type="button" data-dot="${i}" aria-label="Кадр ${i + 1} из ${stops.length}: ${esc(st.title)}"><span aria-hidden="true"></span></button>`).join('');
 
-  /* данные для острова: те же остановки, но с готовыми путями —
-     React не ходит за JSON по сети, он читает их из разметки */
-  const data = JSON.stringify({
-    caption: flight.caption || '',
-    stops: stops.map((st) => ({
-      src: img(small(st.src)),
-      srcset: `${img(small(st.src))} 800w, ${img(st.src)} 1700w`,
-      alt: st.alt, eyebrow: st.eyebrow, title: st.title, text: st.text,
-      points: st.points || (st.point ? [st.point] : [])
-    })),
-    video: flight.video ? {
-      ...flight.video,
-      src: `/assets/video/${flight.video.src}`,
-      srcMobile: flight.video.srcMobile ? `/assets/video/${flight.video.srcMobile}` : '',
-      poster: flight.video.poster ? img(flight.video.poster) : ''
-    } : null
-  });
+  const arrow = (d) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
 
-  return `      <div class="flight__host" data-flight-host>
+  return `      <div class="flight__host" data-slider-host>
         <div class="flight__media" aria-hidden="true">
 ${frames}
         </div>
         <div class="flight__scrim" aria-hidden="true"></div>
+        <div class="flight__points" aria-hidden="true">
+${points}
+        </div>
+        <p class="flight__source">${esc(flight.caption || '')}</p>
         <div class="flight__story">
           <ol class="flight__steps">
 ${steps}
           </ol>
-          <div class="flight__rail" aria-hidden="true">${dots}</div>
-          <p class="flight__source">${esc(flight.caption || '')}</p>
+          <div class="flight__rail">${dots}</div>
         </div>
-        </div>
-        <p class="flight__hint" aria-hidden="true">Листайте
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m-6-6 6 6 6-6"/></svg>
-        </p>
-        <script type="application/json" id="flight-data">${data.replace(/</g, '\\u003c')}</script>`;
+        <button class="flight__nav flight__nav--prev" type="button" data-slide="-1" aria-label="Предыдущий кадр">${arrow('M15 6l-6 6 6 6')}</button>
+        <button class="flight__nav flight__nav--next" type="button" data-slide="1" aria-label="Следующий кадр">${arrow('M9 6l6 6-6 6')}</button>
+        </div>`;
 }
 
 /* Счётчики подключаются, только если в src/data/site.json указан номер.
@@ -433,7 +433,6 @@ for (const f of ['favicon.ico', 'apple-touch-icon.png', 'icon-192.png', 'icon-51
 const V = {
   css: hash('assets/css/style.css'),
   main: hash('assets/js/main.js'),
-  flight: existsSync('assets/js/flight.js') ? hash('assets/js/flight.js') : ''
 };
 const previewBar = '';   // плашку демо-версии заказчик просил убрать
 
@@ -485,8 +484,7 @@ const linkify = (html) => html
 
 const version = (html) => html
   .replace(/assets\/css\/style\.css(?!\?)/g, `assets/css/style.css?v=${V.css}`)
-  .replace(/assets\/js\/main\.js(?!\?)/g, `assets/js/main.js?v=${V.main}`)
-  .replace(/assets\/js\/flight\.js(?!\?)/g, `assets/js/flight.js?v=${V.flight}`);
+  .replace(/assets\/js\/main\.js(?!\?)/g, `assets/js/main.js?v=${V.main}`);
 
 /* ---------- микроразметка ---------- */
 const ld = (obj) => `  <script type="application/ld+json">${JSON.stringify(obj)}</script>`;
@@ -621,7 +619,7 @@ ${head
     .replace(/\{\{ogimage\}\}/g, ogimage)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
     .replace('</head>', `${extraLd ? extraLd + '\n' : ''}${PREVIEW || meta.noindex === true ? '  <meta name="robots" content="noindex, nofollow">\n' : ''}${PREVIEW || !verification() ? '' : verification() + '\n'}${PREVIEW || !analytics ? '' : analytics + '\n'}</head>`)}
-<body${bodyClass ? ` class="${bodyClass}"` : ''} data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${content.includes('data-flight-host') ? ` data-flight-src="/assets/js/flight.js?v=${V.flight}"` : ''}${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
+<body${bodyClass ? ` class="${bodyClass}"` : ''} data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
 ${previewBar}${header}
   <main id="main">
 ${content.trimEnd()}
@@ -989,7 +987,7 @@ ${(packs[0][key] || []).map((item, i) => render(item, i, packs[0], (p.packages |
         </div>`;
   }
   const id = `${p.slug}-${key}`;
-  const tabs = packs.map((k, i) => `            <button class="tabs__tab" type="button" role="tab" id="${id}-tab-${i}" aria-controls="${id}-panel-${i}" aria-selected="${i === 0 ? 'true' : 'false'}" tabindex="${i === 0 ? '0' : '-1'}">${esc(k.name)}<small>${(k[key] || []).length}</small></button>`).join('\n');
+  const tabs = packs.map((k, i) => `            <button class="tabs__tab" type="button" role="tab" id="${id}-tab-${i}" aria-controls="${id}-panel-${i}" aria-selected="${i === 0 ? 'true' : 'false'}" tabindex="${i === 0 ? '0' : '-1'}">${esc(k.name)}</button>`).join('\n');
   const panels = packs.map((k, i) => {
     const ki = (p.packages || []).indexOf(k);
     return `          <div class="tabs__panel${i === 0 ? ' is-active' : ''}" role="tabpanel" id="${id}-panel-${i}" aria-labelledby="${id}-tab-${i}"${i === 0 ? '' : ' tabindex="-1"'}>
@@ -1018,7 +1016,7 @@ function vizBlock(p) {
         <div class="section__head">
           <p class="eyebrow">Как будет выглядеть</p>
           <h2>Визуализации ${p.packages && p.packages.length ? 'по комплектациям' : 'проекта'}</h2>
-          <p class="lead">Компьютерные визуализации по рабочему проекту: материалы фасада, цвет кровли и посадка дома на участке. Это не фотографии построенного объекта.</p>
+          <p class="lead">Компьютерные визуализации по рабочему проекту: материалы фасада, цвет кровли и посадка дома на участке.</p>
         </div>
         ${grouped || `<div class="shots shots--photos">
 ${cells}
@@ -1223,15 +1221,27 @@ mkdirSync(`${OUT}/stati`, { recursive: true });
 
     <section class="section section--tight" style="padding-top:clamp(12px,1.4vw,20px)">
       <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Полезное</p>
-          <h1>Статьи о строительстве каркасных домов</h1>
-          <p class="lead">Разбираем то, о чём чаще всего спрашивают на первом звонке: из чего складывается цена, какой фундамент выбрать, что внутри стены и на что смотреть в договоре.</p>
+        <div class="section__head section__head--find">
+          <div>
+            <p class="eyebrow">Полезное</p>
+            <h1>Статьи о строительстве каркасных домов</h1>
+            <p class="lead">Разбираем то, о чём чаще всего спрашивают на первом звонке: из чего складывается цена, какой фундамент выбрать, что внутри стены и на что смотреть в договоре.</p>
+          </div>
+          <search class="find" data-find-box>
+            <label class="sr-only" for="find-articles">Поиск по статьям</label>
+            <span class="find__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg></span>
+            <input class="find__input" type="search" id="find-articles" name="q" placeholder="Фундамент, смета, ипотека…" autocomplete="off" enterkeyhint="search">
+            <button class="find__clear" type="button" hidden aria-label="Очистить поиск">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+            </button>
+          </search>
         </div>
+        <p class="find__count" role="status" aria-live="polite" hidden></p>
         <h2 class="sr-only">Все статьи</h2>
-        <div class="posts">
+        <div class="posts" data-find-list>
 ${articles.map(articleCard).join('\n')}
         </div>
+        <p class="find__empty" hidden>По этому запросу статей нет. Попробуйте одно слово — например «фундамент», «смета» или «кровля».</p>
       </div>
     </section>
 
@@ -1405,7 +1415,30 @@ for (const c of cases) {
           ${c.place ? `<p class="obj-head__place">${esc(c.place)}</p>` : ''}
           ${c.lead ? `<p class="obj-head__lead">${esc(c.lead)}</p>` : ''}
           ${facts.length ? `<ul class="obj-head__facts">${facts.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}
-          <a class="btn btn--sm" href="#zayavka">Рассчитать такой же<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+          <form class="form obj-head__form" novalidate>
+            <p class="obj-head__formtitle">Посчитаем такой же дом</p>
+            <div class="obj-head__formrow">
+              <div class="field">
+                <label class="sr-only" for="obj-name">Ваше имя</label>
+                <input type="text" id="obj-name" name="name" required autocomplete="name" placeholder="Имя">
+                <span class="field__error" id="obj-name-error">Укажите имя</span>
+              </div>
+              <div class="field">
+                <label class="sr-only" for="obj-phone">Телефон</label>
+                <input type="tel" id="obj-phone" name="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
+                <span class="field__error" id="obj-phone-error">Введите номер полностью</span>
+              </div>
+              <input type="hidden" name="project" value="Объект: ${esc(c.title)}">
+              <div class="sr-only" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-label="Оставьте поле пустым"></div>
+              <!-- согласие выражено надписью под кнопкой; признак всё равно
+                   нужен: приём заявок без него отвечает отказом -->
+              <input type="hidden" name="consent" value="1">
+              <button class="btn btn--accent" type="submit">Рассчитать такой же<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></button>
+            </div>
+            <p class="obj-head__formnote">Перезвоним в рабочее время. Нажимая кнопку, вы соглашаетесь с <a href="/politika.html">политикой конфиденциальности</a></p>
+            <p class="form__error" role="alert" aria-live="assertive"></p>
+            <p class="form__ok" role="status" aria-live="polite">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
+          </form>
         </div>
         <figure class="obj-head__cover">
           ${cover

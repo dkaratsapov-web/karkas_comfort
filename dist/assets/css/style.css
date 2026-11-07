@@ -563,24 +563,13 @@ section[id], div[id] { scroll-margin-top: 88px; }
       rgba(12, 10, 7, .42) 0%, rgba(12, 10, 7, .1) 14%, rgba(12, 10, 7, 0) 30%,
       rgba(12, 10, 7, .14) 54%, rgba(12, 10, 7, .5) 74%, rgba(12, 10, 7, .82) 100%);
 }
-/* ---------- пролёт по дому ----------
-   Секция высокая, содержимое прилипает к экрану. Прокрутка внутри неё
-   ничего не двигает — она даёт переменную --p (0…1), от которой зависит
-   всё остальное: какой кадр виден, какая подпись, где точка на шкале.
-   Движутся только прозрачность и transform.
-   Без скрипта --p нет, секция остаётся обычным первым экраном. */
-.flight { --p: 0; }
-.js .flight[data-flight="on"] {
-  min-height: 0; height: var(--track, 420svh);
-  display: block; align-items: initial;
-}
-.js .flight[data-flight="on"] .flight__inner {
-  position: sticky; top: 0; height: 100svh;
-  display: flex; align-items: stretch; overflow: hidden;
-}
-.flight__inner { position: relative; display: flex; align-items: stretch; width: 100%; isolation: isolate; }
+/* ---------- первый экран: слайдер по дому ----------
+   Обычный экран в полную высоту, кадры листаются стрелками, точками,
+   клавишами и пальцем. Переключение — только класс is-on, двигаются
+   прозрачность и transform. Без скрипта остаётся первый кадр. */
+.flight__inner { position: relative; display: flex; align-items: stretch; width: 100%; isolation: isolate; overflow: hidden; }
 
-/* гнездо острова: сам блок исчезает, дети живут в .flight__inner */
+/* гнездо слайдера: сам блок исчезает, дети живут в .flight__inner */
 .flight__host { display: contents; }
 .flight__media { position: absolute; inset: 0 0 -12px; z-index: -2; overflow: hidden; }
 .flight__frame {
@@ -590,9 +579,6 @@ section[id], div[id] { scroll-margin-top: 88px; }
   transform: scale(1.06); transition: opacity .9s cubic-bezier(.4,0,.2,1), transform 1.6s cubic-bezier(.22,1,.36,1);
 }
 .flight__frame.is-on { opacity: 1; transform: scale(1); }
-/* когда работает остров, прозрачностью и масштабом управляет он —
-   переходы из статичной версии здесь только мешали бы */
-.flight[data-flight="on"] :where(.flight__frame, .flight__step, .flight__dot) { transition: none; }
 .flight__scrim {
   position: absolute; inset: 0 0 -12px; z-index: -1;
   background:
@@ -609,7 +595,13 @@ section[id], div[id] { scroll-margin-top: 88px; }
    Сторона выбирается по положению точки, чтобы подпись не уходила за край. */
 /* слой выносок: поверх затемнения, под заголовком и формой */
 .flight__points { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-.flight__point { position: absolute; display: flex; align-items: center; gap: 0; pointer-events: none; }
+.flight__point {
+  position: absolute; display: flex; align-items: center; gap: 0; pointer-events: none;
+  opacity: 0; transform: scale(.86); transform-origin: left center;
+  transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1);
+  visibility: hidden;
+}
+.flight__point.is-on { opacity: 1; transform: none; visibility: visible; }
 .flight__point--right { transform-origin: left center; }
 .flight__point--left { flex-direction: row-reverse; transform-origin: right center; }
 .flight__ring {
@@ -645,21 +637,22 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* подписи остановок стоят там же, где цифры: меняется одна зона экрана,
    заголовок и форма остаются на месте */
 .flight__story { display: none; }
-.js .flight[data-flight="on"] .flight__story {
-  position: absolute; left: 0; right: 0; bottom: clamp(16px, 1.8vw, 26px); z-index: 2;
-  display: grid; gap: 10px; justify-items: center;
-  padding-inline: var(--gutter); pointer-events: none;
+.js .flight[data-slider="on"] .flight__story {
+  position: absolute; left: 0; right: 0; bottom: clamp(16px, 1.8vw, 26px); z-index: 3;
+  display: grid; gap: 12px; justify-items: center;
+  padding-inline: var(--gutter);
 }
 /* под рассказ резервируется полоса внизу — та же, где стоят цифры,
    поэтому форма не съезжает, когда одно сменяет другое */
-.js .flight[data-flight="on"] .hero__inner { padding-bottom: clamp(106px, 13vh, 144px); }
+.js .flight[data-slider="on"] .hero__inner { padding-bottom: clamp(106px, 13vh, 144px); }
 .flight__steps { position: relative; list-style: none; margin: 0; padding: 0; width: 100%; max-width: 760px; min-height: 84px; }
 .flight__step {
   position: absolute; inset: 0; text-align: center;
-  opacity: 0; transform: translateY(14px);
-  transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
+  opacity: 0; visibility: hidden; transform: translateY(14px);
+  transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1),
+              visibility 0s linear .55s;
 }
-.flight__step.is-on { opacity: 1; transform: none; }
+.flight__step.is-on { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
 .flight__eyebrow {
   font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   color: var(--accent-bright);
@@ -673,12 +666,43 @@ section[id], div[id] { scroll-margin-top: 88px; }
   margin-top: 6px; font-size: clamp(14px, 1.1vw, 16.5px); line-height: 1.5;
   color: rgba(244, 239, 231, .92); text-shadow: 0 1px 16px rgba(8, 6, 4, .7);
 }
-.flight__rail { display: flex; gap: 7px; }
+/* шкала: сами полоски тонкие, а нажимать есть за что —
+   у кнопки поле сверху и снизу, цель выходит за 44 px */
+.flight__rail { display: flex; gap: 2px; pointer-events: auto; }
 .flight__dot {
-  width: 26px; height: 3px; border-radius: 999px; background: rgba(244, 239, 231, .3);
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 44px; padding: 0 5px; border: 0; background: none;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.flight__dot span {
+  display: block; width: 26px; height: 3px; border-radius: 999px;
+  background: rgba(244, 239, 231, .34);
   transition: background-color .45s cubic-bezier(.16,1,.3,1), width .45s cubic-bezier(.16,1,.3,1);
 }
-.flight__dot.is-on { width: 40px; background: var(--accent-bright); }
+.flight__dot.is-on span { width: 30px; background: var(--accent-bright); }
+.flight__dot:hover span { background: rgba(244, 239, 231, .6); }
+.flight__dot.is-on:hover span { background: var(--accent-bright); }
+.flight__dot:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; border-radius: 8px; }
+
+/* стрелки по краям кадра */
+.flight__nav { display: none; }
+.js .flight[data-slider="on"] .flight__nav {
+  position: absolute; top: 50%; z-index: 3; transform: translateY(-50%);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+  color: var(--on-dark); border: 1px solid rgba(244, 239, 231, .3);
+  background: rgba(16, 19, 21, .5);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  transition: background-color .3s ease, border-color .3s ease, transform .3s ease;
+}
+.flight__nav--prev { left: clamp(10px, 2vw, 26px); }
+.flight__nav--next { right: clamp(10px, 2vw, 26px); }
+.flight__nav:hover { background: rgba(16, 19, 21, .78); border-color: rgba(244, 239, 231, .55); }
+.flight__nav:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; }
+@media (max-width: 899px) {
+  /* на телефоне стрелки спорят с формой — остаются палец и точки */
+  .js .flight[data-slider="on"] .flight__nav { display: none; }
+}
 /* откуда кадры — мелкой строкой вверху справа, чтобы не спорить
    с заголовком и не обрезаться снизу */
 .flight__source {
@@ -689,32 +713,32 @@ section[id], div[id] { scroll-margin-top: 88px; }
 }
 @media (max-width: 899px) { .flight__source { display: none; } }
 
-/* цифры живут на том же месте: уходят, когда начинается рассказ */
-.js .flight[data-flight="on"] .hero__facts {
-  transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+/* Цифры и рассказ занимают одну полосу внизу. На первом кадре там цифры,
+   на остальных — что это за кадр: заголовок и форма остаются на месте.
+   Шкала с точками видна всегда, иначе листать было бы нечем. */
+.js .flight[data-slider="on"] .hero__facts {
+  transition: opacity .45s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1),
+              visibility 0s linear .45s;
 }
-.js .flight[data-flight="on"].is-flying .hero__facts { opacity: 0; transform: translateY(10px); pointer-events: none; }
-.js .flight[data-flight="on"] .flight__story { opacity: 0; visibility: hidden; transition: opacity .5s cubic-bezier(.16,1,.3,1), visibility 0s linear .5s; }
-.js .flight[data-flight="on"].is-flying .flight__story { opacity: 1; visibility: visible; transition-delay: 0s; }
-.js .flight[data-flight="on"].is-flying .hero__facts { visibility: hidden; transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), visibility 0s linear .5s; }
-
-/* подсказка «листайте»: гаснет, как только человек тронул страницу */
-.flight__hint {
-  position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 2;
-  display: none; align-items: center; gap: 8px;
-  font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: rgba(244, 239, 231, .7);
-  transition: opacity .5s cubic-bezier(.16,1,.3,1);
+.js .flight[data-slider="on"].is-telling .hero__facts {
+  opacity: 0; visibility: hidden; transform: translateY(10px); pointer-events: none;
 }
-.js .flight[data-flight="on"] .flight__hint { display: inline-flex; }
-.flight[data-flight="on"].is-flying .flight__hint { opacity: 0; }
+.js .flight[data-slider="on"] .flight__steps {
+  opacity: 0; visibility: hidden;
+  transition: opacity .45s cubic-bezier(.16,1,.3,1), visibility 0s linear .45s;
+}
+.js .flight[data-slider="on"].is-telling .flight__steps {
+  opacity: 1; visibility: visible; transition-delay: 0s;
+}
+/* у активной подписи своё visibility: visible, и оно перебивает скрытие
+   у родителя — на первом кадре гасим подписи адресно */
+.js .flight[data-slider="on"]:not(.is-telling) .flight__step { visibility: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
-  /* движение выключено: обычный первый экран, первый кадр, цифры на месте */
-  .js .flight[data-flight="on"] { height: auto; min-height: 100svh; display: flex; }
-  .js .flight[data-flight="on"] .flight__inner { position: static; height: auto; }
-  .js .flight[data-flight="on"] .flight__story, .flight__hint { display: none; }
-  .js .flight[data-flight="on"].is-flying .hero__facts { opacity: 1; transform: none; }
-  .flight__frame { transition: none; transform: none; }
+  /* движение выключено: кадры просто подменяются, без наездов и выездов */
+  .flight__frame, .flight__step, .flight__point, .flight__dot span { transition: none; }
+  .flight__frame { transform: none; }
+  .flight__step { transform: none; }
 }
 
 .hero__inner {
@@ -1175,23 +1199,19 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .chero--video .chero__scrim { display: none; }
 .chero--video::before, .chero--video::after { display: none; }
 .chero__inner > * { min-width: 0; }
-/* на широком экране текст уходит в узкую колонку слева, а ролики
-   занимают всё оставшееся место и начинаются на уровне заголовка:
-   пустое поле справа от лида пропадает, кадры становятся крупнее */
-@media (min-width: 1200px) {
-  .chero--video .chero__inner { grid-template-columns: minmax(300px, 24%) minmax(0, 1fr); align-items: start; }
-  .chero--video .videos { margin-top: 0; }
-  .chero--video .videos--portrait { max-width: none; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  /* высота кадра 16/9 от ширины: ограничиваем ширину так, чтобы кадр
-     вместе с подписью укладывался в экран и не приходилось листать */
-  .chero--video .video { max-width: calc((100svh - 430px) * 0.5625); margin-inline: auto; }
-}
+/* Заголовок стоит наверху во всю ширину, под ним ряд роликов. Прежде
+   текст занимал узкую колонку слева, и справа от лида оставалось
+   пустое поле в треть экрана. */
 .chero--video .chero__info { max-width: 74ch; }
 .chero--video .videos { margin-top: clamp(20px, 2.4vw, 34px); }
-/* Кадр вертикальный: ширина колонки превращается в полторы её высоты.
-   Без потолка на средних экранах один ролик занимал больше экрана,
-   поэтому ширину карточки ограничиваем везде, а не только на широких. */
-.videos--portrait .video { max-width: 320px; width: 100%; margin-inline: auto; }
+/* Кадр вертикальный, ширина колонки превращается в полторы её высоты,
+   поэтому в ряд их помещается пять — как в ленте на главной. Шестой
+   и дальше переносятся во второй ряд. */
+.videos--portrait .video { width: 100%; margin-inline: auto; }
+.videos--portrait { max-width: none; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 700px) { .videos--portrait { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .videos--portrait { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1340px) { .videos--portrait { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 .chero--video .video {
   background: rgba(248, 249, 246, .07); border-color: rgba(232, 234, 230, .2); color: var(--on-dark);
 }
@@ -1270,18 +1290,29 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .lightbox[hidden] { display: none; }
 .lightbox.is-open { opacity: 1; }
 .lightbox__stage { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 0; }
-.lightbox__stage img { max-width: 100%; max-height: 82vh; width: auto; height: auto; border-radius: var(--r-l); background: var(--dark-2); }
+.lightbox__stage img {
+  max-width: 100%; max-height: 82vh; width: auto; height: auto;
+  border-radius: var(--r-l); background: var(--dark-2);
+  transition: transform .35s var(--ease);
+}
+/* Повёрнутый на четверть кадр меняет ширину с высотой местами: ширину
+   ему задаёт высота окна, иначе лист вылезает за края. */
+.lightbox__stage[data-turn="90"] img,
+.lightbox__stage[data-turn="270"] img { max-width: 78svh; max-height: 92vw; }
 .lightbox__cap { font-size: 13.5px; color: var(--on-dark-2); text-align: center; }
-.lightbox :where(.lightbox__nav, .lightbox__close) {
+.lightbox__turn {
+  position: absolute; top: clamp(12px, 2vw, 26px); right: calc(clamp(12px, 2vw, 26px) + var(--tap) + 10px);
+}
+.lightbox :where(.lightbox__nav, .lightbox__close, .lightbox__turn) {
   display: grid; place-items: center; min-width: var(--tap); min-height: var(--tap);
   border: 1px solid rgba(244, 239, 231, .22); border-radius: var(--r-pill);
   background: rgba(244, 239, 231, .08); color: var(--on-dark);
   font-size: 26px; line-height: 1; cursor: pointer;
   transition: background .28s var(--ease), border-color .28s var(--ease);
 }
-.lightbox :where(.lightbox__nav, .lightbox__close):hover { background: rgba(244, 239, 231, .18); border-color: rgba(244, 239, 231, .4); }
+.lightbox :where(.lightbox__nav, .lightbox__close, .lightbox__turn):hover { background: rgba(244, 239, 231, .18); border-color: rgba(244, 239, 231, .4); }
 .lightbox__close { position: absolute; top: clamp(12px, 2vw, 26px); right: clamp(12px, 2vw, 26px); font-size: 24px; }
-@media (prefers-reduced-motion: reduce) { .lightbox { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .lightbox, .lightbox__stage img { transition: none; } }
 
 .media-frame { aspect-ratio: 3 / 2; background: var(--page-2); border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
 .media-frame img { width: 100%; height: 100%; object-fit: cover; }
@@ -1567,13 +1598,19 @@ section[id], div[id] { scroll-margin-top: 88px; }
      нижняя граница высоты держит его крупным, а не в палец шириной */
   .stuff .video--inset .video__frame { aspect-ratio: 9 / 16; height: 100%; width: auto; min-height: min(540px, 58svh); }
   .stuff .video--inset .video__frame :where(iframe, video) { object-fit: contain; object-position: center; }
+  /* Подпись прижата к верху: раньше она стояла по центру колонки,
+     и над заголовком висела пустая треть карточки. */
   .stuff .video--inset figcaption {
-    display: flex; flex-direction: column; justify-content: center; gap: 4px;
-    padding: clamp(16px, 1.6vw, 26px);
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    padding: clamp(20px, 2vw, 32px);
     border-top: 0; border-left: 1px solid var(--line-soft);
   }
-  .stuff .video--inset figcaption p { display: block; }
-  .stuff .video--inset h3 { font-size: clamp(17px, 1.5vw, 21px); }
+  .stuff .video--inset figcaption p { display: block; font-size: clamp(14.5px, 1.05vw, 16px); }
+  .stuff .video--inset h3 {
+    font-family: var(--display); font-weight: 700; letter-spacing: -.01em;
+    font-size: clamp(21px, 2.1vw, 30px); line-height: 1.14;
+  }
+  .stuff .video--inset .video__more { margin-top: auto; }
 }
 
 .stuff__list { display: grid; gap: clamp(10px, 1vw, 14px); margin: 0; padding: 0; list-style: none; }
@@ -1616,7 +1653,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .video--inset figcaption { padding: 11px 13px 12px; }
 .video--inset figcaption p { display: none; }
 .video--inset h3 { font-size: 15.5px; }
-.video--inset figcaption a { display: inline-flex; align-items: center; min-height: 40px; margin-top: 2px; font-size: 14px; }
+.video--inset .video__more { align-self: flex-start; margin-top: 10px; }
 @media (max-width: 1099px) { .video--inset { margin-inline: auto; } }
 
 /* ---------- формы ---------- */
@@ -1695,6 +1732,30 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* цифры стоят внутри шапки страницы: отдельная секция под них добавляла
    два пустых отступа и растягивала первый экран */
 .figures--head { margin-top: clamp(16px, 2vw, 26px); gap: 12px clamp(16px, 2.2vw, 32px); }
+
+/* Цифры со значками: контур рисуется сам и повторяется неспешно —
+   это единственное движение на странице, поэтому оно медленное
+   и по очереди, а не все четыре разом. */
+.figures--icons .figure { display: grid; justify-items: start; gap: 2px; }
+.figure__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin-bottom: 8px; border-radius: 12px;
+  color: var(--brand); background: rgba(31, 74, 48, .08);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .figure__icon svg * {
+    stroke-dasharray: 76; stroke-dashoffset: 0;
+    animation: figureDraw 9s cubic-bezier(.65, 0, .35, 1) infinite;
+    animation-delay: var(--draw-delay, 0s);
+  }
+  .figure__icon:hover svg * { animation-play-state: paused; }
+}
+@keyframes figureDraw {
+  0%   { stroke-dashoffset: 76; opacity: .25; }
+  18%  { stroke-dashoffset: 0;  opacity: 1; }
+  82%  { stroke-dashoffset: 0;  opacity: 1; }
+  100% { stroke-dashoffset: 76; opacity: .25; }
+}
 .figures--head b { font-size: clamp(22px, 2.4vw, 32px); }
 .figures--head span { font-size: 13px; }
 
@@ -2412,7 +2473,7 @@ body::after {
 .videos { display: grid; gap: clamp(16px, 1.8vw, 28px); grid-template-columns: 1fr; }
 @media (min-width: 760px) { .videos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* съёмка с площадок вертикальная: кадр 9:16, поэтому карточки уже и их больше в ряд */
-.videos--portrait { max-width: 1140px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.videos--portrait { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .video {
   margin: 0; display: flex; flex-direction: column; overflow: hidden;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-l);
@@ -2482,3 +2543,104 @@ body::after {
 .thanks__back b { font-variant-numeric: tabular-nums; }
 .thanks__next { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 26px; }
 .thanks__back a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- поиск по статьям ----------
+   Поле стоит справа от заголовка раздела и на узком экране уходит
+   под него. Отбор идёт на вводе, поэтому кнопки «найти» нет. */
+/* у обычной шапки раздела потолок 760 px — с полем поиска рядом он
+   сжимал колонку заголовка до 350 px, и слово в нём не помещалось */
+.section__head--find { max-width: none; display: grid; gap: clamp(16px, 2vw, 28px); align-items: end; }
+.section__head--find > * { min-width: 0; }
+@media (min-width: 1000px) {
+  .section__head--find { grid-template-columns: minmax(0, 760px) minmax(280px, 380px); justify-content: space-between; }
+}
+.find {
+  position: relative; display: flex; align-items: center;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; box-shadow: 0 0 0 0 rgba(31, 74, 48, 0);
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.find:focus-within { border-color: rgba(31, 74, 48, .45); box-shadow: 0 0 0 4px rgba(31, 74, 48, .1); }
+.find__icon { display: flex; flex: none; padding-left: 16px; color: var(--muted); }
+.find__input {
+  flex: 1 1 auto; min-width: 0; min-height: 52px;
+  padding: 10px 12px; border: 0; background: none; color: var(--ink);
+  font: inherit; font-size: 15.5px;
+}
+.find__input::placeholder { color: var(--muted); }
+.find__input:focus { outline: none; }
+.find__input::-webkit-search-cancel-button { display: none; }
+.find__clear {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin-right: 4px; border: 0; border-radius: 50%;
+  background: none; color: var(--muted); cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.find__clear:hover { background: rgba(23, 21, 15, .07); color: var(--ink); }
+.find__clear:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.find__count { margin-top: clamp(14px, 1.6vw, 20px); font-size: 14px; color: var(--muted); }
+.find__empty {
+  margin-top: clamp(18px, 2.4vw, 30px); padding: clamp(18px, 2.4vw, 28px);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-l);
+  font-size: 15.5px; color: var(--ink-2); max-width: 62ch;
+}
+
+/* ---------- бланк на странице объекта ----------
+   Раньше тут стояла кнопка к форме в самом низу страницы: человек
+   досматривал съёмку и уходил, не дойдя до неё. Поля открыты сразу,
+   под обложкой объекта. */
+.obj-head__form {
+  margin-top: clamp(20px, 2.4vw, 30px); max-width: 560px;
+  padding: clamp(18px, 2vw, 26px);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-l);
+  box-shadow: 0 18px 40px -34px rgba(58, 44, 28, .7);
+}
+.obj-head__formtitle {
+  margin-bottom: 12px; font-family: var(--display);
+  font-size: clamp(17px, 1.5vw, 21px); font-weight: 700; color: var(--ink);
+}
+.obj-head__formrow { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) {
+  .obj-head__formrow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .obj-head__formrow .btn { grid-column: 1 / -1; }
+}
+.obj-head__formnote { margin-top: 10px; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.obj-head__formnote a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.obj-head__form .btn { width: 100%; }
+
+/* ---------- контакты: страница в один экран ----------
+   Способы связи шли столбиком, и справа от них оставалось пустое поле
+   шириной в треть экрана, а низ страницы уходил под обрез. Теперь они
+   стоят в две колонки, и экран закрывает весь разговор целиком. */
+.chero--contacts .chero__lines { max-width: none; }
+@media (min-width: 760px) and (max-width: 999px), (min-width: 1200px) {
+  .chero--contacts .chero__lines {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(14px, 1.6vw, 22px) clamp(20px, 2.4vw, 36px);
+  }
+  /* телефоны занимают обе колонки: номера крупные и в одну не влезают */
+  .chero--contacts .chero__line:first-child { grid-column: 1 / -1; }
+  .chero--contacts .chero__line:first-child .chero__phone { display: inline-flex; margin-right: clamp(18px, 2.4vw, 36px); }
+}
+@media (min-width: 1000px) and (min-height: 700px) {
+  /* Страница умещается в экран целиком, вместе с подвалом. Разделы
+     и телефоны в подвале здесь повторяют то, что уже стоит на самой
+     странице и в шапке, поэтому на контактах от него остаётся нижняя
+     строка с реквизитами и политикой. */
+  body:has(.chero--contacts) .footer { padding: 14px 0 12px; }
+  body:has(.chero--contacts) .footer__grid { display: none; }
+  body:has(.chero--contacts) .footer__bottom { margin-top: 0; padding-top: 0; border-top: 0; }
+  /* секция занимает всё, что осталось от экрана после подвала */
+  .chero--contacts { min-height: calc(100svh - 64px); display: grid; align-items: center; }
+  .chero--contacts .chero__inner {
+    width: 100%; align-items: center;
+    padding-top: calc(var(--header-h) + clamp(14px, 1.6vw, 26px));
+    padding-bottom: clamp(16px, 2vw, 30px);
+  }
+  .chero--contacts .chero__lines { margin-top: clamp(16px, 2vw, 26px); }
+  .chero--contacts .chero__line { padding-top: clamp(10px, 1.2vw, 15px); }
+  .chero--contacts .chero__lead { margin-top: clamp(8px, 1vw, 14px); }
+  .chero--contacts .chero__form { padding: clamp(16px, 1.8vw, 26px); }
+  .chero--contacts .chero__form .form__body { gap: clamp(10px, 1.2vw, 14px); }
+  .chero--contacts textarea { min-height: 84px; }
+}
