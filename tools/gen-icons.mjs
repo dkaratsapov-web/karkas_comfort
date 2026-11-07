@@ -1,4 +1,6 @@
-/* Растровые иконки сайта из assets/img/mark.svg.
+/* Растровые иконки сайта из assets/img/favicon.svg — знак на тёмной
+   плашке. Раньше брался голый знак mark.svg без фона: на светлой
+   вкладке оранжевый дом на белом почти терялся.
    Запуск: npm run icons  (нужен Playwright: npx playwright install chromium)
    Результат: favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png */
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -7,26 +9,30 @@ const mod = await import(process.env.PW_MODULE || 'playwright')
   .catch(() => import('/opt/node22/lib/node_modules/playwright/index.mjs'));
 const chromium = mod.chromium || mod.default?.chromium;
 
-const svg = readFileSync('assets/img/mark.svg', 'utf8');
+const svg = readFileSync('assets/img/favicon.svg', 'utf8');
+const DARK = '#17150F';
 const browser = await chromium.launch(process.env.PW_CHROME ? { executablePath: process.env.PW_CHROME } : {});
 
-async function png(size, radius) {
+/* full — плашка во весь квадрат: iOS и Android сами скругляют углы
+   иконки, и прозрачные углы у них превращаются в белые */
+async function png(size, full = false) {
   const page = await browser.newPage({ viewport: { width: size, height: size }, deviceScaleFactor: 1 });
-  await page.setContent(`<body style="margin:0;width:${size}px;height:${size}px;overflow:hidden;border-radius:${radius}px">
-    <div style="width:${size}px;height:${size}px">${svg.replace('<svg', `<svg width="${size}" height="${size}"`)}</div></body>`);
+  const body = full ? `background:${DARK}` : 'background:transparent';
+  await page.setContent(`<html style="background:transparent"><body style="margin:0;width:${size}px;height:${size}px;overflow:hidden;${body}">
+    <div style="width:${size}px;height:${size}px">${svg.replace(/<svg[^>]*>/, (t) => t.replace(/width="\d+"/, `width="${size}"`).replace(/height="\d+"/, `height="${size}"`))}</div></body></html>`);
   await page.waitForTimeout(120);
-  const buf = await page.screenshot({ omitBackground: false });
+  const buf = await page.screenshot({ omitBackground: !full });
   await page.close();
   return buf;
 }
 
-const p16 = await png(16, 0);
-const p32 = await png(32, 0);
-const p48 = await png(48, 0);
+const p16 = await png(16);
+const p32 = await png(32);
+const p48 = await png(48);
 writeFileSync('assets/img/icon-32.png', p32);
-writeFileSync('assets/img/apple-touch-icon.png', await png(180, 0));
-writeFileSync('assets/img/icon-192.png', await png(192, 0));
-writeFileSync('assets/img/icon-512.png', await png(512, 0));
+writeFileSync('assets/img/apple-touch-icon.png', await png(180, true));
+writeFileSync('assets/img/icon-192.png', await png(192, true));
+writeFileSync('assets/img/icon-512.png', await png(512, true));
 await browser.close();
 
 /* favicon.ico — контейнер ICO с PNG внутри, понимают все актуальные

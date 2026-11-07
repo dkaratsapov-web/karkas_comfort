@@ -139,6 +139,7 @@
   });
 
   heroSlider();
+  geoLater();
   articleSearch();
   thanksPage();
 
@@ -346,6 +347,26 @@ function articleSearch() {
   /* поле не отправляет форму: отбор идёт на вводе */
   box.addEventListener('submit', (e) => e.preventDefault());
   apply();
+}
+
+/* Карта охвата — остров на React. Он тяжелее всего остального кода
+   сайта, поэтому грузится, только когда блок карты подъезжает к экрану.
+   До этого на месте карты стоит статичная схема из разметки. */
+function geoLater() {
+  const host = $('[data-geo-host]');
+  const src = document.body.dataset.geoSrc;
+  if (!host || !src) return;
+  const load = () => {
+    const el = document.createElement('script');
+    el.src = src;
+    el.defer = true;
+    document.body.appendChild(el);
+  };
+  if (!('IntersectionObserver' in window)) { load(); return; }
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
+  }, { rootMargin: '600px 0px' });
+  io.observe(host);
 }
 
 function heroSlider() {

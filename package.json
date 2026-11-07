@@ -4,7 +4,7 @@
   "private": true,
   "description": "Сайт строительной компании «Каркас Комфорт» — статическая сборка",
   "scripts": {
-    "build": "node tools/gen-art.mjs && node tools/build.mjs",
+    "build": "node tools/gen-art.mjs && node tools/bundle.mjs && node tools/build.mjs",
     "art": "node tools/gen-art.mjs",
     "icons": "node tools/gen-icons.mjs",
     "pages": "node tools/build.mjs",
@@ -19,9 +19,14 @@
     "visual": "node tools/visual.mjs",
     "seo": "node tools/seo.mjs",
     "verify": "node tools/verify.mjs",
-    "publish:site": "npm run build && npm run verify && node tools/publish.mjs"
+    "publish:site": "npm run build && npm run verify && node tools/publish.mjs",
+    "bundle": "node tools/bundle.mjs"
   },
   "devDependencies": {
-    "basic-ftp": "^6.2.0"
+    "basic-ftp": "^6.2.0",
+    "esbuild": "^0.28.2",
+    "motion": "^14.10.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   }
 }
