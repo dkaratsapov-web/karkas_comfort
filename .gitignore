@@ -19,3 +19,4 @@ mob-top.png
 # рабочего места, к сайту отношения не имеет и на сервер не едет.
 .agents/
 .claude/skills/higgsfield-*
+.cache/

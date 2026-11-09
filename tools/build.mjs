@@ -5,6 +5,7 @@
    Запуск: npm run build */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, cpSync, rmSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { watermark } from './watermark.mjs';
 
 /* Режим превью (GitHub Pages): PREVIEW=1 npm run build
    — сайт собирается в подпапку, закрывается от индексации,
@@ -319,10 +320,14 @@ function flightBlock() {
       </picture>
       <div class="hero__scrim" aria-hidden="true"></div>`;
   }
+  const clean = (f) => `/assets/img/clean/${f}`;
   const frames = stops.map((st, i) => {
+    const sm = small(st.src);
     const attrs = i === 0
-      ? `${srcset(st.src, '100vw')} fetchpriority="high"`
-      : `src="${img(small(st.src))}" data-full="${img(st.src)}" loading="lazy"`;
+      ? (sm === st.src
+        ? `src="${clean(st.src)}" fetchpriority="high"`
+        : `src="${clean(sm)}" srcset="${clean(sm)} 800w, ${clean(st.src)} 1700w" sizes="100vw" fetchpriority="high"`)
+      : `src="${clean(sm)}" data-full="${clean(st.src)}" loading="lazy"`;
     /* подпись есть у каждого кадра: программам чтения они не видны
        (aria-hidden), а поисковику описывают, что на фотографии */
     return `          <img class="flight__frame${i === 0 ? ' is-on' : ''}" ${attrs} alt="${esc(st.alt)}" width="1700" height="1133"${i ? ' aria-hidden="true"' : ''}>`;
@@ -432,6 +437,18 @@ const photoOf = (p) => {
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(`${OUT}/proekty`, { recursive: true });
 cpSync('assets', `${OUT}/assets`, { recursive: true });
+
+/* Кадры первого экрана — без водяного знака: там уже стоит логотип
+   в шапке, и знак в углу фона выглядел бы печатью поверх витрины.
+   Для них чистая копия в assets/img/clean/, остальные фото и листы
+   проектов получают знак (tools/watermark.mjs). */
+mkdirSync(`${OUT}/assets/img/clean`, { recursive: true });
+for (const st of flight.stops || []) {
+  for (const f of [st.src, small(st.src)]) {
+    if (existsSync(`assets/img/photos/${f}`)) cpSync(`assets/img/photos/${f}`, `${OUT}/assets/img/clean/${f}`);
+  }
+}
+await watermark(`${OUT}/assets/img/photos`);
 if (PREVIEW) {
   writeFileSync(`${OUT}/robots.txt`, 'User-agent: *\nDisallow: /\n');   // превью не должно попасть в поиск
   writeFileSync(`${OUT}/.nojekyll`, '');                                 // Pages не должен обрабатывать сборку Jekyll
