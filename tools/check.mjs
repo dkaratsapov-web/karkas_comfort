@@ -176,6 +176,12 @@ const blocked = await p.evaluate(() => [...document.querySelectorAll('.mobile-na
   const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
   return !(hit && (hit === a || a.contains(hit)));
 }).map((a) => a.textContent.trim()));
+/* логотипы не перепутаны: в тёмной капсуле шапки — светлый вариант,
+   в светлом меню — тёмный. Однажды правка меню поменяла логотип шапки,
+   и от него на тёмном осталось одно «КОМФОРТ». */
+ok('логотип шапки — для тёмного фона, логотип меню — для светлого', await p.evaluate(() =>
+  /on-dark/.test(document.querySelector('.header .logo img').getAttribute('src'))
+  && !/on-dark/.test(document.querySelector('.mobile-nav__bar img').getAttribute('src'))));
 ok(`пункты мобильного меню нажимаются${blocked.length ? ` (перекрыты: ${blocked.join(', ')})` : ''}`, blocked.length === 0);
 ok('фон под открытым меню не прокручивается', await p.evaluate(() => document.body.classList.contains('is-locked')));
 await p.keyboard.press('Escape');

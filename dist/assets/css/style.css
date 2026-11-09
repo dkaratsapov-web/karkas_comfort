@@ -2850,3 +2850,43 @@ body::after {
   /* у списка галочек display: flex, колонки CSS на нём не работают */
   .checks--cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px clamp(20px, 2.4vw, 40px); }
 }
+
+/* ---------- первый экран на телефоне ----------
+   Раньше кадр шёл фоном под текстом: на узком экране от фото оставался
+   кусок кирпичной стены, а заголовок, плашки цифр и форма лежали поверх
+   пёстрого фона. Теперь кадр стоит отдельно — дом виден целиком в рамке,
+   листается пальцем, — а текст, цифры и форма идут под ним на ровном
+   тёмном фоне. */
+@media (max-width: 899px) {
+  .hero.flight { min-height: 0; display: block; background: var(--dark); }
+  .hero.flight .flight__inner { flex-direction: column; overflow: visible; }
+  .hero.flight .flight__media {
+    position: relative; inset: auto; order: 1; z-index: 0;
+    margin: calc(var(--header-h) + 40px) var(--gutter) 0;
+    aspect-ratio: 3 / 2; border-radius: 22px;
+    box-shadow: 0 0 0 1px rgba(244, 239, 231, .08), 0 24px 50px -30px rgba(0, 0, 0, .9);
+  }
+  .hero.flight .flight__frame { transform: none; }
+  .hero.flight .flight__scrim, .hero.flight .flight__points, .hero.flight .flight__source { display: none; }
+  /* точки шкалы — сразу под кадром */
+  .js .hero.flight[data-slider="on"] .flight__story {
+    position: static; order: 2; display: flex; justify-content: center;
+    padding: 6px var(--gutter) 0;
+  }
+  .hero.flight .hero__inner {
+    order: 3; align-items: stretch; text-align: left;
+    padding-top: 6px; padding-bottom: 26px;
+  }
+  .js .hero.flight[data-slider="on"] .hero__inner { padding-bottom: 26px; }
+  .hero.flight h1 { font-size: clamp(26px, 7.4vw, 34px); text-shadow: none; }
+  .hero.flight .hero__lead { margin-left: 0; font-size: 15.5px; color: var(--on-dark-2); }
+  /* цифры — компактной сеткой до формы: цена и срок видны до сгиба */
+  .hero.flight .hero__facts { margin-top: 16px; gap: 8px; }
+  .hero.flight .hero__fact {
+    padding: 10px 12px; background: var(--dark-2); border: 1px solid rgba(244, 239, 231, .1);
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  .hero.flight .hero__fact b { font-size: 18px; }
+  .hero.flight .hero__fact span { font-size: 12px; margin-top: 3px; }
+  .hero.flight .hero-form { margin-top: 16px; }
+}
