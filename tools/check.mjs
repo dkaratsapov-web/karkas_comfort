@@ -167,6 +167,16 @@ ok('панель действий не перекрывает контент',
   await p.evaluate(() => parseFloat(getComputedStyle(document.body).paddingBottom) >= document.querySelector('.actionbar').getBoundingClientRect().height - 1));
 await p.click('.burger');
 ok('мобильное меню открывается', await p.isVisible('.mobile-nav.is-open a[href="/proekty/"]'));
+/* меню видно — этого мало: однажды оно открывалось, а нажатия уходили
+   на страницу под ним. Проверяем, что сверху под пальцем именно пункт. */
+await p.waitForTimeout(700);
+const blocked = await p.evaluate(() => [...document.querySelectorAll('.mobile-nav.is-open a')].filter((a) => {
+  const r = a.getBoundingClientRect();
+  if (!r.width || r.bottom > innerHeight) return false;
+  const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+  return !(hit && (hit === a || a.contains(hit)));
+}).map((a) => a.textContent.trim()));
+ok(`пункты мобильного меню нажимаются${blocked.length ? ` (перекрыты: ${blocked.join(', ')})` : ''}`, blocked.length === 0);
 ok('фон под открытым меню не прокручивается', await p.evaluate(() => document.body.classList.contains('is-locked')));
 await p.keyboard.press('Escape');
 await p.waitForTimeout(200);

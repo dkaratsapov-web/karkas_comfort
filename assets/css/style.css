@@ -488,8 +488,11 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* ---------- мобильное меню ----------
    Компактный экран: логотип и крестик сверху, плотный список разделов,
    карточка контактов и одна кнопка внизу. Пункты въезжают по очереди. */
+/* Меню живёт внутри шапки, а у шапки pointer-events: none — чтобы
+   сквозь пустые края капсулы кликалась страница. Меню это наследовало:
+   его было видно, а нажатия уходили на страницу под ним. */
 .mobile-nav {
-  position: fixed; inset: 0; z-index: 60;
+  position: fixed; inset: 0; z-index: 60; pointer-events: auto;
   display: none; flex-direction: column; gap: 14px;
   padding: 14px var(--gutter) calc(16px + var(--actionbar));
   background: rgba(246, 242, 235, .98);
@@ -847,7 +850,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 /* ---------- мобильная панель действий ---------- */
 .actionbar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; align-items: center;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-items: center;
   height: var(--actionbar); padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
   background: var(--surface);
   box-shadow: 0 -10px 32px rgba(38, 30, 20, .1);
@@ -856,7 +859,8 @@ section[id], div[id] { scroll-margin-top: 88px; }
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
   height: 100%; border-radius: var(--r); color: var(--ink); font-size: 11.5px; font-weight: 600;
 }
-.actionbar a:last-child { background: var(--brand); color: var(--on-brand); font-weight: 700; }
+.actionbar > :last-child { background: var(--brand); color: var(--on-brand); font-weight: 700; }
+.actionbar :where(a, button) { flex-direction: row; gap: 10px; font-size: 15px; }
 .actionbar svg { width: 21px; height: 21px; }
 @media (min-width: 900px) { .actionbar { display: none; } }
 
