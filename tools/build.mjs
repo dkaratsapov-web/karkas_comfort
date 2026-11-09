@@ -148,7 +148,7 @@ function geoMap() {
   const data = {
     outline: geo.outline,
     cities: geo.cities.map((c) => ({
-      name: c.name, lon: c.lon, lat: c.lat, hub: Boolean(c.hub), anchor: c.anchor || 'start', dy: c.dy || 4,
+      name: c.name, lon: c.lon, lat: c.lat, hub: Boolean(c.hub), anchor: c.anchor || 'start', dy: c.dy || 4, mobile: c.mobile || null,
       cases: cases.filter((k) => k.place && new RegExp(`(^|[^А-Яа-яЁё])${c.name}([^А-Яа-яЁё]|$)`).test(k.place)).map((k) => {
         const cover = caseCover(k);
         return { title: k.title, url: caseUrl(k), area: k.area || null, img: cover ? img(small(cover)) : '' };
@@ -209,7 +209,7 @@ ${videos.map((v) => {
 function videoReel(n) {
   const list = videos.slice(0, n).filter((v) => v.src);
   if (!list.length) return '';
-  return `        <div class="reel">
+  return `        <div class="reel swipe swipe--tall">
 ${list.map((v) => `          <article class="reel__card">
             <button class="reel__frame" type="button" data-video="/assets/video/${esc(v.src)}"${v.poster ? '' : ` aria-label="Смотреть: ${esc(v.title)}"`}>
               ${v.poster ? `<img src="/assets/img/photos/${esc(v.poster)}" alt="Смотреть видео: ${esc(v.title)}" loading="lazy" width="720" height="1280">` : ''}
@@ -845,7 +845,9 @@ function photoRows(files, offset) {
 function photoGrid(files, offset, altOf, zoomGroup) {
   const rs = photoRows(files, offset);
   const cell = (it) => `            <figure style="--a:${it.a.toFixed(3)}"><img ${srcset(it.f, "(min-width: 1000px) 30vw, 92vw")} alt="${altOf(it.i)}" loading="${it.i < 3 ? 'eager' : 'lazy'}" width="${imgSize(it.f).w}" height="${imgSize(it.f).h}" data-zoom="${img(it.f)}" data-zoom-group="${zoomGroup}"></figure>`;
-  return `          <div class="shots shots--rows">
+  /* нечётное число кадров: на телефоне первый идёт во всю ширину,
+     чтобы в сетке из двух колонок не осталось дыры в конце */
+  return `          <div class="shots shots--rows${files.length % 2 ? ' shots--odd' : ''}">
 ${rs.map((row, n) => {
   const sum = row.reduce((v, it) => v + it.a, 0);
   /* полный ряд тянется до края; неполный последний ограничен по ширине,
@@ -1185,7 +1187,7 @@ ${included.map(([t, d]) => `          <article class="card"><h3>${t}</h3><p>${d}
           </div>
           <a class="btn btn--ghost btn--sm" href="/proekty.html">Все ${projects.length} проектов</a>
         </div>
-        <div class="grid grid--3">
+        <div class="grid grid--3 swipe">
 ${similar.map(projectCard).join('\n')}
         </div>
       </div>

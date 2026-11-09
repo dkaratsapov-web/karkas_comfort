@@ -1397,8 +1397,10 @@ section[id], div[id] { scroll-margin-top: 88px; }
 @media (max-width: 640px) {
   .cmp { font-size: 13.5px; }
   .cmp th, .cmp td { padding: 10px 6px; }
-  .cmp td { width: 46px; }
-  .cmp tbody th { overflow-wrap: anywhere; hyphens: auto; }
+  .cmp td, .cmp thead th:not(:first-child) { width: 66px; }
+  .cmp th, .cmp td { padding: 10px 4px; }
+  .cmp tbody th, .cmp thead th:first-child { padding-left: 12px; }
+  .cmp tbody th { hyphens: auto; }
   .cmp thead th span { font-size: 13.5px; }
   .cmp thead th small { font-size: 11px; }
   .cmp thead th:first-child { font-size: 11.5px; }
@@ -2497,7 +2499,10 @@ body::after {
 .videos { display: grid; gap: clamp(16px, 1.8vw, 28px); grid-template-columns: 1fr; }
 @media (min-width: 760px) { .videos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* съёмка с площадок вертикальная: кадр 9:16, поэтому карточки уже и их больше в ряд */
-.videos--portrait { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.videos--portrait { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 700px) { .videos--portrait { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .videos--portrait { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1340px) { .videos--portrait { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 .video {
   margin: 0; display: flex; flex-direction: column; overflow: hidden;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-l);
@@ -2651,6 +2656,9 @@ body::after {
      и телефоны в подвале здесь повторяют то, что уже стоит на самой
      странице и в шапке, поэтому на контактах от него остаётся нижняя
      строка с реквизитами и политикой. */
+  /* страница короче окна на высоком экране: под подвалом проступал
+     светлый фон body полоской — красим его в цвет подвала */
+  body:has(.chero--contacts) { background: var(--dark); }
   body:has(.chero--contacts) .footer { padding: 14px 0 12px; }
   body:has(.chero--contacts) .footer__grid { display: none; }
   body:has(.chero--contacts) .footer__bottom { margin-top: 0; padding-top: 0; border-top: 0; }
@@ -2682,7 +2690,10 @@ body::after {
 }
 @media (min-width: 960px) { .gx { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); } }
 .gx__stage { min-width: 0; }
-.gx__svg { display: block; width: 100%; height: auto; overflow: visible; cursor: crosshair; touch-action: manipulation; }
+/* схема целиком в один экран: на широком мониторе по ширине она
+   вырастала почти на тысячу пикселей и не помещалась по высоте */
+.gx__svg { display: block; width: 100%; height: auto; max-height: calc(100svh - var(--header-h) - 120px); overflow: visible; cursor: crosshair; touch-action: manipulation; }
+@media (min-width: 960px) { .gx { max-height: calc(100svh - var(--header-h) - 40px); } .gx__stage { display: flex; flex-direction: column; justify-content: center; } }
 .gx__land { fill: rgba(47, 93, 63, .07); }
 .gx__grid { stroke: rgba(47, 93, 63, .1); stroke-width: .6; }
 .gx__edge { fill: none; stroke: rgba(47, 93, 63, .55); stroke-width: 1.4; stroke-linejoin: round; }
@@ -2759,4 +2770,79 @@ body::after {
   .gx__dim { font-size: 20px; }
   .gx__hit { r: 30; }
   .gx__panel { min-height: 0; }
+}
+
+/* ---------- мобильная версия: ленты, подвал, галерея ----------
+   Ленты со свайпом. Объекты, проекты и ролики на телефоне шли столбиком
+   по десять экранов. Теперь это ряд, который листается пальцем: карточка
+   на 84 % ширины, следующая выглядывает с края — видно, что листать есть
+   куда. Лента не шире своего контейнера, поэтому страница вбок не едет. */
+@media (max-width: 699px) {
+  .swipe {
+    display: grid; grid-auto-flow: column; grid-template-columns: none;
+    grid-auto-columns: 84%; gap: 12px;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scrollbar-width: none;
+    padding: 4px 2px 18px; margin-bottom: -10px;
+  }
+  .swipe::-webkit-scrollbar { display: none; }
+  .swipe > * { scroll-snap-align: start; min-width: 0; }
+  .swipe > [hidden] { display: none; }
+  /* вертикальные ролики уже: на экран два с половиной */
+  .swipe--tall { grid-auto-columns: 46%; }
+  /* у карточек подъём при наведении на телефоне не нужен — он только
+     обрезался краем ленты */
+  .swipe .project:hover, .swipe .tile:hover { transform: none; }
+}
+
+/* Подвал под нижней панелью кнопок. Под панель у страницы отступ снизу,
+   и он светился полосой цвета страницы под тёмным подвалом. Подвал
+   теперь сам заходит в этот отступ. */
+@media (max-width: 899px) {
+  .footer { margin-bottom: calc(-1 * var(--actionbar)); padding-bottom: calc(20px + var(--actionbar)); }
+}
+
+/* Первый экран на телефоне: подписи кадров не помещаются рядом с формой,
+   поэтому остаётся только шкала с точками, а цифры видны всегда.
+   Пустая полоса под рассказ больше не нужна. */
+@media (max-width: 899px) {
+  .js .flight[data-slider="on"] .hero__inner { padding-bottom: 64px; }
+  .js .flight[data-slider="on"] .flight__steps { display: none; }
+  .js .flight[data-slider="on"].is-telling .hero__facts { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+  .js .flight[data-slider="on"] .flight__story { bottom: 8px; }
+}
+
+/* Врезка с роликом на телефоне: кадр слева, подпись справа — карточка
+   во всю ширину, без пустого поля сбоку. */
+@media (max-width: 699px) {
+  .video--inset { max-width: none; display: grid; grid-template-columns: 44% minmax(0, 1fr); margin-inline: 0; }
+  .video--inset .video__frame { aspect-ratio: 9 / 16; }
+  .video--inset figcaption { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; border-top: 0; border-left: 1px solid var(--line-soft); }
+  .video--inset h3 { font-size: 16px; }
+  .video--inset .video__more { margin-top: 6px; padding-inline: 14px; }
+}
+
+/* цифры у карты на телефоне в один ряд, а не столбиком */
+@media (max-width: 699px) {
+  .figures--tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .figures--tiles b { font-size: 24px; }
+  .figures--tiles span { font-size: 12px; }
+}
+
+/* Съёмка объекта на телефоне. Ряды с подгонкой по пропорциям на узком
+   экране рассыпались: вертикальный кадр рядом с горизонтальным, под ним
+   дыра. Здесь — ровная сетка в две колонки, первый кадр группы крупно. */
+@media (max-width: 599px) {
+  .shots--rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .shots--rows .shots__row { display: contents; }
+  .shots--rows .shots__row figure { min-width: 0; }
+  .shots--rows .shots__row img { aspect-ratio: 1; height: 100%; }
+  .shots--odd .shots__row:first-child figure:first-child { grid-column: 1 / -1; }
+  .shots--odd .shots__row:first-child figure:first-child img { aspect-ratio: 4 / 3; }
+}
+
+/* список в карточке на две колонки — иначе правая половина пустая */
+@media (min-width: 900px) {
+  /* у списка галочек display: flex, колонки CSS на нём не работают */
+  .checks--cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px clamp(20px, 2.4vw, 40px); }
 }

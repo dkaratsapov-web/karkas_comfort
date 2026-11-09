@@ -224,6 +224,16 @@ for (const url of pages) {
           await new Promise((r) => setTimeout(r, 40));
         }
         window.scrollTo({ top: 0, behavior: 'instant' });
+        /* ленты со свайпом листаем вбок, как пальцем: кадры за правым
+           краем ленивые и без этого не грузятся вовсе — проверять было
+           бы нечего, а битую картинку там пропустили бы */
+        for (const row of document.querySelectorAll('.swipe')) {
+          for (let x = 0; x < row.scrollWidth; x += row.clientWidth || 300) {
+            row.scrollTo({ left: x, behavior: 'instant' });
+            await new Promise((r) => setTimeout(r, 30));
+          }
+          row.scrollTo({ left: 0, behavior: 'instant' });
+        }
       });
       /* ждём, пока докачаются кадры, которые прокрутка только что
          запустила: иначе на страницах с длинной галереей проверка

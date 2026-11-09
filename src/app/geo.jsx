@@ -16,7 +16,7 @@
  * по прямой, а не по дороге, и так и подписано: выдумывать километры
  * и время в пути нельзя.
  */
-import { useMemo, useRef, useState, useCallback } from 'react';
+import { useMemo, useRef, useState, useCallback, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { motion, AnimatePresence, MotionConfig } from 'motion/react';
 
@@ -119,9 +119,12 @@ function Rings({ hub, P, circles = true, labels = true }) {
   );
 }
 
-function City({ c, P, active, dim, onPick, index }) {
+function City({ c, P, active, dim, onPick, index, narrow }) {
   const x = P.x(c.lon), y = P.y(c.lat);
-  const anchor = c.anchor || 'start';
+  /* на телефоне шрифт подписей крупнее, и у пары соседей подписи
+     сталкиваются — для них в geo.json своя раскладка */
+  const place = narrow && c.mobile ? { ...c, ...c.mobile } : c;
+  const anchor = place.anchor || 'start';
   const lx = x + (anchor === 'end' ? -12 : 12);
   const label = c.hub ? `${c.name} — офис и отсчёт расстояний` : `${c.name}, ${km(c.dist)} от Твери`;
   return (
@@ -145,7 +148,7 @@ function City({ c, P, active, dim, onPick, index }) {
       <circle cx={x} cy={y} r="16" className="gx__hit" />
       {c.hub && <circle cx={x} cy={y} r="7" className="gx__pulse" />}
       <circle cx={x} cy={y} r={c.hub ? 6.5 : 4.5} className="gx__dot" />
-      <text x={lx} y={y + (c.dy || 4)} textAnchor={anchor} className="gx__label">{c.name}</text>
+      <text x={lx} y={y + (place.dy || 4)} textAnchor={anchor} className="gx__label">{c.name}</text>
     </motion.g>
   );
 }
@@ -232,6 +235,13 @@ function GeoMap({ data }) {
 
   const [city, setCity] = useState(null);
   const [plot, setPlot] = useState(null);
+  const [narrow, setNarrow] = useState(() => matchMedia('(max-width: 600px)').matches);
+  useEffect(() => {
+    const mq = matchMedia('(max-width: 600px)');
+    const on = () => setNarrow(mq.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
 
   const placePlot = useCallback(({ lon, lat, near }) => {
     const xy = [P.x(lon), P.y(lat)];
@@ -325,6 +335,7 @@ function GeoMap({ data }) {
                 c={c}
                 P={P}
                 index={i}
+                narrow={narrow}
                 active={city?.name === c.name || plot?.near?.name === c.name}
                 dim={Boolean(city || plot) && !(city?.name === c.name || plot?.near?.name === c.name || c.hub)}
                 onPick={(v) => { setPlot(null); setCity(v); }}
