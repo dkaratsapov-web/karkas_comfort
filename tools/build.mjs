@@ -588,7 +588,12 @@ function compareTable() {
   const cell = (on) => (on
     ? '<td class="cmp__yes"><span class="sr-only">входит</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4 10-10"/></svg></td>'
     : '<td class="cmp__no"><span class="sr-only">не входит</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg></td>');
-  return `        <div class="cmp-wrap" tabindex="0" role="region" aria-label="Сравнение комплектаций">
+  /* На телефоне таблица на 12 строк повторяет карточки и занимает почти
+     три экрана — там она свёрнута под кнопкой (main.js закрывает её на узком
+     экране). На широком экране и без скрипта — раскрыта. */
+  return `        <details class="cmp-more" open>
+          <summary class="btn btn--ghost cmp-more__toggle">Сравнить, что входит в каждую комплектацию</summary>
+        <div class="cmp-wrap" tabindex="0" role="region" aria-label="Сравнение комплектаций">
           <table class="cmp">
             <caption class="sr-only">Что входит в комплектации «Тёплый контур», «Вайт бокс» и «Под ключ»</caption>
             <thead>
@@ -601,18 +606,26 @@ ${pricing.tiers.map((t) => `                <th scope="col"><span class="cmp__lo
 ${rows.map((r) => `              <tr><th scope="row">${esc(r.name)}</th>${pricing.tiers.map((t) => cell(r[t.id])).join('')}</tr>`).join('\n')}
             </tbody>
           </table>
-        </div>`;
+        </div>
+        </details>`;
 }
 
 /* Кейс ведёт на страницу проекта, если такая есть, иначе — на свою
    страницу объекта /obekty/<slug>/. Характеристики выводим только те,
    что известны: у свежего объекта их может не быть вовсе. */
 const caseUrl = (c) => `/obekty/${c.slug}/`;
-const caseMeta = (c) => [
-  c.size && c.area ? `${c.size} м · ${c.area} м²` : c.area ? `${c.area} м²` : '',
-  c.term || '',
-  c.tier ? esc(c.tier) : '',
-].filter(Boolean);
+const caseMeta = (c) => {
+  const list = [
+    c.size && c.area ? `${c.size} м · ${c.area} м²` : c.area ? `${c.area} м²` : '',
+    c.term || '',
+    c.tier ? esc(c.tier) : '',
+  ].filter(Boolean);
+  /* характеристик ещё нет — показываем то, что точно есть: сколько
+     кадров со сдачи, иначе внизу карточки пустая полоса */
+  const shots = (c.photos || []).length;
+  if (!list.length && shots) list.push(`${shots} фото со сдачи`);
+  return list;
+};
 
 /* Обложка объекта: один кадр, который идёт и в карточку списка,
    и в шапку страницы объекта. Пока в данных пусто — берём первый

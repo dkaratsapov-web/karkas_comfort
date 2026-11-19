@@ -139,6 +139,17 @@
   });
 
   heroSlider();
+  /* Пока форма первого экрана в кадре, круглые кнопки звонка и MAX
+     прячутся: на телефоне они ложились на поле телефона и кнопку. */
+  (() => {
+    const form = $('.hero-form');
+    if (!form || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver((entries) => {
+      document.body.classList.toggle('hero-form-in', entries.some((e) => e.isIntersecting));
+    }, { threshold: 0.15 }).observe(form);
+  })();
+  /* таблица сравнения на телефоне свёрнута */
+  if (window.matchMedia('(max-width: 699px)').matches) $$('.cmp-more[open]').forEach((d) => d.removeAttribute('open'));
   tierTips();
   cookieBar();
   figures();

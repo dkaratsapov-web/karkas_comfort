@@ -328,7 +328,7 @@ for (const url of pages) {
     /* снимки по экранам: агент смотрит их по очереди, как человек листает */
     const shots = [];
     if (width === 390) {
-      const total = Math.min(facts.fold.pageHeight, HEIGHT * 14);
+      const total = Math.min(facts.fold.pageHeight, HEIGHT * 40);
       for (let k = 0, top = 0; top < total; k++, top += HEIGHT) {
         await page.evaluate((t) => scrollTo(0, t), top);
         await page.waitForTimeout(150);

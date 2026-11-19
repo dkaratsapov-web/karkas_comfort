@@ -3221,3 +3221,46 @@ body::after {
 @media (prefers-reduced-motion: reduce) { .tier__head.has-tip:hover .tiertip { animation: none; } }
 .tier__head.tip-below .tiertip { bottom: auto; top: calc(100% + 14px); }
 .tier__head.tip-below .tiertip::after { top: auto; bottom: 100%; margin: 0 0 -7px -7px; }
+
+/* ---------- по отчёту мобильного ревьюера (главная) ---------- */
+@media (max-width: 899px) {
+  /* 1. кнопки не перекрывают форму первого экрана */
+  .actionbar { transition: opacity .2s var(--ease); }
+  body.hero-form-in .actionbar { opacity: 0; pointer-events: none; }
+  body.hero-form-in .actionbar > * { pointer-events: none; }
+  /* 3. ссылки на документы в подвале не под круглыми кнопками:
+     позднее правило подвала перебивало нижний отступ */
+  .footer { padding-bottom: calc(16px + var(--actionbar) + env(safe-area-inset-bottom)); }
+}
+/* 4. цена комплектации крупнее названия, как задумано: её перебивал .card p */
+.tier .tier__price { font-size: clamp(24px, 2.6vw, 30px); }
+.tier .tier__price small { font-size: 13.5px; }
+/* 5. сводная таблица под кнопкой: на широком экране кнопки нет */
+.cmp-more > summary { list-style: none; }
+.cmp-more > summary::-webkit-details-marker { display: none; }
+.cmp-more__toggle { display: none; }
+@media (max-width: 699px) {
+  .cmp-more__toggle { display: flex; width: 100%; justify-content: center; min-height: 48px; margin-top: 16px; }
+  .cmp-more[open] .cmp-more__toggle { margin-bottom: 4px; }
+}
+/* 8. телефон и логотип в шапке — цели для пальца */
+/* зона нажатия у телефона — прозрачный слой вокруг номера: отступы
+   сдвигали бы строку с часами под ним */
+.header__phone { position: relative; }
+.header__phone::after { content: ""; position: absolute; inset: -13px -6px; }
+.logo { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; }
+/* 9. ссылка в плашке про ипотеку */
+.ribbon a { display: inline-flex; align-items: center; min-height: 44px; }
+/* 10–11. блок карты на телефоне по левому краю, как вся страница;
+   заголовки без висячих слов */
+@media (max-width: 699px) {
+  .section__head--center { text-align: left; margin-inline: 0; }
+  .section__head--center .eyebrow { justify-content: flex-start; }
+  h2 { text-wrap: balance; }
+}
+/* 12. подписи не мельче нормы */
+.post__meta { font-size: 12.5px; }
+.post__tag { font-size: 11.5px; }
+.hero__fact span { font-size: 13px; }
+/* 13. точки слайдера не вплотную */
+.flight__rail { gap: 8px; }
