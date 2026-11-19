@@ -3264,3 +3264,10 @@ body::after {
 .hero__fact span { font-size: 13px; }
 /* 13. точки слайдера не вплотную */
 .flight__rail { gap: 8px; }
+
+/* Карточка «Постоянные бригады»: картинка во всю ширину, без полей по бокам.
+   Кадр расширен фоном самой сцены, поэтому cover режет только фон. */
+@media (min-width: 1100px) {
+  .bento-feature__media { background: #F1EDE2; }
+  .bento-feature__media img { object-fit: cover; object-position: 50% 45%; }
+}
