@@ -21,7 +21,7 @@ import sharp from 'sharp';
 
 const VERSION = 'wm-3';                   // поменять — и все знаки пересоберутся
 const CACHE = '.cache/watermark';
-const SKIP = /^(stati-|video-|hero)/;
+const SKIP = /^(stati-|video-|hero|docs-)/;   // иллюстрации, не съёмка
 const LIGHT = readFileSync('assets/img/logo-h-on-dark.svg', 'utf8');
 const DARK = readFileSync('assets/img/logo-h.svg', 'utf8');
 

@@ -3137,3 +3137,9 @@ body::after {
 .footer__docs { display: flex; flex-wrap: wrap; gap: 4px 18px; }
 /* кнопка «измените выбор» в тексте политики cookie — цель для пальца */
 .prose .linklike[data-cookie-reset] { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; }
+
+/* превью документов — иллюстрации в палитре сайта вместо схем-заглушек */
+.doc__preview--art { padding: 0; display: block; background: #EFF1EC; min-height: 0; aspect-ratio: 900 / 439; }
+.doc__preview--art img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.doc:hover .doc__preview--art img { transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) { .doc__preview--art img { transition: none; } }
