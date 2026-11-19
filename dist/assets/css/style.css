@@ -3113,3 +3113,27 @@ body::after {
 .footer__cols li { min-height: 30px; display: flex; align-items: center; }
 .footer a, .footer .linklike { min-height: 30px; }
 .footer__bottom { margin-top: 16px; padding-top: 12px; }
+
+/* окно о cookie: справа снизу, на телефоне — над круглыми кнопками */
+.cookiebar {
+  position: fixed; z-index: 70; right: clamp(12px, 2vw, 28px); bottom: clamp(12px, 2vw, 28px);
+  width: min(440px, calc(100vw - 24px)); display: grid; gap: 12px;
+  padding: 16px 18px; border-radius: 18px;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+  box-shadow: 0 30px 60px -30px rgba(23, 21, 15, .6);
+  opacity: 0; transform: translateY(12px); transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.cookiebar.is-on { opacity: 1; transform: none; }
+.cookiebar__text { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+.cookiebar__text a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
+.cookiebar__btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.cookiebar__btns .btn { flex: 1 1 auto; justify-content: center; }
+@media (max-width: 899px) {
+  .cookiebar { left: 12px; right: 12px; width: auto; bottom: calc(86px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) { .cookiebar { transition: none; } }
+
+/* документы в нижней строке подвала */
+.footer__docs { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+/* кнопка «измените выбор» в тексте политики cookie — цель для пальца */
+.prose .linklike[data-cookie-reset] { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; }

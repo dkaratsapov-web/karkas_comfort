@@ -390,17 +390,23 @@ ${steps}
    Цели на заявку, звонок и клик по мессенджеру шлёт assets/js/main.js. */
 const analytics = [
   site.metrika ? `  <script>
-    /* Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
-       грузится, но счётчик не инициализируется и обращение /watch/
-       не уходит — визиты в Метрику не попадают вовсе. */
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=${Number(site.metrika)}","ym");
-    ym(${Number(site.metrika)}, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/${site.metrika}" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>` : '',
+    /* Яндекс.Метрика ставит аналитические cookie, а по 152-ФЗ на них нужно
+       согласие до начала сбора. Поэтому счётчик не стартует сам: его
+       запускает kkMetrika() — сразу, если посетитель уже нажал «Принять»,
+       или из окна о cookie (assets/js/main.js).
+       Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
+       грузится, но счётчик не инициализируется. */
+    window.kkMetrika = function () {
+      if (window.kkMetrikaOn) return; window.kkMetrikaOn = true;
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=${Number(site.metrika)}","ym");
+      ym(${Number(site.metrika)}, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
+    };
+    try { if (localStorage.getItem('kk-cookie') === 'all') window.kkMetrika(); } catch (e) {}
+  </script>`.replace(/\n  <noscript>[\s\S]*$/, '') : '',
   site.gtag ? `  <script async src="https://www.googletagmanager.com/gtag/js?id=${site.gtag}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config",${JSON.stringify(site.gtag)});</script>` : ''
 ].filter(Boolean).join('\n');
@@ -1484,7 +1490,7 @@ for (const c of cases) {
               <input type="hidden" name="consent" value="1">
               <button class="btn btn--accent" type="submit">Рассчитать такой же<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></button>
             </div>
-            <p class="obj-head__formnote">Перезвоним в рабочее время. Нажимая кнопку, вы соглашаетесь с <a href="/politika.html">политикой конфиденциальности</a></p>
+            <p class="obj-head__formnote">Нажимая кнопку, вы даёте <a href="/soglasie/">согласие на обработку персональных данных</a></p>
             <p class="form__error" role="alert" aria-live="assertive"></p>
             <p class="form__ok" role="status" aria-live="polite">Спасибо! Заявка принята — перезвоним в рабочее время с 8:00 до 20:00.</p>
           </form>

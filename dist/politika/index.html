@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Политика конфиденциальности сайта | Каркас Комфорт</title>
-  <meta name="description" content="Политика обработки персональных данных ООО «Каркас Комфорт»: какие данные мы получаем с форм сайта, зачем они нужны, сколько хранятся и как их отозвать.">
+  <meta name="description" content="Политика ООО «Каркас Комфорт» в отношении обработки персональных данных: какие данные получаем с сайта, зачем, на каком основании, сколько храним и как…">
   <link rel="canonical" href="https://xn--80aa2abbmnbmggrx.xn--p1ai/politika/">
   <meta name="theme-color" content="#17150F">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Каркас Комфорт">
   <meta property="og:title" content="Политика конфиденциальности сайта | Каркас Комфорт">
-  <meta property="og:description" content="Политика обработки персональных данных ООО «Каркас Комфорт»: какие данные мы получаем с форм сайта, зачем они нужны, сколько хранятся и как их отозвать.">
+  <meta property="og:description" content="Политика ООО «Каркас Комфорт» в отношении обработки персональных данных: какие данные получаем с сайта, зачем, на каком основании, сколько храним и как…">
   <meta property="og:url" content="https://xn--80aa2abbmnbmggrx.xn--p1ai/politika/">
   <meta property="og:image" content="https://xn--80aa2abbmnbmggrx.xn--p1ai/assets/img/og.png">
   <meta property="og:locale" content="ru_RU">
@@ -22,21 +22,27 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/onest-wght.woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=f683baa5">
+  <link rel="stylesheet" href="/assets/css/style.css?v=ad4b8057">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/"},{"@type":"ListItem","position":2,"name":"Политика конфиденциальности","item":"https://xn--80aa2abbmnbmggrx.xn--p1ai/politika.html"}]}</script>
   <meta name="yandex-verification" content="73b1bd7626f79ddd">
   <script>
-    /* Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
-       грузится, но счётчик не инициализируется и обращение /watch/
-       не уходит — визиты в Метрику не попадают вовсе. */
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=113852042","ym");
-    ym(113852042, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
+    /* Яндекс.Метрика ставит аналитические cookie, а по 152-ФЗ на них нужно
+       согласие до начала сбора. Поэтому счётчик не стартует сам: его
+       запускает kkMetrika() — сразу, если посетитель уже нажал «Принять»,
+       или из окна о cookie (assets/js/main.js?v=0bee54f2).
+       Адрес загрузчика обязательно с ?id=<номер>: без него библиотека
+       грузится, но счётчик не инициализируется. */
+    window.kkMetrika = function () {
+      if (window.kkMetrikaOn) return; window.kkMetrikaOn = true;
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r){return;}}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=113852042","ym");
+      ym(113852042, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
+    };
+    try { if (localStorage.getItem('kk-cookie') === 'all') window.kkMetrika(); } catch (e) {}
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/113852042" style="position:absolute;left:-9999px" alt="" width="1" height="1"></div></noscript>
 </head>
 
 <body data-rates="{&quot;standart&quot;:57000,&quot;komfort&quot;:68000,&quot;pod_kluch&quot;:80000}" data-pricing="{&quot;ratePerM2&quot;:{&quot;standart&quot;:57000,&quot;komfort&quot;:68000,&quot;pod_kluch&quot;:80000},&quot;tiers&quot;:[{&quot;id&quot;:&quot;standart&quot;,&quot;name&quot;:&quot;Тёплый контур&quot;,&quot;short&quot;:&quot;Контур&quot;,&quot;note&quot;:&quot;Каркас, кровля, утепление, окна&quot;},{&quot;id&quot;:&quot;komfort&quot;,&quot;name&quot;:&quot;Вайт бокс&quot;,&quot;short&quot;:&quot;Вайт бокс&quot;,&quot;note&quot;:&quot;Плюс коммуникации и черновая отделка&quot;},{&quot;id&quot;:&quot;pod_kluch&quot;,&quot;name&quot;:&quot;Под ключ&quot;,&quot;short&quot;:&quot;Под ключ&quot;,&quot;note&quot;:&quot;Отделка готова, заезжаете с мебелью&quot;}],&quot;floors&quot;:[{&quot;id&quot;:&quot;1&quot;,&quot;name&quot;:&quot;1 этаж&quot;,&quot;factor&quot;:1},{&quot;id&quot;:&quot;1.5&quot;,&quot;name&quot;:&quot;1,5 этажа&quot;,&quot;factor&quot;:0.96},{&quot;id&quot;:&quot;2&quot;,&quot;name&quot;:&quot;2 этажа&quot;,&quot;factor&quot;:0.92}],&quot;foundations&quot;:[{&quot;id&quot;:&quot;svai&quot;,&quot;name&quot;:&quot;Сваи&quot;,&quot;note&quot;:&quot;ж/б&quot;,&quot;perM2&quot;:2100},{&quot;id&quot;:&quot;lenta&quot;,&quot;name&quot;:&quot;Лента&quot;,&quot;note&quot;:&quot;мелкозаглублённая&quot;,&quot;perM2&quot;:3600},{&quot;id&quot;:&quot;plita&quot;,&quot;name&quot;:&quot;Плита&quot;,&quot;note&quot;:&quot;утеплённая, под тёплый пол&quot;,&quot;perM2&quot;:5400}],&quot;extras&quot;:[{&quot;id&quot;:&quot;terrace&quot;,&quot;name&quot;:&quot;Терраса&quot;,&quot;note&quot;:&quot;15 м² под общей кровлей&quot;,&quot;fixed&quot;:270000},{&quot;id&quot;:&quot;carport&quot;,&quot;name&quot;:&quot;Навес для машины&quot;,&quot;note&quot;:&quot;на один автомобиль&quot;,&quot;fixed&quot;:210000},{&quot;id&quot;:&quot;bath2&quot;,&quot;name&quot;:&quot;Второй санузел&quot;,&quot;note&quot;:&quot;с разводкой воды&quot;,&quot;fixed&quot;:180000},{&quot;id&quot;:&quot;warmfloor&quot;,&quot;name&quot;:&quot;Тёплый пол&quot;,&quot;note&quot;:&quot;по всей площади&quot;,&quot;perM2&quot;:2800}],&quot;spread&quot;:0.1,&quot;stages&quot;:[{&quot;id&quot;:&quot;foundation&quot;,&quot;name&quot;:&quot;Фундамент и обвязка&quot;,&quot;share&quot;:{&quot;standart&quot;:0.16,&quot;komfort&quot;:0.12,&quot;pod_kluch&quot;:0.1}},{&quot;id&quot;:&quot;frame&quot;,&quot;name&quot;:&quot;Каркас и перекрытия&quot;,&quot;share&quot;:{&quot;standart&quot;:0.34,&quot;komfort&quot;:0.26,&quot;pod_kluch&quot;:0.21}},{&quot;id&quot;:&quot;roof&quot;,&quot;name&quot;:&quot;Кровля и водосток&quot;,&quot;share&quot;:{&quot;standart&quot;:0.22,&quot;komfort&quot;:0.17,&quot;pod_kluch&quot;:0.14}},{&quot;id&quot;:&quot;contour&quot;,&quot;name&quot;:&quot;Утепление, фасад, окна&quot;,&quot;share&quot;:{&quot;standart&quot;:0.28,&quot;komfort&quot;:0.21,&quot;pod_kluch&quot;:0.17}},{&quot;id&quot;:&quot;eng&quot;,&quot;name&quot;:&quot;Инженерные сети&quot;,&quot;share&quot;:{&quot;standart&quot;:0,&quot;komfort&quot;:0.24,&quot;pod_kluch&quot;:0.19}},{&quot;id&quot;:&quot;finish&quot;,&quot;name&quot;:&quot;Отделка&quot;,&quot;share&quot;:{&quot;standart&quot;:0,&quot;komfort&quot;:0,&quot;pod_kluch&quot;:0.19}}],&quot;terms&quot;:[{&quot;maxArea&quot;:90,&quot;text&quot;:&quot;1,5–2 месяца&quot;},{&quot;maxArea&quot;:150,&quot;text&quot;:&quot;2–3 месяца&quot;},{&quot;maxArea&quot;:9999,&quot;text&quot;:&quot;3–4 месяца&quot;}]}" data-lead-endpoint="/api/lead.php" data-metrika="113852042">
@@ -141,30 +147,64 @@
 
     <section class="section">
       <div class="container prose">
-        <p class="muted">Редакция от 18 августа 2026 года.</p>
+        <p class="muted">Редакция от 19 ноября 2026 года.</p>
+
         <h2>1. Общие положения</h2>
-        <p>Настоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных и меры по обеспечению их безопасности, предпринимаемые ООО «Каркас Комфорт» (ИНН 6950240202, далее — Оператор).</p>
-        <h2>2. Какие данные мы собираем</h2>
-        <p>Оператор обрабатывает данные, которые пользователь сообщает добровольно через формы на сайте: имя, номер телефона, адрес электронной почты и текст сообщения. Дополнительно могут собираться обезличенные данные о посещении сайта средствами интернет-статистики.</p>
+        <p>Политика определяет, как общество с ограниченной ответственностью «КАРКАС КОМФОРТ» (далее — Оператор) обрабатывает персональные данные посетителей сайта каркаскомфорт.рф (далее — Сайт) и клиентов, и какие меры принимает для их защиты. Политика составлена в соответствии с Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных» и опубликована для свободного доступа согласно части 2 статьи 18.1 этого закона.</p>
+        <p>Сведения об Операторе: ООО «КАРКАС КОМФОРТ», ИНН 6950240202, КПП 695001001, ОГРН 1206900005894, адрес: 170100, г. Тверь, ул. Серебряная, д. 12, офис 31; телефон <a href="tel:+79201716969">8 (920) 171-69-69</a>; почта <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>.</p>
+
+        <h2>2. Чьи данные и какие</h2>
+        <p><b>Посетители, отправившие заявку или сообщение с Сайта:</b> имя, номер телефона, текст сообщения и сведения о планируемом строительстве, место участка, отмеченное на карте, а также технические сведения, приходящие вместе с заявкой: страница отправки, источник перехода и метки рекламной ссылки, IP-адрес и определённый по нему населённый пункт, тип устройства и браузера.</p>
+        <p><b>Посетители Сайта, согласившиеся на аналитические cookie:</b> сведения о посещении, которые собирает Яндекс.Метрика (см. раздел 6).</p>
+        <p><b>Клиенты и их представители:</b> данные, необходимые для заключения и исполнения договора подряда, — ФИО, паспортные данные, адрес, сведения об участке и объекте строительства.</p>
+        <p>Оператор не обрабатывает специальные категории персональных данных (о здоровье, убеждениях и т. п.) и биометрические данные.</p>
+
         <h2>3. Цели обработки</h2>
         <ul>
-          <li>обратная связь с пользователем, включая консультации и расчёт стоимости строительства;</li>
-          <li>подготовка и заключение договора подряда;</li>
-          <li>информирование о статусе работ по заявке.</li>
+          <li>ответ на заявку, консультация, расчёт стоимости и сметы, согласование выезда на участок — по согласию посетителя;</li>
+          <li>заключение и исполнение договора подряда — на основании договора;</li>
+          <li>исполнение обязанностей по налоговому и бухгалтерскому учёту — на основании закона;</li>
+          <li>улучшение работы Сайта по обезличенной статистике — по согласию на аналитические cookie.</li>
         </ul>
+
         <h2>4. Правовые основания</h2>
-        <p>Обработка осуществляется на основании согласия пользователя, которое даётся при отправке формы на сайте, а также на основании договоров, заключаемых между Оператором и пользователем.</p>
-        <h2>5. Условия обработки и передача третьим лицам</h2>
-        <p>Оператор не передаёт персональные данные третьим лицам, за исключением случаев, прямо предусмотренных законодательством Российской Федерации. Данные хранятся на территории Российской Федерации.</p>
-        <h2>6. Срок хранения</h2>
-        <p>Персональные данные хранятся не дольше, чем этого требуют цели обработки, либо до отзыва пользователем согласия.</p>
-        <h2>7. Права пользователя</h2>
-        <p>Пользователь вправе получить информацию об обработке своих персональных данных, потребовать их уточнения, блокирования или уничтожения, а также отозвать согласие на обработку. Для этого достаточно направить обращение на адрес <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a>.</p>
-        <h2>8. Файлы cookie</h2>
-        <p>Сайт использует файлы cookie для корректной работы интерфейса и сбора обезличенной статистики. Пользователь может отключить cookie в настройках браузера — на доступность основных разделов сайта это не влияет.</p>
-        <h2>9. Контакты оператора</h2>
-        <p>ООО «Каркас Комфорт», 170100, г. Тверь, ул. Серебряная, 12, офис 31. Телефон: <a href="tel:+79201716969">8 (920) 171-69-69</a>.</p>
-        <p class="muted"><b>Внимание:</b> перед публикацией текст политики следует согласовать с юристом и при необходимости привести в соответствие с фактическим порядком обработки данных в компании.</p>
+        <p>Согласие субъекта на обработку персональных данных (<a href="/soglasie/">текст согласия</a>), которое даётся при отправке формы на Сайте; договоры, стороной которых является субъект; Гражданский и Налоговый кодексы Российской Федерации, Федеральный закон «О бухгалтерском учёте».</p>
+
+        <h2>5. Как обрабатываются данные</h2>
+        <p>Оператор собирает, записывает, систематизирует, накапливает, хранит, уточняет, извлекает, использует, передаёт (предоставляет, открывает доступ), блокирует, удаляет и уничтожает данные — с использованием средств автоматизации и без них.</p>
+        <p>Запись, систематизация, накопление, хранение и уточнение персональных данных граждан Российской Федерации ведутся в базах данных, расположенных на территории Российской Федерации.</p>
+        <p>Данные доступны только сотрудникам Оператора, которым они нужны для работы с заявкой или договором. Для достижения целей обработки данные могут передаваться лицам, обрабатывающим их по поручению Оператора: хостинг-провайдеру Сайта и сервису доставки заявок сотрудникам. Такие лица обязаны соблюдать конфиденциальность и требования закона. Иным третьим лицам данные передаются только в случаях, предусмотренных законом.</p>
+
+        <h2>6. Cookie и Яндекс.Метрика</h2>
+        <p>Сайт использует необходимые cookie, без которых он не работает, и — только с согласия посетителя — аналитические cookie сервиса Яндекс.Метрика (ООО «ЯНДЕКС»). Согласие даётся в окне, которое появляется при первом посещении, и может быть отозвано в любой момент. Подробно — в <a href="/cookie/">политике использования cookie</a>.</p>
+
+        <h2>7. Сроки хранения</h2>
+        <ul>
+          <li>данные заявок — до достижения целей обработки, но не дольше трёх лет с момента отправки, либо до отзыва согласия;</li>
+          <li>данные по договорам — в течение срока действия договора и далее в сроки, установленные законом для хранения договорных и бухгалтерских документов.</li>
+        </ul>
+        <p>По истечении срока или при отзыве согласия данные уничтожаются в течение 30 дней, если иное не предусмотрено законом.</p>
+
+        <h2>8. Права субъекта</h2>
+        <p>Субъект персональных данных вправе:</p>
+        <ul>
+          <li>получить сведения об обработке своих данных: подтверждение факта обработки, цели, способы, сроки, перечень лиц, которым данные раскрываются;</li>
+          <li>потребовать уточнения, блокирования или уничтожения данных, если они неполные, устаревшие, неточные или обрабатываются незаконно;</li>
+          <li>отозвать согласие на обработку;</li>
+          <li>обжаловать действия Оператора в Роскомнадзоре или в суде.</li>
+        </ul>
+        <p>Запрос или отзыв согласия направляется на <a href="mailto:karkascomfort@yandex.ru">karkascomfort@yandex.ru</a> или по адресу Оператора. Оператор отвечает в течение 10 рабочих дней с момента получения запроса; срок может быть продлён ещё на 5 рабочих дней с уведомлением о причинах.</p>
+
+        <h2>9. Как данные защищены</h2>
+        <ul>
+          <li>Сайт работает по защищённому протоколу HTTPS, данные форм передаются в зашифрованном виде;</li>
+          <li>доступ к заявкам в кабинете Оператора — по личному логину и паролю, с разграничением ролей;</li>
+          <li>файлы с заявками закрыты от доступа из интернета;</li>
+          <li>сотрудники, работающие с данными, ознакомлены с этой политикой.</li>
+        </ul>
+
+        <h2>10. Изменение политики</h2>
+        <p>Оператор может обновлять политику. Новая редакция действует с момента публикации на этой странице; дата редакции указана вверху.</p>
       </div>
     </section>
   </main>
@@ -207,7 +247,7 @@
       </div>
       <div class="footer__bottom">
         <span>© 2009–2026 ООО «Каркас Комфорт». ИНН 6950240202, ОГРН 1206900005894</span>
-        <span><a href="/politika/">Политика конфиденциальности</a></span>
+        <span class="footer__docs"><a href="/politika/">Политика обработки данных</a><a href="/soglasie/">Согласие на обработку данных</a><a href="/cookie/">Cookie</a></span>
       </div>
     </div>
   </footer>
@@ -258,7 +298,7 @@
           <div class="sr-only" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-label="Оставьте поле пустым"></div>
           <label class="consent">
             <input type="checkbox" name="consent" required>
-            <span>Согласен на обработку персональных данных в соответствии с <a href="/politika/">политикой конфиденциальности</a></span>
+            <span>Даю <a href="/soglasie/">согласие на обработку персональных данных</a> и подтверждаю, что ознакомлен с <a href="/politika/">политикой</a></span>
           </label>
           <button class="btn btn--accent btn--block" type="submit">Получить смету</button>
         </div>
@@ -328,7 +368,7 @@
             <div class="sr-only" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-label="Оставьте поле пустым"></div>
             <label class="consent">
               <input type="checkbox" name="consent" required>
-              <span>Согласен на обработку персональных данных в соответствии с <a href="/politika/">политикой конфиденциальности</a></span>
+              <span>Даю <a href="/soglasie/">согласие на обработку персональных данных</a> и подтверждаю, что ознакомлен с <a href="/politika/">политикой</a></span>
             </label>
             <button class="btn btn--accent btn--block" type="submit">Получить смету по этапам</button>
           </div>
@@ -341,6 +381,6 @@
     </div>
   </div>
 
-  <script src="/assets/js/main.js?v=ea2979aa" defer></script>
+  <script src="/assets/js/main.js?v=0bee54f2" defer></script>
 </body>
 </html>

@@ -181,6 +181,9 @@ $digits  = preg_replace('/\D+/', '', $phone) ?? '';
 if (mb_strlen($name) < 2)   fail('Укажите имя');
 if (strlen($digits) < 11)   fail('Укажите телефон полностью');
 if (empty($data['consent'])) fail('Нужно согласие на обработку персональных данных');
+/* Какое согласие дано: по 152-ФЗ оператор должен суметь подтвердить
+   факт и содержание согласия. Пишем редакцию документа вместе с заявкой. */
+$consent_note = 'согласие на обработку ПД, редакция от 19.11.2026 (/soglasie/)';
 
 /* --- ограничение частоты по IP --- */
 $ip    = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
@@ -460,6 +463,7 @@ $record  = [
     'referrer' => $referrer,
     'landing' => $landing,
     'utm'     => $utm,
+    'consent' => $consent_note,   // какое согласие дано и когда (время — в 'at')
     'test'    => !empty($data['test']),
     'sent'    => ['mail' => $sent, 'telegram' => $telegram, 'max' => $max, 'crm' => $crm],
     'mail_error' => $sent ? '' : mb_substr($mailError, 0, 300),

@@ -23,6 +23,10 @@ const ownOnly = async (page) => {
       ? route.continue()
       : route.abort();
   });
+  /* окно о cookie закрыто заранее, как у вернувшегося посетителя:
+     иначе оно лежит поверх низа страницы, перехватывает нажатия и
+     считается наложением. Само окно проверяет отдельный сценарий. */
+  await page.addInitScript(() => { try { localStorage.setItem('kk-cookie', 'necessary'); } catch (e) { /* без хранилища */ } });
   return page;
 };
 
@@ -154,6 +158,25 @@ const answer = await Promise.race([
 ]).catch(() => '');
 ok('после отправки пользователь видит однозначный результат', answer === 'ok' || answer === 'error');
 await p.close();
+
+/* 4б. Окно о cookie: при первом визите оно есть, Метрика до согласия
+   не стартует, «Только необходимые» закрывает окно и запоминается. */
+{
+  const fresh = await b.newPage({ viewport: { width: 1280, height: 900 } });
+  await fresh.route('**/*', (route) => {
+    const host = new URL(route.request().url()).hostname;
+    return (host === '127.0.0.1' || host === 'localhost') ? route.continue() : route.abort();
+  });
+  await fresh.goto(`${B}/`, { waitUntil: 'networkidle' });
+  ok('при первом визите показано окно о cookie', await fresh.isVisible('.cookiebar'));
+  ok('Метрика не запущена до согласия', await fresh.evaluate(() => !window.kkMetrikaOn));
+  await fresh.click('.cookiebar__no');
+  await fresh.waitForTimeout(400);
+  await fresh.reload({ waitUntil: 'networkidle' });
+  ok('выбор «Только необходимые» запоминается, окно больше не появляется', !(await fresh.isVisible('.cookiebar')) && await fresh.evaluate(() => !window.kkMetrikaOn));
+  ok('документы о данных доступны из подвала', await fresh.evaluate(() => ['/politika/', '/soglasie/', '/cookie/'].every((u) => document.querySelector(`.footer a[href="${u}"]`))));
+  await fresh.close();
+}
 
 /* 5. Мобильная версия */
 p = await ownOnly(await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }));

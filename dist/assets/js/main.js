@@ -139,6 +139,7 @@
   });
 
   heroSlider();
+  cookieBar();
   figures();
   geoLater();
   articleSearch();
@@ -413,6 +414,47 @@ function figures() {
     card.addEventListener('pointerenter', () => { if (card.classList.contains('is-play')) play(card); });
     card.addEventListener('click', () => play(card));
   });
+}
+
+/* Окно о cookie. Необходимые cookie работают всегда, аналитика
+   (Яндекс.Метрика) — только после «Принять». Выбор хранится в браузере;
+   на странице /cookie/ его можно сбросить и выбрать заново. */
+function cookieBar() {
+  const KEY = 'kk-cookie';
+  let choice = null;
+  try { choice = localStorage.getItem(KEY); } catch { /* хранилище закрыто — спросим заново */ }
+
+  const save = (v) => {
+    try { localStorage.setItem(KEY, v); } catch { /* не сохранилось — окно появится ещё раз */ }
+    if (v === 'all' && typeof window.kkMetrika === 'function') window.kkMetrika();
+  };
+
+  const show = () => {
+    if ($('.cookiebar')) return;
+    const bar = document.createElement('div');
+    bar.className = 'cookiebar';
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('aria-label', 'Согласие на cookie');
+    bar.innerHTML =
+      '<p class="cookiebar__text">Сайт использует cookie. Необходимые работают всегда, аналитические (Яндекс.Метрика) — только с вашего согласия. ' +
+      '<a href="/cookie/">Подробнее</a></p>' +
+      '<div class="cookiebar__btns">' +
+      '<button class="btn btn--sm cookiebar__ok" type="button">Принять</button>' +
+      '<button class="btn btn--ghost btn--sm cookiebar__no" type="button">Только необходимые</button>' +
+      '</div>';
+    document.body.appendChild(bar);
+    requestAnimationFrame(() => bar.classList.add('is-on'));
+    const done = (v) => { save(v); bar.classList.remove('is-on'); setTimeout(() => bar.remove(), 300); };
+    $('.cookiebar__ok', bar).addEventListener('click', () => done('all'));
+    $('.cookiebar__no', bar).addEventListener('click', () => done('necessary'));
+  };
+
+  $$('[data-cookie-reset]').forEach((b) => b.addEventListener('click', () => {
+    try { localStorage.removeItem(KEY); } catch { /* ничего */ }
+    show();
+  }));
+
+  if (choice !== 'all' && choice !== 'necessary') show();
 }
 
 function heroSlider() {

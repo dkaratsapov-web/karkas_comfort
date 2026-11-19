@@ -28,6 +28,10 @@ const ownOnly = async (page) => {
       ? route.continue()
       : route.abort();
   });
+  /* окно о cookie закрыто заранее, как у вернувшегося посетителя:
+     иначе оно лежит поверх низа страницы, перехватывает нажатия и
+     считается наложением. Само окно проверяет отдельный сценарий. */
+  await page.addInitScript(() => { try { localStorage.setItem('kk-cookie', 'necessary'); } catch (e) { /* без хранилища */ } });
   return page;
 };
 
