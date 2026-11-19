@@ -139,6 +139,46 @@
   });
 
   heroSlider();
+  /* Лента роликов на телефоне: по одному ролику на экран и кнопки
+     «назад / вперёд» со счётчиком под лентой. Палец тоже листает,
+     кнопки и счётчик следят за прокруткой. На широком экране ролики
+     стоят сеткой, и кнопки скрыты стилями. */
+  $$('.reel.swipe').forEach((lane) => {
+    const cards = $$('.reel__card', lane);
+    if (cards.length < 2) return;
+    const arrow = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+    const nav = document.createElement('div');
+    nav.className = 'swipe-nav';
+    nav.innerHTML = `<button class="swipe-nav__btn" type="button" data-step="-1" aria-label="Предыдущий ролик">${arrow('M15 6l-6 6 6 6')}</button>`
+      + `<span class="swipe-nav__count" aria-live="polite"></span>`
+      + `<button class="swipe-nav__btn" type="button" data-step="1" aria-label="Следующий ролик">${arrow('M9 6l6 6-6 6')}</button>`;
+    lane.after(nav);
+    const [prev, next] = $$('.swipe-nav__btn', nav);
+    const count = $('.swipe-nav__count', nav);
+    const step = () => (cards[1].offsetLeft - cards[0].offsetLeft) || lane.clientWidth;
+    const at = () => Math.max(0, Math.min(cards.length - 1, Math.round(lane.scrollLeft / step())));
+    const sync = () => {
+      const i = at();
+      count.textContent = `${i + 1} / ${cards.length}`;
+      prev.disabled = i === 0;
+      next.disabled = i === cards.length - 1;
+    };
+    nav.addEventListener('click', (e) => {
+      const b = e.target.closest('.swipe-nav__btn');
+      if (!b) return;
+      const i = Math.max(0, Math.min(cards.length - 1, at() + Number(b.dataset.step)));
+      lane.scrollTo({ left: i * step(), behavior: 'smooth' });
+    });
+    let raf = 0;
+    lane.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(sync); }, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        document.body.classList.toggle('reel-nav-in', entries.some((e) => e.isIntersecting));
+      }).observe(nav);
+    }
+  });
   /* Пока форма первого экрана в кадре, круглые кнопки звонка и MAX
      прячутся: на телефоне они ложились на поле телефона и кнопку. */
   (() => {
@@ -146,7 +186,7 @@
     if (!form || !('IntersectionObserver' in window)) return;
     new IntersectionObserver((entries) => {
       document.body.classList.toggle('hero-form-in', entries.some((e) => e.isIntersecting));
-    }, { threshold: 0.15 }).observe(form);
+    }, { threshold: 0.15 }).observe($('[type=submit]', form) || form);
   })();
   /* таблица сравнения на телефоне свёрнута */
   if (window.matchMedia('(max-width: 699px)').matches) $$('.cmp-more[open]').forEach((d) => d.removeAttribute('open'));

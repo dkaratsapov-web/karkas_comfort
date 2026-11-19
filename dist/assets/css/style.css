@@ -3271,3 +3271,79 @@ body::after {
   .bento-feature__media { background: #F1EDE2; }
   .bento-feature__media img { object-fit: cover; object-position: 50% 45%; }
 }
+
+/* Лента роликов на телефоне: один ролик на экран, кадр 4:5, чтобы
+   карточка с подписью целиком помещалась в экран; под лентой кнопки
+   «назад / вперёд» и счётчик. На широком экране — прежняя сетка. */
+.swipe-nav { display: none; }
+@media (max-width: 699px) {
+  .reel.swipe { grid-auto-columns: 100%; gap: 16px; }
+  .reel.swipe .reel__frame { aspect-ratio: 4 / 5; }
+  .swipe-nav { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 14px; }
+  .swipe-nav__btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; padding: 0; border-radius: 50%; cursor: pointer;
+    color: var(--on-dark); background: rgba(244, 239, 231, .08);
+    border: 1px solid rgba(244, 239, 231, .28);
+    transition: background .2s var(--ease), opacity .2s var(--ease);
+  }
+  .swipe-nav__btn svg { width: 22px; height: 22px; }
+  .swipe-nav__btn:active { background: rgba(244, 239, 231, .18); }
+  .swipe-nav__btn:disabled { opacity: .35; cursor: default; }
+  .swipe-nav__count { min-width: 56px; text-align: center; font-size: 15px; font-variant-numeric: tabular-nums; color: var(--on-dark-2); }
+}
+
+/* Первый экран на телефоне: акцент на фото. Кадр почти во всю ширину
+   и квадратный — дом крупно; заголовок чуть меньше; цифры не плашками,
+   а лёгким списком в две колонки с акцентной чертой — вдвое ниже. */
+@media (max-width: 699px) {
+  .hero.flight .flight__media {
+    margin: calc(var(--header-h) + 22px) 10px 0;
+    aspect-ratio: 1 / 1; border-radius: 18px;
+  }
+  .hero.flight h1 { font-size: clamp(24px, 6.6vw, 30px); }
+  .hero.flight .hero__lead { font-size: 15px; margin-top: 8px; }
+  .hero.flight .hero__facts { margin-top: 14px; gap: 10px 14px; }
+  .hero.flight .hero__fact {
+    padding: 1px 0 1px 10px; background: none; border: 0; border-radius: 0;
+    border-left: 2px solid var(--accent-bright); box-shadow: none;
+  }
+  .hero.flight .hero__fact b { font-size: 16px; line-height: 1.2; }
+  .hero.flight .hero__fact span { font-size: 12px; margin-top: 2px; }
+}
+
+/* по отчёту мобильного ревьюера: первый экран и лента роликов */
+.reel-more { display: none; }
+@media (max-width: 699px) {
+  /* фото во всю ширину экрана — один край у кадра, без второго отступа */
+  .hero.flight .flight__media { margin-inline: 0; border-radius: 0; box-shadow: none; }
+  /* точки слайдера — на нижнем крае кадра: форма поднимается выше */
+  .js .hero.flight[data-slider="on"] .flight__story {
+    position: absolute; z-index: 3; left: 0; right: 0;
+    top: calc(var(--header-h) + 22px + 100vw - 30px); padding: 0;
+  }
+  .hero.flight .flight__dot span { box-shadow: 0 1px 4px rgba(0, 0, 0, .5); }
+  .hero.flight .hero__inner { padding-top: 18px; }
+  /* стрелки — на середине квадратного кадра, цель 44 px */
+  .js .hero.flight[data-slider="on"] .flight__nav {
+    width: 44px; height: 44px;
+    top: calc(var(--header-h) + 22px + 50vw);
+  }
+  .js .hero.flight[data-slider="on"] .flight__nav--prev { left: 12px; }
+  .js .hero.flight[data-slider="on"] .flight__nav--next { right: 12px; }
+  .hero.flight .hero__fact span { font-size: 13px; line-height: 1.3; }
+  /* подписи роликов не длиннее трёх строк: карточки одной высоты без пустот */
+  .reel.swipe { padding-inline: 0; }
+  .reel.swipe .reel__note { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  /* кнопка «Все видео» — под лентой, а не между заголовком и роликом */
+  .reel-head-more { display: none; }
+  .reel-more { display: flex; justify-content: center; width: 100%; margin-top: 16px; min-height: 48px; }
+  body.reel-nav-in .actionbar { opacity: 0; pointer-events: none; }
+  body.reel-nav-in .actionbar > * { pointer-events: none; }
+}
+@media (max-width: 699px) {
+  /* точки на фото читаются на любом кадре: тень у нижнего края */
+  .hero.flight .flight__media::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 64px; z-index: 1; pointer-events: none; background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5)); }
+  .hero.flight .flight__dot span { background: rgba(255, 255, 255, .72); }
+  .hero.flight .flight__dot.is-on span { background: var(--accent-bright); }
+}

@@ -338,7 +338,7 @@ function flightBlock() {
     const attrs = i === 0
       ? (sm === st.src
         ? `src="${clean(st.src)}" fetchpriority="high"`
-        : `src="${clean(sm)}" srcset="${clean(sm)} 800w, ${clean(st.src)} 1700w" sizes="100vw" fetchpriority="high"`)
+        : `src="${clean(sm)}" srcset="${clean(sm)} ${imgSize(sm).w}w, ${clean(st.src)} ${imgSize(st.src).w}w" sizes="(max-width: 699px) 135vw, 100vw" fetchpriority="high"`)
       : `src="${clean(sm)}" data-full="${clean(st.src)}" loading="lazy"`;
     /* подпись есть у каждого кадра: программам чтения они не видны
        (aria-hidden), а поисковику описывают, что на фотографии */
