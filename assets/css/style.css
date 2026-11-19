@@ -1763,29 +1763,75 @@ section[id], div[id] { scroll-margin-top: 88px; }
    два пустых отступа и растягивала первый экран */
 .figures--head { margin-top: clamp(16px, 2vw, 26px); gap: 12px clamp(16px, 2.2vw, 32px); }
 
-/* Цифры со значками: контур рисуется сам и повторяется неспешно —
-   это единственное движение на странице, поэтому оно медленное
-   и по очереди, а не все четыре разом. */
-.figures--icons .figure { display: grid; justify-items: start; gap: 2px; }
-.figure__icon {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 44px; height: 44px; margin-bottom: 8px; border-radius: 12px;
-  color: var(--brand); background: rgba(31, 74, 48, .08);
+/* Цифры о компании — карточки с иллюстрациями в линейной манере сайта.
+   Иллюстрация собирается, когда блок появляется на экране, и заново —
+   при наведении или нажатии. Цифры при появлении отсчитываются от нуля.
+   Без скрипта и при «уменьшить движение» сразу итоговый вид. */
+.figures--icons { gap: clamp(10px, 1.4vw, 18px); }
+.fig {
+  position: relative; display: grid; gap: 2px; align-content: start;
+  padding: clamp(14px, 1.4vw, 20px);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+  transition: transform .45s var(--ease), box-shadow .45s var(--ease), border-color .45s var(--ease);
+  cursor: default; -webkit-tap-highlight-color: transparent;
 }
+.fig:hover { transform: translateY(-3px); border-color: rgba(30, 74, 53, .32); box-shadow: 0 22px 40px -30px rgba(38, 30, 20, .7); }
+/* размерная линия под цифрой: на наведении тянется на всю карточку */
+.fig b { position: relative; padding-bottom: 8px; margin-top: 6px; }
+.fig b::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 28px; border-radius: 2px;
+  background: var(--accent-bright); transition: width .6s var(--ease);
+}
+.fig:hover b::after { width: 100%; }
+.fig > span:last-child { margin-top: 6px; }
+/* число внутри <b> — тоже span, а общее правило .figures span делало его
+   мелкой серой строкой; здесь оно часть цифры */
+.figures .fig b .fig__num { display: inline; margin: 0; font: inherit; color: inherit; letter-spacing: inherit; font-variant-numeric: tabular-nums; }
+.figures .fig .fig__art { margin: -4px -4px 4px; }
+.fig__art {
+  display: block; height: 72px; margin: -4px -4px 4px; border-radius: 12px;
+  background-image:
+    linear-gradient(to right, rgba(30, 74, 53, .06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 74, 53, .06) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+.fx { display: block; width: 100%; height: 100%; overflow: visible; }
+.fx-line { fill: none; stroke: var(--brand); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.fx-cap { font-size: 9.5px; font-weight: 700; fill: var(--ink-2); letter-spacing: .02em; }
+.fx-run, .fx-pin, .fx-win { fill: var(--accent-bright); }
+.fx-sheet { fill: rgba(30, 74, 53, .05); stroke: var(--brand); stroke-width: 1.6; }
+.fx-dimline { stroke: var(--accent-bright); }
+.fx-years circle { fill: var(--accent-bright); }
+
+/* исходное состояние до сборки — только со скриптом и при разрешённом движении */
 @media (prefers-reduced-motion: no-preference) {
-  .figure__icon svg * {
-    stroke-dasharray: 76; stroke-dashoffset: 0;
-    animation: figureDraw 9s cubic-bezier(.65, 0, .35, 1) infinite;
-    animation-delay: var(--draw-delay, 0s);
-  }
-  .figure__icon:hover svg * { animation-play-state: paused; }
+  .js [data-figs] .fx-line { stroke-dasharray: 220; stroke-dashoffset: 220; }
+  .js [data-figs] .fx-run { transform: translateX(-100px); }
+  .js [data-figs] .fx-house, .js [data-figs] .fx-years circle,
+  .js [data-figs] .fx-win, .js [data-figs] .fx-pin, .js [data-figs] .fx-cap { opacity: 0; }
+  .js [data-figs] .fx-house { transform: translateY(10px); }
+  .js [data-figs] .fx-sheet { opacity: 0; }
+
+  .fig.is-play .fx-line { animation: fxDraw 1.1s cubic-bezier(.65, 0, .35, 1) forwards; }
+  .fig.is-play .fx-ticks { animation-delay: .25s; }
+  .fig.is-play .fx-cap { animation: fxFade .5s ease .9s forwards; }
+  .fig.is-play .fx-run { animation: fxRun 1.4s cubic-bezier(.65, 0, .35, 1) .3s forwards; }
+  .fig.is-play .fx-house { animation: fxRise .7s cubic-bezier(.22, 1, .36, 1) calc(.15s + var(--i) * .16s) forwards; }
+  .fig.is-play .fx-house .fx-line { animation-delay: calc(.15s + var(--i) * .16s); }
+  .fig.is-play .fx-win { animation: fxFade .4s ease 1s forwards; }
+  .fig.is-play .fx-sheet { animation: fxFade .5s ease forwards; }
+  .fig.is-play .fx-walls { animation-delay: .35s; }
+  .fig.is-play .fx-pin { animation: fxFade .3s ease 1.1s forwards; }
+  .fig.is-play .fx-check { animation-delay: .7s; }
+  .fig.is-play .fx-years circle { animation: fxPop .35s cubic-bezier(.22, 1, .36, 1) calc(.9s + var(--i) * .12s) forwards; }
 }
-@keyframes figureDraw {
-  0%   { stroke-dashoffset: 76; opacity: .25; }
-  18%  { stroke-dashoffset: 0;  opacity: 1; }
-  82%  { stroke-dashoffset: 0;  opacity: 1; }
-  100% { stroke-dashoffset: 76; opacity: .25; }
-}
+@keyframes fxDraw { to { stroke-dashoffset: 0; } }
+@keyframes fxFade { to { opacity: 1; } }
+@keyframes fxRise { to { opacity: 1; transform: none; } }
+@keyframes fxRun { to { transform: none; } }
+@keyframes fxPop { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: none; } }
+.fx-years circle { transform-box: fill-box; transform-origin: center; }
+
 .figures--head b { font-size: clamp(22px, 2.4vw, 32px); }
 .figures--head span { font-size: 13px; }
 

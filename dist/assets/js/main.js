@@ -139,6 +139,7 @@
   });
 
   heroSlider();
+  figures();
   geoLater();
   articleSearch();
   thanksPage();
@@ -367,6 +368,51 @@ function geoLater() {
     if (entries.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
   }, { rootMargin: '600px 0px' });
   io.observe(host);
+}
+
+/* Цифры о компании: иллюстрация собирается, когда карточка входит
+   в экран, цифра отсчитывается от нуля; наведение или нажатие
+   повторяет сборку. Без движения в системе — сразу итог. */
+function figures() {
+  const box = $('[data-figs]');
+  if (!box) return;
+  const cards = $$('.fig', box);
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (calm) return;
+
+  const play = (card) => {
+    card.classList.remove('is-play');
+    void card.offsetWidth;          // перезапуск анимаций CSS
+    card.classList.add('is-play');
+  };
+  const count = (el) => {
+    const end = Number(el.dataset.count);
+    if (!end) return;
+    const t0 = performance.now();
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / 1100);
+      el.textContent = String(Math.round(end * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      play(e.target);
+      const n = $('.fig__num', e.target);
+      if (n) count(n);
+    });
+  }, { threshold: 0.4 }) : null;
+
+  cards.forEach((card, i) => {
+    card.style.transitionDelay = '0s';
+    if (io) io.observe(card); else play(card);
+    card.addEventListener('pointerenter', () => { if (card.classList.contains('is-play')) play(card); });
+    card.addEventListener('click', () => play(card));
+  });
 }
 
 function heroSlider() {
