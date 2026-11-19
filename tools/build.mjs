@@ -148,7 +148,7 @@ function geoMap() {
      поэтому дома в сёлах на карту не ставим — только в городах. */
   const data = {
     outline: geo.outline,
-    moscow: (geo.moscow || []).map((c) => ({ name: c.name, lon: c.lon, lat: c.lat })),
+    moscow: (geo.moscow || []).map((c) => ({ name: c.name, lon: c.lon, lat: c.lat, anchor: c.anchor || 'start', dy: c.dy || 4 })),
     cities: geo.cities.map((c) => ({
       name: c.name, lon: c.lon, lat: c.lat, hub: Boolean(c.hub), anchor: c.anchor || 'start', dy: c.dy || 4, mobile: c.mobile || null,
       cases: cases.filter((k) => k.place && new RegExp(`(^|[^А-Яа-яЁё])${c.name}([^А-Яа-яЁё]|$)`).test(k.place)).map((k) => {
@@ -672,7 +672,7 @@ ${head
     .replace(/\{\{ogimage\}\}/g, ogimage)
     .replace(/\{\{scripts\}\}/g, (meta.scripts || []).map((s) => `\n  <script src="${s}" defer></script>`).join(''))
     .replace('</head>', `${extraLd ? extraLd + '\n' : ''}${PREVIEW || meta.noindex === true ? '  <meta name="robots" content="noindex, nofollow">\n' : ''}${PREVIEW || !verification() ? '' : verification() + '\n'}${PREVIEW || !analytics ? '' : analytics + '\n'}</head>`)}
-<body${bodyClass ? ` class="${bodyClass}"` : ''} data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${content.includes('data-geo-host') && V.geo ? ` data-geo-src="/assets/js/geo.js?v=${V.geo}"` : ''}${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
+<body${bodyClass ? ` class="${bodyClass}"` : ''} data-rates="${esc(JSON.stringify(pricing.ratePerM2))}" data-pricing="${esc(JSON.stringify({ ratePerM2: pricing.ratePerM2, tiers: pricing.tiers, floors: pricing.floors, foundations: pricing.foundations, extras: pricing.extras, spread: pricing.spread, stages: pricing.stages, terms: pricing.terms, compare: pricing.compare }))}" data-lead-endpoint="${LEAD_ENDPOINT}"${content.includes('data-geo-host') && V.geo ? ` data-geo-src="/assets/js/geo.js?v=${V.geo}"` : ''}${site.metrika ? ` data-metrika="${site.metrika}"` : ''}>
 ${previewBar}${header}
   <main id="main">
 ${content.trimEnd()}

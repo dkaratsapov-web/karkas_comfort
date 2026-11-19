@@ -3149,3 +3149,75 @@ body::after {
 .fig b::after { left: 50%; transform: translateX(-50%); }
 .fig:hover b::after { width: 100%; }
 .figures--icons .fig .fig__art { justify-self: stretch; }
+
+/* контакты в подвале: два столбика по ширине содержимого, рядом;
+   заголовок по центру над ними */
+@media (min-width: 560px) {
+  .footer__contacts { justify-self: start; width: max-content; max-width: 100%; }
+  .footer__cols { grid-template-columns: auto auto; column-gap: clamp(28px, 3vw, 48px); }
+}
+
+/* карта: подписи городов Подмосковья видны всегда, чуть мельче;
+   на телефоне — только у выбранного, иначе не помещаются */
+.gx__city--mo .gx__label { opacity: 1; font-size: 11.5px; fill: var(--ink-2); }
+@media (max-width: 600px) {
+  .gx__city--mo .gx__label { opacity: 0; }
+  .gx__city--mo.is-active .gx__label { opacity: 1; }
+}
+
+/* подсказка у комплектаций — разрез дома над шапкой карточки */
+.tier__head.has-tip { position: relative; cursor: help; }
+.tiertip {
+  position: absolute; z-index: 20; left: 50%; bottom: calc(100% + 14px);
+  width: 420px; max-width: 86vw; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 14px; align-items: center;
+  padding: 14px 16px; border-radius: 18px; background: var(--dark); color: var(--on-dark);
+  box-shadow: 0 30px 60px -30px rgba(8, 6, 4, .9), 0 0 0 1px rgba(244, 239, 231, .08);
+  opacity: 0; visibility: hidden; transform: translate(-50%, 8px) scale(.98); pointer-events: none;
+  transition: opacity .25s var(--ease), transform .35s var(--ease), visibility 0s linear .25s;
+}
+.tiertip::after {
+  content: ""; position: absolute; left: 50%; top: 100%; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  background: var(--dark); transform: rotate(45deg);
+}
+.tier__head.has-tip:hover .tiertip { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); transition-delay: 0s; }
+.tiertip__art { width: 100%; height: auto; display: block; background:
+  linear-gradient(to right, rgba(244, 239, 231, .05) 1px, transparent 1px) 0 0 / 13px 13px,
+  linear-gradient(to bottom, rgba(244, 239, 231, .05) 1px, transparent 1px) 0 0 / 13px 13px;
+  border-radius: 10px; }
+.tt-p { fill: none; stroke: rgba(244, 239, 231, .22); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 3 4; }
+.tt-dot { fill: rgba(244, 239, 231, .22); }
+.tt-g.is-in .tt-p { stroke: #8FC3A2; stroke-dasharray: 260; stroke-dashoffset: 260; }
+.tt-g.is-in .tt-acc { stroke: var(--accent-bright); }
+.tt-g.is-in .tt-dot { fill: var(--accent-bright); }
+.tt-g.is-in .tt-thin { stroke-width: 1.2; }
+.tier__head.has-tip:hover .tt-g.is-in .tt-p { animation: ttDraw .7s cubic-bezier(.65, 0, .35, 1) calc(var(--k) * 70ms) forwards; }
+@keyframes ttDraw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .tt-g.is-in .tt-p { stroke-dashoffset: 0; animation: none !important; } .tiertip { transition: none; } }
+.tiertip__count { font-family: var(--display); font-size: 15px; color: var(--on-dark-2); }
+.tiertip__count b { font-size: 34px; color: var(--on-dark); margin-right: 4px; }
+.tiertip__note { margin-top: -2px; font-size: 13px; color: var(--on-dark-2); }
+.tiertip__miss { margin-top: 10px; font-size: 12.5px; line-height: 1.45; color: var(--on-dark-2); }
+.tiertip__miss--all { color: #8FC3A2; }
+/* блок с комплектациями — над соседями: верхний блок заходит на него
+   краем растушёвки и перехватывал наведение на первую карточку, а
+   подсказка уходила под него */
+.section:has(.tiertip) { z-index: 2; }
+.tiertip { width: 460px; grid-template-columns: 200px minmax(0, 1fr); }
+.tiertip__chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.tiertip__chips span { padding: 3px 8px; border-radius: 999px; font-size: 11.5px; line-height: 1.3; color: var(--on-dark-2); border: 1px dashed rgba(244, 239, 231, .28); }
+
+/* Скрытая подсказка не должна занимать место: даже невидимая, она
+   раздвигала страницу вбок на средних ширинах. До наведения её нет
+   совсем, появляется анимацией. У крайних карточек привязана к краю. */
+.tiertip { display: none; opacity: 1; visibility: visible; transform: translateX(-50%); transition: none; }
+.tier__head.has-tip:hover .tiertip { display: grid; animation: ttIn .3s var(--ease) both; }
+@keyframes ttIn { from { opacity: 0; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
+.tier:first-child .tiertip { left: 0; transform: none; }
+.tier:last-child .tiertip { left: auto; right: 0; transform: none; }
+.tier:first-child .tiertip::after { left: 60px; }
+.tier:last-child .tiertip::after { left: auto; right: 53px; }
+.tier__head.has-tip:hover .tiertip { transform: translateX(-50%); }
+.tier:first-child .tier__head.has-tip:hover .tiertip, .tier:last-child .tier__head.has-tip:hover .tiertip { transform: none; }
+@media (prefers-reduced-motion: reduce) { .tier__head.has-tip:hover .tiertip { animation: none; } }
+.tier__head.tip-below .tiertip { bottom: auto; top: calc(100% + 14px); }
+.tier__head.tip-below .tiertip::after { top: auto; bottom: 100%; margin: 0 0 -7px -7px; }

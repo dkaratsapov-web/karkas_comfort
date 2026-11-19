@@ -274,7 +274,7 @@ function GeoMap({ data }) {
   const path = poly.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ') + ' Z';
 
   const cities = useMemo(() => data.cities.map((c) => ({ ...c, dist: haversine(hub, c) })), [data, hub]);
-  const moscow = useMemo(() => (data.moscow || []).map((c) => ({ ...c, mo: true, anchor: 'start', dy: 4, dist: haversine(hub, c) })), [data, hub]);
+  const moscow = useMemo(() => (data.moscow || []).map((c) => ({ ...c, mo: true, dist: haversine(hub, c) })), [data, hub]);
 
   const [city, setCity] = useState(null);
   const [plot, setPlot] = useState(null);
@@ -361,9 +361,6 @@ function GeoMap({ data }) {
               )}
             </AnimatePresence>
 
-            {moscow.length > 0 && (
-              <text className="gx__region" x={P.x(37.55)} y={P.y(56.02)} textAnchor="middle">Подмосковье</text>
-            )}
             {moscow.map((c, i) => (
               <City
                 key={`mo-${c.name}`}

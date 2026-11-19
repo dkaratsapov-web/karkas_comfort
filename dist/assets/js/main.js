@@ -139,6 +139,7 @@
   });
 
   heroSlider();
+  tierTips();
   cookieBar();
   figures();
   geoLater();
@@ -455,6 +456,79 @@ function cookieBar() {
   }));
 
   if (choice !== 'all' && choice !== 'necessary') show();
+}
+
+/* Подсказка у комплектаций. При наведении на шапку карточки появляется
+   разрез дома: части, которые входят в комплектацию, прорисовываются
+   цветом, остальные — тонким пунктиром. Состав берётся из таблицы
+   сравнения (pricing.json → compare), поэтому подсказка и таблица
+   не расходятся. На сенсорном экране подсказки нет — там под карточками
+   та же таблица. */
+function tierTips() {
+  const cards = $$('.tiers .tier, .tier');
+  if (!cards.length || !window.matchMedia('(hover: hover)').matches) return;
+  let data = {};
+  try { data = JSON.parse(document.body.dataset.pricing || '{}'); } catch { return; }
+  const rows = data.compare || [];
+  const tiers = data.tiers || [];
+  if (!rows.length || !tiers.length) return;
+
+  /* части разреза — по порядку строк таблицы */
+  const parts = [
+    '<path class="tt-p" d="M38 150h184M52 150v12M96 150v12M140 150v12M184 150v12M208 150v12"/>',
+    '<path class="tt-p" d="M50 150V84M210 150V84M50 84h160M130 84v66"/><path class="tt-p" d="M40 88 130 30l90 58"/>',
+    '<path class="tt-p tt-thin" d="M56 92v54M62 92v54M198 92v54M204 92v54"/>',
+    '<path class="tt-p" d="M70 100h28v24H70zM162 100h28v24h-28zM112 112h16v38h-16z"/>',
+    '<path class="tt-p tt-thin" d="M46 86v64M42 92v58M214 86v64M218 92v58"/>',
+    '<path class="tt-p tt-acc" d="M150 90v10l-6 8h12l-6 8v10"/><circle class="tt-dot" cx="150" cy="130" r="3"/>',
+    '<path class="tt-p tt-acc" d="M72 132h24v12H72zM78 132v12M84 132v12M90 132v12"/>',
+    '<path class="tt-p tt-acc" d="M176 150v-16h18v-8"/>',
+    '<path class="tt-p tt-thin" d="M134 96h70M134 104h70"/>',
+    '<path class="tt-p tt-thin" d="M56 90h70M56 96h70"/>',
+    '<path class="tt-p tt-thin" d="M54 146h72M134 146h72"/>',
+  ];
+
+  cards.forEach((card, i) => {
+    const tier = tiers[i];
+    const head = $('.tier__head', card);
+    if (!tier || !head) return;
+    const on = rows.map((r) => Boolean(r[tier.id]));
+    const inCount = on.filter(Boolean).length;
+    /* короткие метки вместо полных строк таблицы — подсказка не растёт */
+    const short = (n) => {
+      const t = n.toLowerCase();
+      if (t.startsWith('электрика')) return 'электрика';
+      if (t.includes('отоплени')) return 'отопление';
+      if (t.startsWith('вода')) return 'вода и канализация';
+      if (t.startsWith('черновая')) return 'черновая отделка';
+      if (t.startsWith('чистовая')) return 'чистовая отделка';
+      if (t.startsWith('полы')) return 'полы и сантехника';
+      if (t.startsWith('уборка')) return 'уборка';
+      return n.split(',')[0].toLowerCase();
+    };
+    const missing = rows.filter((r) => !r[tier.id]).map((r) => short(r.name));
+
+    const tip = document.createElement('div');
+    tip.className = 'tiertip';
+    tip.setAttribute('aria-hidden', 'true');
+    tip.innerHTML =
+      `<svg viewBox="0 0 260 172" class="tiertip__art">${parts.map((p, k) => `<g class="tt-g${on[k] ? ' is-in' : ''}" style="--k:${k}">${p}</g>`).join('')}</svg>` +
+      `<div class="tiertip__side"><p class="tiertip__count"><b>${inCount}</b> из ${rows.length}</p>` +
+      '<p class="tiertip__note">работ входит в цену</p>' +
+      (missing.length
+        ? `<p class="tiertip__miss">Не входит</p><p class="tiertip__chips">${missing.map((m) => `<span>${m}</span>`).join('')}</p>`
+        : '<p class="tiertip__miss tiertip__miss--all">Всё под ключ, включая уборку</p>') +
+      '</div>';
+    head.classList.add('has-tip');
+    head.appendChild(tip);
+    /* сверху не хватает места (карточка у края экрана, над ней шапка
+       сайта) — подсказка открывается вниз */
+    head.addEventListener('mouseenter', () => {
+      const room = head.getBoundingClientRect().top;
+      const header = ($('.header__row') || { getBoundingClientRect: () => ({ bottom: 0 }) }).getBoundingClientRect().bottom;
+      head.classList.toggle('tip-below', room - header < 250);
+    });
+  });
 }
 
 function heroSlider() {
