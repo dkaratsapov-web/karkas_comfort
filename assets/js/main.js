@@ -898,7 +898,7 @@ function heroSlider() {
     btn.addEventListener('click', () => {
       const src = btn.dataset.video;
       if (!src) return;
-      $$('.reel__card.is-playing video').forEach((v) => v.pause());
+      $$('.is-playing video').forEach((v) => v.pause());
       const poster = $('img', btn);
       const box = document.createElement('div');
       box.className = 'reel__frame reel__frame--live';
@@ -909,9 +909,10 @@ function heroSlider() {
       video.preload = 'auto';
       if (poster) video.poster = poster.currentSrc || poster.src;
       box.appendChild(video);
-      const card = btn.closest('.reel__card');
+      /* кнопка стоит и в ленте, и во врезке с одним роликом */
+      const card = btn.closest('.reel__card, .video');
       btn.replaceWith(box);
-      card.classList.add('is-playing');
+      if (card) card.classList.add('is-playing');
       track('video_play', { page: location.pathname, src });
       video.play().catch(() => { /* автозапуск запрещён — остаются элементы управления */ });
     });

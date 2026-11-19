@@ -235,8 +235,19 @@ function videoCard(n) {
     : v.vk
       ? `<iframe src="${esc(v.vk)}" title="${esc(v.title)}" loading="lazy" allowfullscreen referrerpolicy="no-referrer"></iframe>`
       : `<video controls playsinline preload="none"${v.poster ? ` poster="/assets/img/photos/${esc(v.poster)}"` : ''}><source src="/assets/video/${esc(v.src)}" type="video/mp4">Ваш браузер не проигрывает это видео.</video>`;
+  /* Свой ролик с постером — постер с большой кнопкой, как в ленте на
+     главной: у голого плеера кнопка мелкая, в углу, и её не видно.
+     По нажатию кнопку заменяет плеер (assets/js/main.js). */
+  const poster = !v.youtube && !v.vk && v.src && v.poster;
+  const media = poster
+    ? `<button class="reel__frame video__poster" type="button" data-video="/assets/video/${esc(v.src)}" aria-label="Смотреть: ${esc(v.title)}">
+                <img src="/assets/img/photos/${esc(v.poster)}" alt="" loading="lazy" width="720" height="1280">
+                <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+                ${v.length ? `<span class="reel__time">${esc(v.length)}</span>` : ''}
+              </button>`
+    : `${frame}${v.length ? `<span class="video__time">${esc(v.length)}</span>` : ''}`;
   return `          <figure class="video${v.portrait ? ' video--portrait' : ''} video--inset">
-            <div class="video__frame">${frame}${v.length ? `<span class="video__time">${esc(v.length)}</span>` : ''}</div>
+            <div class="video__frame">${media}</div>
             <figcaption>
               <h3>${esc(v.title)}</h3>
               ${v.note ? `<p>${esc(v.note)}</p>` : ''}

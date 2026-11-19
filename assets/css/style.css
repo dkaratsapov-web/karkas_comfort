@@ -2936,3 +2936,8 @@ body::after {
   .hero.flight .hero__fact span { font-size: 12px; margin-top: 3px; }
   .hero.flight .hero-form { margin-top: 16px; }
 }
+
+/* постер с кнопкой во врезке: занимает весь кадр, как плеер до него */
+.video__frame > .reel__frame { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
+.video__frame > .reel__frame img { width: 100%; height: 100%; object-fit: cover; }
+.video__frame > .reel__frame--live video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--dark); }
