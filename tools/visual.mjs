@@ -15,7 +15,10 @@ const SWEEP = [1000, 1120, 1200, 1260, 1320, 1400, 1480, 1560, 1620, 1700, 1800,
 /* адреса берём из собранной карты сайта, чтобы не забыть новую страницу */
 const sitemap = readFileSync('dist/sitemap.xml', 'utf8');
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
-const pages = [...new Set(urls.length ? urls : ['/'])];
+const all = [...new Set(urls.length ? urls : ['/'])];
+/* VISUAL_PAGES="/ /proekty/" — проверить только эти страницы (для отладки) */
+const only = (process.env.VISUAL_PAGES || '').split(/\s+/).filter(Boolean);
+const pages = only.length ? all.filter((u) => only.includes(u)) : all;
 
 /* Проверяем свой сайт, а не доступность чужих. Запросы наружу
    (счётчик) гасим: страница иначе ждёт сеть, прогон растягивается
@@ -214,9 +217,16 @@ const audit = () => {
   return out;
 };
 
-for (const url of pages) {
-  for (const width of WIDTHS) {
-    const page = await ownOnly(await browser.newPage({ viewport: { width, height: 900 } }));
+/* Страницы проверяются в несколько потоков: по одной прогон занимал
+   восемь минут из десяти, а процессор при этом простаивал — браузер
+   почти всё время ждёт прокрутку и загрузку картинок. Потоков столько,
+   сколько ядер, но не больше шести (VISUAL_WORKERS — вручную). */
+const jobs = pages.flatMap((url) => WIDTHS.map((width) => ({ url, width })));
+const WORKERS = Math.max(1, Number(process.env.VISUAL_WORKERS) || Math.min(6, (await import('node:os')).cpus().length || 2));
+const checkOne = async ({ url, width }) => {
+    /* без анимаций: проверяем итоговую вёрстку, а не кадр, на котором
+       блок ещё выезжает — в несколько потоков замер в него попадал */
+    const page = await ownOnly(await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' }));
     const errs = [];
     page.on('pageerror', (e) => errs.push(e.message));
     try {
@@ -254,6 +264,9 @@ for (const url of pages) {
         }));
         return Promise.race([Promise.all(done), new Promise((r) => setTimeout(r, 5000))]);
       });
+      /* в несколько потоков страница грузится медленнее: замер до загрузки
+         шрифтов видел другие переносы строк и ложные наложения */
+      await page.evaluate(() => document.fonts && document.fonts.ready);
       await page.waitForTimeout(300);
       const found = await page.evaluate(audit);
       found.forEach((f) => problems.push({ url, width, ...f }));
@@ -262,7 +275,16 @@ for (const url of pages) {
       problems.push({ url, width, kind: 'страница не открылась', where: '-', detail: String(e).slice(0, 120) });
     }
     await page.close();
-  }
+};
+{
+  let next = 0;
+  await Promise.all(Array.from({ length: WORKERS }, async () => {
+    while (next < jobs.length) await checkOne(jobs[next++]);
+  }));
+  /* порядок отчёта — как раньше, по страницам и ширинам, а не по тому,
+     какой поток закончил первым */
+  const order = new Map(jobs.map((j, i) => [`${j.url}@${j.width}`, i]));
+  problems.sort((a, b) => (order.get(`${a.url}@${a.width}`) ?? 1e9) - (order.get(`${b.url}@${b.width}`) ?? 1e9));
 }
 /* частая сетка ширин на главной: ловим переполнение шапки между брейкпоинтами */
 {
