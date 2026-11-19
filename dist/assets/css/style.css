@@ -1851,7 +1851,7 @@ section[id], div[id] { scroll-margin-top: 88px; }
 .footer { background: var(--dark); color: var(--on-dark-2); padding: clamp(30px, 3.2vw, 48px) 0 20px; }
 .footer__grid { display: grid; gap: 22px 28px; grid-template-columns: 1fr; }
 @media (min-width: 700px) { .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .footer__grid { grid-template-columns: 1.6fr 1fr 1.1fr; gap: 24px 44px; } }
+@media (min-width: 1100px) { .footer__grid { grid-template-columns: 1.3fr .9fr 1.5fr; gap: 20px 44px; } }
 .footer__title { font-family: var(--text); font-size: 14px; font-weight: 700; letter-spacing: .04em; color: var(--on-dark); margin: 0 0 8px; }
 .footer a { color: var(--on-dark-2); display: inline-flex; align-items: center; min-height: 32px; font-size: 14.5px; }
 .footer a:hover { color: var(--on-dark); }
@@ -2698,8 +2698,7 @@ body::after {
     gap: clamp(14px, 1.6vw, 22px) clamp(20px, 2.4vw, 36px);
   }
   /* телефоны занимают обе колонки: номера крупные и в одну не влезают */
-  .chero--contacts .chero__line:first-child { grid-column: 1 / -1; }
-  .chero--contacts .chero__line:first-child .chero__phone { display: inline-flex; margin-right: clamp(18px, 2.4vw, 36px); }
+
 }
 @media (min-width: 1000px) and (min-height: 700px) {
   /* Страница умещается в экран целиком, вместе с подвалом. Разделы
@@ -2879,18 +2878,6 @@ body::after {
   .figures--tiles span { font-size: 12px; }
 }
 
-/* Съёмка объекта на телефоне. Ряды с подгонкой по пропорциям на узком
-   экране рассыпались: вертикальный кадр рядом с горизонтальным, под ним
-   дыра. Здесь — ровная сетка в две колонки, первый кадр группы крупно. */
-@media (max-width: 599px) {
-  .shots--rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .shots--rows .shots__row { display: contents; }
-  .shots--rows .shots__row figure { min-width: 0; }
-  .shots--rows .shots__row img { aspect-ratio: 1; height: 100%; }
-  .shots--odd .shots__row:first-child figure:first-child { grid-column: 1 / -1; }
-  .shots--odd .shots__row:first-child figure:first-child img { aspect-ratio: 4 / 3; }
-}
-
 /* список в карточке на две колонки — иначе правая половина пустая */
 @media (min-width: 900px) {
   /* у списка галочек display: flex, колонки CSS на нём не работают */
@@ -2941,3 +2928,188 @@ body::after {
 .video__frame > .reel__frame { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
 .video__frame > .reel__frame img { width: 100%; height: 100%; object-fit: cover; }
 .video__frame > .reel__frame--live video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--dark); }
+
+/* Форма расчёта внизу страниц — ниже. Подписи полей уходят в подсказку
+   внутри поля (для программ чтения подписи остаются), отступы плотнее,
+   на широком экране имя и телефон стоят в одну строку. */
+#zayavka .cta { padding: clamp(20px, 2.6vw, 40px); }
+#zayavka .section__head, #zayavka h2 { margin-bottom: 0; }
+#zayavka h2 { font-size: clamp(22px, 2.4vw, 34px); }
+#zayavka .lead { margin-top: 10px; font-size: clamp(15px, 1.15vw, 17px); }
+#zayavka .form { padding: clamp(14px, 1.6vw, 22px); }
+#zayavka .form__body { gap: 10px; }
+#zayavka .field label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+#zayavka .field input { min-height: 48px; }
+#zayavka .consent { font-size: 12.5px; line-height: 1.4; }
+#zayavka .btn--block { min-height: 50px; }
+@media (min-width: 560px) {
+  #zayavka .form__body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  #zayavka .form__body > :not(.field) { grid-column: 1 / -1; }
+}
+@media (max-width: 899px) {
+  #zayavka.section { padding-block: 24px; }
+  #zayavka .split { gap: 16px; }
+}
+
+/* ---------- телефон: правки второго круга ---------- */
+
+/* Две круглые кнопки по бокам вместо панели во всю ширину: звонок слева,
+   MAX справа. Панель прозрачная и пропускает нажатия, ловят только кнопки. */
+@media (max-width: 899px) {
+  .actionbar {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    height: auto; padding: 0 14px calc(14px + env(safe-area-inset-bottom));
+    background: none; box-shadow: none; pointer-events: none;
+  }
+  .actionbar > * {
+    pointer-events: auto; flex: none; width: 58px; height: 58px; border-radius: 50%;
+    font-size: 0; gap: 0; padding: 0;
+    box-shadow: 0 14px 30px -12px rgba(23, 21, 15, .55), 0 0 0 1px rgba(23, 21, 15, .06);
+  }
+  .actionbar > :first-child { background: var(--surface); color: var(--brand); }
+  .actionbar > :last-child { background: var(--brand); color: var(--on-brand); }
+  .actionbar svg { width: 24px; height: 24px; }
+}
+
+/* Шапка на телефоне: между логотипом и меню — телефон и часы работы.
+   Второй номер и мессенджеры остаются в меню и в круглых кнопках. */
+@media (max-width: 1159px) {
+  .header__side { display: flex; margin-left: auto; }
+  .header__side > :not(.header__contacts) { display: none; }
+  .header__contacts { display: flex; padding-right: 10px; }
+  .header__contacts .header__phone--second, .header__contacts .header__dot { display: none; }
+}
+@media (max-width: 899px) {
+  .header__contacts .header__phone { font-size: 15px; }
+  .header__contacts .header__hours::before { content: "ежедневно "; }
+}
+@media (max-width: 340px) { .header__contacts { display: none; } }
+
+/* Таблица комплектаций: в шапке колонок только число, единица — одной
+   подписью слева; названия и цены стоят по одной линии снизу. */
+.cmp__unitnote { display: none; }
+@media (max-width: 640px) {
+  .cmp thead th .cmp__unit { display: none; }
+  .cmp thead th:first-child .cmp__unitnote {
+    display: block; margin-top: 4px; font-size: 10.5px; font-weight: 500;
+    letter-spacing: 0; text-transform: none; color: var(--muted);
+  }
+  .cmp thead th { vertical-align: bottom; }
+  .cmp thead th small { white-space: nowrap; }
+}
+
+/* Врезка с роликом на телефоне: заголовок сверху, кнопка снизу, обе
+   во всю ширину подписи — без пустоты и переноса подписи кнопки. */
+@media (max-width: 699px) {
+  .video--inset figcaption { justify-content: space-between; padding: 14px; }
+  .video--inset h3 { font-size: 15.5px; line-height: 1.25; }
+  .video--inset figcaption p { display: block; font-size: 13px; line-height: 1.45; margin-top: 0; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .video--inset .video__more { align-self: stretch; justify-content: space-between; white-space: nowrap; }
+  .hide-sm { display: none; }
+}
+
+/* Шесть шагов на телефоне — по центру: номер, значок, заголовок, текст */
+@media (max-width: 619px) {
+  .way__step { text-align: center; }
+  .way__step::before { left: 50%; transform: translateX(-50%); }
+  .way__icon { margin-inline: auto; }
+  .way__step p { margin-inline: auto; max-width: 34ch; }
+}
+
+/* Стрелки слайдера первого экрана на телефоне — по бокам кадра,
+   на середине его высоты */
+@media (max-width: 899px) {
+  .js .hero.flight[data-slider="on"] .flight__nav {
+    display: inline-flex; width: 40px; height: 40px;
+    top: calc(var(--header-h) + 40px + (100vw - 2 * var(--gutter)) / 3);
+  }
+  .js .hero.flight[data-slider="on"] .flight__nav--prev { left: calc(var(--gutter) + 8px); }
+  .js .hero.flight[data-slider="on"] .flight__nav--next { right: calc(var(--gutter) + 8px); }
+}
+
+/* Съёмка объекта на телефоне: две колонки, каждый кадр в своей пропорции,
+   без обрезки в квадрат; колонки заполняются сверху вниз, без дыр.
+   Одиночный кадр группы — во всю ширину. */
+@media (max-width: 599px) {
+  .shots--rows { display: block; columns: 2; column-gap: 8px; }
+  .shots--rows.shots--one { columns: 1; }
+  .shots--rows .shots__row { display: contents; }
+  .shots--rows .shots__row figure { display: block; break-inside: avoid; margin: 0 0 8px; min-width: 0; width: 100%; }
+  .shots--rows .shots__row img { aspect-ratio: var(--a, 1.4); height: auto; }
+}
+
+/* Шапка на широком экране — компактная капсула: раньше она тянулась
+   на всю ширину контейнера, и между логотипом, меню и правой частью
+   стояли пустые поля. Ширина теперь по содержимому, с небольшими
+   промежутками. */
+@media (min-width: 1160px) {
+  .header__row { max-width: 1340px; gap: clamp(10px, 1vw, 18px); }
+  .header .nav { margin-inline: clamp(12px, 1.6vw, 28px) auto; }
+}
+
+/* карта: города Подмосковья — полые кольца, подпись при наведении и выборе */
+.gx__city--mo .gx__dot { fill: var(--surface); stroke: var(--brand); stroke-width: 1.6; }
+.gx__city--mo .gx__label { opacity: 0; transition: opacity .25s var(--ease); font-size: 12px; }
+.gx__city--mo:hover .gx__label, .gx__city--mo:focus-visible .gx__label, .gx__city--mo.is-active .gx__label { opacity: 1; }
+.gx__region { font-size: 12px; font-weight: 700; letter-spacing: .08em; fill: rgba(30, 74, 53, .5); text-transform: uppercase; pointer-events: none; }
+.gx__sw--mo { background: none; border: 1.6px solid #5fa37a; }
+
+/* форма в карточке участка */
+.gx__form { display: grid; gap: 8px; margin-top: auto; padding-top: 6px; }
+.gx__input {
+  width: 100%; min-height: 46px; padding: 10px 14px; border-radius: var(--r-s);
+  border: 1px solid rgba(244, 239, 231, .18); background: rgba(244, 239, 231, .96);
+  font: inherit; font-size: 15px; color: var(--ink);
+}
+.gx__input:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 1px; }
+.gx__submit { width: 100%; min-height: 48px; }
+.gx__error { font-size: 13px; color: #FFD9D2; }
+.gx__ok { margin-top: auto; padding: 12px 14px; border-radius: var(--r-s); background: rgba(95, 163, 122, .16); color: var(--on-dark); font-size: 14.5px; }
+.gx__consent { font-size: 12px; line-height: 1.4; color: var(--on-dark-2); }
+.gx__consent a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.gx__card .gx__reset { align-self: flex-start; }
+
+/* мессенджеры на «Контактах» — рядом с телефонами */
+.chero__ims { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chero__im {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px;
+  border-radius: 999px; border: 1px solid rgba(244, 239, 231, .26); background: rgba(244, 239, 231, .06);
+  color: var(--on-dark); font: inherit; font-size: 14.5px; font-weight: 600; text-decoration: none; cursor: pointer;
+  transition: background-color .25s var(--ease), border-color .25s var(--ease);
+}
+.chero__im svg { width: 18px; height: 18px; fill: currentColor; }
+.chero__im:hover { background: rgba(244, 239, 231, .14); border-color: rgba(244, 239, 231, .5); color: var(--on-dark); }
+.chero__line .chero__im { min-height: 44px; font-size: 14.5px; }
+
+/* «Видео»: шапка раздела в одну строку — заголовок слева, подводка
+   справа, — чтобы ряд роликов целиком вставал в первый экран */
+@media (min-width: 1100px) {
+  .chero--video .chero__inner { padding-top: calc(var(--header-h) + 16px); padding-bottom: 28px; }
+  .chero--video .chero__info {
+    max-width: none; display: grid; grid-template-columns: auto minmax(0, 620px);
+    column-gap: clamp(32px, 4vw, 72px); align-items: end; justify-content: space-between;
+  }
+  .chero--video .chero__info .crumbs { grid-column: 1 / -1; margin-bottom: 10px; }
+  .chero--video .chero__info .eyebrow { grid-column: 1; }
+  .chero--video .chero__info h1 { grid-column: 1; font-size: clamp(30px, 2.8vw, 44px); }
+  .chero--video .chero__lead { grid-column: 2; grid-row: 2 / span 2; margin-top: 0; font-size: 16px; }
+  .chero--video .videos { margin-top: 18px; }
+  /* кадр не выше остатка экрана: ширину задаёт колонка, высоту — окно */
+  .chero--video .video__frame { max-height: calc(100svh - var(--header-h) - 230px); }
+}
+
+/* Подвал ниже: контакты в два столбика под общим заголовком, отступы
+   плотнее, логотип меньше. */
+.footer { padding: clamp(24px, 2.4vw, 36px) 0 16px; }
+.footer__logo img { height: 54px; }
+.footer__logo { margin-bottom: 4px; }
+.footer__cols { display: grid; gap: 4px 32px; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* на средней ширине у подвала две колонки, и контактам в своей тесно —
+   они встают отдельной строкой во всю ширину */
+@media (min-width: 700px) and (max-width: 1099px) { .footer__contacts { grid-column: 1 / -1; } }
+.footer__cols li { overflow-wrap: anywhere; }
+@media (min-width: 560px) { .footer__contacts .footer__title { text-align: center; } }
+.footer__cols li { min-height: 30px; display: flex; align-items: center; }
+.footer a, .footer .linklike { min-height: 30px; }
+.footer__bottom { margin-top: 16px; padding-top: 12px; }

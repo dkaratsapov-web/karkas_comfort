@@ -492,6 +492,36 @@ function heroSlider() {
     return { ok: res.ok && payload.ok !== false, error: payload.error };
   }
 
+  /* Мост для острова карты: заявка уходит тем же путём, что и из форм
+     сайта — с метками визита, целью в Метрике и страницей «Спасибо». */
+  window.kkLead = {
+    phone: (value) => {
+      let d = String(value).replace(/\D/g, '');
+      if (!d) return '';
+      if (d.startsWith('8')) d = '7' + d.slice(1);
+      if (!d.startsWith('7')) d = '7' + d;
+      d = d.slice(0, 11);
+      const p = ['+7'];
+      if (d.length > 1) p.push(' (' + d.slice(1, 4));
+      if (d.length >= 5) p.push(') ' + d.slice(4, 7));
+      if (d.length >= 8) p.push('-' + d.slice(7, 9));
+      if (d.length >= 10) p.push('-' + d.slice(9, 11));
+      return p.join('');
+    },
+    send: async (fields) => {
+      const data = { ...fields, consent: '1', page: location.pathname, ...visitSource() };
+      const result = await sendLead(data);
+      if (result.ok) {
+        track('lead_sent', { page: location.pathname, project: data.project || '' });
+        track('map_lead', { page: location.pathname });
+        thanksGo();
+      } else {
+        track('lead_error', { page: location.pathname });
+      }
+      return result;
+    },
+  };
+
   $$('form.form').forEach((form) => {
     const markField = (field, bad) => {
       field.classList.toggle('field--error', bad);

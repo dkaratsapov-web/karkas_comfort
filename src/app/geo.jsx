@@ -126,10 +126,12 @@ function City({ c, P, active, dim, onPick, index, narrow }) {
   const place = narrow && c.mobile ? { ...c, ...c.mobile } : c;
   const anchor = place.anchor || 'start';
   const lx = x + (anchor === 'end' ? -12 : 12);
-  const label = c.hub ? `${c.name} — офис и отсчёт расстояний` : `${c.name}, ${km(c.dist)} от Твери`;
+  const label = c.hub ? `${c.name} — офис и отсчёт расстояний`
+    : c.mo ? `${c.name}, Подмосковье, выезжаем, ${km(c.dist)} от Твери`
+      : `${c.name}, ${km(c.dist)} от Твери`;
   return (
     <motion.g
-      className={`gx__city${c.hub ? ' gx__city--hub' : ''}${active ? ' is-active' : ''}${dim ? ' is-dim' : ''}`}
+      className={`gx__city${c.hub ? ' gx__city--hub' : ''}${c.mo ? ' gx__city--mo' : ''}${active ? ' is-active' : ''}${dim ? ' is-dim' : ''}`}
       role="button"
       tabIndex={0}
       aria-label={label}
@@ -147,7 +149,7 @@ function City({ c, P, active, dim, onPick, index, narrow }) {
       {/* поле для пальца: точка мелкая, а попадать надо */}
       <circle cx={x} cy={y} r="16" className="gx__hit" />
       {c.hub && <circle cx={x} cy={y} r="7" className="gx__pulse" />}
-      <circle cx={x} cy={y} r={c.hub ? 6.5 : 4.5} className="gx__dot" />
+      <circle cx={x} cy={y} r={c.hub ? 6.5 : c.mo ? 3.6 : 4.5} className="gx__dot" />
       <text x={lx} y={y + (place.dy || 4)} textAnchor={anchor} className="gx__label">{c.name}</text>
     </motion.g>
   );
@@ -164,6 +166,7 @@ function Idle() {
       <ul className="gx__legend" aria-hidden="true">
         <li><span className="gx__sw gx__sw--hub" />Тверь — офис, от неё считаем расстояния</li>
         <li><span className="gx__sw" />Города, где уже строили</li>
+        <li><span className="gx__sw gx__sw--mo" />Подмосковье — тоже выезжаем</li>
         <li><span className="gx__sw gx__sw--ring" />Кольца через каждые 50 км</li>
       </ul>
     </motion.div>
@@ -174,7 +177,7 @@ function CityCard({ c, onPlot }) {
   const built = c.cases || [];
   return (
     <motion.div key={`c-${c.name}`} className="gx__card" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.35, ease: EASE }}>
-      <p className="gx__kicker">{c.hub ? 'Офис' : 'Здесь уже строили'}</p>
+      <p className="gx__kicker">{c.hub ? 'Офис' : c.mo ? 'Подмосковье — выезжаем' : 'Здесь уже строили'}</p>
       <p className="gx__big">{c.name}</p>
       {c.hub
         ? <p className="gx__text">Офис на ул. Серебряной. Выезд на замер по Твери и ближним районам — бесплатно.</p>
@@ -197,26 +200,65 @@ function CityCard({ c, onPlot }) {
   );
 }
 
-function PlotCard({ plot, onSend, onReset }) {
+function PlotCard({ plot, onReset }) {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [state, setState] = useState({ sending: false, error: '', sent: false });
+  const bridge = typeof window !== 'undefined' ? window.kkLead : null;
+
+  const where = plot.inside
+    ? `участок ≈ ${km(plot.dist)} от Твери по прямой, ближе всего к: ${plot.near.name}`
+    : plot.mo
+      ? `участок в Подмосковье ≈ ${km(plot.dist)} от Твери, рядом ${plot.mo.name}`
+      : `участок ≈ ${km(plot.dist)} от Твери, за краем схемы`;
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) { setState({ sending: false, error: 'Укажите имя', sent: false }); return; }
+    if (phone.replace(/\D/g, '').length < 11) { setState({ sending: false, error: 'Введите номер полностью', sent: false }); return; }
+    if (!bridge) { setState({ sending: false, error: 'Не удалось отправить — позвоните: 8 (920) 171-69-69', sent: false }); return; }
+    setState({ sending: true, error: '', sent: false });
+    try {
+      const r = await bridge.send({
+        name: name.trim(), phone,
+        project: `Карта охвата: ${where} (${plot.lat.toFixed(4)}, ${plot.lon.toFixed(4)})`,
+      });
+      setState(r.ok ? { sending: false, error: '', sent: true } : { sending: false, error: r.error || 'Не удалось отправить — позвоните: 8 (920) 171-69-69', sent: false });
+    } catch {
+      setState({ sending: false, error: 'Не удалось отправить — проверьте связь или позвоните: 8 (920) 171-69-69', sent: false });
+    }
+  };
+
   return (
     <motion.div key={`p-${plot.lon.toFixed(3)}-${plot.lat.toFixed(3)}`} className="gx__card" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.35, ease: EASE }}>
-      <p className="gx__kicker">Ваш участок</p>
-      {plot.inside ? (
-        <>
-          <p className="gx__big"><span className="gx__approx">≈</span>{km(plot.dist)}</p>
-          <p className="gx__text">от Твери по прямой. По дороге выйдет больше — маршрут посчитаем по адресу.</p>
-          <p className="gx__measure">Ближайший город, где строили: <b>{plot.near.name}</b>{plot.nearDist >= 1 ? `, ${km(plot.nearDist)}` : ''}</p>
-        </>
+      <p className="gx__kicker">{plot.mo && !plot.inside ? 'Ваш участок · Подмосковье' : 'Ваш участок'}</p>
+      <p className="gx__big"><span className="gx__approx">≈</span>{km(plot.dist)}</p>
+      <p className="gx__text">от Твери по прямой. Маршрут и доставку посчитаем по адресу.</p>
+      {plot.inside && <p className="gx__measure">Ближайший город, где строили: <b>{plot.near.name}</b>{plot.nearDist >= 1 ? `, ${km(plot.nearDist)}` : ''}</p>}
+      {!plot.inside && plot.mo && <p className="gx__measure">Выезжаем и сюда. Рядом <b>{plot.mo.name}</b>{plot.moDist >= 1 ? `, ${km(plot.moDist)}` : ''}</p>}
+      {!plot.inside && !plot.mo && <p className="gx__measure">Работаем по Тверской области и ближнему Подмосковью — по адресу скажем, выезжаем ли.</p>}
+
+      {state.sent ? (
+        <p className="gx__ok" role="status">Заявка отправлена — перезвоним в рабочее время.</p>
       ) : (
-        <>
-          <p className="gx__big">За краем схемы</p>
-          <p className="gx__text">На схеме только Тверская область. Строим и в Московской — пришлите адрес, посчитаем выезд и доставку.</p>
-        </>
+        <form className="gx__form" onSubmit={submit} noValidate>
+          <label className="sr-only" htmlFor="gx-name">Ваше имя</label>
+          <input id="gx-name" className="gx__input" type="text" autoComplete="name" placeholder="Имя" value={name} onChange={(e) => setName(e.target.value)} />
+          <label className="sr-only" htmlFor="gx-phone">Телефон</label>
+          <input
+            id="gx-phone" className="gx__input" type="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__"
+            value={phone}
+            onFocus={() => { if (!phone) setPhone('+7 ('); }}
+            onChange={(e) => setPhone(bridge ? bridge.phone(e.target.value) : e.target.value)}
+          />
+          <button type="submit" className="btn btn--accent btn--sm gx__submit" disabled={state.sending}>
+            {state.sending ? 'Отправляем…' : 'Рассчитать выезд и доставку'}
+          </button>
+          {state.error && <p className="gx__error" role="alert">{state.error}</p>}
+          <p className="gx__consent">Нажимая кнопку, вы даёте <a href="/soglasie/">согласие на обработку персональных данных</a></p>
+        </form>
       )}
-      <div className="gx__actions">
-        <button type="button" className="btn btn--accent btn--sm" onClick={onSend}>Рассчитать выезд и доставку</button>
-        <button type="button" className="gx__reset" onClick={onReset}>Сбросить</button>
-      </div>
+      <button type="button" className="gx__reset" onClick={onReset}>Сбросить отметку</button>
     </motion.div>
   );
 }
@@ -232,6 +274,7 @@ function GeoMap({ data }) {
   const path = poly.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ') + ' Z';
 
   const cities = useMemo(() => data.cities.map((c) => ({ ...c, dist: haversine(hub, c) })), [data, hub]);
+  const moscow = useMemo(() => (data.moscow || []).map((c) => ({ ...c, mo: true, anchor: 'start', dy: 4, dist: haversine(hub, c) })), [data, hub]);
 
   const [city, setCity] = useState(null);
   const [plot, setPlot] = useState(null);
@@ -248,8 +291,14 @@ function GeoMap({ data }) {
     const others = cities.map((c) => ({ c, d: haversine({ lon, lat }, c) })).sort((a, b) => a.d - b.d);
     const nearest = near ? { c: near, d: 0 } : others[0];
     setCity(null);
-    setPlot({ lon, lat, xy, inside: inside(xy, poly), dist: haversine(hub, { lon, lat }), near: nearest.c, nearDist: nearest.d });
-  }, [P, cities, poly, hub]);
+    const mo = moscow.map((c) => ({ c, d: haversine({ lon, lat }, c) })).sort((a, b) => a.d - b.d)[0];
+    setPlot({
+      lon, lat, xy, inside: inside(xy, poly), dist: haversine(hub, { lon, lat }),
+      near: nearest.c, nearDist: nearest.d,
+      /* Подмосковье: снаружи Тверской области и не дальше 45 км от города из списка */
+      mo: mo && mo.d <= 45 ? mo.c : null, moDist: mo ? mo.d : 0,
+    });
+  }, [P, cities, moscow, poly, hub]);
 
   const onMap = (e) => {
     const svg = svgRef.current;
@@ -260,23 +309,6 @@ function GeoMap({ data }) {
     if (!m) return;
     const { x, y } = pt.matrixTransform(m.inverse());
     placePlot({ lon: P.lon(x), lat: P.lat(y) });
-  };
-
-  const send = () => {
-    if (!plot) return;
-    const where = plot.inside
-      ? `Участок ≈ ${km(plot.dist)} от Твери по прямой, ближе всего к: ${plot.near.name}`
-      : 'Участок за пределами Тверской области';
-    const coords = `${plot.lat.toFixed(4)}, ${plot.lon.toFixed(4)}`;
-    /* в заявку внизу страницы: скрытое поле «проект» уходит менеджеру */
-    const field = document.getElementById('p-project-input');
-    if (field) field.value = `Карта охвата: ${where} (${coords})`;
-    const form = document.getElementById('zayavka');
-    if (form) {
-      form.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
-      setTimeout(() => document.getElementById('cta-name')?.focus({ preventScroll: true }), 500);
-    }
-    if (window.ym && document.body.dataset.metrika) window.ym(Number(document.body.dataset.metrika), 'reachGoal', 'map_plot');
   };
 
   const target = plot ? plot.xy : city && !city.hub ? [P.x(city.lon), P.y(city.lat)] : null;
@@ -291,7 +323,7 @@ function GeoMap({ data }) {
             className="gx__svg"
             onClick={onMap}
             role="group"
-            aria-label="Карта Тверской области: нажмите, чтобы отметить участок, или выберите город"
+            aria-label="Карта Тверской области и ближнего Подмосковья: нажмите, чтобы отметить участок, или выберите город"
           >
             <defs>
               <pattern id="gx-stud" width="14" height="14" patternUnits="userSpaceOnUse">
@@ -329,6 +361,22 @@ function GeoMap({ data }) {
               )}
             </AnimatePresence>
 
+            {moscow.length > 0 && (
+              <text className="gx__region" x={P.x(37.55)} y={P.y(56.02)} textAnchor="middle">Подмосковье</text>
+            )}
+            {moscow.map((c, i) => (
+              <City
+                key={`mo-${c.name}`}
+                c={c}
+                P={P}
+                index={cities.length + i}
+                narrow={narrow}
+                active={city?.name === c.name || plot?.mo?.name === c.name}
+                dim={false}
+                onPick={(v) => { setPlot(null); setCity(v); }}
+              />
+            ))}
+
             {cities.map((c, i) => (
               <City
                 key={c.name}
@@ -354,7 +402,7 @@ function GeoMap({ data }) {
                     animate={{ pathLength: 1 }}
                     transition={{ duration: 0.8, ease: EASE }}
                   />
-                  {plot.inside && (
+                  {(plot.inside || plot.mo) && (
                     <motion.text
                       className="gx__dim"
                       dy="-7"
@@ -392,7 +440,7 @@ function GeoMap({ data }) {
         <aside className="gx__panel" aria-live="polite">
           <AnimatePresence mode="wait">
             {plot
-              ? <PlotCard key="plot" plot={plot} onSend={send} onReset={() => setPlot(null)} />
+              ? <PlotCard key="plot" plot={plot} onReset={() => setPlot(null)} />
               : city
                 ? <CityCard key="city" c={city} onPlot={placePlot} />
                 : <Idle key="idle" />}

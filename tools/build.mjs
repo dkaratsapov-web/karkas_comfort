@@ -148,6 +148,7 @@ function geoMap() {
      поэтому дома в сёлах на карту не ставим — только в городах. */
   const data = {
     outline: geo.outline,
+    moscow: (geo.moscow || []).map((c) => ({ name: c.name, lon: c.lon, lat: c.lat })),
     cities: geo.cities.map((c) => ({
       name: c.name, lon: c.lon, lat: c.lat, hub: Boolean(c.hub), anchor: c.anchor || 'start', dy: c.dy || 4, mobile: c.mobile || null,
       cases: cases.filter((k) => k.place && new RegExp(`(^|[^А-Яа-яЁё])${c.name}([^А-Яа-яЁё]|$)`).test(k.place)).map((k) => {
@@ -251,7 +252,7 @@ function videoCard(n) {
             <figcaption>
               <h3>${esc(v.title)}</h3>
               ${v.note ? `<p>${esc(v.note)}</p>` : ''}
-              <a class="btn btn--ghost btn--sm video__more" href="/video/">Все видео со строек<span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+              <a class="btn btn--ghost btn--sm video__more" href="/video/">Все видео<span class="hide-sm"> со строек</span><span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
             </figcaption>
           </figure>`;
 }
@@ -586,8 +587,8 @@ function compareTable() {
             <caption class="sr-only">Что входит в комплектации «Тёплый контур», «Вайт бокс» и «Под ключ»</caption>
             <thead>
               <tr>
-                <th scope="col">Что входит</th>
-${pricing.tiers.map((t) => `                <th scope="col"><span class="cmp__long">${esc(t.name)}</span><span class="cmp__short" aria-hidden="true">${esc(t.short || t.name)}</span><small>${money(pricing.ratePerM2[t.id])}/м²</small></th>`).join('\n')}
+                <th scope="col">Что входит<small class="cmp__unitnote">цена за м², ₽</small></th>
+${pricing.tiers.map((t) => `                <th scope="col"><span class="cmp__long">${esc(t.name)}</span><span class="cmp__short" aria-hidden="true">${esc(t.short || t.name)}</span><small><span class="cmp__price">${money(pricing.ratePerM2[t.id]).replace(' ₽', '')}</span><span class="cmp__unit"> ₽/м²</span></small></th>`).join('\n')}
               </tr>
             </thead>
             <tbody>
@@ -875,7 +876,7 @@ function photoGrid(files, offset, altOf, zoomGroup) {
   const cell = (it) => `            <figure style="--a:${it.a.toFixed(3)}"><img ${srcset(it.f, "(min-width: 1000px) 30vw, 92vw")} alt="${altOf(it.i)}" loading="${it.i < 3 ? 'eager' : 'lazy'}" width="${imgSize(it.f).w}" height="${imgSize(it.f).h}" data-zoom="${img(it.f)}" data-zoom-group="${zoomGroup}"></figure>`;
   /* нечётное число кадров: на телефоне первый идёт во всю ширину,
      чтобы в сетке из двух колонок не осталось дыры в конце */
-  return `          <div class="shots shots--rows${files.length % 2 ? ' shots--odd' : ''}">
+  return `          <div class="shots shots--rows${files.length === 1 ? ' shots--one' : ''}">
 ${rs.map((row, n) => {
   const sum = row.reduce((v, it) => v + it.a, 0);
   /* полный ряд тянется до края; неполный последний ограничен по ширине,
