@@ -3371,3 +3371,19 @@ body::after {
 .p-price--top .p-price__sum { font-size: clamp(24px, 2.5vw, 30px); }
 .p-prices__term { font-size: 13.5px; color: var(--ink-2); padding: 2px 2px 0; }
 .p-prices__term b { color: var(--ink); font-weight: 600; }
+
+/* ступени цены: контур — обычной строкой без подложки, под ключ — плашка;
+   мелкий текст контрастнее, на телефоне название над суммой */
+.p-price:not(.p-price--top) { background: none; padding: 0 0 4px; }
+.p-price__sum i, .p-price__name small { color: var(--ink-2); }
+.p-price__name { font-size: 15px; }
+.p-price__name small { font-size: 13px; }
+.p-price__what { font-size: 14px; }
+.p-price--top { padding: 14px 16px; box-shadow: inset 4px 0 0 var(--accent-bright), 0 0 0 1px #E6D3B3; }
+.p-prices__term { font-size: 15px; padding: 4px 0 0; }
+.p-prices__term b { font-weight: 700; }
+@media (max-width: 560px) {
+  .p-price { grid-template-columns: 1fr; gap: 2px; }
+  .p-price--top .p-price__sum { font-size: 28px; }
+  .p-price__sum { white-space: normal; }
+}

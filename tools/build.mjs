@@ -432,7 +432,7 @@ const priceSteps = (p) => {
                   <span class="p-price__what">${esc(tierNote('standart'))}</span>
                 </div>
                 <div class="p-price p-price--top">
-                  <span class="p-price__name">Под ключ с отделкой</span>
+                  <span class="p-price__name">Под ключ с&nbsp;отделкой</span>
                   <b class="p-price__sum">${p.prices ? '' : '<i>от</i> '}${money(priceTop(p))}</b>
                   <span class="p-price__what">${esc(tierNote('pod_kluch'))}</span>
                 </div>
