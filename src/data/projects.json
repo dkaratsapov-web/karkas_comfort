@@ -298,6 +298,12 @@
     "price": 7900000,
     "priceNote": "стоимость дома по договору",
     "term": "2–3 месяца",
+    "viz": [
+      "kolesnikovo-viz-01.jpg",
+      "kolesnikovo-viz-02.jpg",
+      "kolesnikovo-viz-03.jpg",
+      "kolesnikovo-viz-04.jpg"
+    ],
     "plan": "kolesnikovo-plan-1.jpg",
     "rooms": [
       {
