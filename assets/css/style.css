@@ -3391,3 +3391,12 @@ body::after {
 /* плавающая кнопка расчёта: общее a:hover красило заголовок в тёмно-зелёный
    поверх такого же фона — при наведении он пропадал */
 .calcdock:hover, .calcdock:focus-visible { color: var(--on-brand); }
+
+/* заголовок блока с кнопкой справа: на плотных страницах общее правило
+   ограничивало его 700 px, и кнопка вставала посреди строки */
+.page-dense .section__head--row { max-width: none; }
+/* окно просмотра: кадр всегда в средней колонке. Когда кадр один,
+   стрелки скрыты, и без явной колонки он уезжал к левому краю */
+.lightbox__nav--prev { grid-column: 1; grid-row: 1; }
+.lightbox__stage { grid-column: 2; grid-row: 1; }
+.lightbox__nav--next { grid-column: 3; grid-row: 1; }
