@@ -21,7 +21,8 @@
     "verify": "node tools/verify.mjs",
     "publish:site": "npm run build && npm run verify && node tools/publish.mjs",
     "bundle": "node tools/bundle.mjs",
-    "review:mobile": "node tools/mobile-review.mjs"
+    "review:mobile": "node tools/mobile-review.mjs",
+    "review:marketing": "node tools/marketing-review.mjs"
   },
   "devDependencies": {
     "basic-ftp": "^6.2.0",
