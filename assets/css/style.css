@@ -3347,3 +3347,9 @@ body::after {
   .hero.flight .flight__dot span { background: rgba(255, 255, 255, .72); }
   .hero.flight .flight__dot.is-on span { background: var(--accent-bright); }
 }
+
+/* цифры первого экрана: число и подпись по центру плашки (на телефоне —
+   список с чертой слева, там выравнивание остаётся по левому краю) */
+@media (min-width: 700px) {
+  .hero__fact { text-align: center; }
+}
