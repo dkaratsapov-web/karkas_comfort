@@ -1221,7 +1221,7 @@ ${p.packages.map((k) => `                <li><a href="#komplektacii"><span>${esc
               </ul>` : ''}
               <div class="stack" style="margin-top:20px">
                 <a class="btn btn--block" href="#zayavka" data-project="${p.code} (${p.size}, ${areaLabel(p)} м²)">Рассчитать этот проект</a>
-                <button class="btn btn--ghost btn--block" type="button" data-im="telegram" data-lead-messenger>Написать в Telegram</button>
+                <button class="btn btn--ghost btn--block" type="button" data-im="max" data-lead-messenger>Написать в MAX</button>
               </div>
               <ul class="checks checks--tight" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft)">
                 <li>Смета с ценами до подписания договора</li>
