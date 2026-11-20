@@ -221,7 +221,12 @@ const audit = () => {
    восемь минут из десяти, а процессор при этом простаивал — браузер
    почти всё время ждёт прокрутку и загрузку картинок. Потоков столько,
    сколько ядер, но не больше шести (VISUAL_WORKERS — вручную). */
-const jobs = pages.flatMap((url) => WIDTHS.map((width) => ({ url, width })));
+/* VISUAL_SHARD="2/3" — проверить вторую треть пар «страница × ширина».
+   В CI три трети идут на трёх машинах одновременно: на раннере приватного
+   репозитория два ядра, и в одном задании прогон занимал 5 минут. */
+const [shardK, shardN] = (process.env.VISUAL_SHARD || '1/1').split('/').map(Number);
+const jobs = pages.flatMap((url) => WIDTHS.map((width) => ({ url, width })))
+  .filter((_, i) => i % shardN === shardK - 1);
 const WORKERS = Math.max(1, Number(process.env.VISUAL_WORKERS) || Math.min(6, (await import('node:os')).cpus().length || 2));
 const checkOne = async ({ url, width }) => {
     /* без анимаций: проверяем итоговую вёрстку, а не кадр, на котором
@@ -290,8 +295,9 @@ const checkOne = async ({ url, width }) => {
   const order = new Map(jobs.map((j, i) => [`${j.url}@${j.width}`, i]));
   problems.sort((a, b) => (order.get(`${a.url}@${a.width}`) ?? 1e9) - (order.get(`${b.url}@${b.width}`) ?? 1e9));
 }
-/* частая сетка ширин на главной: ловим переполнение шапки между брейкпоинтами */
-{
+/* частая сетка ширин на главной: ловим переполнение шапки между брейкпоинтами
+   (при делении на части — только в первой) */
+if (shardK === 1) {
   const page = await ownOnly(await browser.newPage({ viewport: { width: 1200, height: 700 } }));
   await page.goto(`${B}/`, { waitUntil: 'networkidle', timeout: 30000 });
   for (const width of SWEEP) {

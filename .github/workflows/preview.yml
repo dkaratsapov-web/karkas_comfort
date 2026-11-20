@@ -12,9 +12,10 @@ name: Проверка сайта
 
 on:
   push:
+    # Рабочая ветка сюда не входит: публикация пушит тот же коммит
+    # в обе ветки, и проверка шла дважды — дубль только тратил минуты.
     branches:
       - claude/karkas-comfort-redesign-0zy3xi
-      - claude/site-analysis-redesign-tfso59
       - main
     paths-ignore:
       - 'README.md'
@@ -32,8 +33,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Четыре задания на четырёх машинах одновременно: сценарии и SEO
+  # и три трети визуальной проверки. Раньше всё шло одним заданием
+  # на двух ядрах — 7,5 минуты; «Deploy to VPS» ждёт, пока пройдут все.
   check:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { name: 'сценарии и SEO', parts: 'check,seo', shard: '1/1' }
+          - { name: 'визуальная 1/3', parts: 'visual', shard: '1/3' }
+          - { name: 'визуальная 2/3', parts: 'visual', shard: '2/3' }
+          - { name: 'визуальная 3/3', parts: 'visual', shard: '3/3' }
+    name: ${{ matrix.name }}
     steps:
       - uses: actions/checkout@v4
 
@@ -58,6 +71,15 @@ jobs:
           npm i --no-save playwright@1.64.1
           npx playwright install --with-deps chromium
 
+      # Водяные знаки: кеш по содержимому кадров переживает запуски,
+      # иначе каждая сборка заново пережимала все фото (1,5 минуты).
+      - name: Кеш водяных знаков
+        uses: actions/cache@v4
+        with:
+          path: .cache/watermark
+          key: wm-${{ hashFiles('assets/img/**', 'tools/watermark.mjs') }}
+          restore-keys: wm-
+
       - name: Сборка
         run: npm run build
 
@@ -69,3 +91,6 @@ jobs:
 
       - name: Проверки сайта
         run: npm run verify
+        env:
+          VERIFY_PARTS: ${{ matrix.parts }}
+          VISUAL_SHARD: ${{ matrix.shard }}

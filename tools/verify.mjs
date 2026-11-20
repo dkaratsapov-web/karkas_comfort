@@ -53,10 +53,13 @@ const run = (script) => new Promise((resolve) => {
   p.on('close', (code) => resolve(code));
 });
 
+/* VERIFY_PARTS="check,seo" — прогнать только эти части. В CI части идут
+   параллельными заданиями на разных машинах; локально — все подряд. */
+const parts = (process.env.VERIFY_PARTS || 'check,visual,seo').split(',').map((s) => s.trim());
 let failed = 0;
-failed += (await run('tools/check.mjs')) ? 1 : 0;
-failed += (await run('tools/visual.mjs')) ? 1 : 0;
-failed += (await run('tools/seo.mjs')) ? 1 : 0;
+for (const [part, script] of [['check', 'tools/check.mjs'], ['visual', 'tools/visual.mjs'], ['seo', 'tools/seo.mjs']]) {
+  if (parts.includes(part)) failed += (await run(script)) ? 1 : 0;
+}
 server.close();
 if (failed) {
   console.error('\nПроверки не пройдены — публиковать нельзя.');
