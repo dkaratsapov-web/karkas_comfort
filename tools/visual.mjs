@@ -262,7 +262,11 @@ const checkOne = async ({ url, width }) => {
           i.addEventListener('load', r, { once: true });
           i.addEventListener('error', r, { once: true });
         }));
-        return Promise.race([Promise.all(done), new Promise((r) => setTimeout(r, 5000))]);
+        /* 15 с, а не 5: в шесть потоков каталог с десятками визуализаций
+           по полмегабайта не всегда докачивался за 5 с, и проверка падала
+           на живой картинке. Битая картинка отвечает ошибкой сразу, так что
+           запас по времени настоящую поломку не пропустит */
+        return Promise.race([Promise.all(done), new Promise((r) => setTimeout(r, 15000))]);
       });
       /* в несколько потоков страница грузится медленнее: замер до загрузки
          шрифтов видел другие переносы строк и ложные наложения */
