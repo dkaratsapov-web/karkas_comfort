@@ -20,3 +20,6 @@ mob-top.png
 .agents/
 .claude/skills/higgsfield-*
 .cache/
+
+# служебные HTML сборки креативов
+docs/avito/kreativy/.html/
