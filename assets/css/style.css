@@ -3353,3 +3353,21 @@ body::after {
 @media (min-width: 700px) {
   .hero__fact { text-align: center; }
 }
+
+/* Цена на странице проекта: две ступени. Тёплый контур — обычная строка,
+   под ключ — плашка с охристой чертой слева, чтобы не сливалась с контуром. */
+.p-prices { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line-soft); display: grid; gap: 10px; }
+.p-price {
+  display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 2px 16px;
+  padding: 12px 14px; border-radius: 10px; background: var(--page-2);
+}
+.p-price__name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.p-price__name small { display: inline-block; margin-left: 6px; font-size: 12.5px; font-weight: 500; color: var(--muted); }
+.p-price__sum { font-family: var(--display); font-size: clamp(20px, 2vw, 24px); font-weight: 700; color: var(--ink); white-space: nowrap; letter-spacing: -.01em; }
+.p-price__sum i { font-style: normal; font-size: .62em; font-weight: 600; color: var(--muted); }
+.p-price__what { grid-column: 1 / -1; font-size: 13px; color: var(--ink-2); }
+.p-price--top { background: #F4E9D6; box-shadow: inset 3px 0 0 var(--accent-bright); }
+.p-price--top .p-price__name { color: var(--accent); }
+.p-price--top .p-price__sum { font-size: clamp(24px, 2.5vw, 30px); }
+.p-prices__term { font-size: 13.5px; color: var(--ink-2); padding: 2px 2px 0; }
+.p-prices__term b { color: var(--ink); font-weight: 600; }

@@ -412,12 +412,33 @@ const analytics = [
 ].filter(Boolean).join('\n');
 
 /* ---------- цены ---------- */
-function priceOf(p) { return p.prices?.kontur ?? p.price ?? Math.round(p.area * pricing.ratePerM2.standart); }
+function priceOf(p) { return p.prices?.kontur ?? p.price ?? p.priceFrom ?? Math.round(p.area * pricing.ratePerM2.standart); }
 function priceTop(p) { return p.prices?.pod_kluch ?? Math.round(p.area * pricing.ratePerM2.pod_kluch); }
 function projectUrl(slug) { return `/proekty/${slug}/`; }
 const money = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₽';
 const priceNote = (p) => p.priceNote
-  || (p.prices ? 'тёплый контур, по смете' : p.price ? 'тёплый контур, по договору' : 'тёплый контур, ориентировочно');
+  || (p.prices ? 'тёплый контур, по смете' : p.price ? 'тёплый контур, по договору' : p.priceFrom ? 'тёплый контур' : 'тёплый контур, ориентировочно');
+/* Цена на странице проекта двумя ступенями: тёплый контур и под ключ.
+   Раньше «под ключ» шло хвостом мелкой строки под крупной ценой контура
+   и терялось. Теперь у каждой ступени своя строка, «под ключ» выделен. */
+const tierNote = (id) => (pricing.tiers.find((t) => t.id === id) || {}).note || '';
+const priceSteps = (p) => {
+  const from = !(p.price || p.prices) || (p.packages && p.packages.length);
+  const est = !(p.price || p.prices || p.priceFrom);
+  return `<div class="p-prices">
+                <div class="p-price">
+                  <span class="p-price__name">Тёплый контур${est ? '<small>ориентировочно</small>' : p.prices ? '<small>по смете</small>' : ''}</span>
+                  <b class="p-price__sum">${from ? '<i>от</i> ' : ''}${money(priceOf(p))}</b>
+                  <span class="p-price__what">${esc(tierNote('standart'))}</span>
+                </div>
+                <div class="p-price p-price--top">
+                  <span class="p-price__name">Под ключ с отделкой</span>
+                  <b class="p-price__sum">${p.prices ? '' : '<i>от</i> '}${money(priceTop(p))}</b>
+                  <span class="p-price__what">${esc(tierNote('pod_kluch'))}</span>
+                </div>
+                <p class="p-prices__term">Срок строительства: <b>${termOf(p)}</b></p>
+              </div>`;
+};
 const termOf = (p) => p.term || (p.area <= 90 ? '1,5–2 месяца' : p.area <= 150 ? '2–3 месяца' : '3–4 месяца');
 const floorsLabel = (f) => (f === 1 ? '1 этаж' : f === 1.5 ? '1,5 этажа' : '2 этажа');
 const floorsWord = (f) => (f === 1 ? 'Одноэтажный' : f === 1.5 ? 'Полутораэтажный' : 'Двухэтажный');
@@ -1189,7 +1210,7 @@ ${specs.map(([t, v]) => `                <div><dt>${esc(t)}</dt><dd>${esc(v)}</d
               ${p.points && p.points.length
                 ? `<ul class="dots">${p.points.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`
                 : `<p class="muted" style="margin-top:10px">${esc(p.note)}</p>`}
-              <p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${(p.price || p.prices) && !(p.packages && p.packages.length) ? '' : 'от '}${money(priceOf(p))}<small>${p.priceNote ? `${esc(p.priceNote)} · срок ${termOf(p)}` : `тёплый контур${p.prices ? ' по смете' : p.price ? '' : ', ориентировочно'} · под ключ с отделкой ${p.prices ? '' : '— от '}${money(priceTop(p))} · срок ${termOf(p)}`}</small></p>
+              ${p.priceNote ? `<p class="price" style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:clamp(26px,3vw,34px)">${(p.price || p.prices) && !(p.packages && p.packages.length) ? '' : 'от '}${money(priceOf(p))}<small>${esc(p.priceNote)} · срок ${termOf(p)}</small></p>` : priceSteps(p)}
 ${p.variants && p.variants.length ? `
               <ul class="variants">
 ${p.variants.map((v) => `                <li><span>${esc(v.name)}${v.note ? `<small>${esc(v.note)}</small>` : ''}</span><b>${money(v.price)}</b></li>`).join('\n')}
