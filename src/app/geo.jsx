@@ -173,7 +173,7 @@ function Idle() {
   );
 }
 
-function CityCard({ c, onPlot }) {
+function CityCard({ c }) {
   const built = c.cases || [];
   return (
     <motion.div key={`c-${c.name}`} className="gx__card" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.35, ease: EASE }}>
@@ -193,24 +193,23 @@ function CityCard({ c, onPlot }) {
           ))}
         </div>
       )}
-      <button type="button" className="btn btn--ghost btn--sm gx__cta" onClick={() => onPlot({ lon: c.lon, lat: c.lat, near: c })}>
-        Мой участок рядом
-      </button>
+      <LeadForm
+        id={`c-${c.name}`}
+        where={c.hub ? 'Тверь, город офиса' : `город ${c.name}, ≈ ${km(c.dist)} от Твери${c.mo ? ' (Подмосковье)' : ''}`}
+        coords={[c.lat, c.lon]}
+      />
     </motion.div>
   );
 }
 
-function PlotCard({ plot, onReset }) {
+/* Открытая форма заявки: имя, телефон, кнопка. Стоит сразу в карточке
+   города и в карточке отметки — без промежуточной кнопки. */
+function LeadForm({ id, where, coords }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [state, setState] = useState({ sending: false, error: '', sent: false });
   const bridge = typeof window !== 'undefined' ? window.kkLead : null;
-
-  const where = plot.inside
-    ? `участок ≈ ${km(plot.dist)} от Твери по прямой, ближе всего к: ${plot.near.name}`
-    : plot.mo
-      ? `участок в Подмосковье ≈ ${km(plot.dist)} от Твери, рядом ${plot.mo.name}`
-      : `участок ≈ ${km(plot.dist)} от Твери, за краем схемы`;
+  const uid = id.replace(/[^\w-]/g, '');
 
   const submit = async (e) => {
     e.preventDefault();
@@ -221,13 +220,41 @@ function PlotCard({ plot, onReset }) {
     try {
       const r = await bridge.send({
         name: name.trim(), phone,
-        project: `Карта охвата: ${where} (${plot.lat.toFixed(4)}, ${plot.lon.toFixed(4)})`,
+        project: `Карта охвата: ${where} (${coords[0].toFixed(4)}, ${coords[1].toFixed(4)})`,
       });
       setState(r.ok ? { sending: false, error: '', sent: true } : { sending: false, error: r.error || 'Не удалось отправить — позвоните: 8 (920) 171-69-69', sent: false });
     } catch {
       setState({ sending: false, error: 'Не удалось отправить — проверьте связь или позвоните: 8 (920) 171-69-69', sent: false });
     }
   };
+
+  if (state.sent) return <p className="gx__ok" role="status">Заявка отправлена — перезвоним в рабочее время.</p>;
+  return (
+    <form className="gx__form" onSubmit={submit} noValidate>
+      <label className="sr-only" htmlFor={`gx-name-${uid}`}>Ваше имя</label>
+      <input id={`gx-name-${uid}`} className="gx__input" type="text" autoComplete="name" placeholder="Имя" value={name} onChange={(e) => setName(e.target.value)} />
+      <label className="sr-only" htmlFor={`gx-phone-${uid}`}>Телефон</label>
+      <input
+        id={`gx-phone-${uid}`} className="gx__input" type="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__"
+        value={phone}
+        onFocus={() => { if (!phone) setPhone('+7 ('); }}
+        onChange={(e) => setPhone(bridge ? bridge.phone(e.target.value) : e.target.value)}
+      />
+      <button type="submit" className="btn btn--accent btn--sm gx__submit" disabled={state.sending}>
+        {state.sending ? 'Отправляем…' : 'Рассчитать выезд и доставку'}
+      </button>
+      {state.error && <p className="gx__error" role="alert">{state.error}</p>}
+      <p className="gx__consent">Нажимая кнопку, вы даёте <a href="/soglasie/">согласие на обработку персональных данных</a></p>
+    </form>
+  );
+}
+
+function PlotCard({ plot, onReset }) {
+  const where = plot.inside
+    ? `участок ≈ ${km(plot.dist)} от Твери по прямой, ближе всего к: ${plot.near.name}`
+    : plot.mo
+      ? `участок в Подмосковье ≈ ${km(plot.dist)} от Твери, рядом ${plot.mo.name}`
+      : `участок ≈ ${km(plot.dist)} от Твери, за краем схемы`;
 
   return (
     <motion.div key={`p-${plot.lon.toFixed(3)}-${plot.lat.toFixed(3)}`} className="gx__card" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.35, ease: EASE }}>
@@ -238,26 +265,7 @@ function PlotCard({ plot, onReset }) {
       {!plot.inside && plot.mo && <p className="gx__measure">Выезжаем и сюда. Рядом <b>{plot.mo.name}</b>{plot.moDist >= 1 ? `, ${km(plot.moDist)}` : ''}</p>}
       {!plot.inside && !plot.mo && <p className="gx__measure">Работаем по Тверской области и ближнему Подмосковью — по адресу скажем, выезжаем ли.</p>}
 
-      {state.sent ? (
-        <p className="gx__ok" role="status">Заявка отправлена — перезвоним в рабочее время.</p>
-      ) : (
-        <form className="gx__form" onSubmit={submit} noValidate>
-          <label className="sr-only" htmlFor="gx-name">Ваше имя</label>
-          <input id="gx-name" className="gx__input" type="text" autoComplete="name" placeholder="Имя" value={name} onChange={(e) => setName(e.target.value)} />
-          <label className="sr-only" htmlFor="gx-phone">Телефон</label>
-          <input
-            id="gx-phone" className="gx__input" type="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__"
-            value={phone}
-            onFocus={() => { if (!phone) setPhone('+7 ('); }}
-            onChange={(e) => setPhone(bridge ? bridge.phone(e.target.value) : e.target.value)}
-          />
-          <button type="submit" className="btn btn--accent btn--sm gx__submit" disabled={state.sending}>
-            {state.sending ? 'Отправляем…' : 'Рассчитать выезд и доставку'}
-          </button>
-          {state.error && <p className="gx__error" role="alert">{state.error}</p>}
-          <p className="gx__consent">Нажимая кнопку, вы даёте <a href="/soglasie/">согласие на обработку персональных данных</a></p>
-        </form>
-      )}
+      <LeadForm id={`p-${plot.lon.toFixed(3)}-${plot.lat.toFixed(3)}`} where={where} coords={[plot.lat, plot.lon]} />
       <button type="button" className="gx__reset" onClick={onReset}>Сбросить отметку</button>
     </motion.div>
   );
@@ -439,7 +447,7 @@ function GeoMap({ data }) {
             {plot
               ? <PlotCard key="plot" plot={plot} onReset={() => setPlot(null)} />
               : city
-                ? <CityCard key="city" c={city} onPlot={placePlot} />
+                ? <CityCard key="city" c={city} />
                 : <Idle key="idle" />}
           </AnimatePresence>
         </aside>

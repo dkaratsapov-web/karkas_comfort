@@ -3387,3 +3387,7 @@ body::after {
   .p-price--top .p-price__sum { font-size: 28px; }
   .p-price__sum { white-space: normal; }
 }
+
+/* плавающая кнопка расчёта: общее a:hover красило заголовок в тёмно-зелёный
+   поверх такого же фона — при наведении он пропадал */
+.calcdock:hover, .calcdock:focus-visible { color: var(--on-brand); }
