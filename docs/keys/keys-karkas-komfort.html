@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кейс «Каркас Комфорт»</title>
+<style>
+:root { --bg: #F3F1EC; --ink: #17150F; --ink2: #4A463E; --line: #DDD8CE; --accent: #B8862F; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 920px; margin: 0 auto; padding: 48px 20px 96px; }
+h1 { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.12; letter-spacing: -.02em; margin: 0 0 24px; }
+h2 { font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2; margin: 56px 0 14px; padding-top: 22px; border-top: 1px solid var(--line); }
+p, li { color: var(--ink2); }
+p strong, li strong { color: var(--ink); }
+ul { padding-left: 1.2em; }
+li { margin: 6px 0; }
+li::marker { color: var(--accent); }
+figure { margin: 26px 0; }
+figure img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+figcaption { font-size: 14px; color: var(--ink2); margin-top: 8px; }
+a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+<h1>«Каркас Комфорт»: сайт строительной компании с собственной CRM и автоматической проверкой качества</h1>
+<p><strong>Клиент:</strong> «Каркас Комфорт», строительство каркасных домов под ключ в Твери, Тверской и Московской областях</p>
+<p><strong>Сайт:</strong> каркаскомфорт.рф</p>
+<p><strong>Сроки:</strong> 16 сентября – 20 ноября 2026 года, около двух месяцев</p>
+<p><strong>Что делали:</strong> редизайн с нуля, контент, интерактив, мобильная версия, приём заявок, CRM и админка, юридические документы, сервер и автоматическая выкладка, реклама в Яндекс Директе, Авито Ads и Сбер Ads</p>
+<figure><a href="screens/desktop/01-glavnaya-pervyy-ekran.jpg"><img src="screens/desktop/01-glavnaya-pervyy-ekran.jpg" alt="Главная страница, первый экран" loading="lazy"></a><figcaption>Главная страница, первый экран</figcaption></figure>
+<h2>Задача</h2>
+<p>У компании был сайт, который выглядел как шаблон, сгенерированный нейросетью: тёплая кремовая база с глиняным акцентом, капслок над каждым заголовком, одинаковые скруглённые карточки с одной и той же тенью. Мелкий текст не дотягивал по контрасту, кнопки и ссылки на телефоне были мельче пальца. Вместо фото построенных домов и цен стояли иллюстрации-заглушки, а сам сайт жил на демо-хостинге.</p>
+<p>Заказчик поставил три цели сразу: больше заявок, визуальный уровень «дороже» и техническое качество, то есть скорость, поиск и надёжность. Концепцию меняли полностью.</p>
+<h2>Дизайн-система «Чертёж»</h2>
+<p>Стиль вырос из того, что компания продаёт, то есть из эскизного проекта и сметы.</p>
+<ul>
+<li>База — холодная чертёжная бумага, графит взят с фасадов реальных объектов, золото фирменного знака оставлено точечным акцентом.</li>
+<li>Надзаголовок стал размерной линией: две засечки, нитка между ними и подпись обычным регистром.</li>
+<li>Один шрифт Onest вместо пары Nunito и Golos Text. Характер задаёт вес, файл шрифта один и лежит на самом сайте, без сторонних CDN.</li>
+<li>Скругления разведены по назначению: 4 px у меток и полей, 6 px у кнопок, 14 px у крупных поверхностей.</li>
+<li>На тёмных полосах проступает ритм стоек каркаса с реальным шагом. Светлые и тёмные секции стыкуются линией кровли.</li>
+<li>Стрелка оставлена только в ссылках-переходах, нумерация — только в этапах работы.</li>
+</ul>
+<figure><a href="screens/desktop/02-pochemu-my.jpg"><img src="screens/desktop/02-pochemu-my.jpg" alt="Блок «Почему нас выбирают»" loading="lazy"></a><figcaption>Блок «Почему нас выбирают»</figcaption></figure>
+<h2>Структура и контент</h2>
+<p>На сайте 69 страниц. Всё содержимое лежит в данных, а не в вёрстке: цены, фото, сроки и номера счётчиков меняются без правки кода.</p>
+<ul>
+<li><strong>8 проектов</strong> со своими страницами: характеристики, планировки, визуализации и цена. Вертикальные планировки развёрнуты в альбомную ориентацию.</li>
+<li><strong>10 построенных объектов, 155 фотографий со сдачи.</strong> Кадры разложены по группам (фасад, комнаты, санузлы), страница объекта начинается с крупного кадра и формы «Посчитаем такой же дом».</li>
+<li><strong>40 статей</strong> о строительстве с перелинковкой, обложками в фирменном стиле и поиском по разделу.</li>
+<li><strong>5 видео</strong> с объектов: лента на главной и отдельная страница. Ролики грузятся только после нажатия.</li>
+<li>Три комплектации с разрезом дома во всплывающей подсказке: видно, что входит в каждую.</li>
+<li>На фото объектов и листах проектов при сборке ставится аккуратный водяной знак.</li>
+</ul>
+<figure><a href="screens/desktop/07-katalog-proektov.jpg"><img src="screens/desktop/07-katalog-proektov.jpg" alt="Каталог проектов" loading="lazy"></a><figcaption>Каталог проектов</figcaption></figure>
+<figure><a href="screens/desktop/08-stranitsa-proekta.jpg"><img src="screens/desktop/08-stranitsa-proekta.jpg" alt="Страница проекта" loading="lazy"></a><figcaption>Страница проекта</figcaption></figure>
+<figure><a href="screens/desktop/09-obekty.jpg"><img src="screens/desktop/09-obekty.jpg" alt="Построенные объекты" loading="lazy"></a><figcaption>Построенные объекты</figcaption></figure>
+<figure><a href="screens/desktop/10-stranitsa-obekta.jpg"><img src="screens/desktop/10-stranitsa-obekta.jpg" alt="Страница объекта" loading="lazy"></a><figcaption>Страница объекта</figcaption></figure>
+<figure><a href="screens/desktop/03-komplektatsii-podskazka.jpg"><img src="screens/desktop/03-komplektatsii-podskazka.jpg" alt="Комплектации и подсказка с разрезом дома" loading="lazy"></a><figcaption>Комплектации и подсказка с разрезом дома</figcaption></figure>
+<figure><a href="screens/desktop/12-stati-poisk.jpg"><img src="screens/desktop/12-stati-poisk.jpg" alt="Статьи и поиск по разделу" loading="lazy"></a><figcaption>Статьи и поиск по разделу</figcaption></figure>
+<h2>Интерактив и путь к заявке</h2>
+<p>Каждый блок ведёт к заявке, а форма стоит там, где у человека возникает вопрос.</p>
+<ul>
+<li><strong>Первый экран</strong> — слайдер с фотографиями реальных объектов: стрелки, точки, клавиши и свайп. Рядом цена от, срок и гарантия, сразу под ними короткая форма.</li>
+<li><strong>Интерактивная карта охвата</strong> на React: Тверская область и ближайшие города Подмосковья, кольца расстояний от Твери. Нажимаешь на свой город — видишь расстояние, ближайший построенный объект и открытую форму прямо в карточке.</li>
+<li><strong>Квиз расчёта</strong> вместо простой формы: «Смета за один рабочий день».</li>
+<li>Мессенджеры MAX и ВКонтакте в шапке и подвале, страница «Спасибо» после заявки.</li>
+<li>В заявке видно, откуда пришёл клиент: страница, блок, устройство, метки рекламы.</li>
+</ul>
+<figure><a href="screens/desktop/04-karta-okhvata.jpg"><img src="screens/desktop/04-karta-okhvata.jpg" alt="Карта охвата" loading="lazy"></a><figcaption>Карта охвата</figcaption></figure>
+<figure><a href="screens/desktop/05-karta-uchastok-forma.jpg"><img src="screens/desktop/05-karta-uchastok-forma.jpg" alt="Карточка города с формой" loading="lazy"></a><figcaption>Карточка города с формой</figcaption></figure>
+<figure><a href="screens/desktop/16-kviz-rascheta.jpg"><img src="screens/desktop/16-kviz-rascheta.jpg" alt="Квиз расчёта" loading="lazy"></a><figcaption>Квиз расчёта</figcaption></figure>
+<figure><a href="screens/desktop/06-lenta-video.jpg"><img src="screens/desktop/06-lenta-video.jpg" alt="Лента видео на главной" loading="lazy"></a><figcaption>Лента видео на главной</figcaption></figure>
+<h2>Мобильная версия</h2>
+<p>Телефон проектировали отдельно, а не сжимали десктоп.</p>
+<ul>
+<li>Первый экран: крупный кадр дома во всю ширину, цифры компактным списком, форма сразу под ними.</li>
+<li>Объекты и проекты листаются лентой со свайпом, видео — по одному на экран, с кнопками и счётчиком.</li>
+<li>Две круглые кнопки по бокам экрана: позвонить и написать в MAX. Пока на экране форма или кнопки ленты, круглые кнопки прячутся.</li>
+<li>Таблица сравнения комплектаций свёрнута под кнопкой, фото объектов не режутся в квадрат, просмотрщик умеет поворачивать кадр.</li>
+<li>Все цели для пальца от 44 px, мелкий текст с контрастом от 4,5 к фону.</li>
+</ul>
+<figure><a href="screens/mobile/01-pervyy-ekran.jpg"><img src="screens/mobile/01-pervyy-ekran.jpg" alt="Первый экран на телефоне" loading="lazy"></a><figcaption>Первый экран на телефоне</figcaption></figure>
+<figure><a href="screens/mobile/02-menyu.jpg"><img src="screens/mobile/02-menyu.jpg" alt="Меню" loading="lazy"></a><figcaption>Меню</figcaption></figure>
+<figure><a href="screens/mobile/04-lenta-video.jpg"><img src="screens/mobile/04-lenta-video.jpg" alt="Лента видео на телефоне" loading="lazy"></a><figcaption>Лента видео на телефоне</figcaption></figure>
+<figure><a href="screens/mobile/05-karta.jpg"><img src="screens/mobile/05-karta.jpg" alt="Карта на телефоне" loading="lazy"></a><figcaption>Карта на телефоне</figcaption></figure>
+<figure><a href="screens/mobile/08-obekt.jpg"><img src="screens/mobile/08-obekt.jpg" alt="Страница объекта на телефоне" loading="lazy"></a><figcaption>Страница объекта на телефоне</figcaption></figure>
+<h2>Приём заявок и CRM</h2>
+<p>Заявка с сайта сохраняется на сервере и уходит сразу в несколько каналов: на почту компании, в Telegram, в MAX и во внешнюю CRM по вебхуку. Бот MAX присылает заявку с кнопками, поддерживает свои чаты и команды.</p>
+<p>На сервере работает админка с входом по логину и паролю и ролями «владелец» и «редактор»:</p>
+<ul>
+<li>заявки и сделки по этапам каркасного строительства, задачи с датой следующего шага, карточки клиентов;</li>
+<li>настройки приёма заявок: почта, Telegram, MAX, CRM — без доступа к серверу;</li>
+<li>правка текстов сайта. Админка сохраняет правку коммитом в репозиторий, дальше срабатывает обычная проверка и выкладка, поэтому сервер никогда не расходится с исходниками.</li>
+</ul>
+<p><em>На снимках админки — демонстрационные данные.</em></p>
+<figure><a href="screens/admin/02-zayavki.jpg"><img src="screens/admin/02-zayavki.jpg" alt="Сделки" loading="lazy"></a><figcaption>Сделки</figcaption></figure>
+<figure><a href="screens/admin/09-sdelka.jpg"><img src="screens/admin/09-sdelka.jpg" alt="Карточка сделки" loading="lazy"></a><figcaption>Карточка сделки</figcaption></figure>
+<figure><a href="screens/admin/04-zadachi.jpg"><img src="screens/admin/04-zadachi.jpg" alt="Задачи" loading="lazy"></a><figcaption>Задачи</figcaption></figure>
+<figure><a href="screens/admin/06-nastroyki-priema.jpg"><img src="screens/admin/06-nastroyki-priema.jpg" alt="Настройки приёма заявок" loading="lazy"></a><figcaption>Настройки приёма заявок</figcaption></figure>
+<h2>Реклама: Яндекс Директ, Авито Ads и Сбер Ads</h2>
+<p>Сайт — только часть работы. Рекламу компании тоже ведём мы, в трёх каналах:</p>
+<ul>
+<li><strong>Яндекс Директ</strong> — поиск и Рекламная сеть Яндекса по запросам о каркасных домах в Твери, Тверской и Московской областях;</li>
+<li><strong>Авито Ads</strong> — продвижение на площадке, где клиенты сравнивают строительные компании и проекты;</li>
+<li><strong>Сбер Ads</strong> — охват аудитории экосистемы Сбера.</li>
+</ul>
+<p>Сайт собирали с расчётом на эту рекламу:</p>
+<ul>
+<li>У каждого канала своя посадочная: проекты с ценой, построенные объекты с фото со сдачи, комплектации и условия по ипотеке и материнскому капиталу.</li>
+<li>В Яндекс.Метрике настроены цели на заявку, звонок и переход в мессенджер, поэтому кампании Директа оптимизируются по реальным обращениям, а не по кликам.</li>
+<li>Метки рекламы, страница входа и блок, из которого отправлена форма, сохраняются в каждой заявке. В CRM видно, какой канал и какое объявление привели клиента, и бюджет между каналами распределяется по стоимости заявки.</li>
+</ul>
+<h2>Поиск, аналитика и документы</h2>
+<ul>
+<li>Заголовки, описания и подписи к картинкам под выдачу, карта сайта, разметка для поисковиков, подтверждение прав в Яндекс.Вебмастере и Google Search Console.</li>
+<li>Яндекс.Метрика с целями на заявку, звонок и мессенджер. Счётчик запускается только после согласия на cookie.</li>
+<li>Политика обработки персональных данных, согласие на обработку, политика cookie и баннер выбора. Под каждой кнопкой отправки — ссылка на согласие, текст согласия сохраняется вместе с заявкой.</li>
+</ul>
+<h2>Инфраструктура и контроль качества</h2>
+<p>Сайт — статика без фреймворков: страницы собираются из шаблонов и данных, React подключается только для карты и грузится, когда до неё долистали.</p>
+<ul>
+<li>Сервер на VPS настраивается одной командой: nginx, PHP, сертификат с автопродлением, брандмауэр, отдельный пользователь для выгрузки.</li>
+<li>Каждая правка проходит автоматическую проверку в четыре параллельных задания и выкладывается на боевой домен примерно за 8 минут.</li>
+<li>Проверка в браузере — 50 сценариев: каталог, фильтры, квиз, формы, меню, отправка заявки.</li>
+<li>Визуальная проверка проходит все 69 страниц на пяти ширинах экрана и ловит наложение текста, вылет за контейнер, горизонтальную прокрутку, незагрузившиеся картинки и мелкие цели на телефоне.</li>
+<li>Поисковая проверка следит за заголовками, описаниями и адресами.</li>
+<li>Отдельные ИИ-агенты: один после каждой правки смотрит изменённые страницы на телефоне глазами дизайнера, другой разбирает сайт как маркетолог по конверсии и даёт предложения с приоритетом.</li>
+</ul>
+<figure><a href="screens/desktop/00-glavnaya-tselikom.jpg"><img src="screens/desktop/00-glavnaya-tselikom.jpg" alt="Главная страница целиком" loading="lazy"></a><figcaption>Главная страница целиком</figcaption></figure>
+<h2>Технологии</h2>
+<p>HTML, CSS и JavaScript без фреймворков, собственный сборщик на Node.js, React для карты охвата (сборка esbuild), sharp для водяных знаков и подготовки фото, PHP для приёма заявок и админки, nginx, Let's Encrypt, GitHub Actions, Playwright для проверок. Иллюстрации к блокам — Higgsfield.</p>
+</main>
+</body>
+</html>
