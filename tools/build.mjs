@@ -744,8 +744,8 @@ for (const file of files) {
   content = content.replace(/\{\{cases\}\}/g, () => cases.map(caseTile).join('\n'));
   /* В «Наших проектах» показываем только построенные объекты со съёмкой:
      проекты с альбомами и сметами живут в каталоге, здесь они путали.
-     Ровно десять плиток — две строки по пять, остальное в разделе «Объекты». */
-  content = content.replace(/\{\{showcase\}\}/g, () => cases.slice(0, 10).map(caseTile).join('\n'));
+     На главной 11 карточек, остальные — в разделе «Объекты». */
+  content = content.replace(/\{\{showcase\}\}/g, () => cases.slice(0, 11).map(caseTile).join('\n'));
   content = content.replace(/\{\{projects:(\d+)\}\}/g, (_, n) => projects.slice(0, Number(n)).map(projectCard).join('\n'));
   content = content.replace(/\{\{projects:all\}\}/g, () => projects.map(projectCard).join('\n'));
   /* пока отзывов нет, секция с ними не выводится вовсе — не оставляем пустую рамку */
