@@ -493,5 +493,46 @@
       "Дом на винтовых сваях, отделка цоколя и отмостка ещё не сделаны"
     ],
     "cover": ""
+  },
+  {
+    "slug": "obekt-11",
+    "title": "Объект №11",
+    "lead": "Одноэтажный каркасный дом со светлым фасадом, крытой террасой и панорамным остеклением фронтона. Внутри на момент съёмки шли работы: смонтированы окна, видны контуры тёплого пола и устройство стен и потолка до отделки.",
+    "photoStage": "construction",
+    "photos": [
+      "proekt-11-foto-01.jpg",
+      "proekt-11-foto-02.jpg",
+      "proekt-11-foto-03.jpg",
+      "proekt-11-foto-04.jpg",
+      "proekt-11-foto-05.jpg",
+      "proekt-11-foto-06.jpg",
+      "proekt-11-foto-07.jpg",
+      "proekt-11-foto-08.jpg",
+      "proekt-11-foto-09.jpg",
+      "proekt-11-foto-10.jpg",
+      "proekt-11-foto-11.jpg",
+      "proekt-11-foto-12.jpg",
+      "proekt-11-foto-13.jpg",
+      "proekt-11-foto-14.jpg"
+    ],
+    "groups": [
+      {
+        "title": "Фасад и терраса",
+        "count": 5
+      },
+      {
+        "title": "Гостиная с панорамными окнами",
+        "count": 3
+      },
+      {
+        "title": "Комнаты и коридор",
+        "count": 3
+      },
+      {
+        "title": "Тёплый пол и конструкция",
+        "count": 3
+      }
+    ],
+    "cover": "proekt-11-foto-01.jpg"
   }
 ]

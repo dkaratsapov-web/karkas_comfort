@@ -642,9 +642,9 @@ const caseMeta = (c) => {
     c.tier ? esc(c.tier) : '',
   ].filter(Boolean);
   /* характеристик ещё нет — показываем то, что точно есть: сколько
-     кадров со сдачи, иначе внизу карточки пустая полоса */
+     кадров в галерее, иначе внизу карточки пустая полоса */
   const shots = (c.photos || []).length;
-  if (!list.length && shots) list.push(`${shots} фото со сдачи`);
+  if (!list.length && shots) list.push(`${shots} фото ${c.photoStage === 'construction' ? 'со стройки' : 'со сдачи'}`);
   return list;
 };
 
@@ -1481,7 +1481,7 @@ for (const c of cases) {
   const facts = caseMeta(c);
   const meta = {
     title: `${c.title} — построенный каркасный дом | Каркас Комфорт`,
-    description: fitDesc(`${c.title}${c.place ? `, ${c.place}` : ''}: ${list.length} фотографий со сдачи. ${c.lead || 'Съёмка с площадки после сдачи дома.'}`),
+    description: fitDesc(`${c.title}${c.place ? `, ${c.place}` : ''}: ${list.length} фотографий ${c.photoStage === 'construction' ? 'со стройки' : 'со сдачи'}. ${c.lead || (c.photoStage === 'construction' ? 'Съёмка с площадки в процессе строительства.' : 'Съёмка с площадки после сдачи дома.')}`),
     priority: 0.7,
     breadcrumb: [
       { name: 'Главная', url: '/' },
