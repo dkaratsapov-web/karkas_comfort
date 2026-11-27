@@ -34,7 +34,7 @@ const ownOnly = async (page) => {
   /* окно о cookie закрыто заранее, как у вернувшегося посетителя:
      иначе оно лежит поверх низа страницы, перехватывает нажатия и
      считается наложением. Само окно проверяет отдельный сценарий. */
-  await page.addInitScript(() => { try { localStorage.setItem('kk-cookie', 'necessary'); } catch (e) { /* без хранилища */ } });
+  await page.addInitScript(() => { try { localStorage.setItem('kk-cookie-v2', 'necessary'); } catch (e) { /* без хранилища */ } });
   return page;
 };
 

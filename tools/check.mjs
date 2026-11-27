@@ -26,7 +26,7 @@ const ownOnly = async (page) => {
   /* окно о cookie закрыто заранее, как у вернувшегося посетителя:
      иначе оно лежит поверх низа страницы, перехватывает нажатия и
      считается наложением. Само окно проверяет отдельный сценарий. */
-  await page.addInitScript(() => { try { localStorage.setItem('kk-cookie', 'necessary'); } catch (e) { /* без хранилища */ } });
+  await page.addInitScript(() => { try { localStorage.setItem('kk-cookie-v2', 'necessary'); } catch (e) { /* без хранилища */ } });
   return page;
 };
 
@@ -169,12 +169,20 @@ await p.close();
   });
   await fresh.goto(`${B}/`, { waitUntil: 'networkidle' });
   ok('при первом визите показано окно о cookie', await fresh.isVisible('.cookiebar'));
-  ok('Метрика не запущена до согласия', await fresh.evaluate(() => !window.kkMetrikaOn));
+  ok('Метрика и пиксель Авито не запущены до согласия', await fresh.evaluate(() => !window.kkMetrikaOn && !document.getElementById('apxl-code')));
   await fresh.click('.cookiebar__no');
   await fresh.waitForTimeout(400);
   await fresh.reload({ waitUntil: 'networkidle' });
-  ok('выбор «Только необходимые» запоминается, окно больше не появляется', !(await fresh.isVisible('.cookiebar')) && await fresh.evaluate(() => !window.kkMetrikaOn));
+  ok('выбор «Только необходимые» запоминается, окно больше не появляется', !(await fresh.isVisible('.cookiebar')) && await fresh.evaluate(() => !window.kkMetrikaOn && !document.getElementById('apxl-code')));
   ok('документы о данных доступны из подвала', await fresh.evaluate(() => ['/politika/', '/soglasie/', '/cookie/'].every((u) => document.querySelector(`.footer a[href="${u}"]`))));
+  await fresh.goto(`${B}/cookie/`, { waitUntil: 'networkidle' });
+  await fresh.click('[data-cookie-reset]');
+  await fresh.click('.cookiebar__ok');
+  ok('пиксель Авито загружается после согласия', await fresh.evaluate(() => {
+    if (!window.kkAvito) return true;
+    window.kkAvito();
+    return document.querySelectorAll('script#apxl-code[src="https://ac.avito.ru/tag.js"]').length === 1;
+  }));
   await fresh.close();
 }
 
