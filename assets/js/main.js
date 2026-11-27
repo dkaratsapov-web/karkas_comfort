@@ -468,17 +468,19 @@ function figures() {
   });
 }
 
-/* Окно о cookie. Необходимые cookie работают всегда, аналитика
-   (Яндекс.Метрика) — только после «Принять». Выбор хранится в браузере;
-   на странице /cookie/ его можно сбросить и выбрать заново. */
+/* Версия согласия меняется при добавлении нового сервиса.
+   На странице /cookie/ выбор можно сбросить и сделать заново. */
 function cookieBar() {
-  const KEY = 'kk-cookie';
+  const KEY = 'kk-cookie-v2';
   let choice = null;
   try { choice = localStorage.getItem(KEY); } catch { /* хранилище закрыто — спросим заново */ }
 
   const save = (v) => {
     try { localStorage.setItem(KEY, v); } catch { /* не сохранилось — окно появится ещё раз */ }
-    if (v === 'all' && typeof window.kkMetrika === 'function') window.kkMetrika();
+    if (v === 'all') {
+      window.kkMetrika?.();
+      window.kkAvito?.();
+    }
   };
 
   const show = () => {
@@ -488,7 +490,7 @@ function cookieBar() {
     bar.setAttribute('role', 'region');
     bar.setAttribute('aria-label', 'Согласие на cookie');
     bar.innerHTML =
-      '<p class="cookiebar__text">Сайт использует cookie. Необходимые работают всегда, аналитические (Яндекс.Метрика) — только с вашего согласия. ' +
+      '<p class="cookiebar__text">Необходимые cookie работают всегда. Яндекс.Метрика и пиксель Авито подключаются только с вашего согласия. ' +
       '<a href="/cookie/">Подробнее</a></p>' +
       '<div class="cookiebar__btns">' +
       '<button class="btn btn--sm cookiebar__ok" type="button">Принять</button>' +
@@ -503,6 +505,10 @@ function cookieBar() {
 
   $$('[data-cookie-reset]').forEach((b) => b.addEventListener('click', () => {
     try { localStorage.removeItem(KEY); } catch { /* ничего */ }
+    if (window.kkMetrikaOn || document.getElementById('apxl-code')) {
+      location.reload();
+      return;
+    }
     show();
   }));
 

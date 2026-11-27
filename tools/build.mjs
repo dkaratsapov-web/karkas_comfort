@@ -405,8 +405,25 @@ const analytics = [
       (window,document,"script","https://mc.yandex.ru/metrika/tag.js?id=${Number(site.metrika)}","ym");
       ym(${Number(site.metrika)}, "init", { ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true });
     };
-    try { if (localStorage.getItem('kk-cookie') === 'all') window.kkMetrika(); } catch (e) {}
+    try { if (localStorage.getItem('kk-cookie-v2') === 'all') window.kkMetrika(); } catch (e) {}
   </script>`.replace(/\n  <noscript>[\s\S]*$/, '') : '',
+  site.avitoPixel ? `  <script>
+    window.kkAvito = function () {
+      if (document.getElementById('apxl-code')) return;
+      const pixel = window._apxl || (window._apxl = []);
+      pixel.push({ id: ${Number(site.avitoPixel)}, start: Date.now() });
+      pixel.q = pixel.q || [];
+      pixel.sendEvent = pixel.sendEvent || function (args) {
+        pixel.q.push([args, location.href, Date.now()]);
+      };
+      const script = document.createElement('script');
+      script.id = 'apxl-code';
+      script.async = true;
+      script.src = 'https://ac.avito.ru/tag.js';
+      document.head.appendChild(script);
+    };
+    try { if (localStorage.getItem('kk-cookie-v2') === 'all') window.kkAvito(); } catch (e) {}
+  </script>` : '',
   site.gtag ? `  <script async src="https://www.googletagmanager.com/gtag/js?id=${site.gtag}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config",${JSON.stringify(site.gtag)});</script>` : ''
 ].filter(Boolean).join('\n');
