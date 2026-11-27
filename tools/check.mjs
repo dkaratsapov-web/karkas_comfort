@@ -180,8 +180,10 @@ await p.close();
   await fresh.click('.cookiebar__ok');
   ok('пиксель Авито загружается после согласия', await fresh.evaluate(() => {
     if (!window.kkAvito) return true;
+    const selector = 'script#apxl-code[src="https://ac.avito.ru/tag.js"]';
+    if (document.querySelectorAll(selector).length !== 1) return false;
     window.kkAvito();
-    return document.querySelectorAll('script#apxl-code[src="https://ac.avito.ru/tag.js"]').length === 1;
+    return document.querySelectorAll(selector).length === 1;
   }));
   await fresh.close();
 }
